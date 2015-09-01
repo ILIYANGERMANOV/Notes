@@ -1,0 +1,19 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppThemeBase" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/color_primary_light_blue</item>
+        <item name="colorPrimaryDark">@color/color_primary_light_blue_dark</item>
+        <item name="colorAccent">@color/color_accent_pink</item>
+    </style>
+
+    <style name="AppTheme" parent="AppThemeBase">
+
+    </style>
+
+    <style name="MyToolbarTheme" parent="AppThemeBase">
+        <item name="android:textColorPrimary">@color/text_color_primary_white</item>
+    </style>
+
+</resources>
