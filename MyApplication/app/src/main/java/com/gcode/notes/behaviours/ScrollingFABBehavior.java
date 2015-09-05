@@ -7,6 +7,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.gcode.notes.activities.MainActivity;
+import com.gcode.notes.extras.Constants;
+import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.Utils;
 
 public class ScrollingFABBehavior extends FloatingActionButton.Behavior {
@@ -29,8 +32,20 @@ public class ScrollingFABBehavior extends FloatingActionButton.Behavior {
             CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
             int fabBottomMargin = lp.bottomMargin;
             int distanceToScroll = fab.getHeight() + fabBottomMargin;
-            float ratio = (float) dependency.getY() / (float) toolbarHeight;
+            float ratio = dependency.getY() / (float) toolbarHeight;
             fab.setTranslationY(-distanceToScroll * ratio);
+
+            if (fab.getTranslationY() > Constants.FAB_THRESHOLD_TRANSLATION_Y &&
+                    MainActivity.mActionMenu != null && MainActivity.mActionMenu.isOpen()) {
+
+                MyDebugger.log("FAB", fab.getTranslationY());
+                if (fab.getTranslationY() < Constants.FAB_MAX_TRANSLATION_Y) {
+                    MainActivity.mActionMenu.close(true);
+                } else {
+                    MainActivity.mActionMenu.close(false);
+                }
+            }
+            fab.clearAnimation();
         }
         return returnValue;
     }

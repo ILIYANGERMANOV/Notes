@@ -30,6 +30,7 @@
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/nested_scroll_view"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
@@ -53,9 +54,9 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
+            android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/floating_action_button_margin"
-            android:src="@drawable/ic_add_white_24dp"
+            android:src="@drawable/ic_open_white_24dp"
             app:borderWidth="0dp"
             app:fabSize="normal"
             app:layout_behavior="com.gcode.notes.behaviours.ScrollingFABBehavior" />
