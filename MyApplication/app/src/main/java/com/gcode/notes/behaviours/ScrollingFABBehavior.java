@@ -29,8 +29,6 @@ public class ScrollingFABBehavior extends FloatingActionButton.Behavior {
     public boolean onDependentViewChanged(CoordinatorLayout parent, FloatingActionButton fab, View dependency) {
         boolean returnValue = super.onDependentViewChanged(parent, fab, dependency);
         if (dependency instanceof AppBarLayout) {
-            MyDebugger.log("BAR_Y", dependency.getY());
-            MyDebugger.log("FAB", fab.getTranslationY());
             if (!(fab.getTranslationY() == 0 && dependency.getY() < Constants.TOOLBAR_THRESHOLD_Y)) {
                 CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
                 int fabBottomMargin = lp.bottomMargin;

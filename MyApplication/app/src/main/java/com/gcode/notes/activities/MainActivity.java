@@ -6,10 +6,12 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,11 +21,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.animations.MyAnimator;
 import com.gcode.notes.controllers.AllNotesController;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.controllers.BinController;
@@ -43,6 +45,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+
+    @Bind(R.id.app_bar_layout)
+    AppBarLayout appBarLayout;
 
     @Bind(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
@@ -80,12 +85,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                applySelectedOption(mSelectedId);
+                applySelectedOption(mSelectedId, false, mSelectedId != R.id.navigation_item_3);
             }
         }, 10);
     }
 
-    private void applySelectedOption(int selectedId) {
+    private void applySelectedOption(int selectedId, boolean notForFirstTime, boolean animateBin) {
+        if (mSelectedId == selectedId && notForFirstTime) return;
+
         BaseController controller = null;
 
         switch (selectedId) {
@@ -98,8 +105,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 controller = new ImportantController(mToolbar, mRecyclerView);
                 break;
             case R.id.navigation_item_3:
+                controller = new BinController(this, mToolbar, mRecyclerView, mFab, animateBin);
                 mSelectedId = selectedId;
-                controller = new BinController(mToolbar, mRecyclerView, mFab);
                 break;
             case R.id.navigation_item_4:
                 startActivity(new Intent(this, ExploreActivity.class));
@@ -112,9 +119,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         if (controller != null) {
-            mFab.setVisibility(View.VISIBLE);
+            setStartState();
             controller.setContent();
         }
+    }
+
+    private void setStartState() {
+        mFab.setVisibility(View.VISIBLE);
+        appBarLayout.setExpanded(true, mFab.getTranslationY() != 0);
+        MyAnimator.startAnimation(this, mFab, R.anim.expand_anim);
     }
 
 
@@ -176,17 +189,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mActionMenu.setStateChangeListener(new FloatingActionMenu.MenuStateChangeListener() {
             @Override
             public void onMenuOpened(FloatingActionMenu floatingActionMenu) {
-                Animation openRotateAnimation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.open_rotate_anim);
                 mFab.setImageResource(R.drawable.ic_close_white_24dp);
-                mFab.startAnimation(openRotateAnimation);
+                MyAnimator.startAnimation(MainActivity.this, mFab, R.anim.open_rotate_anim);
                 mSubMenuOpened = true;
             }
 
             @Override
             public void onMenuClosed(FloatingActionMenu floatingActionMenu) {
-                Animation closeRotateAnimation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.close_rotate_anim);
                 mFab.setImageResource(R.drawable.ic_open_white_24dp);
-                mFab.startAnimation(closeRotateAnimation);
+                MyAnimator.startAnimation(MainActivity.this, mFab, R.anim.close_rotate_anim);
                 mSubMenuOpened = false;
             }
         });
@@ -276,11 +287,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
-        menuItem.setChecked(true);
         if (menuItem.getGroupId() == R.id.navigation_group_1) {
+            menuItem.setChecked(true);
             hideDrawer();
         }
-        applySelectedOption(menuItem.getItemId());
+        applySelectedOption(menuItem.getItemId(), true, true);
         return true;
     }
 
