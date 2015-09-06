@@ -1,6 +1,7 @@
 package com.gcode.notes.activities;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,11 +22,16 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.gcode.notes.R;
+import com.gcode.notes.controllers.AllNotesController;
+import com.gcode.notes.controllers.BaseController;
+import com.gcode.notes.controllers.BinController;
+import com.gcode.notes.controllers.ImportantController;
 import com.gcode.notes.extras.Constants;
 import com.gcode.notes.extras.Keys;
+import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.Tags;
 import com.gcode.notes.extras.Utils;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
@@ -31,7 +39,7 @@ import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -42,7 +50,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Bind(R.id.navigation_drawer)
     NavigationView mDrawer;
 
-    public static FloatingActionButton fab;
+    @Bind(R.id.fab)
+    FloatingActionButton mFab;
+
+    @Bind(R.id.content_recycler_view)
+    RecyclerView mRecyclerView;
 
     private ActionBarDrawerToggle mDrawerToggle;
     private int mSelectedId = R.id.navigation_item_1;
@@ -50,11 +62,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static FloatingActionMenu mActionMenu;
 
     private boolean mSubMenuOpened;
-
-    SubActionButton textNoteButton;
-    SubActionButton reminderButton;
-    SubActionButton voiceButton;
-    SubActionButton cameraButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +75,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setupToolbar();
         setupNavigationDrawer();
         setupFloatingActionButtonMenu();
+        setupRecyclerView();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                applySelectedOption(mSelectedId);
+            }
+        }, 10);
+    }
+
+    private void applySelectedOption(int selectedId) {
+        BaseController controller = null;
+
+        switch (selectedId) {
+            case R.id.navigation_item_1:
+                mSelectedId = selectedId;
+                controller = new AllNotesController(mToolbar, mRecyclerView);
+                break;
+            case R.id.navigation_item_2:
+                mSelectedId = selectedId;
+                controller = new ImportantController(mToolbar, mRecyclerView);
+                break;
+            case R.id.navigation_item_3:
+                mSelectedId = selectedId;
+                controller = new BinController(mToolbar, mRecyclerView, mFab);
+                break;
+            case R.id.navigation_item_4:
+                startActivity(new Intent(this, ExploreActivity.class));
+                break;
+            case R.id.navigation_item_5:
+                startActivity(new Intent(this, SettingsActivity.class));
+                break;
+            default:
+                break;
+        }
+
+        if (controller != null) {
+            mFab.setVisibility(View.VISIBLE);
+            controller.setContent();
+        }
+    }
+
+
+    private void setupRecyclerView() {
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void handleScreenRotation(Bundle savedInstanceState) {
@@ -78,59 +130,68 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setupFloatingActionButtonMenu() {
-        fab = (FloatingActionButton) findViewById(R.id.fab);
 
         SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
 
         if (Build.VERSION.SDK_INT >= 21) {
-            itemBuilder.setBackgroundDrawable(fab.getBackground());
+            itemBuilder.setBackgroundDrawable(mFab.getBackground());
         } else {
             itemBuilder.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.sub_menu_background_selector));
         }
 
         ImageView textNoteIcon = new ImageView(this);
         textNoteIcon.setImageResource(R.drawable.ic_note_add_white_24dp);
-        textNoteButton = itemBuilder.setContentView(textNoteIcon).build();
+        SubActionButton textNoteButton = itemBuilder.setContentView(textNoteIcon).build();
 
-        ImageView reminderIcon = new ImageView(this);
-        reminderIcon.setImageResource(R.drawable.ic_access_alarms_white_24dp);
-        reminderButton = itemBuilder.setContentView(reminderIcon).build();
+        ImageView listIcon = new ImageView(this);
+        listIcon.setImageResource(R.drawable.ic_list_white_24dp);
+        SubActionButton listButton = itemBuilder.setContentView(listIcon).build();
 
         ImageView voiceIcon = new ImageView(this);
         voiceIcon.setImageResource(R.drawable.ic_keyboard_voice_white_24dp);
-        voiceButton = itemBuilder.setContentView(voiceIcon).build();
+        SubActionButton voiceButton = itemBuilder.setContentView(voiceIcon).build();
 
         ImageView cameraIcon = new ImageView(this);
         cameraIcon.setImageResource(R.drawable.ic_photo_camera_white_24dp);
-        cameraButton = itemBuilder.setContentView(cameraIcon).build();
+        SubActionButton cameraButton = itemBuilder.setContentView(cameraIcon).build();
+
+        textNoteButton.setOnClickListener(this);
+        listButton.setOnClickListener(this);
+        voiceButton.setOnClickListener(this);
+        cameraButton.setOnClickListener(this);
+
+        textNoteButton.setTag(Tags.TAG_TEXT_NOTE);
+        listButton.setTag(Tags.TAG_LIST);
+        voiceButton.setTag(Tags.TAG_VOICE_NOTE);
+        cameraButton.setTag(Tags.TAG_CAMERA);
 
         mActionMenu = new FloatingActionMenu.Builder(this)
                 .addSubActionView(textNoteButton)
-                .addSubActionView(reminderButton)
+                .addSubActionView(listButton)
                 .addSubActionView(voiceButton)
                 .addSubActionView(cameraButton)
-                .attachTo(fab)
+                .attachTo(mFab)
                 .build();
 
         mActionMenu.setStateChangeListener(new FloatingActionMenu.MenuStateChangeListener() {
             @Override
             public void onMenuOpened(FloatingActionMenu floatingActionMenu) {
                 Animation openRotateAnimation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.open_rotate_anim);
-                fab.setImageResource(R.drawable.ic_close_white_24dp);
-                fab.startAnimation(openRotateAnimation);
+                mFab.setImageResource(R.drawable.ic_close_white_24dp);
+                mFab.startAnimation(openRotateAnimation);
                 mSubMenuOpened = true;
             }
 
             @Override
             public void onMenuClosed(FloatingActionMenu floatingActionMenu) {
                 Animation closeRotateAnimation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.close_rotate_anim);
-                fab.setImageResource(R.drawable.ic_open_white_24dp);
-                fab.startAnimation(closeRotateAnimation);
+                mFab.setImageResource(R.drawable.ic_open_white_24dp);
+                mFab.startAnimation(closeRotateAnimation);
                 mSubMenuOpened = false;
             }
         });
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (v.getTranslationY() > Constants.FAB_THRESHOLD_TRANSLATION_Y) {
@@ -148,6 +209,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void run() {
                 if (mSubMenuOpened && !mActionMenu.isOpen()) {
+                    mFab.setTranslationY(0);
                     mActionMenu.open(false);
                 }
             }
@@ -214,26 +276,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
-
         menuItem.setChecked(true);
-        mSelectedId = menuItem.getItemId();
-
-        switch (mSelectedId) {
-            case R.id.navigation_item_1:
-                hideDrawer();
-                Toast.makeText(this, "item 1 selected", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.navigation_item_2:
-                hideDrawer();
-                Toast.makeText(this, "item 2 selected", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.navigation_item_3:
-                hideDrawer();
-                Toast.makeText(this, "item 3 selected", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return true;
+        if (menuItem.getGroupId() == R.id.navigation_group_1) {
+            hideDrawer();
         }
+        applySelectedOption(menuItem.getItemId());
+        return true;
     }
 
     @Override
@@ -279,5 +327,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getTag() == null) return;
+
+        String tag = (String) v.getTag();
+        switch (tag) {
+            case Tags.TAG_TEXT_NOTE:
+                MyDebugger.toast(this, "Text note");
+                break;
+            case Tags.TAG_LIST:
+                MyDebugger.toast(this, "List");
+                break;
+            case Tags.TAG_VOICE_NOTE:
+                MyDebugger.toast(this, "Voice note");
+                break;
+            case Tags.TAG_CAMERA:
+                MyDebugger.toast(this, "Camera");
+                break;
+        }
+        mActionMenu.toggle(true);   //can cause problems with startActivity() before it
     }
 }

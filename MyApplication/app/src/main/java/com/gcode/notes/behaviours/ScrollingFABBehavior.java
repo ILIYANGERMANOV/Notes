@@ -29,22 +29,26 @@ public class ScrollingFABBehavior extends FloatingActionButton.Behavior {
     public boolean onDependentViewChanged(CoordinatorLayout parent, FloatingActionButton fab, View dependency) {
         boolean returnValue = super.onDependentViewChanged(parent, fab, dependency);
         if (dependency instanceof AppBarLayout) {
-            CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
-            int fabBottomMargin = lp.bottomMargin;
-            int distanceToScroll = fab.getHeight() + fabBottomMargin;
-            float ratio = dependency.getY() / (float) toolbarHeight;
-            fab.setTranslationY(-distanceToScroll * ratio);
+            MyDebugger.log("BAR_Y", dependency.getY());
+            MyDebugger.log("FAB", fab.getTranslationY());
+            if (!(fab.getTranslationY() == 0 && dependency.getY() < Constants.TOOLBAR_THRESHOLD_Y)) {
+                CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
+                int fabBottomMargin = lp.bottomMargin;
+                int distanceToScroll = fab.getHeight() + fabBottomMargin;
+                float ratio = dependency.getY() / (float) toolbarHeight;
+                fab.setTranslationY(-distanceToScroll * ratio);
+            }
 
             if (fab.getTranslationY() > Constants.FAB_THRESHOLD_TRANSLATION_Y &&
                     MainActivity.mActionMenu != null && MainActivity.mActionMenu.isOpen()) {
 
-                MyDebugger.log("FAB", fab.getTranslationY());
                 if (fab.getTranslationY() < Constants.FAB_MAX_TRANSLATION_Y) {
                     MainActivity.mActionMenu.close(true);
                 } else {
                     MainActivity.mActionMenu.close(false);
                 }
             }
+
             fab.clearAnimation();
         }
         return returnValue;

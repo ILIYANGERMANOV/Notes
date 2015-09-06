@@ -5,4 +5,12 @@
     <string name="action_settings">Settings</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="navigation_item_1_title">All notes</string>
+    <string name="navigation_item_2_title">Important</string>
+    <string name="navigation_item_3_title">Bin</string>
+    <string name="navigation_item_4_title">Explore</string>
+    <string name="navigation_item_5_title">Settings</string>
+
+    <string name="title_activity_explore">ExploreActivity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
 </resources>

@@ -26,29 +26,11 @@
 
         </android.support.design.widget.AppBarLayout>
 
-
-        <android.support.v4.widget.NestedScrollView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/content_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/nested_scroll_view"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_View"
-                    style="@style/TextAppearance.AppCompat.Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="FILLER" />
-
-            </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
@@ -67,5 +49,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        app:headerLayout="@layout/nav_drawer_header"
         app:menu="@menu/menu_drawer" />
 </android.support.v4.widget.DrawerLayout>
