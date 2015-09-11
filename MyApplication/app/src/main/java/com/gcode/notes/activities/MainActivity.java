@@ -21,7 +21,6 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -33,6 +32,7 @@ import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.controllers.BinController;
 import com.gcode.notes.controllers.ImportantController;
 import com.gcode.notes.data.NoteData;
+import com.gcode.notes.database.NotesDbHelper;
 import com.gcode.notes.extras.Constants;
 import com.gcode.notes.extras.Keys;
 import com.gcode.notes.extras.MyDebugger;
@@ -92,6 +92,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ButterKnife.bind(this);
 
         handleScreenRotation(savedInstanceState);
+
+        NotesDbHelper notesDbHelper = new NotesDbHelper(this);
+        notesDbHelper.getWritableDatabase();
 
         setupToolbar();
         setupNavigationDrawer();

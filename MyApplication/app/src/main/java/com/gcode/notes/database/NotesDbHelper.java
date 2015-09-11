@@ -7,19 +7,28 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.gcode.notes.extras.Constants;
 
 public class NotesDbHelper extends SQLiteOpenHelper {
-
+    public static final String DATABASE_NAME = "Notes.db";
+    public static final int DATABASE_VERSION = 1;
 
     public NotesDbHelper(Context context) {
-        super(context, Constants.DATABASE_NAME, null, Constants.DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        db.execSQL(Queries.SQL_CREATE_TABLE_CONTENT);
+        db.execSQL(Queries.SQL_CREATE_TABLE_NOTES);
+        db.execSQL(Queries.SQL_CREATE_TABLE_LISTS);
+        db.execSQL(Queries.SQL_CREATE_TABLE_PICTURES);
+        db.execSQL(Queries.SQL_CREATE_TABLE_SOUNDS);
     }
 
     public void dropDatabase(SQLiteDatabase db) {
-
+        db.execSQL(Queries.SQL_DELETE_TABLE_CONTENT);
+        db.execSQL(Queries.SQL_DELETE_TABLE_NOTES);
+        db.execSQL(Queries.SQL_DELETE_TABLE_LISTS);
+        db.execSQL(Queries.SQL_DELETE_TABLE_PICTURES);
+        db.execSQL(Queries.SQL_DELETE_TABLE_SOUNDS);
     }
 
     @Override

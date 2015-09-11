@@ -8,7 +8,4 @@ public class Constants {
     public static final int GRID_COLUMNS_COUNT = 2;
 
     public static final String DEBUG_TAG = "ddq";
-
-    public static final String DATABASE_NAME = "Notes.db";
-    public static final int DATABASE_VERSION = 1;
 }

@@ -14,27 +14,27 @@ import java.util.Date;
 public class NoteData {
     String title;
     URI imageURI;
-    String text;
+    String description;
     Date reminder;
     String audioRecord;
 
     Date creationDate;
 
-    public NoteData(String title, @Nullable String text,
+    public NoteData(String title, @Nullable String description,
                     @Nullable URI imageURI, @Nullable Date reminder,
                     @Nullable String audioRecord) {
 
         this.title = title;
-        this.text = text;
+        this.description = description;
         this.imageURI = imageURI;
         this.reminder = reminder;
         this.audioRecord = audioRecord;
         creationDate = Calendar.getInstance().getTime();
     }
 
-    public NoteData(String title, String text) {
+    public NoteData(String title, String description) {
         this.title = title;
-        this.text = text;
+        this.description = description;
         imageURI = null;
         reminder = null;
         audioRecord = null;
@@ -54,7 +54,7 @@ public class NoteData {
 
     public void displayTextContent(TextView contentTextView) {
         if (hasTextContent()) {
-            contentTextView.setText(text);
+            contentTextView.setText(description);
         } else {
             contentTextView.setText("");
         }
@@ -98,7 +98,7 @@ public class NoteData {
     }
 
     boolean hasTextContent() {
-        return text != null;
+        return description != null;
     }
 
     public URI getImageURI() {
@@ -133,12 +133,12 @@ public class NoteData {
         this.reminder = reminder;
     }
 
-    public String getText() {
-        return text;
+    public String getDescription() {
+        return description;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }

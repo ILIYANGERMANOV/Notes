@@ -29,7 +29,7 @@
             android:drawableLeft="@drawable/ic_access_time_black_18dp"
             android:drawablePadding="5dp"
             android:paddingTop="2dp"
-            android:text="@string/placeholder_short" />
+            android:description="@string/placeholder_short" />
 
     </LinearLayout>
 

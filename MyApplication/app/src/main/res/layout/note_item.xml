@@ -29,12 +29,12 @@
             android:src="@drawable/ic_description_black_24dp" />
 
         <TextView
-            android:id="@+id/note_text_content"
+            android:id="@+id/note_description_text_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="5dp"
             android:layout_weight="1"
-            android:text="@string/placeholder_long" />
+            android:description="@string/placeholder_long" />
 
         <include
             android:id="@+id/note_attributes_layout"

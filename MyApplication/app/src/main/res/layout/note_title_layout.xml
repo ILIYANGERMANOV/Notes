@@ -11,7 +11,7 @@
         android:layout_weight="1"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical|start"
-        android:text="@string/placeholder_short"
+        android:description="@string/placeholder_short"
         android:textSize="20sp"
         android:textStyle="bold" />
 

@@ -90,7 +90,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder
         @Bind(R.id.note_title_text_view)
         TextView mTitleTextView;
 
-        @Bind(R.id.note_text_content)
+        @Bind(R.id.note_description_text_view)
         TextView mContentTextView;
 
         @Bind(R.id.note_item_image_view)
