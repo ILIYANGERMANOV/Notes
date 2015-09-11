@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/note_title_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical|start"
+        android:text="@string/placeholder_short"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <ImageButton
+        android:id="@+id/title_image_button"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="24dp"
+        android:layout_gravity="center_vertical"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/title_image_button_desc"
+        android:src="@drawable/ic_touch_point_18dp" />
+
+</LinearLayout>

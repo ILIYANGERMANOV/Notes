@@ -11,62 +11,78 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.adapters.NotesAdapter;
 import com.gcode.notes.animations.MyAnimator;
 import com.gcode.notes.controllers.AllNotesController;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.controllers.BinController;
 import com.gcode.notes.controllers.ImportantController;
+import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.Constants;
 import com.gcode.notes.extras.Keys;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.Tags;
 import com.gcode.notes.extras.Utils;
+import com.gcode.notes.helper.OnStartDragListener;
+import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
+        View.OnClickListener, OnStartDragListener {
 
-    @Bind(R.id.toolbar)
+    @Bind(R.id.main_toolbar)
     Toolbar mToolbar;
 
-    @Bind(R.id.app_bar_layout)
+    @Bind(R.id.main_app_bar_layout)
     AppBarLayout appBarLayout;
 
-    @Bind(R.id.drawer_layout)
+    @Bind(R.id.main_drawer_layout)
     DrawerLayout mDrawerLayout;
 
-    @Bind(R.id.navigation_drawer)
+    @Bind(R.id.main_navigation_drawer)
     NavigationView mDrawer;
 
-    @Bind(R.id.fab)
+    @Bind(R.id.main_fab)
     FloatingActionButton mFab;
 
-    @Bind(R.id.content_recycler_view)
+    @Bind(R.id.main_content_recycler_view)
     RecyclerView mRecyclerView;
+
+    public static FloatingActionMenu mActionMenu;
 
     private ActionBarDrawerToggle mDrawerToggle;
     private int mSelectedId = R.id.navigation_item_1;
 
-    public static FloatingActionMenu mActionMenu;
-
     private boolean mSubMenuOpened;
+
+    private GridLayoutManager mGridLayoutManager;
+    private NotesAdapter mAdapter;
+    private List<NoteData> mNotesList;
+    private RecyclerView.ItemAnimator mItemAnimator;
+    private ItemTouchHelper mItemTouchHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setupNavigationDrawer();
         setupFloatingActionButtonMenu();
         setupRecyclerView();
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -132,7 +147,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void setupRecyclerView() {
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mNotesList = new ArrayList<>();
+        mNotesList.add(new NoteData("This is medium title!", getResources().getString(R.string.placeholder_medium)));
+        mNotesList.add(new NoteData("note 1", "note 1", null, Calendar.getInstance().getTime(), null));
+        mNotesList.add(new NoteData("note 2", "note 2", null, Calendar.getInstance().getTime(), "audio"));
+        mNotesList.add(new NoteData("note 3", "note 3", null, null, null));
+        mNotesList.add(new NoteData("title", getResources().getString(R.string.placeholder_long)));
+        mNotesList.add(new NoteData("title", getResources().getString(R.string.placeholder_medium)));
+        mNotesList.add(new NoteData("note 1", "note 1", null, null, "audio"));
+        mNotesList.add(new NoteData("note 2", "note 2", null, Calendar.getInstance().getTime(), "audio"));
+        mNotesList.add(new NoteData("note 3", "note 3", null, null, null));
+        mNotesList.add(new NoteData("title", getResources().getString(R.string.placeholder_long)));
+        mNotesList.add(new NoteData("", "This is note without a tittle!"));
+
+        mAdapter = new NotesAdapter(this, mNotesList, this);
+        mGridLayoutManager = new GridLayoutManager(this, Constants.GRID_COLUMNS_COUNT);
+        mItemAnimator = new DefaultItemAnimator();
+
+        mRecyclerView.setLayoutManager(mGridLayoutManager);
+        mRecyclerView.setItemAnimator(mItemAnimator);
+        mRecyclerView.setAdapter(mAdapter);
+
+        ItemTouchHelper.Callback callback =
+                new SimpleItemTouchHelperCallback(mAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
     private void handleScreenRotation(Bundle savedInstanceState) {
@@ -141,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mSubMenuOpened = savedInstanceState.getBoolean(Keys.STATE_SUB_MENU_OPENED);
         }
     }
+
 
     private void setupFloatingActionButtonMenu() {
 
@@ -310,8 +350,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START) || mActionMenu.isOpen()) {
+            if (mActionMenu.isOpen()) {
+                mActionMenu.close(true);
+            } else {
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+            }
         } else {
             super.onBackPressed();
         }
@@ -334,6 +378,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //noinspection SimplifiableIfStatement
         switch (id) {
             case R.id.action_settings:
+                return true;
+            case R.id.action_search:
+                MyDebugger.toast(this, "Search");
                 return true;
         }
 
@@ -360,5 +407,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
         mActionMenu.toggle(true);   //can cause problems with startActivity() before it
+    }
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        mItemTouchHelper.startDrag(viewHolder);
     }
 }

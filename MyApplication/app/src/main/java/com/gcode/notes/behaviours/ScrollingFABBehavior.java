@@ -9,7 +9,6 @@ import android.view.View;
 
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.extras.Constants;
-import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.Utils;
 
 public class ScrollingFABBehavior extends FloatingActionButton.Behavior {
@@ -29,13 +28,11 @@ public class ScrollingFABBehavior extends FloatingActionButton.Behavior {
     public boolean onDependentViewChanged(CoordinatorLayout parent, FloatingActionButton fab, View dependency) {
         boolean returnValue = super.onDependentViewChanged(parent, fab, dependency);
         if (dependency instanceof AppBarLayout) {
-            if (!(fab.getTranslationY() == 0 && dependency.getY() < Constants.TOOLBAR_THRESHOLD_Y)) {
-                CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
-                int fabBottomMargin = lp.bottomMargin;
-                int distanceToScroll = fab.getHeight() + fabBottomMargin;
-                float ratio = dependency.getY() / (float) toolbarHeight;
-                fab.setTranslationY(-distanceToScroll * ratio);
-            }
+            CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
+            int fabBottomMargin = lp.bottomMargin;
+            int distanceToScroll = fab.getHeight() + fabBottomMargin;
+            float ratio = dependency.getY() / (float) toolbarHeight;
+            fab.setTranslationY(-distanceToScroll * ratio);
 
             if (fab.getTranslationY() > Constants.FAB_THRESHOLD_TRANSLATION_Y &&
                     MainActivity.mActionMenu != null && MainActivity.mActionMenu.isOpen()) {

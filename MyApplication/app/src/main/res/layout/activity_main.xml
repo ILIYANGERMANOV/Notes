@@ -1,23 +1,23 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
+    android:id="@+id/main_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="slidenerd.vivz.navigationviewdemo.FourthActivity">
 
     <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/root_coordinator"
+        android:id="@+id/main_root_coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <android.support.design.widget.AppBarLayout
-            android:id="@+id/app_bar_layout"
+            android:id="@+id/main_app_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/main_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/MyToolbarTheme"
@@ -27,13 +27,14 @@
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/content_recycler_view"
+            android:id="@+id/main_content_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="10dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/main_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
@@ -45,7 +46,7 @@
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView
-        android:id="@+id/navigation_drawer"
+        android:id="@+id/main_navigation_drawer"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
