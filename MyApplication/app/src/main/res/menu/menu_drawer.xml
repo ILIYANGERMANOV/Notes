@@ -3,27 +3,33 @@
         android:id="@+id/navigation_group_1"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/navigation_item_1"
+            android:id="@+id/navigation_item_all_notes"
             android:checked="true"
             android:icon="@drawable/ic_description_black_24dp"
-            android:title="@string/navigation_item_1_title" />
+            android:title="@string/navigation_item_all_notes_title" />
         <item
-            android:id="@+id/navigation_item_2"
+            android:id="@+id/navigation_item_important"
             android:icon="@drawable/ic_label_black_24dp"
-            android:title="@string/navigation_item_2_title" />
+            android:title="@string/navigation_item_important_title" />
+
         <item
-            android:id="@+id/navigation_item_3"
+            android:id="@+id/navigation_item_private"
+            android:icon="@drawable/ic_lock_black_24dp"
+            android:title="@string/navigation_item_private_title"/>
+
+        <item
+            android:id="@+id/navigation_item_bin"
             android:icon="@drawable/ic_delete_black_24dp"
-            android:title="@string/navigation_item_3_title" />
+            android:title="@string/navigation_item_bin_title" />
     </group>
 
     <item
-        android:id="@+id/navigation_item_4"
+        android:id="@+id/navigation_item_explore"
         android:icon="@drawable/ic_language_black_24dp"
-        android:title="@string/navigation_item_4_title"/>
+        android:title="@string/navigation_item_explore_title"/>
 
     <item
-        android:id="@+id/navigation_item_5"
+        android:id="@+id/navigation_item_settings"
         android:icon="@drawable/ic_settings_black_24dp"
-        android:title="@string/navigation_item_5_title"/>
+        android:title="@string/navigation_item_settings_title"/>
 </menu>

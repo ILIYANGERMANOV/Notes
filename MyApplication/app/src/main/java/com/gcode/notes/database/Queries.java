@@ -1,5 +1,7 @@
 package com.gcode.notes.database;
 
+import android.provider.BaseColumns;
+
 import com.gcode.notes.database.NotesContract.ContentEntry;
 import com.gcode.notes.database.NotesContract.ListEntry;
 import com.gcode.notes.database.NotesContract.NoteEntry;
@@ -19,6 +21,7 @@ public class Queries {
                     ContentEntry.COLUMN_NAME_TYPE + INT_TYPE + COMMA_SEP +
                     ContentEntry.COLUMN_NAME_TARGET_ID + INT_TYPE + COMMA_SEP +
                     ContentEntry.COLUMN_NAME_MODE + INT_TYPE + COMMA_SEP +
+                    ContentEntry.COLUMN_NAME_PRIORITY + INT_TYPE + COMMA_SEP +
                     ContentEntry.COLUMN_NAME_ATTRIBUTES + INT_TYPE + COMMA_SEP +
                     ContentEntry.COLUMN_NAME_REMINDER + TEXT_TYPE + COMMA_SEP +
                     ContentEntry.COLUMN_NAME_CREATION_DATE + TEXT_TYPE + COMMA_SEP +
@@ -68,4 +71,29 @@ public class Queries {
 
     public static final String SQL_DELETE_TABLE_SOUNDS =
             "DROP TABLE IF EXISTS " + SoundEntry.TABLE_NAME;
+
+    public static String selectLastRowForTable(String tableName) {
+        return "SELECT " + BaseColumns._ID + " FROM " + tableName +
+                " ORDER BY " + BaseColumns._ID + " DESC LIMIT 1";
+    }
+
+
+    public static final String SELECT_ALL_FROM_CONTENT_FOR_MODE =
+            "SELECT * FROM " + ContentEntry.TABLE_NAME + " WHERE " +
+                    ContentEntry.COLUMN_NAME_MODE + " = ? ORDER BY " +
+                    BaseColumns._ID + " DESC";
+
+    public static final String SELECT_ALL_FROM_NOTES_FOR_ID =
+            "SELECT * FROM " + NoteEntry.TABLE_NAME + " WHERE " +
+                    NoteEntry._ID + " = ?";
+
+    public static final String SELECT_PATH_FROM_PICTURES_FOR_NOTE_ID =
+            "SELECT " + PictureEntry.COLUMN_NAME_PATH + " FROM " + PictureEntry.TABLE_NAME +
+                    " WHERE " + PictureEntry.COLUMN_NAME_NOTE_ID + " = ?";
+
+    public static final String SELECT_PATH_FROM_SOUNDS_FOR_NOTE_ID =
+            "SELECT " + SoundEntry.COLUMN_NAME_PATH + " FROM " + SoundEntry.TABLE_NAME +
+                    " WHERE " + SoundEntry.COLUMN_NAME_NOTE_ID + " = ?";
+
+
 }

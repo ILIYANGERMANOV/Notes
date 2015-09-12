@@ -31,8 +31,9 @@ import com.gcode.notes.controllers.AllNotesController;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.controllers.BinController;
 import com.gcode.notes.controllers.ImportantController;
+import com.gcode.notes.controllers.PrivateController;
+import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.data.NoteData;
-import com.gcode.notes.database.NotesDbHelper;
 import com.gcode.notes.extras.Constants;
 import com.gcode.notes.extras.Keys;
 import com.gcode.notes.extras.MyDebugger;
@@ -40,11 +41,10 @@ import com.gcode.notes.extras.Tags;
 import com.gcode.notes.extras.Utils;
 import com.gcode.notes.helper.OnStartDragListener;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
+import com.gcode.notes.notes.MyApplication;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.Bind;
@@ -74,13 +74,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static FloatingActionMenu mActionMenu;
 
     private ActionBarDrawerToggle mDrawerToggle;
-    private int mSelectedId = R.id.navigation_item_1;
+    private int mSelectedId = R.id.navigation_item_all_notes;
 
     private boolean mSubMenuOpened;
 
     private GridLayoutManager mGridLayoutManager;
     private NotesAdapter mAdapter;
-    private List<NoteData> mNotesList;
+    private List<ContentBase> mNotesList;
     private RecyclerView.ItemAnimator mItemAnimator;
     private ItemTouchHelper mItemTouchHelper;
 
@@ -93,9 +93,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         handleScreenRotation(savedInstanceState);
 
-        NotesDbHelper notesDbHelper = new NotesDbHelper(this);
-        notesDbHelper.getWritableDatabase();
-
         setupToolbar();
         setupNavigationDrawer();
         setupFloatingActionButtonMenu();
@@ -103,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                applySelectedOption(mSelectedId, false, mSelectedId != R.id.navigation_item_3);
+                applySelectedOption(mSelectedId, false, mSelectedId != R.id.navigation_item_bin);
             }
         }, 10);
     }
@@ -114,22 +111,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         BaseController controller = null;
 
         switch (selectedId) {
-            case R.id.navigation_item_1:
+            case R.id.navigation_item_all_notes:
                 mSelectedId = selectedId;
                 controller = new AllNotesController(mToolbar, mRecyclerView);
                 break;
-            case R.id.navigation_item_2:
+            case R.id.navigation_item_important:
                 mSelectedId = selectedId;
                 controller = new ImportantController(mToolbar, mRecyclerView);
                 break;
-            case R.id.navigation_item_3:
+            case R.id.navigation_item_private:
+                mSelectedId = selectedId;
+                controller = new PrivateController(mToolbar, mRecyclerView);
+                break;
+            case R.id.navigation_item_bin:
                 controller = new BinController(this, mToolbar, mRecyclerView, mFab, animateBin);
                 mSelectedId = selectedId;
                 break;
-            case R.id.navigation_item_4:
+            case R.id.navigation_item_explore:
                 startActivity(new Intent(this, ExploreActivity.class));
                 break;
-            case R.id.navigation_item_5:
+            case R.id.navigation_item_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 break;
             default:
@@ -150,18 +151,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void setupRecyclerView() {
-        mNotesList = new ArrayList<>();
-        mNotesList.add(new NoteData("This is medium title!", getResources().getString(R.string.placeholder_medium)));
-        mNotesList.add(new NoteData("note 1", "note 1", null, Calendar.getInstance().getTime(), null));
-        mNotesList.add(new NoteData("note 2", "note 2", null, Calendar.getInstance().getTime(), "audio"));
-        mNotesList.add(new NoteData("note 3", "note 3", null, null, null));
-        mNotesList.add(new NoteData("title", getResources().getString(R.string.placeholder_long)));
-        mNotesList.add(new NoteData("title", getResources().getString(R.string.placeholder_medium)));
-        mNotesList.add(new NoteData("note 1", "note 1", null, null, "audio"));
-        mNotesList.add(new NoteData("note 2", "note 2", null, Calendar.getInstance().getTime(), "audio"));
-        mNotesList.add(new NoteData("note 3", "note 3", null, null, null));
-        mNotesList.add(new NoteData("title", getResources().getString(R.string.placeholder_long)));
-        mNotesList.add(new NoteData("", "This is note without a tittle!"));
+        mNotesList = MyApplication.getWritableDatabase().getNotesForMode(Constants.MODE_NORMAL);
 
         mAdapter = new NotesAdapter(this, mNotesList, this);
         mGridLayoutManager = new GridLayoutManager(this, Constants.GRID_COLUMNS_COUNT);
@@ -394,10 +384,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onClick(View v) {
         if (v.getTag() == null) return;
 
+        Intent mIntent = null;
+
         String tag = (String) v.getTag();
         switch (tag) {
             case Tags.TAG_TEXT_NOTE:
-                MyDebugger.toast(this, "Text note");
+                mIntent = new Intent(this, ComposeNoteActivity.class);
                 break;
             case Tags.TAG_LIST:
                 MyDebugger.toast(this, "List");
@@ -409,7 +401,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 MyDebugger.toast(this, "Camera");
                 break;
         }
-        mActionMenu.toggle(true);   //can cause problems with startActivity() before it
+        if (mIntent != null) {
+            startActivity(mIntent);
+        }
+
+        mActionMenu.toggle(false);   //can cause problems with startActivity() before it
     }
 
     @Override

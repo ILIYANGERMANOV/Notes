@@ -6,63 +6,50 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gcode.notes.adapters.NotesAdapter;
+import com.gcode.notes.extras.Constants;
 
 import java.net.URI;
-import java.util.Calendar;
 import java.util.Date;
 
-public class NoteData {
-    String title;
-    URI imageURI;
+public class NoteData extends ContentBase {
     String description;
-    Date reminder;
-    String audioRecord;
+    URI imageURI;
+    URI audioURI;
 
-    Date creationDate;
+    public NoteData(String title, int mode, int priority, boolean hasAttributes,
+                    String reminderString, Date creationDate, String expirationDateString) {
 
-    public NoteData(String title, @Nullable String description,
-                    @Nullable URI imageURI, @Nullable Date reminder,
-                    @Nullable String audioRecord) {
-
-        this.title = title;
-        this.description = description;
-        this.imageURI = imageURI;
-        this.reminder = reminder;
-        this.audioRecord = audioRecord;
-        creationDate = Calendar.getInstance().getTime();
+        super(title, mode, priority, reminderString);
+        this.hasAttributes = hasAttributes;
+        this.creationDate = creationDate;
+        this.expirationDateString = expirationDateString;
     }
 
-    public NoteData(String title, String description) {
-        this.title = title;
+    public NoteData(String title, int mode, int priority, boolean hasAttributes, String description,
+                    @Nullable URI imageURI, @Nullable URI audioURI, @Nullable String reminderString) {
+
+        super(title, mode, priority, reminderString);
         this.description = description;
-        imageURI = null;
-        reminder = null;
-        audioRecord = null;
-        creationDate = Calendar.getInstance().getTime();
+        this.imageURI = imageURI;
+        this.audioURI = audioURI;
+        type = Constants.TYPE_NOTE;
+        this.hasAttributes = hasAttributes;
     }
 
     public void displayNote(NotesAdapter.MyViewHolder holder) {
         holder.getTitleTextView().setText(title);
-        displayTextContent(holder.getContentTextView());
+        holder.getContentTextView().setText(description);
         displayReminder(holder.getReminderTextView());
         displayAttachedImage(holder.getAttachedImageView());
         displayAudioRecord(holder.getVoiceImageView());
-        if (hasAudioRecord() || hasReminder()) {
+        if (hasAttachedAudio() || hasReminder()) {
             holder.getAttributesDivider().setVisibility(View.VISIBLE);
-        }
-    }
-
-    public void displayTextContent(TextView contentTextView) {
-        if (hasTextContent()) {
-            contentTextView.setText(description);
-        } else {
-            contentTextView.setText("");
         }
     }
 
     public void displayReminder(TextView reminderTextView) {
         if (hasReminder()) {
-            reminderTextView.setText(reminder.toString());
+            reminderTextView.setText(reminderString);
         } else {
             reminderTextView.setVisibility(View.GONE);
         }
@@ -77,7 +64,7 @@ public class NoteData {
     }
 
     public void displayAudioRecord(ImageView voiceImageView) {
-        if (hasAudioRecord()) {
+        if (hasAttachedAudio()) {
             voiceImageView.setVisibility(View.VISIBLE);
         } else {
             voiceImageView.setVisibility(View.GONE);
@@ -85,20 +72,12 @@ public class NoteData {
     }
 
 
-    boolean hasAttachedImage() {
+    public boolean hasAttachedImage() {
         return imageURI != null;
     }
 
-    boolean hasReminder() {
-        return reminder != null;
-    }
-
-    boolean hasAudioRecord() {
-        return audioRecord != null;
-    }
-
-    boolean hasTextContent() {
-        return description != null;
+    public boolean hasAttachedAudio() {
+        return audioURI != null;
     }
 
     public URI getImageURI() {
@@ -109,28 +88,12 @@ public class NoteData {
         this.imageURI = imageURI;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setAudioURI(URI audioURI) {
+        this.audioURI = audioURI;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setAudioRecord(String audioRecord) {
-        this.audioRecord = audioRecord;
-    }
-
-    public String getAudioRecord() {
-        return audioRecord;
-    }
-
-    public Date getReminder() {
-        return reminder;
-    }
-
-    public void setReminder(Date reminder) {
-        this.reminder = reminder;
+    public URI getAudioURI() {
+        return audioURI;
     }
 
     public String getDescription() {

@@ -15,7 +15,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.data.NoteData;
+import com.gcode.notes.extras.Constants;
+import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.helper.ItemTouchHelperAdapter;
 import com.gcode.notes.helper.ItemTouchHelperViewHolder;
 import com.gcode.notes.helper.OnStartDragListener;
@@ -27,12 +30,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder> implements ItemTouchHelperAdapter {
-    List<NoteData> mData;
+    List<ContentBase> mData;
     Context mContext;
 
     private final OnStartDragListener mDragStartListener;
 
-    public NotesAdapter(Context context, List<NoteData> data, OnStartDragListener dragStartListener) {
+    public NotesAdapter(Context context, List<ContentBase> data, OnStartDragListener dragStartListener) {
         mContext = context;
         mData = data;
         mDragStartListener = dragStartListener;
@@ -67,8 +70,16 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        mData.get(position).displayNote(holder);
-
+        ContentBase currentItem = mData.get(position);
+        if (currentItem != null) {
+            //MyDebugger.log("note to display");
+            if (currentItem.getType() == Constants.TYPE_NOTE) {
+                MyDebugger.log("title", currentItem.getTitle());
+                ((NoteData) currentItem).displayNote(holder);
+            } else {
+                //list here
+            }
+        }
         //Start a drag whenever the view is touched
         holder.mTitleImageButton.setOnTouchListener(new View.OnTouchListener() {
             @Override

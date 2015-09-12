@@ -1,0 +1,90 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.gcode.notes.activities.ComposeNoteActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/compose_note_app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/compose_note_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/MyToolbarTheme"
+            app:popupTheme="@style/Theme.AppCompat.Light" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <EditText
+                android:id="@+id/compose_note_title_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:hint="@string/compose_note_title_hint"
+                android:inputType="textShortMessage"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/compose_note_attached_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/compose_note_attached_image_desc"
+                android:maxHeight="100dp"
+                android:maxWidth="100dp"
+                android:src="@drawable/ic_description_black_24dp"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/compose_note_description_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:gravity="top"
+                android:hint="@string/compose_note_description_hint"
+                android:inputType="textMultiLine"
+                android:maxLines="10"
+                android:paddingBottom="40dp"
+                android:textSize="17sp" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/compose_note_priority_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:switchPadding="15dp"
+                android:text="@string/compose_note_priority_switch_text"
+                android:textOff="Normal"
+                android:textOn="Important"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/compose_note_set_reminder_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_alarm_add_black_24dp"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:text="@string/compose_note_set_reminder_text"
+                android:textSize="19sp" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

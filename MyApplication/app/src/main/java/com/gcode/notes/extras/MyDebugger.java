@@ -9,12 +9,20 @@ public class MyDebugger {
         Log.d(Constants.DEBUG_TAG, info);
     }
 
+    public static void log(String key, String info) {
+        Log.d(Constants.DEBUG_TAG, key + ": " + info);
+    }
+
     public static void log(String key, int info) {
         Log.d(Constants.DEBUG_TAG, key + ": " + Integer.toString(info));
     }
 
     public static void log(String key, float info) {
         Log.d(Constants.DEBUG_TAG, key + ": " + Float.toString(info));
+    }
+
+    public static void log(String key, long info) {
+        Log.d(Constants.DEBUG_TAG, key + ": " + Long.toString(info));
     }
 
     public static void toast(Context context, String info) {

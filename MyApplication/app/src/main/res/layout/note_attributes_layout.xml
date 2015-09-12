@@ -5,9 +5,10 @@
     android:orientation="vertical"
     android:visibility="visible">
 
-    <View style="@style/Divider"
-        android:visibility="gone"
-        android:id="@+id/attributes_divider"/>
+    <View
+        android:id="@+id/attributes_divider"
+        style="@style/Divider"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,17 +20,16 @@
             android:id="@+id/voice_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_play_arrow_black_24dp"/>
+            android:src="@drawable/ic_play_arrow_black_24dp" />
 
         <TextView
             android:id="@+id/reminder_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
             android:drawableLeft="@drawable/ic_access_time_black_18dp"
             android:drawablePadding="5dp"
-            android:paddingTop="2dp"
-            android:description="@string/placeholder_short" />
+            android:gravity="center_vertical"
+            android:paddingTop="2dp" />
 
     </LinearLayout>
 

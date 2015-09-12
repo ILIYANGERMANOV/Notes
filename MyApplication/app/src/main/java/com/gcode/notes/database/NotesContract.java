@@ -14,6 +14,7 @@ public final class NotesContract {
         public static final String COLUMN_NAME_MODE = "mode";
         public static final String COLUMN_NAME_TYPE = "content_type";
         public static final String COLUMN_NAME_TARGET_ID = "target_id";
+        public static final String COLUMN_NAME_PRIORITY = "priority";
         public static final String COLUMN_NAME_ATTRIBUTES = "attributes";
         public static final String COLUMN_NAME_REMINDER = "time_reminder";
         public static final String COLUMN_NAME_CREATION_DATE = "creation_date";
