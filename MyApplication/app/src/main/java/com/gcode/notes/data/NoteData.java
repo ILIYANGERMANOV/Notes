@@ -16,13 +16,11 @@ public class NoteData extends ContentBase {
     URI imageURI;
     URI audioURI;
 
+
     public NoteData(String title, int mode, int priority, boolean hasAttributes,
                     String reminderString, Date creationDate, String expirationDateString) {
 
-        super(title, mode, priority, reminderString);
-        this.hasAttributes = hasAttributes;
-        this.creationDate = creationDate;
-        this.expirationDateString = expirationDateString;
+        super(title, mode, priority, hasAttributes, reminderString, creationDate, expirationDateString);
     }
 
     public NoteData(String title, int mode, int priority, boolean hasAttributes, String description,

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.gcode.notes.database.extras.Queries;
+
 public class NotesDbHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "Notes.db";
     public static final int DATABASE_VERSION = 2;

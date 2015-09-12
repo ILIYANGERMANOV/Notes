@@ -18,7 +18,6 @@ import com.gcode.notes.R;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.Constants;
-import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.helper.ItemTouchHelperAdapter;
 import com.gcode.notes.helper.ItemTouchHelperViewHolder;
 import com.gcode.notes.helper.OnStartDragListener;
@@ -72,9 +71,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         ContentBase currentItem = mData.get(position);
         if (currentItem != null) {
-            //MyDebugger.log("note to display");
             if (currentItem.getType() == Constants.TYPE_NOTE) {
-                MyDebugger.log("title", currentItem.getTitle());
                 ((NoteData) currentItem).displayNote(holder);
             } else {
                 //list here

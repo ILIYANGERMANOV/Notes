@@ -19,6 +19,18 @@ public class ContentBase {
     Date creationDate;
     String expirationDateString;
 
+    public ContentBase(String title, int mode, int priority, boolean hasAttributes,
+                       String reminderString, Date creationDate, String expirationDateString) {
+
+        this.title = title;
+        this.mode = mode;
+        this.priority = priority;
+        this.reminderString = reminderString;
+        this.hasAttributes = hasAttributes;
+        this.creationDate = creationDate;
+        this.expirationDateString = expirationDateString;
+    }
+
     public ContentBase(String title, int mode, int priority, @Nullable String reminderString) {
         this.title = title;
         this.mode = mode;

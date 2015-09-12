@@ -33,7 +33,6 @@ import com.gcode.notes.controllers.BinController;
 import com.gcode.notes.controllers.ImportantController;
 import com.gcode.notes.controllers.PrivateController;
 import com.gcode.notes.data.ContentBase;
-import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.Constants;
 import com.gcode.notes.extras.Keys;
 import com.gcode.notes.extras.MyDebugger;
@@ -151,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void setupRecyclerView() {
-        mNotesList = MyApplication.getWritableDatabase().getNotesForMode(Constants.MODE_NORMAL);
+        mNotesList = MyApplication.getWritableDatabase().getAllNotesForMode(Constants.MODE_NORMAL);
 
         mAdapter = new NotesAdapter(this, mNotesList, this);
         mGridLayoutManager = new GridLayoutManager(this, Constants.GRID_COLUMNS_COUNT);
