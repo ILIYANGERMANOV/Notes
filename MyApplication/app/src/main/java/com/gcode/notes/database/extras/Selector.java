@@ -5,11 +5,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
-import com.gcode.notes.database.NotesContract;
+import com.gcode.notes.database.NotesContract.ContentEntry;
 
 public class Selector {
     public static int getFirstOrNextIdFromContent(SQLiteDatabase mDatabase) {
-        int lastRowId = getLastRowFromTable(mDatabase, NotesContract.ContentEntry.TABLE_NAME);
+        int lastRowId = getLastRowFromTable(mDatabase, ContentEntry.TABLE_NAME);
         return lastRowId != 0 ? lastRowId + 1 : 0;
     }
 
