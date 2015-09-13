@@ -1,6 +1,7 @@
 package com.gcode.notes.activities;
 
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -40,11 +41,10 @@ import com.gcode.notes.extras.Tags;
 import com.gcode.notes.extras.Utils;
 import com.gcode.notes.helper.OnStartDragListener;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
-import com.gcode.notes.notes.MyApplication;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -79,9 +79,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private GridLayoutManager mGridLayoutManager;
     private NotesAdapter mAdapter;
-    private List<ContentBase> mNotesList;
+    private ArrayList<ContentBase> mNotesList;
     private RecyclerView.ItemAnimator mItemAnimator;
     private ItemTouchHelper mItemTouchHelper;
+
+    private BaseController mController = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,23 +109,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void applySelectedOption(int selectedId, boolean notForFirstTime, boolean animateBin) {
         if (mSelectedId == selectedId && notForFirstTime) return;
 
-        BaseController controller = null;
-
         switch (selectedId) {
             case R.id.navigation_item_all_notes:
                 mSelectedId = selectedId;
-                controller = new AllNotesController(mToolbar, mRecyclerView);
+                mController = new AllNotesController(mToolbar, mRecyclerView);
                 break;
             case R.id.navigation_item_important:
                 mSelectedId = selectedId;
-                controller = new ImportantController(mToolbar, mRecyclerView);
+                mController = new ImportantController(mToolbar, mRecyclerView);
                 break;
             case R.id.navigation_item_private:
                 mSelectedId = selectedId;
-                controller = new PrivateController(mToolbar, mRecyclerView);
+                mController = new PrivateController(mToolbar, mRecyclerView);
                 break;
             case R.id.navigation_item_bin:
-                controller = new BinController(this, mToolbar, mRecyclerView, mFab, animateBin);
+                mController = new BinController(this, mToolbar, mRecyclerView, mFab, animateBin);
                 mSelectedId = selectedId;
                 break;
             case R.id.navigation_item_explore:
@@ -136,9 +136,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
 
-        if (controller != null) {
+        if (mController != null) {
             setStartState();
-            controller.setContent();
+            mController.setContent();
         }
     }
 
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void setupRecyclerView() {
-        mNotesList = MyApplication.getWritableDatabase().getAllNotesForMode(Constants.MODE_NORMAL);
+        mNotesList = new ArrayList<>();
 
         mAdapter = new NotesAdapter(this, mNotesList, this);
         mGridLayoutManager = new GridLayoutManager(this, Constants.GRID_COLUMNS_COUNT);
@@ -380,15 +380,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case (Constants.COMPOSE_NOTE_REQUEST_CODE): {
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data != null) {
+                        if (data.getBooleanExtra(Constants.NOTE_ADDED_SUCCESSFULLY, false)) {
+                            int mode = data.getIntExtra(Constants.COMPOSE_NOTE_MODE, Constants.ERROR);
+                            if (mode != Constants.ERROR) {
+                                mController.update(mode);
+                            } else {
+                                MyDebugger.log("onActivityResult() mode ERROR!");
+                            }
+                        }
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         if (v.getTag() == null) return;
-
-        Intent mIntent = null;
 
         String tag = (String) v.getTag();
         switch (tag) {
             case Tags.TAG_TEXT_NOTE:
-                mIntent = new Intent(this, ComposeNoteActivity.class);
+                Intent mIntent = new Intent(this, ComposeNoteActivity.class);
+                mIntent.putExtra(Constants.CONTROLLER_ID, mController.getControllerId());
+                startActivityForResult(mIntent, Constants.COMPOSE_NOTE_REQUEST_CODE);
                 break;
             case Tags.TAG_LIST:
                 MyDebugger.toast(this, "List");
@@ -399,9 +421,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case Tags.TAG_CAMERA:
                 MyDebugger.toast(this, "Camera");
                 break;
-        }
-        if (mIntent != null) {
-            startActivity(mIntent);
         }
 
         mActionMenu.toggle(false);   //can cause problems with startActivity() before it

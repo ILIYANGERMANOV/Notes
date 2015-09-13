@@ -56,7 +56,8 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         // Set movement flags based on the layout manager
         if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
             final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
-            final int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;;
+            final int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+            ;
             return makeMovementFlags(dragFlags, swipeFlags);
         } else {
             final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;

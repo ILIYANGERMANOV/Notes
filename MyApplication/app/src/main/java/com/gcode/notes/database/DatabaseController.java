@@ -5,12 +5,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.gcode.notes.data.ContentBase;
-import com.gcode.notes.database.NotesContract.ContentEntry;
 import com.gcode.notes.database.extras.Builder;
 import com.gcode.notes.database.extras.InsertHelper;
 import com.gcode.notes.database.extras.Queries;
-import com.gcode.notes.database.extras.Selector;
+import com.gcode.notes.database.extras.UpdateHelper;
+import com.gcode.notes.database.extras.Validator;
 import com.gcode.notes.extras.Constants;
+import com.gcode.notes.extras.MyDebugger;
 
 import java.util.ArrayList;
 
@@ -23,55 +24,103 @@ public class DatabaseController {
         mDatabase = mHelper.getWritableDatabase();
     }
 
-    public ArrayList<ContentBase> getAllNotesForMode(int mode) {
-        ArrayList<ContentBase> mNotesList = new ArrayList<>();
-
-        String[] selectionArgs = {
-                Integer.toString(mode)
-        };
-
-        Cursor cursor = mDatabase.rawQuery(Queries.SELECT_ALL_FROM_CONTENT_FOR_MODE, selectionArgs);
-
-        while (cursor.moveToNext()) {
-            ContentBase currentItem = null;
-            if (cursor.getInt(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_TYPE)) == Constants.TYPE_NOTE) {
-                //NoteData
-                currentItem = Builder.buildNote(mDatabase, cursor);
-            } else {
-                //TODO: add ListData
-            }
-            mNotesList.add(currentItem);
-        }
-
-        cursor.close();
-
-        return mNotesList;
+    //GETTERS ----------------------------------------------------------------------------------------------------------
+    public ArrayList<ContentBase> getAllVisibleNotes() {
+        Cursor cursor = getCursorForAllItemsFromContentForModes(Constants.MODE_NORMAL, Constants.MODE_IMPORTANT);
+        return Builder.buildItemList(mDatabase, cursor);
     }
 
+    public ContentBase getLastVisibleNote() {
+        Cursor cursor = getCursorForLastItemFromContentForMode(Constants.MODE_NORMAL, Constants.MODE_IMPORTANT);
+        return Builder.buildSingleItem(mDatabase, cursor);
+    }
+
+    public ArrayList<ContentBase> getAllImportantNotes() {
+        Cursor cursor = getCursorForAllItemsFromContentForModes(Constants.MODE_IMPORTANT);
+        return Builder.buildItemList(mDatabase, cursor);
+    }
+
+    public ContentBase getLastImportantNote() {
+        Cursor cursor = getCursorForLastItemFromContentForMode(Constants.MODE_IMPORTANT);
+        return Builder.buildSingleItem(mDatabase, cursor);
+    }
+
+    public ArrayList<ContentBase> getAllPrivateNotes() {
+        Cursor cursor = getCursorForAllItemsFromContentForModes(Constants.MODE_PRIVATE);
+        return Builder.buildItemList(mDatabase, cursor);
+    }
+
+    public ContentBase getLastPrivateNote() {
+        Cursor cursor = getCursorForLastItemFromContentForMode(Constants.MODE_PRIVATE);
+        return Builder.buildSingleItem(mDatabase, cursor);
+    }
+
+    public ArrayList<ContentBase> getAllDeletedNotes() {
+        Cursor cursor = getCursorForAllItemsFromContentForModes(Constants.MODE_DELETED_NORMAL,
+                Constants.MODE_DELETED_IMPORTANT);
+        return Builder.buildItemList(mDatabase, cursor);
+    }
+    //GETTERS ----------------------------------------------------------------------------------------------------------
+
+    //INSERTS--------------------------------------------------------------------------------------------------
     public long insertNote(ContentBase contentBase) {
-        if (!contentBase.isValidTitle()) {
-            contentBase.setTitle(generateItemTitle());
-        }
+        Validator.validateTitle(mDatabase, contentBase);
         mDatabase.beginTransaction();
-
-        if (contentBase.hasAttributes()) {
-            if (contentBase.getType() == Constants.TYPE_NOTE) {
-                InsertHelper.insertAttributesInNotes(mDatabase, contentBase);
-            } else {
-                //TODO: insert list
-            }
-        }
-
-        long newlyInsertedRow = InsertHelper.insertMainContent(mDatabase, contentBase);
-
+        long newlyInsertedRow = InsertHelper.insertNote(mDatabase, contentBase);
         mDatabase.setTransactionSuccessful();
         mDatabase.endTransaction();
-
         return newlyInsertedRow;
     }
+    //INSERTS--------------------------------------------------------------------------------------------------
 
-    private String generateItemTitle() {
-        int noteNumber = Selector.getFirstOrNextIdFromContent(mDatabase);
-        return "Note " + Integer.toString(noteNumber != 0 ? noteNumber : 1);
+    //UPDATES------------------------------------------------------------------------------------------------------
+    public boolean deleteNote(ContentBase contentBase) {
+        int newMode;
+        switch (contentBase.getMode()) {
+            case Constants.MODE_NORMAL:
+                newMode = Constants.MODE_DELETED_NORMAL;
+                break;
+            case Constants.MODE_IMPORTANT:
+                newMode = Constants.MODE_DELETED_IMPORTANT;
+                break;
+            default:
+                return false;
+        }
+        return UpdateHelper.updateNoteMode(mDatabase, contentBase, newMode) > 0;
+    }
+
+    public boolean revertNoteFromBin(ContentBase contentBase) {
+        int newMode;
+        switch (contentBase.getMode()) {
+            case Constants.MODE_DELETED_NORMAL:
+                newMode = Constants.MODE_NORMAL;
+                break;
+            case Constants.MODE_DELETED_IMPORTANT:
+                newMode = Constants.MODE_IMPORTANT;
+                break;
+            default:
+                return false;
+        }
+        return UpdateHelper.updateNoteMode(mDatabase, contentBase, newMode) > 0;
+    }
+
+    public void swapNotesPosition(ContentBase noteA, ContentBase noteB) {
+        MyDebugger.log("swap called");
+        UpdateHelper.updateNoteOrderId(mDatabase, noteA, noteB.getOrderId());
+        UpdateHelper.updateNoteOrderId(mDatabase, noteB, noteA.getOrderId());
+
+        int orderIdHolder = noteA.getOrderId();
+        noteA.setOrderId(noteB.getOrderId());
+        noteB.setOrderId(orderIdHolder);
+    }
+    //UPDATES------------------------------------------------------------------------------------------------------
+
+    //PRIVATE----------------------------------------------------------------------------------------------------
+    private Cursor getCursorForAllItemsFromContentForModes(int... modes) {
+        return mDatabase.rawQuery(Queries.selectAllItemsFromContentForModes(modes.length), Queries.buildSelectionArgs(modes));
+    }
+
+    private Cursor getCursorForLastItemFromContentForMode(int... modes) {
+        return mDatabase.rawQuery(Queries.selectLastItemFromContentForModes(modes.length), Queries.buildSelectionArgs(modes));
     }
 }

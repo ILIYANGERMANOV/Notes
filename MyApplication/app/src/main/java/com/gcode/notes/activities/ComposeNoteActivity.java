@@ -1,5 +1,7 @@
 package com.gcode.notes.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -8,6 +10,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -40,6 +43,8 @@ public class ComposeNoteActivity extends AppCompatActivity {
     @Bind(R.id.compose_note_set_reminder_text_view)
     TextView mSetReminderTextView;
 
+    int mFromController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +53,27 @@ public class ComposeNoteActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setupToolbar();
+        setupMode();
+    }
+
+    private void setupMode() {
+        Intent mIntent = getIntent();
+        if (mIntent != null) {
+            mFromController = mIntent.getExtras().getInt(Constants.CONTROLLER_ID);
+        }
+        switch (mFromController) {
+            case Constants.CONTROLLER_ALL_NOTES:
+
+                break;
+            case Constants.CONTROLLER_IMPORTANT:
+                mPrioritySwitch.setChecked(true);
+                break;
+            case Constants.CONTROLLER_PRIVATE:
+                mPrioritySwitch.setVisibility(View.GONE);
+                break;
+            default:
+                break;
+        }
     }
 
     private void setupToolbar() {
@@ -63,25 +89,31 @@ public class ComposeNoteActivity extends AppCompatActivity {
     }
 
     private void saveNote() {
+        Intent mResultIntent = new Intent();
+
         String title = mTitleEditText.getText().toString();
         String description = mDescriptionEditText.getText().toString();
         if (isValidNote(title, description)) {
-            int priority = mPrioritySwitch.isChecked() ? Constants.PRIORITY_IMPORTANT : Constants.PRIORITY_NORMAL;
+            int mode = mPrioritySwitch.isChecked() ? Constants.MODE_IMPORTANT : Constants.MODE_NORMAL;
             String reminderString = mSetReminderTextView.getText().toString();
             if (reminderString.equals(getResources().getString(R.string.compose_note_set_reminder_text))) {
                 reminderString = Constants.NO_REMINDER;
             }
 
 
-            NoteData noteData = new NoteData(title, Constants.MODE_NORMAL,
-                    priority, hasAttributes(description),
+            NoteData noteData = new NoteData(title, mode,
+                    hasAttributes(description),
                     description, null, null, reminderString);
 
-            MyDebugger.log("row id", MyApplication.getWritableDatabase().insertNote(noteData));
+            if (MyApplication.getWritableDatabase().insertNote(noteData) != Constants.DATABASE_ERROR) {
+                mResultIntent.putExtra(Constants.NOTE_ADDED_SUCCESSFULLY, true);
+                mResultIntent.putExtra(Constants.COMPOSE_NOTE_MODE, mode);
+            }
         } else {
             //TODO: handle not valid note
             MyDebugger.toast(this, "Note is not valid!");
         }
+        setResult(Activity.RESULT_OK, mResultIntent);
     }
 
     private boolean hasAttributes(String description) {

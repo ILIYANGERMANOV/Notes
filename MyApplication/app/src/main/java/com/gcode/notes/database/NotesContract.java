@@ -10,11 +10,11 @@ public final class NotesContract {
 
     public static abstract class ContentEntry implements BaseColumns {
         public static final String TABLE_NAME = "content";
+        public static final String COLUMN_NAME_ORDER_ID = "order_id";
         public static final String COLUMN_NAME_TITLE = "title";
         public static final String COLUMN_NAME_MODE = "mode";
         public static final String COLUMN_NAME_TYPE = "content_type";
         public static final String COLUMN_NAME_TARGET_ID = "target_id";
-        public static final String COLUMN_NAME_PRIORITY = "priority";
         public static final String COLUMN_NAME_ATTRIBUTES = "attributes";
         public static final String COLUMN_NAME_REMINDER = "time_reminder";
         public static final String COLUMN_NAME_CREATION_DATE = "creation_date";

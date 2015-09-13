@@ -15,8 +15,9 @@ public class Selector {
 
     public static int getLastRowFromTable(SQLiteDatabase mDatabase, String tableName) {
         int targetId = 0;
-        Cursor cursor = mDatabase.rawQuery(Queries.selectLastRowForTable(tableName), null);
+        Cursor cursor = mDatabase.rawQuery(Queries.selectLastRowIdForTable(tableName), null);
         if (cursor.moveToFirst()) {
+            //TODO: may cause problems
             targetId = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
         }
         cursor.close();

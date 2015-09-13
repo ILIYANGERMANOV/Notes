@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.gcode.notes.R;
 import com.gcode.notes.animations.MyAnimator;
+import com.gcode.notes.notes.MyApplication;
 
 public class BinController extends BaseController {
     FloatingActionButton mFab;
@@ -29,9 +30,15 @@ public class BinController extends BaseController {
     public void setContent() {
         mToolbar.setTitle("Bin");
         mFab.clearAnimation();
-        if(animate) {
+        if (animate) {
             MyAnimator.startAnimation(mContext, mFab, R.anim.collapse_anim);
         }
         mFab.setVisibility(View.INVISIBLE);
+        setNewContent(MyApplication.getWritableDatabase().getAllDeletedNotes());
+    }
+
+    @Override
+    public void update(int mode) {
+
     }
 }

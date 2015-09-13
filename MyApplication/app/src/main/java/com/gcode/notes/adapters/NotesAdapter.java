@@ -21,27 +21,34 @@ import com.gcode.notes.extras.Constants;
 import com.gcode.notes.helper.ItemTouchHelperAdapter;
 import com.gcode.notes.helper.ItemTouchHelperViewHolder;
 import com.gcode.notes.helper.OnStartDragListener;
+import com.gcode.notes.notes.MyApplication;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder> implements ItemTouchHelperAdapter {
-    List<ContentBase> mData;
+    ArrayList<ContentBase> mData;
     Context mContext;
 
     private final OnStartDragListener mDragStartListener;
 
-    public NotesAdapter(Context context, List<ContentBase> data, OnStartDragListener dragStartListener) {
+    public NotesAdapter(Context context, ArrayList<ContentBase> data, OnStartDragListener dragStartListener) {
         mContext = context;
         mData = data;
         mDragStartListener = dragStartListener;
     }
 
+    public void addItem(ContentBase item) {
+        mData.add(0, item);
+        notifyItemInserted(0);
+    }
+
     @Override
     public void onItemDismiss(int position) {
+        MyApplication.getWritableDatabase().deleteNote(mData.get(position));
         mData.remove(position);
         notifyItemRemoved(position);
     }
@@ -51,10 +58,12 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder
         if (fromPosition < toPosition) {
             for (int i = fromPosition; i < toPosition; i++) {
                 Collections.swap(mData, i, i + 1);
+                MyApplication.getWritableDatabase().swapNotesPosition(mData.get(i), mData.get(i + 1));
             }
         } else {
             for (int i = fromPosition; i > toPosition; i--) {
                 Collections.swap(mData, i, i - 1);
+                MyApplication.getWritableDatabase().swapNotesPosition(mData.get(i), mData.get(i - 1));
             }
         }
         notifyItemMoved(fromPosition, toPosition);
@@ -92,6 +101,12 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder
     @Override
     public int getItemCount() {
         return mData.size();
+    }
+
+    public void updateContent(ArrayList<ContentBase> newData) {
+        mData.clear();
+        mData.addAll(newData);
+        notifyDataSetChanged();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {

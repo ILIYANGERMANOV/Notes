@@ -9,6 +9,10 @@ import java.util.Date;
 public class DateUtils {
     public static String getCurrentTime() {
         Date date = Calendar.getInstance().getTime();
+        return dateToString(date);
+    }
+
+    public static String dateToString(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return dateFormat.format(date);
     }

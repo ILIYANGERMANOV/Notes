@@ -18,7 +18,19 @@ import java.net.URI;
 
 public class InsertHelper {
 
-    public static long insertMainContent(SQLiteDatabase mDatabase, ContentBase contentBase) {
+    public static long insertNote(SQLiteDatabase mDatabase, ContentBase contentBase) {
+        if (contentBase.hasAttributes()) {
+            if (contentBase.getType() == Constants.TYPE_NOTE) {
+                insertAttributesInNotes(mDatabase, contentBase);
+            } else {
+                //TODO: insert list
+            }
+        }
+
+        return insertMainContent(mDatabase, contentBase);
+    }
+
+    private static long insertMainContent(SQLiteDatabase mDatabase, ContentBase contentBase) {
         ContentValues contentValues = new ContentValues();
 
         if (contentBase.hasAttributes()) {
@@ -28,9 +40,9 @@ public class InsertHelper {
             contentValues.put(ContentEntry.COLUMN_NAME_TARGET_ID, Selector.getLastRowFromTable(mDatabase, tableName));
         }
 
+        contentValues.put(ContentEntry.COLUMN_NAME_ORDER_ID, Selector.getFirstOrNextIdFromContent(mDatabase));
         contentValues.put(ContentEntry.COLUMN_NAME_TITLE, contentBase.getTitle());
         contentValues.put(ContentEntry.COLUMN_NAME_MODE, contentBase.getMode());
-        contentValues.put(ContentEntry.COLUMN_NAME_PRIORITY, contentBase.getPriority());
         contentValues.put(ContentEntry.COLUMN_NAME_TYPE, contentBase.getType());
         contentValues.put(ContentEntry.COLUMN_NAME_ATTRIBUTES, contentBase.hasAttributes());
         contentValues.put(ContentEntry.COLUMN_NAME_REMINDER, contentBase.getReminderString());
@@ -40,7 +52,7 @@ public class InsertHelper {
         return mDatabase.insert(ContentEntry.TABLE_NAME, ContentEntry.COLUMN_NAME_EXPIRATION_DATE, contentValues);
     }
 
-    public static void insertAttributesInNotes(SQLiteDatabase mDatabase, ContentBase contentBase) {
+    private static void insertAttributesInNotes(SQLiteDatabase mDatabase, ContentBase contentBase) {
         NoteData noteData = (NoteData) contentBase;
         ContentValues contentValues = new ContentValues();
 

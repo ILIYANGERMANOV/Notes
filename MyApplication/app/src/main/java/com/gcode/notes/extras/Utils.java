@@ -3,7 +3,6 @@ package com.gcode.notes.extras;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
-import android.os.Build;
 
 import com.gcode.notes.R;
 
