@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.Constants;
@@ -22,6 +23,7 @@ import com.gcode.notes.helper.ItemTouchHelperAdapter;
 import com.gcode.notes.helper.ItemTouchHelperViewHolder;
 import com.gcode.notes.helper.OnStartDragListener;
 import com.gcode.notes.notes.MyApplication;
+import com.gcode.notes.ui.ActionExecutor;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,13 +34,32 @@ import butterknife.ButterKnife;
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder> implements ItemTouchHelperAdapter {
     ArrayList<ContentBase> mData;
     Context mContext;
+    View mRootView;
+
+    BaseController mController;
 
     private final OnStartDragListener mDragStartListener;
 
-    public NotesAdapter(Context context, ArrayList<ContentBase> data, OnStartDragListener dragStartListener) {
+    public NotesAdapter(Context context, ArrayList<ContentBase> data,
+                        OnStartDragListener dragStartListener, View rooView) {
+
         mContext = context;
         mData = data;
         mDragStartListener = dragStartListener;
+        mRootView = rooView;
+    }
+
+    public void setController(BaseController controller) {
+        mController = controller;
+    }
+
+    public BaseController getController() {
+        return mController;
+    }
+
+    public void addItem(int position, ContentBase item) {
+        mData.add(position, item);
+        notifyItemInserted(position);
     }
 
     public void addItem(ContentBase item) {
@@ -47,8 +68,18 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder
     }
 
     @Override
+    public void onItemDismissFromBin(int position) {
+        ActionExecutor.deleteNoteFromBin(mContext, this, mData.get(position), position);
+        dismissItem(position);
+    }
+
+    @Override
     public void onItemDismiss(int position) {
-        MyApplication.getWritableDatabase().deleteNote(mData.get(position));
+        ActionExecutor.popUndoSnackBar(mRootView, this, position, mData.get(position));
+        dismissItem(position);
+    }
+
+    public void dismissItem(int position) {
         mData.remove(position);
         notifyItemRemoved(position);
     }

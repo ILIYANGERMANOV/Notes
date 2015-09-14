@@ -6,12 +6,12 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.database.extras.Builder;
+import com.gcode.notes.database.extras.DeleteHelper;
 import com.gcode.notes.database.extras.InsertHelper;
 import com.gcode.notes.database.extras.Queries;
 import com.gcode.notes.database.extras.UpdateHelper;
 import com.gcode.notes.database.extras.Validator;
 import com.gcode.notes.extras.Constants;
-import com.gcode.notes.extras.MyDebugger;
 
 import java.util.ArrayList;
 
@@ -60,6 +60,12 @@ public class DatabaseController {
                 Constants.MODE_DELETED_IMPORTANT);
         return Builder.buildItemList(mDatabase, cursor);
     }
+
+    public ContentBase getLastDeletedNote() {
+        Cursor cursor = getCursorForLastItemFromContentForMode(Constants.MODE_DELETED_NORMAL,
+                Constants.MODE_DELETED_IMPORTANT);
+        return Builder.buildSingleItem(mDatabase, cursor);
+    }
     //GETTERS ----------------------------------------------------------------------------------------------------------
 
     //INSERTS--------------------------------------------------------------------------------------------------
@@ -105,7 +111,6 @@ public class DatabaseController {
     }
 
     public void swapNotesPosition(ContentBase noteA, ContentBase noteB) {
-        MyDebugger.log("swap called");
         UpdateHelper.updateNoteOrderId(mDatabase, noteA, noteB.getOrderId());
         UpdateHelper.updateNoteOrderId(mDatabase, noteB, noteA.getOrderId());
 
@@ -114,6 +119,19 @@ public class DatabaseController {
         noteB.setOrderId(orderIdHolder);
     }
     //UPDATES------------------------------------------------------------------------------------------------------
+
+
+    //DELETE-------------------------------------------------------------------------------------------------------
+
+    //DELETE-------------------------------------------------------------------------------------------------------
+    public boolean emptyRecyclerBin() {
+        return DeleteHelper.deleteNotesList(mDatabase, getAllDeletedNotes());
+    }
+
+    public boolean deleteNoteFromBin(ContentBase note) {
+        return DeleteHelper.deleteNote(mDatabase, note) != 0;
+    }
+    //DELETE------------------------------------------------------------------------------------------------------------
 
     //PRIVATE----------------------------------------------------------------------------------------------------
     private Cursor getCursorForAllItemsFromContentForModes(int... modes) {

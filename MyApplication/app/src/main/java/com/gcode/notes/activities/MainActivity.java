@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
@@ -41,6 +42,7 @@ import com.gcode.notes.extras.Tags;
 import com.gcode.notes.extras.Utils;
 import com.gcode.notes.helper.OnStartDragListener;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
+import com.gcode.notes.ui.ActionExecutor;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
@@ -56,10 +58,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar mToolbar;
 
     @Bind(R.id.main_app_bar_layout)
-    AppBarLayout appBarLayout;
+    AppBarLayout mAppBarLayout;
 
     @Bind(R.id.main_drawer_layout)
     DrawerLayout mDrawerLayout;
+
+    @Bind(R.id.main_root_coordinator)
+    CoordinatorLayout mCoordinatorLayout;
 
     @Bind(R.id.main_navigation_drawer)
     NavigationView mDrawer;
@@ -84,6 +89,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ItemTouchHelper mItemTouchHelper;
 
     private BaseController mController = null;
+
+    SimpleItemTouchHelperCallback mSimpleItemTouchHelperCallback = null;
+
+    private Menu mMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,14 +146,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         if (mController != null) {
+            mSimpleItemTouchHelperCallback.setController(mController);
+            mAdapter.setController(mController);
             setStartState();
             mController.setContent();
+            if (mMenu != null) {
+                onPrepareOptionsMenu(mMenu);
+            }
         }
     }
 
     private void setStartState() {
         mFab.setVisibility(View.VISIBLE);
-        appBarLayout.setExpanded(true, mFab.getTranslationY() != 0);
+        mAppBarLayout.setExpanded(true, mFab.getTranslationY() != 0);
         MyAnimator.startAnimation(this, mFab, R.anim.expand_anim);
     }
 
@@ -152,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setupRecyclerView() {
         mNotesList = new ArrayList<>();
 
-        mAdapter = new NotesAdapter(this, mNotesList, this);
+        mAdapter = new NotesAdapter(this, mNotesList, this, mCoordinatorLayout);
         mGridLayoutManager = new GridLayoutManager(this, Constants.GRID_COLUMNS_COUNT);
         mItemAnimator = new DefaultItemAnimator();
 
@@ -160,9 +174,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mRecyclerView.setItemAnimator(mItemAnimator);
         mRecyclerView.setAdapter(mAdapter);
 
-        ItemTouchHelper.Callback callback =
-                new SimpleItemTouchHelperCallback(mAdapter);
-        mItemTouchHelper = new ItemTouchHelper(callback);
+        mSimpleItemTouchHelperCallback = new SimpleItemTouchHelperCallback(mAdapter);
+        mItemTouchHelper = new ItemTouchHelper(mSimpleItemTouchHelperCallback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
@@ -357,7 +370,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        mMenu = menu;
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        //TODO: Refactor and optimize
+        if (mController != null && mController.getControllerId() == Constants.CONTROLLER_BIN) {
+            if (menu.findItem(Constants.MENU_EMPTY_BIN) == null) {
+                menu.add(0, Constants.MENU_EMPTY_BIN, Menu.NONE, R.string.action_empty_bin).
+                        setIcon(R.drawable.ic_clear_black_24dp).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            }
+        } else {
+            menu.removeItem(Constants.MENU_EMPTY_BIN);
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -373,6 +401,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             case R.id.action_search:
                 MyDebugger.toast(this, "Search");
+                return true;
+            case Constants.MENU_EMPTY_BIN:
+                ActionExecutor.emptyRecyclerBin(this, mController);
                 return true;
         }
 

@@ -47,6 +47,10 @@ public abstract class BaseController {
         return Constants.ERROR;
     }
 
+    public RecyclerView getRecyclerView() {
+        return mRecyclerView;
+    }
+
     public NotesAdapter getNotesAdapter() {
         RecyclerView.Adapter mAdapter = mRecyclerView.getAdapter();
         if (mAdapter instanceof NotesAdapter) {

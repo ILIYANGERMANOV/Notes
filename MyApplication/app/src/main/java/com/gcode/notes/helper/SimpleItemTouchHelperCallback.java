@@ -21,6 +21,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
+import com.gcode.notes.adapters.NotesAdapter;
+import com.gcode.notes.controllers.BaseController;
+import com.gcode.notes.extras.Constants;
+
 /**
  * An implementation of {@link ItemTouchHelper.Callback} that enables basic drag & drop and
  * swipe-to-dismiss. Drag events are automatically started by an item long-press.<br/>
@@ -37,8 +41,14 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     private final ItemTouchHelperAdapter mAdapter;
 
-    public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
+    private BaseController mController;
+
+    public SimpleItemTouchHelperCallback(NotesAdapter adapter) {
         mAdapter = adapter;
+    }
+
+    public void setController(BaseController mController) {
+        this.mController = mController;
     }
 
     @Override
@@ -80,7 +90,24 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int i) {
         // Notify the adapter of the dismissal
-        mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+        if (mController != null) {
+            switch (mController.getControllerId()) {
+                case Constants.CONTROLLER_ALL_NOTES:
+                    mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+                    break;
+                case Constants.CONTROLLER_IMPORTANT:
+                    mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+                    break;
+                case Constants.CONTROLLER_PRIVATE:
+                    //TODO: implement private
+                    break;
+                case Constants.CONTROLLER_BIN:
+                    mAdapter.onItemDismissFromBin(viewHolder.getAdapterPosition());
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     @Override
@@ -114,6 +141,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         super.clearView(recyclerView, viewHolder);
 
         viewHolder.itemView.setAlpha(ALPHA_FULL);
+        viewHolder.itemView.setTranslationX(0);
 
         if (viewHolder instanceof ItemTouchHelperViewHolder) {
             // Tell the view holder it's time to restore the idle state

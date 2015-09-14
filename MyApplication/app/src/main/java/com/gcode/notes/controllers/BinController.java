@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.gcode.notes.R;
 import com.gcode.notes.animations.MyAnimator;
+import com.gcode.notes.extras.Constants;
 import com.gcode.notes.notes.MyApplication;
 
 public class BinController extends BaseController {
@@ -26,6 +27,14 @@ public class BinController extends BaseController {
         this.animate = animate;
     }
 
+    public void setAnimate(boolean animate) {
+        this.animate = animate;
+    }
+
+    public boolean hasAnimation() {
+        return animate;
+    }
+
     @Override
     public void setContent() {
         mToolbar.setTitle("Bin");
@@ -39,6 +48,8 @@ public class BinController extends BaseController {
 
     @Override
     public void update(int mode) {
-
+        if (mode == Constants.MODE_DELETED_NORMAL || mode == Constants.MODE_DELETED_IMPORTANT) {
+            applyUpdate(MyApplication.getWritableDatabase().getLastDeletedNote());
+        }
     }
 }

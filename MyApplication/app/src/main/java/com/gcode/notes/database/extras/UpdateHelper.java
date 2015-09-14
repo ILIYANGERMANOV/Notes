@@ -7,7 +7,6 @@ import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.database.NotesContract.ContentEntry;
 
 public class UpdateHelper {
-    private static String whereClause = ContentEntry._ID + " = ?";
 
     public static int updateNoteMode(SQLiteDatabase mDatabase, ContentBase contentBase, int newMode) {
         ContentValues contentValues = new ContentValues();
@@ -15,7 +14,7 @@ public class UpdateHelper {
         String[] whereArgs = {
                 Integer.toString(contentBase.getId())
         };
-        return mDatabase.update(ContentEntry.TABLE_NAME, contentValues, whereClause, whereArgs);
+        return mDatabase.update(ContentEntry.TABLE_NAME, contentValues, Queries.whereClauseContentId, whereArgs);
     }
 
     public static int updateNoteOrderId(SQLiteDatabase mDatabase, ContentBase contentBase, int newId) {
@@ -24,6 +23,6 @@ public class UpdateHelper {
         String[] whereArgs = {
                 Integer.toString(contentBase.getId())
         };
-        return mDatabase.update(ContentEntry.TABLE_NAME, contentValues, whereClause, whereArgs);
+        return mDatabase.update(ContentEntry.TABLE_NAME, contentValues, Queries.whereClauseContentId, whereArgs);
     }
 }

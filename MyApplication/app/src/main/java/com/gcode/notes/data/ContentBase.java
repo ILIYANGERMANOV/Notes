@@ -5,11 +5,13 @@ import android.support.annotation.Nullable;
 
 import com.gcode.notes.extras.Constants;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.Date;
 
 public class ContentBase {
+    int id;
+    int orderId;
+    int targetId;
+
     String title;
     int mode;
     int type;
@@ -18,9 +20,6 @@ public class ContentBase {
     Date creationDate;
     String expirationDateString;
 
-    int orderId;
-    int id;
-    int targetId;
 
     public ContentBase(int id, int orderId, int targetId, String title, int mode, boolean hasAttributes,
                        String reminderString, Date creationDate, String expirationDateString) {
@@ -101,16 +100,6 @@ public class ContentBase {
 
     public int getType() {
         return type;
-    }
-
-    public Date getReminderDate() {
-        Date reminderDate = null;
-        try {
-            reminderDate = DateFormat.getInstance().parse(reminderString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return reminderDate;
     }
 
     public String getReminderString() {

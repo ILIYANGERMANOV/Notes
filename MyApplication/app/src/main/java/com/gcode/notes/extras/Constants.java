@@ -1,6 +1,8 @@
 package com.gcode.notes.extras;
 
 
+import android.view.Menu;
+
 public class Constants {
     public static final String PREFERENCES_FILE = "notes_settings";
     public static final int FAB_THRESHOLD_TRANSLATION_Y = 15;
@@ -33,6 +35,8 @@ public class Constants {
     public static final int CONTROLLER_BIN = 4;
 
     public static final int DATABASE_ERROR = -1;
+
+    public static final int MENU_EMPTY_BIN = Menu.FIRST + 3;
 
     public static final String NO_REMINDER = "no_reminder";
     public static final String NO_AUDIO = "no_audio_attached";

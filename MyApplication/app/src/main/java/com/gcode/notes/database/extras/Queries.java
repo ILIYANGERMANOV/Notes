@@ -103,6 +103,8 @@ public class Queries {
         return selectionArgs;
     }
 
+    public static String whereClauseContentId = ContentEntry._ID + " = ?";
+
 
     public static final String SELECT_ALL_FROM_NOTES_FOR_ID =
             "SELECT * FROM " + NoteEntry.TABLE_NAME + " WHERE " +
