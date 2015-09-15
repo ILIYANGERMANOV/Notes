@@ -39,10 +39,10 @@ import com.gcode.notes.extras.Constants;
 import com.gcode.notes.extras.Keys;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.Tags;
-import com.gcode.notes.extras.Utils;
 import com.gcode.notes.helper.OnStartDragListener;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
 import com.gcode.notes.ui.ActionExecutor;
+import com.gcode.notes.ui.NavDrawerHelper;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
@@ -88,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private RecyclerView.ItemAnimator mItemAnimator;
     private ItemTouchHelper mItemTouchHelper;
 
-    private BaseController mController = null;
 
     SimpleItemTouchHelperCallback mSimpleItemTouchHelperCallback = null;
 
@@ -121,18 +120,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (selectedId) {
             case R.id.navigation_item_all_notes:
                 mSelectedId = selectedId;
-                mController = new AllNotesController(mToolbar, mRecyclerView);
+                BaseController.setInstance(new AllNotesController(mToolbar, mRecyclerView));
                 break;
             case R.id.navigation_item_important:
                 mSelectedId = selectedId;
-                mController = new ImportantController(mToolbar, mRecyclerView);
+                BaseController.setInstance(new ImportantController(mToolbar, mRecyclerView));
                 break;
             case R.id.navigation_item_private:
                 mSelectedId = selectedId;
-                mController = new PrivateController(mToolbar, mRecyclerView);
+                BaseController.setInstance(new PrivateController(mToolbar, mRecyclerView));
                 break;
             case R.id.navigation_item_bin:
-                mController = new BinController(this, mToolbar, mRecyclerView, mFab, animateBin);
+                BaseController.setInstance(new BinController(mToolbar, mRecyclerView, mFab, animateBin));
                 mSelectedId = selectedId;
                 break;
             case R.id.navigation_item_explore:
@@ -145,14 +144,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
 
-        if (mController != null) {
-            mSimpleItemTouchHelperCallback.setController(mController);
-            mAdapter.setController(mController);
-            setStartState();
-            mController.setContent();
-            if (mMenu != null) {
-                onPrepareOptionsMenu(mMenu);
-            }
+        setStartState();
+        BaseController.getInstance().setContent();
+        if (mMenu != null) {
+            onPrepareOptionsMenu(mMenu);
         }
     }
 
@@ -301,27 +296,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
-        if (!didUserLearnedDrawer()) {
-            showDrawer();
-            markDrawerSeen();
+        if (!NavDrawerHelper.didUserLearnedDrawer()) {
+            NavDrawerHelper.showDrawer(mDrawerLayout);
+            NavDrawerHelper.markDrawerSeen();
         }
-    }
-
-    private boolean didUserLearnedDrawer() {
-        return Utils.readFromPreferences(this, Keys.PREF_USER_LEARNED_DRAWER, "false").equals("true");
-
-    }
-
-    private void markDrawerSeen() {
-        Utils.saveToPreferences(this, Keys.PREF_USER_LEARNED_DRAWER, "true");
-    }
-
-    private void showDrawer() {
-        mDrawerLayout.openDrawer(GravityCompat.START);
-    }
-
-    private void hideDrawer() {
-        mDrawerLayout.closeDrawer(GravityCompat.START);
     }
 
     private void setupToolbar() {
@@ -334,7 +312,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         if (menuItem.getGroupId() == R.id.navigation_group_1) {
             menuItem.setChecked(true);
-            hideDrawer();
+            NavDrawerHelper.hideDrawer(mDrawerLayout);
         }
         applySelectedOption(menuItem.getItemId(), true, true);
         return true;
@@ -377,7 +355,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         //TODO: Refactor and optimize
-        if (mController != null && mController.getControllerId() == Constants.CONTROLLER_BIN) {
+        if (BaseController.getInstance().getControllerId() == Constants.CONTROLLER_BIN) {
             if (menu.findItem(Constants.MENU_EMPTY_BIN) == null) {
                 menu.add(0, Constants.MENU_EMPTY_BIN, Menu.NONE, R.string.action_empty_bin).
                         setIcon(R.drawable.ic_clear_black_24dp).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
@@ -403,7 +381,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 MyDebugger.toast(this, "Search");
                 return true;
             case Constants.MENU_EMPTY_BIN:
-                ActionExecutor.emptyRecyclerBin(this, mController);
+                ActionExecutor.emptyRecyclerBin(this);
                 return true;
         }
 
@@ -420,7 +398,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         if (data.getBooleanExtra(Constants.NOTE_ADDED_SUCCESSFULLY, false)) {
                             int mode = data.getIntExtra(Constants.COMPOSE_NOTE_MODE, Constants.ERROR);
                             if (mode != Constants.ERROR) {
-                                mController.update(mode);
+                                BaseController.getInstance().update(mode);
                             } else {
                                 MyDebugger.log("onActivityResult() mode ERROR!");
                             }
@@ -440,7 +418,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (tag) {
             case Tags.TAG_TEXT_NOTE:
                 Intent mIntent = new Intent(this, ComposeNoteActivity.class);
-                mIntent.putExtra(Constants.CONTROLLER_ID, mController.getControllerId());
                 startActivityForResult(mIntent, Constants.COMPOSE_NOTE_REQUEST_CODE);
                 break;
             case Tags.TAG_LIST:

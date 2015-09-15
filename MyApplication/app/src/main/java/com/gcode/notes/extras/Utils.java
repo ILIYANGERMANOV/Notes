@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 
 import com.gcode.notes.R;
+import com.gcode.notes.notes.MyApplication;
 
 public class Utils {
     public static int getToolbarHeight(Context context) {
@@ -16,15 +17,15 @@ public class Utils {
         return toolbarHeight;
     }
 
-    public static void saveToPreferences(Context context, String preferenceName, String value) {
-        SharedPreferences sharedPref = context.getSharedPreferences(Constants.PREFERENCES_FILE, Context.MODE_PRIVATE);
+    public static void saveToPreferences(String preferenceName, String value) {
+        SharedPreferences sharedPref = MyApplication.getAppContext().getSharedPreferences(Constants.PREFERENCES_FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(preferenceName, value);
         editor.apply();
     }
 
-    public static String readFromPreferences(Context context, String preferenceName, String defaultValue) {
-        SharedPreferences sharedPref = context.getSharedPreferences(Constants.PREFERENCES_FILE, Context.MODE_PRIVATE);
+    public static String readFromPreferences(String preferenceName, String defaultValue) {
+        SharedPreferences sharedPref = MyApplication.getAppContext().getSharedPreferences(Constants.PREFERENCES_FILE, Context.MODE_PRIVATE);
         return sharedPref.getString(preferenceName, defaultValue);
     }
 }

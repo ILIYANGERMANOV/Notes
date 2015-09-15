@@ -11,8 +11,31 @@ import com.gcode.notes.notes.MyApplication;
 import java.util.ArrayList;
 
 public abstract class BaseController {
+    private static BaseController mInstance;
+
     Toolbar mToolbar;
     RecyclerView mRecyclerView;
+
+    public static BaseController getInstance() {
+        if(mInstance == null) {
+            mInstance = new BaseController(null, null) {
+                @Override
+                public void setContent() {
+
+                }
+
+                @Override
+                public void update(int mode) {
+
+                }
+            };
+        }
+        return mInstance;
+    }
+
+    public static void setInstance(BaseController controller) {
+        mInstance = controller;
+    }
 
     BaseController(Toolbar toolbar, RecyclerView recyclerView) {
         mToolbar = toolbar;
@@ -52,6 +75,7 @@ public abstract class BaseController {
     }
 
     public NotesAdapter getNotesAdapter() {
+        if(mRecyclerView == null) return null;
         RecyclerView.Adapter mAdapter = mRecyclerView.getAdapter();
         if (mAdapter instanceof NotesAdapter) {
             return (NotesAdapter) mAdapter;

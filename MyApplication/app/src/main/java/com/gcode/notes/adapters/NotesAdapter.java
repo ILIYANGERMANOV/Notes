@@ -33,10 +33,9 @@ import butterknife.ButterKnife;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder> implements ItemTouchHelperAdapter {
     ArrayList<ContentBase> mData;
-    Context mContext;
     View mRootView;
 
-    BaseController mController;
+    Context mContext;
 
     private final OnStartDragListener mDragStartListener;
 
@@ -47,14 +46,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder
         mData = data;
         mDragStartListener = dragStartListener;
         mRootView = rooView;
-    }
-
-    public void setController(BaseController controller) {
-        mController = controller;
-    }
-
-    public BaseController getController() {
-        return mController;
     }
 
     public void addItem(int position, ContentBase item) {
@@ -75,7 +66,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder
 
     @Override
     public void onItemDismiss(int position) {
-        ActionExecutor.popUndoSnackBar(mRootView, this, position, mData.get(position));
+        ActionExecutor.popUndoSnackbar(mRootView, this, position, mData.get(position));
         dismissItem(position);
     }
 
@@ -114,7 +105,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.MyViewHolder
             if (currentItem.getType() == Constants.TYPE_NOTE) {
                 ((NoteData) currentItem).displayNote(holder);
             } else {
-                //list here
+                //TODO: list here
             }
         }
         //Start a drag whenever the view is touched

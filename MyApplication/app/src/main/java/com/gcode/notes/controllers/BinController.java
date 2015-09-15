@@ -14,15 +14,13 @@ import com.gcode.notes.notes.MyApplication;
 
 public class BinController extends BaseController {
     FloatingActionButton mFab;
-    Context mContext;
 
     boolean animate;
 
-    public BinController(Context context, Toolbar toolbar, RecyclerView recyclerView, FloatingActionButton fab,
+    public BinController(Toolbar toolbar, RecyclerView recyclerView, FloatingActionButton fab,
                          boolean animate) {
 
         super(toolbar, recyclerView);
-        mContext = context;
         mFab = fab;
         this.animate = animate;
     }
@@ -40,7 +38,7 @@ public class BinController extends BaseController {
         mToolbar.setTitle("Bin");
         mFab.clearAnimation();
         if (animate) {
-            MyAnimator.startAnimation(mContext, mFab, R.anim.collapse_anim);
+            MyAnimator.startAnimation(MyApplication.getAppContext(), mFab, R.anim.collapse_anim);
         }
         mFab.setVisibility(View.INVISIBLE);
         setNewContent(MyApplication.getWritableDatabase().getAllDeletedNotes());

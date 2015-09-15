@@ -137,5 +137,19 @@ public class ContentBase {
     public void setMode(int mode) {
         this.mode = mode;
     }
+
+    public int setAndReturnDeletedMode() {
+        switch (mode) {
+            case Constants.MODE_NORMAL:
+                mode = Constants.MODE_DELETED_NORMAL;
+                return mode;
+            case Constants.MODE_IMPORTANT:
+                mode = Constants.MODE_DELETED_IMPORTANT;
+                return mode;
+            default:
+                break;
+        }
+        return Constants.ERROR;
+    }
 }
 

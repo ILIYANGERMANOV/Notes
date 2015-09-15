@@ -5,7 +5,6 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.gcode.notes.R;
 import com.gcode.notes.adapters.NotesAdapter;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.controllers.BinController;
@@ -16,28 +15,34 @@ import com.gcode.notes.listeners.UndoOnClickListener;
 import com.gcode.notes.notes.MyApplication;
 
 public class ActionExecutor {
-    public static void popUndoSnackBar(View mRoot, final NotesAdapter mAdapter,
+    public static void popUndoSnackbar(View mRoot, final NotesAdapter mAdapter,
                                        final int position, final ContentBase mNote) {
-        final UndoOnClickListener mUndoOnClickListener = new UndoOnClickListener(mAdapter, position, mNote);
 
-        Snackbar.make(mRoot, "Note deleted", Snackbar.LENGTH_SHORT)
-                .setAction(R.string.snackbar_action_undo, mUndoOnClickListener)
-                .setCallback(new Snackbar.Callback() {
-                    @Override
-                    public void onDismissed(Snackbar snackbar, int event) {
-                        if (!mUndoOnClickListener.undoTriggered()) {
-                            if (!MyApplication.getWritableDatabase().deleteNote(mNote)) {
-                                mAdapter.addItem(position, mNote);
-                                MyDebugger.log("Failed to delete note from recycler bin!");
-                            }
+        final UndoOnClickListener mUndoOnClickListener = new UndoOnClickListener(mAdapter, position, mNote);
+        Snackbar.Callback mCallback = new Snackbar.Callback() {
+            @Override
+            public void onDismissed(Snackbar snackbar, int event) {
+                if (!mUndoOnClickListener.undoTriggered()) {
+                    if (!MyApplication.getWritableDatabase().deleteNote(mNote)) {
+                        mAdapter.addItem(position, mNote);
+                        MyDebugger.log("Failed to delete note from recycler bin!");
+                    } else {
+                        BaseController mController = BaseController.getInstance();
+                        if(mController.getControllerId() == Constants.CONTROLLER_BIN) {
+                            mController.update(mNote.setAndReturnDeletedMode());
                         }
-                        super.onDismissed(snackbar, event);
+
                     }
-                })
-                .show();
+                }
+                super.onDismissed(snackbar, event);
+            }
+        };
+
+        SnackbarHelper.buildUndoSnackbar(mRoot, mUndoOnClickListener, mCallback).show();
     }
 
-    public static void emptyRecyclerBin(Context mContext, final BaseController mController) {
+
+    public static void emptyRecyclerBin(Context mContext) {
 
         final MaterialDialog.ButtonCallback mButtonCallback = new MaterialDialog.ButtonCallback() {
             @Override
@@ -48,6 +53,7 @@ public class ActionExecutor {
             @Override
             public void onPositive(MaterialDialog dialog) {
                 if (MyApplication.getWritableDatabase().emptyRecyclerBin()) {
+                    BaseController mController = BaseController.getInstance();
                     if (mController.getControllerId() == Constants.CONTROLLER_BIN) {
                         BinController mBinController = (BinController) mController;
                         mBinController.setAnimate(false);
@@ -62,7 +68,7 @@ public class ActionExecutor {
         DialogHelper.buildEmptyBinDialog(mContext, mButtonCallback);
     }
 
-    public static void deleteNoteFromBin(Context context, final NotesAdapter mAdapter,
+    public static void deleteNoteFromBin(Context mContext, final NotesAdapter mAdapter,
                                          final ContentBase mNote, final int mPosition) {
 
         final MaterialDialog.ButtonCallback mButtonCallback = new MaterialDialog.ButtonCallback() {
@@ -81,6 +87,6 @@ public class ActionExecutor {
                 dialog.cancel();
             }
         };
-        DialogHelper.buildDeleteNoteFromBinDialog(context, mButtonCallback);
+        DialogHelper.buildDeleteNoteFromBinDialog(mContext, mButtonCallback);
     }
 }

@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.Constants;
 import com.gcode.notes.extras.MyDebugger;
@@ -43,7 +44,6 @@ public class ComposeNoteActivity extends AppCompatActivity {
     @Bind(R.id.compose_note_set_reminder_text_view)
     TextView mSetReminderTextView;
 
-    int mFromController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +57,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
     }
 
     private void setupMode() {
-        Intent mIntent = getIntent();
-        if (mIntent != null) {
-            mFromController = mIntent.getExtras().getInt(Constants.CONTROLLER_ID);
-        }
-        switch (mFromController) {
+        switch (BaseController.getInstance().getControllerId()) {
             case Constants.CONTROLLER_ALL_NOTES:
 
                 break;

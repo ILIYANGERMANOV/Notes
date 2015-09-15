@@ -41,15 +41,10 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     private final ItemTouchHelperAdapter mAdapter;
 
-    private BaseController mController;
-
     public SimpleItemTouchHelperCallback(NotesAdapter adapter) {
         mAdapter = adapter;
     }
 
-    public void setController(BaseController mController) {
-        this.mController = mController;
-    }
 
     @Override
     public boolean isLongPressDragEnabled() {
@@ -90,8 +85,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int i) {
         // Notify the adapter of the dismissal
-        if (mController != null) {
-            switch (mController.getControllerId()) {
+            switch (BaseController.getInstance().getControllerId()) {
                 case Constants.CONTROLLER_ALL_NOTES:
                     mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
                     break;
@@ -107,7 +101,6 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
                 default:
                     break;
             }
-        }
     }
 
     @Override
