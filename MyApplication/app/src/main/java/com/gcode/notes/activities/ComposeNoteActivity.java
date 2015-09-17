@@ -49,7 +49,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose_note);
-
+        //TODO: handle screen rotation
         ButterKnife.bind(this);
 
         setupToolbar();

@@ -57,7 +57,7 @@ public class ComposeListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose_list);
-
+        //TODO: handle screen rotation
         ButterKnife.bind(this);
 
         setupToolbar();
