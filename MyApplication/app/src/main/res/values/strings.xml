@@ -38,5 +38,7 @@
     <string name="delete_note_bin_dialog_agree">Delete</string>
     <string name="delete_note_bin_dialog_disagree">Cancel</string>
     <string name="snackbar_action_undo">Undo</string>
+    <string name="title_activity_compose_list">ComposeListActivity</string>
+    <string name="compose_lise_add_text_view_text">List item</string>
 
 </resources>

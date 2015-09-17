@@ -2,6 +2,7 @@ package com.gcode.notes.ui;
 
 import android.content.Context;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -15,10 +16,10 @@ import com.gcode.notes.listeners.UndoOnClickListener;
 import com.gcode.notes.notes.MyApplication;
 
 public class ActionExecutor {
-    public static void popUndoSnackbar(View mRoot, final NotesAdapter mAdapter,
+    public static void popUndoSnackbar(View mRoot, RecyclerView mRecyclerView, final NotesAdapter mAdapter,
                                        final int position, final ContentBase mNote) {
 
-        final UndoOnClickListener mUndoOnClickListener = new UndoOnClickListener(mAdapter, position, mNote);
+        final UndoOnClickListener mUndoOnClickListener = new UndoOnClickListener(mRecyclerView, mAdapter, position, mNote);
         Snackbar.Callback mCallback = new Snackbar.Callback() {
             @Override
             public void onDismissed(Snackbar snackbar, int event) {
@@ -28,7 +29,7 @@ public class ActionExecutor {
                         MyDebugger.log("Failed to delete note from recycler bin!");
                     } else {
                         BaseController mController = BaseController.getInstance();
-                        if(mController.getControllerId() == Constants.CONTROLLER_BIN) {
+                        if (mController.getControllerId() == Constants.CONTROLLER_BIN) {
                             mController.update(mNote.setAndReturnDeletedMode());
                         }
 

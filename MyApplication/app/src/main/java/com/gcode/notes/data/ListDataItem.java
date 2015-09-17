@@ -36,7 +36,8 @@ public class ListDataItem implements Serializable {
     public void display(SingleListItemViewHolder holder) {
         CheckedTextView mCheckedTextView = holder.getCheckedTextView();
         mCheckedTextView.setText(content);
-        if (mCheckedTextView.isChecked()) {
+        if (checked) {
+            mCheckedTextView.setChecked(true);
             mCheckedTextView.setPaintFlags(mCheckedTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
     }

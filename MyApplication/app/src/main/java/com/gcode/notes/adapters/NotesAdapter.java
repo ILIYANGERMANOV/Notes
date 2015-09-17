@@ -30,10 +30,12 @@ public class NotesAdapter extends RecyclerView.Adapter<BaseItemViewHolder> imple
     ArrayList<ContentBase> mData;
     View mRootView;
     Context mContext;
+    RecyclerView mRecyclerView;
 
-    public NotesAdapter(Context context, ArrayList<ContentBase> data,
+    public NotesAdapter(Context context, RecyclerView recyclerView, ArrayList<ContentBase> data,
                         OnStartDragListener dragStartListener, View rooView) {
 
+        mRecyclerView = recyclerView;
         mContext = context;
         mData = data;
         mDragStartListener = dragStartListener;
@@ -100,7 +102,7 @@ public class NotesAdapter extends RecyclerView.Adapter<BaseItemViewHolder> imple
 
     @Override
     public void onItemDismiss(int position) {
-        ActionExecutor.popUndoSnackbar(mRootView, this, position, mData.get(position));
+        ActionExecutor.popUndoSnackbar(mRootView, mRecyclerView, this, position, mData.get(position));
         dismissItem(position);
     }
 

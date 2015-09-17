@@ -28,6 +28,9 @@
         <activity
             android:name=".activities.ComposeNoteActivity"
             android:label="@string/title_activity_compose_note" />
+        <activity
+            android:name=".activities.ComposeListActivity"
+            android:label="@string/title_activity_compose_list"></activity>
     </application>
 
 </manifest>

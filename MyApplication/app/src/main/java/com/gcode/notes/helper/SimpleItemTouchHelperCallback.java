@@ -80,22 +80,22 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int i) {
         // Notify the adapter of the dismissal
-            switch (BaseController.getInstance().getControllerId()) {
-                case Constants.CONTROLLER_ALL_NOTES:
-                    mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
-                    break;
-                case Constants.CONTROLLER_IMPORTANT:
-                    mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
-                    break;
-                case Constants.CONTROLLER_PRIVATE:
-                    //TODO: implement private
-                    break;
-                case Constants.CONTROLLER_BIN:
-                    mAdapter.onItemDismissFromBin(viewHolder.getAdapterPosition());
-                    break;
-                default:
-                    break;
-            }
+        switch (BaseController.getInstance().getControllerId()) {
+            case Constants.CONTROLLER_ALL_NOTES:
+                mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+                break;
+            case Constants.CONTROLLER_IMPORTANT:
+                mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+                break;
+            case Constants.CONTROLLER_PRIVATE:
+                //TODO: implement private
+                break;
+            case Constants.CONTROLLER_BIN:
+                mAdapter.onItemDismissFromBin(viewHolder.getAdapterPosition());
+                break;
+            default:
+                break;
+        }
     }
 
     @Override

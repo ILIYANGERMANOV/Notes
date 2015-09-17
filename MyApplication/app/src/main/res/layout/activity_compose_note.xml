@@ -22,7 +22,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,21 +30,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/compose_note_title_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:hint="@string/compose_note_title_hint"
-                    android:inputType="textShortMessage"
-                    android:textSize="19sp"
-                    android:textStyle="bold" />
-
-            </android.support.design.widget.TextInputLayout>
+            <include layout="@layout/note_title_input_layout" />
 
             <ImageView
                 android:id="@+id/compose_note_attached_image_view"
@@ -76,26 +62,7 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/compose_note_priority_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:text="@string/compose_note_priority_switch_text"
-                android:textOff="Normal"
-                android:textOn="Important"
-                android:textSize="17sp"
-                app:switchPadding="15dp" />
-
-            <TextView
-                android:id="@+id/compose_note_set_reminder_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_alarm_add_black_24dp"
-                android:drawablePadding="10dp"
-                android:gravity="center_vertical"
-                android:text="@string/compose_note_set_reminder_text"
-                android:textSize="19sp" />
+            <include layout="@layout/note_priority_and_reminder_input_layout" />
 
         </LinearLayout>
     </ScrollView>

@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setupRecyclerView() {
         mNotesList = new ArrayList<>();
 
-        mAdapter = new NotesAdapter(this, mNotesList, this, mCoordinatorLayout);
+        mAdapter = new NotesAdapter(this, mRecyclerView, mNotesList, this, mCoordinatorLayout);
         mGridLayoutManager = new GridLayoutManager(this, Constants.GRID_COLUMNS_COUNT);
         mItemAnimator = new DefaultItemAnimator();
 
@@ -412,14 +412,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onClick(View v) {
         if (v.getTag() == null) return;
 
+        Intent mIntent = null;
+
         String tag = (String) v.getTag();
         switch (tag) {
             case Tags.TAG_TEXT_NOTE:
-                Intent mIntent = new Intent(this, ComposeNoteActivity.class);
+                mIntent = new Intent(this, ComposeNoteActivity.class);
                 startActivityForResult(mIntent, Constants.COMPOSE_NOTE_REQUEST_CODE);
                 break;
             case Tags.TAG_LIST:
-                MyDebugger.toast(this, "List");
+                mIntent = new Intent(this, ComposeListActivity.class);
+                startActivityForResult(mIntent, Constants.COMPOSE_NOTE_REQUEST_CODE);
                 break;
             case Tags.TAG_VOICE_NOTE:
                 MyDebugger.toast(this, "Voice note");
