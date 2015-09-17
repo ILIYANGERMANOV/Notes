@@ -1,20 +1,17 @@
 package com.gcode.notes.adapters;
 
-import android.content.Context;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.gcode.notes.R;
 import com.gcode.notes.adapters.viewholders.ComposeListInputViewHolder;
 import com.gcode.notes.data.ListDataItem;
 import com.gcode.notes.data.ListInputItem;
-import com.gcode.notes.notes.MyApplication;
 
 import java.util.ArrayList;
 
@@ -47,15 +44,16 @@ public class ComposeListInputAdapter extends RecyclerView.Adapter<ComposeListInp
         EditText mEditText = mList.get(mList.size() - 1).getContentEditText();
         if (mEditText != null) {
             mEditText.requestFocus();
-            //TODO: don't close keyboard after enter (EditText fix)
-            InputMethodManager imm = (InputMethodManager) MyApplication.getAppContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(mEditText, InputMethodManager.SHOW_IMPLICIT);
+            //TODO: open keyboard
         }
     }
 
     public void removeItem(int position) {
-        //TODO: fix out of index exception
-        mList.remove(position);
+        try {
+            mList.remove(position);
+        } catch (IndexOutOfBoundsException ex) {
+            //TODO: handle exception (PRIORITY: HIGH)
+        }
         notifyItemRemoved(position);
     }
 
