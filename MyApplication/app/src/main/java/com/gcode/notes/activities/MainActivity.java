@@ -35,12 +35,15 @@ import com.gcode.notes.controllers.BinController;
 import com.gcode.notes.controllers.ImportantController;
 import com.gcode.notes.controllers.PrivateController;
 import com.gcode.notes.data.ContentBase;
+import com.gcode.notes.data.ListData;
+import com.gcode.notes.data.ListDataItem;
 import com.gcode.notes.extras.Constants;
 import com.gcode.notes.extras.Keys;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.Tags;
 import com.gcode.notes.helper.OnStartDragListener;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
+import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.ui.ActionExecutor;
 import com.gcode.notes.ui.NavDrawerHelper;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
@@ -54,43 +57,30 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         View.OnClickListener, OnStartDragListener {
 
+    public static FloatingActionMenu mActionMenu;
     @Bind(R.id.main_toolbar)
     Toolbar mToolbar;
-
     @Bind(R.id.main_app_bar_layout)
     AppBarLayout mAppBarLayout;
-
     @Bind(R.id.main_drawer_layout)
     DrawerLayout mDrawerLayout;
-
     @Bind(R.id.main_root_coordinator)
     CoordinatorLayout mCoordinatorLayout;
-
     @Bind(R.id.main_navigation_drawer)
     NavigationView mDrawer;
-
     @Bind(R.id.main_fab)
     FloatingActionButton mFab;
-
     @Bind(R.id.main_content_recycler_view)
     RecyclerView mRecyclerView;
-
-    public static FloatingActionMenu mActionMenu;
-
+    SimpleItemTouchHelperCallback mSimpleItemTouchHelperCallback = null;
     private ActionBarDrawerToggle mDrawerToggle;
     private int mSelectedId = R.id.navigation_item_all_notes;
-
     private boolean mSubMenuOpened;
-
     private GridLayoutManager mGridLayoutManager;
     private NotesAdapter mAdapter;
     private ArrayList<ContentBase> mNotesList;
     private RecyclerView.ItemAnimator mItemAnimator;
     private ItemTouchHelper mItemTouchHelper;
-
-
-    SimpleItemTouchHelperCallback mSimpleItemTouchHelperCallback = null;
-
     private Menu mMenu;
 
     @Override
@@ -379,6 +369,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             case R.id.action_search:
                 MyDebugger.toast(this, "Search");
+                ArrayList<ListDataItem> list = new ArrayList<>();
+                list.add(new ListDataItem("bravo", true));
+                list.add(new ListDataItem("raboti we", true));
+                list.add(new ListDataItem("test", false));
+                list.add(new ListDataItem("gg", true));
+                ListData listData = new ListData("list", Constants.MODE_NORMAL, true, list, Constants.NO_REMINDER);
+                MyApplication.getWritableDatabase().insertNote(listData);
+                BaseController.getInstance().update(Constants.MODE_NORMAL);
                 return true;
             case Constants.MENU_EMPTY_BIN:
                 ActionExecutor.emptyRecyclerBin(this);

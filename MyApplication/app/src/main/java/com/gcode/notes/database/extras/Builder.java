@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.gcode.notes.data.ContentBase;
+import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.Constants;
 
@@ -15,12 +16,13 @@ public class Builder {
         ArrayList<ContentBase> mNotesList = new ArrayList<>();
 
         while (cursor.moveToNext()) {
-            ContentBase currentItem = null;
+            ContentBase currentItem;
             if (Extractor.getItemType(cursor) == Constants.TYPE_NOTE) {
                 //NoteData
                 currentItem = Builder.buildNoteData(mDatabase, cursor);
             } else {
-                //TODO: add ListData
+                //ListData
+                currentItem = Builder.buildListData(mDatabase, cursor);
             }
             mNotesList.add(currentItem);
         }
@@ -36,7 +38,7 @@ public class Builder {
             if (Extractor.getItemType(cursor) == Constants.TYPE_NOTE) {
                 mNote = Builder.buildNoteData(mDatabase, cursor);
             } else {
-                //TODO: init List
+                mNote = Builder.buildListData(mDatabase, cursor);
             }
         }
 
@@ -45,13 +47,25 @@ public class Builder {
         return mNote;
     }
 
+    private static ContentBase buildListData(SQLiteDatabase mDatabase, Cursor cursor) {
+        ListData listData = Extractor.extractListDataFromContent(cursor);
+
+        listData.setType(Constants.TYPE_LIST);
+
+        if (listData.hasAttributes()) {
+            AttachHelper.attachListDataAttributes(mDatabase, cursor, listData);
+        }
+        return listData;
+    }
+
+
     private static ContentBase buildNoteData(SQLiteDatabase mDatabase, Cursor cursor) {
-        NoteData noteData = (NoteData) Extractor.extractNoteDataFromContent(cursor);
+        NoteData noteData = Extractor.extractNoteDataFromContent(cursor);
 
         noteData.setType(Constants.TYPE_NOTE);
 
         if (noteData.hasAttributes()) {
-            AttachHelper.attachNoteAttributes(mDatabase, cursor, noteData);
+            AttachHelper.attachNoteDataAttributes(mDatabase, cursor, noteData);
         }
         return noteData;
     }

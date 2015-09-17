@@ -17,6 +17,10 @@ public class MyDebugger {
         Log.d(Constants.DEBUG_TAG, key + ": " + Integer.toString(info));
     }
 
+    public static void log(String key, boolean info) {
+        Log.d(Constants.DEBUG_TAG, key + ": " + Boolean.toString(info));
+    }
+
     public static void log(String key, float info) {
         Log.d(Constants.DEBUG_TAG, key + ": " + Float.toString(info));
     }

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.gcode.notes.data.ContentBase;
+import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.database.NotesContract.ContentEntry;
 import com.gcode.notes.database.NotesContract.ListEntry;
@@ -12,6 +13,7 @@ import com.gcode.notes.database.NotesContract.PictureEntry;
 import com.gcode.notes.database.NotesContract.SoundEntry;
 import com.gcode.notes.extras.Constants;
 import com.gcode.notes.extras.DateUtils;
+import com.gcode.notes.extras.ListDataSerializer;
 import com.gcode.notes.extras.MyDebugger;
 
 import java.net.URI;
@@ -23,7 +25,7 @@ public class InsertHelper {
             if (contentBase.getType() == Constants.TYPE_NOTE) {
                 insertAttributesInNotes(mDatabase, contentBase);
             } else {
-                //TODO: insert list
+                insertAttributesInLists(mDatabase, contentBase);
             }
         }
 
@@ -52,6 +54,19 @@ public class InsertHelper {
         return mDatabase.insert(ContentEntry.TABLE_NAME, ContentEntry.COLUMN_NAME_EXPIRATION_DATE, contentValues);
     }
 
+    private static void insertAttributesInLists(SQLiteDatabase mDatabase, ContentBase contentBase) {
+        ListData listData = (ListData) contentBase;
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(ListEntry.COLUMN_NAME_TASKS_SERIALIZED, ListDataSerializer.serialize(listData.getList()));
+
+        if (mDatabase.insert(ListEntry.TABLE_NAME, null, contentValues) == Constants.DATABASE_ERROR) {
+            //TODO: handle error
+            contentBase.setAttributes(false);
+            MyDebugger.log("ERROR INSERTING LIST ATTRIBUTES!");
+        }
+    }
+
     private static void insertAttributesInNotes(SQLiteDatabase mDatabase, ContentBase contentBase) {
         NoteData noteData = (NoteData) contentBase;
         ContentValues contentValues = new ContentValues();
@@ -60,7 +75,7 @@ public class InsertHelper {
         contentValues.put(NoteEntry.COLUMN_NAME_HAS_PICTURE, noteData.hasAttachedImage());
         contentValues.put(NoteEntry.COLUMN_NAME_HAS_SOUND, noteData.hasAttachedAudio());
 
-        if (mDatabase.insert(NoteEntry.TABLE_NAME, null, contentValues) != -1) {
+        if (mDatabase.insert(NoteEntry.TABLE_NAME, null, contentValues) != Constants.DATABASE_ERROR) {
             if (noteData.hasAttachedImage()) {
                 insertPicture(mDatabase, noteData.getImageURI());
             }
@@ -70,7 +85,7 @@ public class InsertHelper {
         } else {
             //TODO: handle error
             contentBase.setAttributes(false);
-            MyDebugger.log("ERROR INSERTING ATTRIBUTES!");
+            MyDebugger.log("ERROR INSERTING NOTE ATTRIBUTES!");
         }
     }
 

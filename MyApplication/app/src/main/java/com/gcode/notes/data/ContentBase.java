@@ -2,7 +2,10 @@ package com.gcode.notes.data;
 
 
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.TextView;
 
+import com.gcode.notes.adapters.viewholders.BaseItemViewHolder;
 import com.gcode.notes.extras.Constants;
 
 import java.util.Date;
@@ -54,24 +57,16 @@ public class ContentBase {
         return id;
     }
 
-    public int getTargetId() {
-        return targetId;
-    }
-
     public void setId(int id) {
         this.id = id;
     }
 
+    public int getTargetId() {
+        return targetId;
+    }
+
     public void setTargetId(int targetId) {
         this.targetId = targetId;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
     }
 
     public void setExpirationDateString(String expirationDateString) {
@@ -80,6 +75,10 @@ public class ContentBase {
 
     public Date getCreationDate() {
         return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public String getExpirationDate() {
@@ -102,16 +101,32 @@ public class ContentBase {
         return type;
     }
 
+    public void setType(int type) {
+        this.type = type;
+    }
+
     public String getReminderString() {
         return hasReminder() ? reminderString : Constants.NO_REMINDER;
+    }
+
+    public void setReminderString(String reminderString) {
+        this.reminderString = reminderString;
     }
 
     public int getMode() {
         return mode;
     }
 
+    public void setMode(int mode) {
+        this.mode = mode;
+    }
+
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public boolean isValidTitle() {
@@ -126,18 +141,6 @@ public class ContentBase {
         return !reminderString.equals(Constants.NO_REMINDER);
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setReminderString(String reminderString) {
-        this.reminderString = reminderString;
-    }
-
-    public void setMode(int mode) {
-        this.mode = mode;
-    }
-
     public int setAndReturnDeletedMode() {
         switch (mode) {
             case Constants.MODE_NORMAL:
@@ -150,6 +153,19 @@ public class ContentBase {
                 break;
         }
         return Constants.ERROR;
+    }
+
+    public void displayBase(BaseItemViewHolder holder) {
+        holder.getTitleTextView().setText(title);
+        displayReminder(holder.getReminderTextView());
+    }
+
+    public void displayReminder(TextView reminderTextView) {
+        if (hasReminder()) {
+            reminderTextView.setText(reminderString);
+        } else {
+            reminderTextView.setVisibility(View.GONE);
+        }
     }
 }
 

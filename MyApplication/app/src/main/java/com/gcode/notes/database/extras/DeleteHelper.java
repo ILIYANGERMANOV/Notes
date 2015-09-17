@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.database.NotesContract.ContentEntry;
+import com.gcode.notes.database.NotesContract.ListEntry;
 import com.gcode.notes.database.NotesContract.NoteEntry;
 import com.gcode.notes.database.NotesContract.PictureEntry;
 import com.gcode.notes.database.NotesContract.SoundEntry;
@@ -35,6 +36,10 @@ public class DeleteHelper {
     }
 
     private static int deleteAttributes(SQLiteDatabase mDatabase, ContentBase note) {
+        String[] whereArgs = new String[]{
+                Integer.toString(note.getTargetId())
+        };
+
         if (note instanceof NoteData) {
             NoteData noteData = (NoteData) note;
             if (noteData.hasAttachedImage()) {
@@ -48,13 +53,11 @@ public class DeleteHelper {
                 }
             }
             String whereClause = NoteEntry._ID + " = ?";
-            return mDatabase.delete(NoteEntry.TABLE_NAME, whereClause, new String[]{
-                    Integer.toString(note.getTargetId())
-            });
+            return mDatabase.delete(NoteEntry.TABLE_NAME, whereClause, whereArgs);
         } else {
-            //TODO: list
+            String whereClause = ListEntry._ID + " = ?";
+            return mDatabase.delete(ListEntry.TABLE_NAME, whereClause, whereArgs);
         }
-        return 0;
     }
 
     private static int deleteAttachedSound(SQLiteDatabase mDatabase, int noteId) {

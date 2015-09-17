@@ -1,11 +1,11 @@
 package com.gcode.notes.data;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.gcode.notes.adapters.NotesAdapter;
+import com.gcode.notes.adapters.viewholders.NoteItemViewHolder;
 import com.gcode.notes.extras.Constants;
 
 import java.net.URI;
@@ -23,7 +23,7 @@ public class NoteData extends ContentBase {
     }
 
     public NoteData(String title, int mode, boolean hasAttributes, String description,
-                    @Nullable URI imageURI, @Nullable URI audioURI, @Nullable String reminderString) {
+                    @Nullable URI imageURI, @Nullable URI audioURI, @NonNull String reminderString) {
 
         super(title, mode, reminderString);
         this.description = description;
@@ -33,22 +33,13 @@ public class NoteData extends ContentBase {
         this.hasAttributes = hasAttributes;
     }
 
-    public void displayNote(NotesAdapter.MyViewHolder holder) {
-        holder.getTitleTextView().setText(title);
+    public void displayNote(NoteItemViewHolder holder) {
+        displayBase(holder);
         holder.getContentTextView().setText(description);
-        displayReminder(holder.getReminderTextView());
         displayAttachedImage(holder.getAttachedImageView());
         displayAudioRecord(holder.getVoiceImageView());
         if (hasAttachedAudio() || hasReminder()) {
             holder.getAttributesDivider().setVisibility(View.VISIBLE);
-        }
-    }
-
-    public void displayReminder(TextView reminderTextView) {
-        if (hasReminder()) {
-            reminderTextView.setText(reminderString);
-        } else {
-            reminderTextView.setVisibility(View.GONE);
         }
     }
 
@@ -85,12 +76,12 @@ public class NoteData extends ContentBase {
         this.imageURI = imageURI;
     }
 
-    public void setAudioURI(URI audioURI) {
-        this.audioURI = audioURI;
-    }
-
     public URI getAudioURI() {
         return audioURI;
+    }
+
+    public void setAudioURI(URI audioURI) {
+        this.audioURI = audioURI;
     }
 
     public String getDescription() {

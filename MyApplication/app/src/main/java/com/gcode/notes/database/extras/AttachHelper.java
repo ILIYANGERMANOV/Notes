@@ -3,17 +3,22 @@ package com.gcode.notes.database.extras;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.gcode.notes.data.ListData;
+import com.gcode.notes.data.ListDataItem;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.database.NotesContract.ContentEntry;
+import com.gcode.notes.database.NotesContract.ListEntry;
 import com.gcode.notes.database.NotesContract.NoteEntry;
 import com.gcode.notes.database.NotesContract.PictureEntry;
 import com.gcode.notes.database.NotesContract.SoundEntry;
+import com.gcode.notes.extras.ListDataSerializer;
 import com.gcode.notes.extras.MyDebugger;
 
 import java.net.URI;
+import java.util.ArrayList;
 
 public class AttachHelper {
-    public static void attachNoteAttributes(SQLiteDatabase mDatabase, Cursor cursor, NoteData noteData) {
+    public static void attachNoteDataAttributes(SQLiteDatabase mDatabase, Cursor cursor, NoteData noteData) {
         Cursor notesCursor = mDatabase.rawQuery(Queries.SELECT_ALL_FROM_NOTES_FOR_ID,
                 new String[]{
                         Integer.toString(cursor.getInt(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_TARGET_ID)))
@@ -31,10 +36,30 @@ public class AttachHelper {
                 //TODO: get audio path
                 attachSoundToNote(mDatabase, cursor, noteData);
             }
-            notesCursor.close();
         } else {
             MyDebugger.log("notesCursor.moveToFirst() with title", noteData.getTitle());
         }
+        notesCursor.close();
+    }
+
+    public static void attachListDataAttributes(SQLiteDatabase mDatabase, Cursor cursor, ListData listData) {
+        Cursor listCursor = mDatabase.rawQuery(Queries.SELECT_ALL_FROM_LISTS_FOR_ID,
+                new String[]{
+                        Integer.toString(cursor.getInt(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_TARGET_ID)))
+                }
+        );
+
+        if (listCursor.moveToFirst()) {
+            ArrayList<ListDataItem> mList = ListDataSerializer.parse(
+                    listCursor.getString(listCursor.getColumnIndex(ListEntry.COLUMN_NAME_TASKS_SERIALIZED))
+            );
+
+            listData.setList(mList);
+        } else {
+            MyDebugger.log("listCursor.moveToFirst() with title", listData.getTitle());
+        }
+
+        listCursor.close();
     }
 
     private static boolean noteHasAttachedPicture(Cursor notesCursor) {
