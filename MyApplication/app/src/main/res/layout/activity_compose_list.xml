@@ -42,10 +42,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <include
-                    android:id="@+id/list_item_0_layout"
-                    layout="@layout/list_input_item" />
-
             </LinearLayout>
 
             <TextView
