@@ -1,29 +1,29 @@
 package com.gcode.notes.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.adapters.ComposeListInputAdapter;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.ListDataItem;
-import com.gcode.notes.data.ListInputItem;
 import com.gcode.notes.extras.Constants;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.notes.MyApplication;
@@ -39,9 +39,6 @@ public class ComposeListActivity extends AppCompatActivity {
     @Bind(R.id.compose_list_toolbar)
     Toolbar mToolbar;
 
-    @Bind(R.id.compose_list_recycler_view)
-    RecyclerView mRecyclerView;
-
     @Bind(R.id.compose_note_title_edit_text)
     EditText mTitleEditText;
 
@@ -51,7 +48,8 @@ public class ComposeListActivity extends AppCompatActivity {
     @Bind(R.id.compose_note_set_reminder_text_view)
     TextView mSetReminderTextView;
 
-    private ComposeListInputAdapter mAdapter;
+    @Bind(R.id.compose_list_container_layout)
+    LinearLayout mContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +59,42 @@ public class ComposeListActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setupToolbar();
-        setupRecyclerView();
+        setupContainer();
         setupMode();
+    }
+
+    private void setupContainer() {
+        View view = mContainer.getChildAt(0);
+        if (view != null) {
+            view.setTag(0);
+            EditText mEditText = (EditText) view.findViewById(R.id.list_input_item_edit_text);
+            mEditText.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                        switch (keyCode) {
+                            case KeyEvent.KEYCODE_DPAD_CENTER:
+                            case KeyEvent.KEYCODE_ENTER:
+                                addListItem(getParentPosition(v) + 1);
+                                return true;
+                            default:
+                                break;
+                        }
+                    }
+                    return false;
+                }
+            });
+
+            ImageButton mRemoveImageButton = (ImageButton) view.findViewById(R.id.list_input_item_remove_button);
+            mRemoveImageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int removePosition = getParentPosition(v);
+                    mContainer.removeView((View) v.getParent());
+                    updateTags(removePosition);
+                }
+            });
+        }
     }
 
 
@@ -82,18 +114,6 @@ public class ComposeListActivity extends AppCompatActivity {
         }
     }
 
-    private void setupRecyclerView() {
-        ArrayList<ListInputItem> mList = new ArrayList<>();
-        mList.add(new ListInputItem()); //add first item
-
-        mAdapter = new ComposeListInputAdapter(mList);
-        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
-        RecyclerView.ItemAnimator mItemAnimator = new DefaultItemAnimator();
-
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mRecyclerView.setItemAnimator(mItemAnimator);
-        mRecyclerView.setAdapter(mAdapter);
-    }
 
     private void setupToolbar() {
         if (mToolbar != null) {
@@ -108,15 +128,60 @@ public class ComposeListActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.compose_list_add_list_item_text_view)
-    public void addListItem() {
-        mAdapter.addListItem();
-        mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount() - 1);
-        new Handler().postDelayed(new Runnable() {
+    public void addListItemButtonClicked() {
+        addListItem(-1);
+    }
+
+    private void addListItem(int position) {
+        LayoutInflater layoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View mListInputLayout = layoutInflater.inflate(R.layout.list_input_item, mContainer, false);
+        mListInputLayout.setTag(mContainer.getChildCount());
+
+        EditText mEditText = (EditText) mListInputLayout.findViewById(R.id.list_input_item_edit_text);
+        mEditText.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public void run() {
-                mAdapter.focusLastItemEditText();
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (keyCode) {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            int position = getParentPosition(v);
+                            if (position + 1 < mContainer.getChildCount()) {
+                                addListItem(getParentPosition(v) + 1);
+                            } else {
+                                addListItem(-1);
+                            }
+                            return true;
+                        default:
+                            break;
+                    }
+                }
+                return false;
             }
-        }, 100);
+        });
+
+        ImageButton mRemoveImageButton = (ImageButton) mListInputLayout.findViewById(R.id.list_input_item_remove_button);
+        mRemoveImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int removePosition = getParentPosition(v);
+                mContainer.removeView((View) v.getParent());
+                updateTags(removePosition);
+            }
+        });
+
+        mContainer.addView(mListInputLayout, position);
+    }
+
+    private void updateTags(int removePosition) {
+        for (int i = removePosition + 1; i < mContainer.getChildCount(); ++i) {
+            View child = mContainer.getChildAt(i);
+            child.setTag(i - 1);
+        }
+    }
+
+    private int getParentPosition(View view) {
+        return (int) ((View) (view.getParent())).getTag();
     }
 
     @Override
@@ -126,11 +191,37 @@ public class ComposeListActivity extends AppCompatActivity {
         return true;
     }
 
+    private ArrayList<ListDataItem> getItemList() {
+        ArrayList<ListDataItem> mList = new ArrayList<>();
+
+        int childCount = mContainer.getChildCount();
+
+        for (int i = 0; i < childCount; ++i) {
+            View child = mContainer.getChildAt(i);
+            if (child != null) {
+                ListDataItem mItem = getListDataItemFromChild(child);
+                if (mItem != null) {
+                    mList.add(mItem);
+                }
+            }
+        }
+
+        return mList;
+    }
+
+    private ListDataItem getListDataItemFromChild(View child) {
+        EditText mEditText = (EditText) child.findViewById(R.id.list_input_item_edit_text);
+        String content = mEditText.getText().toString();
+        if (content.trim().length() == 0) return null;
+        CheckBox mCheckBox = (CheckBox) child.findViewById(R.id.list_input_item_check_box);
+        return new ListDataItem(content, mCheckBox.isChecked());
+    }
+
     private void saveList() {
         Intent mResultIntent = new Intent();
 
         String title = mTitleEditText.getText().toString();
-        ArrayList<ListDataItem> listDataItems = mAdapter.getItemsList();
+        ArrayList<ListDataItem> listDataItems = getItemList();
 
         if (isValidList(title, listDataItems)) {
             int mode = mPrioritySwitch.isChecked() ? Constants.MODE_IMPORTANT : Constants.MODE_NORMAL;
@@ -173,4 +264,6 @@ public class ComposeListActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

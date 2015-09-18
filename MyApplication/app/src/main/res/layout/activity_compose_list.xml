@@ -20,48 +20,53 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
-    <RelativeLayout
-        android:id="@+id/compose_list_content_layout"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/compose_list_title_layout"
-            layout="@layout/note_title_input_layout" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/compose_list_recycler_view"
+        <LinearLayout
+            android:id="@+id/compose_list_content_layout"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@+id/compose_list_title_layout"
-            android:layout_margin="10dp"
-            android:paddingBottom="130dp"
-            android:scrollbars="vertical" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <TextView
-            android:id="@+id/compose_list_add_list_item_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_above="@+id/compose_list_reminder_layout"
-            android:layout_alignWithParentIfMissing="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="50dp"
-            android:drawableLeft="@drawable/ic_add_black_24dp"
-            android:drawablePadding="5dp"
-            android:gravity="center_vertical"
-            android:text="@string/compose_lise_add_text_view_text" />
+            <include
+                android:id="@+id/compose_list_title_layout"
+                layout="@layout/note_title_input_layout" />
 
-        <include
-            android:id="@+id/compose_list_reminder_layout"
-            layout="@layout/note_priority_and_reminder_input_layout"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_alignParentBottom="true" />
 
-    </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/compose_list_container_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
+                <include
+                    android:id="@+id/list_item_0_layout"
+                    layout="@layout/list_input_item" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/compose_list_add_list_item_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="45dp"
+                android:drawableLeft="@drawable/ic_add_black_24dp"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:text="@string/compose_lise_add_text_view_text" />
+
+            <include
+                android:id="@+id/compose_list_reminder_layout"
+                layout="@layout/note_priority_and_reminder_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>
