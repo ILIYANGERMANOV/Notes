@@ -13,10 +13,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.adapters.MyCustomContainerAdapter;
+import com.gcode.notes.adapters.custom.BaseContainerAdapter;
+import com.gcode.notes.adapters.custom.ListInputContainerAdapter;
+import com.gcode.notes.adapters.custom.ListInputTickedContainerAdapter;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.ListDataItem;
@@ -35,6 +38,12 @@ public class ComposeListActivity extends AppCompatActivity {
     @Bind(R.id.compose_list_toolbar)
     Toolbar mToolbar;
 
+    @Bind(R.id.compose_list_scroll_view)
+    ScrollView mScrollView;
+
+    @Bind(R.id.compose_list_add_list_item_text_view)
+    TextView mAddInputItemTextView;
+
     @Bind(R.id.compose_note_title_edit_text)
     EditText mTitleEditText;
 
@@ -47,7 +56,11 @@ public class ComposeListActivity extends AppCompatActivity {
     @Bind(R.id.compose_list_container_layout)
     LinearLayout mContainer;
 
-    MyCustomContainerAdapter mContainerAdapter;
+    @Bind(R.id.compose_list_container_ticked_layout)
+    LinearLayout mTickedContainer;
+
+    BaseContainerAdapter mContainerAdapter;
+    BaseContainerAdapter mTickedContainerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +70,18 @@ public class ComposeListActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setupToolbar();
-        setupContainer();
+        setupContainers();
         setupMode();
     }
 
-    private void setupContainer() {
-        mContainerAdapter = new MyCustomContainerAdapter(mContainer);
-        mContainerAdapter.setupContainer();
+    private void setupContainers() {
+        mContainerAdapter = new ListInputContainerAdapter(mContainer, mScrollView);
+        mContainerAdapter.setupContainer(null);
+
+        mTickedContainerAdapter = new ListInputTickedContainerAdapter(mTickedContainer, mScrollView);
+
+        mContainerAdapter.setOtherContainerAdapter(mTickedContainerAdapter);
+        mTickedContainerAdapter.setOtherContainerAdapter(mContainerAdapter);
     }
 
 
@@ -98,7 +116,7 @@ public class ComposeListActivity extends AppCompatActivity {
 
     @OnClick(R.id.compose_list_add_list_item_text_view)
     public void addListInputItem() {
-        mContainerAdapter.addInputItem();
+        mContainerAdapter.addInputItem(null);
     }
 
 
@@ -114,6 +132,8 @@ public class ComposeListActivity extends AppCompatActivity {
 
         String title = mTitleEditText.getText().toString();
         ArrayList<ListDataItem> listDataItems = mContainerAdapter.getListDataItems();
+
+        listDataItems.addAll(mTickedContainerAdapter.getListDataItems());
 
         if (isValidList(title, listDataItems)) {
             int mode = mPrioritySwitch.isChecked() ? Constants.MODE_IMPORTANT : Constants.MODE_NORMAL;

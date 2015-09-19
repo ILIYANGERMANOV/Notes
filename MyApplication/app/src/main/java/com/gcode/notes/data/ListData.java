@@ -41,6 +41,9 @@ public class ListData extends ContentBase {
         displayBase(holder);
         RecyclerView mRecyclerView = holder.getRecyclerView();
         mRecyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(mContext));
+        if (list == null) {
+            list = new ArrayList<>();
+        }
         mRecyclerView.setAdapter(new ListItemAdapter(list));
         mRecyclerView.setNestedScrollingEnabled(false);
     }

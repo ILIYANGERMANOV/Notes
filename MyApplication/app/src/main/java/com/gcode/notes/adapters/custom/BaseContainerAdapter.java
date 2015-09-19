@@ -1,6 +1,7 @@
 package com.gcode.notes.adapters.custom;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -19,11 +20,11 @@ import com.gcode.notes.listeners.RemoveListInputOnClickListener;
 
 import java.util.ArrayList;
 
-public class BaseContainerAdapter {
-    //TODO: scroll after many added items
+public abstract class BaseContainerAdapter {
     LinearLayout mContainer;
     ScrollView mScrollView;
     LayoutInflater mInflater;
+    BaseContainerAdapter mOtherContainerAdapter;
 
     public BaseContainerAdapter(LinearLayout container, ScrollView scrollView) {
         mContainer = container;
@@ -31,15 +32,19 @@ public class BaseContainerAdapter {
         mInflater = (LayoutInflater) container.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public void setupContainer() {
-        View inputItem = mInflater.inflate(R.layout.list_input_item, mContainer, false);
+    public BaseContainerAdapter getOtherContainerAdapter() {
+        return mOtherContainerAdapter;
+    }
+
+    public void setOtherContainerAdapter(BaseContainerAdapter mOtherContainerAdapter) {
+        this.mOtherContainerAdapter = mOtherContainerAdapter;
+    }
+
+    public void setupContainer(@Nullable String itemContent) {
+        View inputItem = createView();
         inputItem.setTag(0);
 
-        EditText mEditText = (EditText) inputItem.findViewById(R.id.list_input_item_edit_text);
-        mEditText.setOnKeyListener(new ListInputOnKeyListener(this));
-
-        ImageButton mRemoveImageButton = (ImageButton) inputItem.findViewById(R.id.list_input_item_remove_button);
-        mRemoveImageButton.setOnClickListener(new RemoveListInputOnClickListener(this));
+        setupInputItemLayout(inputItem, itemContent);
 
         mContainer.addView(inputItem);
     }
@@ -63,34 +68,65 @@ public class BaseContainerAdapter {
     }
 
     private ListDataItem getListDataItemFromChild(View child) {
-        EditText mEditText = (EditText) child.findViewById(R.id.list_input_item_edit_text);
+        EditText mEditText = getEditTextFromView(child);
         String content = mEditText.getText().toString();
         if (content.trim().length() == 0) return null;
         CheckBox mCheckBox = (CheckBox) child.findViewById(R.id.list_input_item_check_box);
-        return new ListDataItem(content, mCheckBox.isChecked());
+        return new ListDataItem(content, isListDataItemChecked());
     }
 
-    public void addInputItem() {
+    public void addInputItem(@Nullable String inputItemContent) {
         if (mContainer.getChildCount() != 0) {
-            addInputItemAfterView(mContainer.getChildAt(mContainer.getChildCount() - 1));
+            addInputItemAfterView(mContainer.getChildAt(mContainer.getChildCount() - 1), inputItemContent);
         } else {
-            setupContainer();
+            setupContainer(inputItemContent);
             //set focus to first item
-            EditText mEditText = (EditText) mContainer.getChildAt(0).findViewById(R.id.list_input_item_edit_text);
-            mEditText.requestFocus();
+            onFirstItemAdded();
         }
     }
 
-    public void addInputItemAfterView(View view) {
+    protected void onFirstItemAdded() {
+
+    }
+
+    public void removeInputItem(View inputItem) {
+        int position = getViewId(inputItem);
+        if (position == Constants.ERROR) return;
+        updateItemsIdAfterRemove(position);
+        mContainer.removeView(inputItem);
+        View previousItem = mContainer.getChildAt(position - 1);
+        if (previousItem != null) {
+            setupFocusOnItemRemove(previousItem);
+        }
+    }
+
+    protected void setupFocusOnItemRemove(View previousItem) {
+
+    }
+
+    public void addInputItemAfterView(View view, @Nullable String inputItemContent) {
         int viewId = getViewId(view);
         if (viewId == Constants.ERROR) return;
 
-        View inputItem = mInflater.inflate(R.layout.list_input_item, mContainer, false);
+        View inputItem = createView();
         int inputItemPosition = viewId + 1;
         inputItem.setTag(inputItemPosition);
         updateItemsIdAfterAdd(inputItemPosition);
 
-        EditText mEditText = (EditText) inputItem.findViewById(R.id.list_input_item_edit_text);
+        setupInputItemLayout(inputItem, inputItemContent);
+
+        mContainer.addView(inputItem, inputItemPosition);
+        setupInputItemScrollingAndFocus(inputItem);
+    }
+
+    abstract protected View createView();
+
+
+    protected void setupInputItemScrollingAndFocus(View inputItem) {
+    }
+
+    protected void setupInputItemLayout(View inputItem, String inputItemContent) {
+        EditText mEditText = getEditTextFromView(inputItem);
         mEditText.setOnKeyListener(new ListInputOnKeyListener(this));
 
         ImageButton mRemoveImageButton = (ImageButton) inputItem.findViewById(R.id.list_input_item_remove_button);
@@ -100,13 +136,30 @@ public class BaseContainerAdapter {
         mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mCheckBox.setChecked(isChecked);
+                View parent = (View) buttonView.getParent();
+                if (isChecked) {
+                    onChecked(parent);
+                } else {
+                    onUnchecked(parent);
+                }
             }
         });
 
-        mContainer.addView(inputItem, inputItemPosition);
-        mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
-        mEditText.requestFocus();
+        if (inputItemContent != null) {
+            mEditText.setText(inputItemContent);
+        }
+    }
+
+    protected EditText getEditTextFromView(View view) {
+        return (EditText) view.findViewById(R.id.list_input_item_edit_text);
+    }
+
+    protected void onChecked(View parent) {
+
+    }
+
+    protected void onUnchecked(View parent) {
+
     }
 
     private void updateItemsIdAfterAdd(int inputItemPosition) {
@@ -119,18 +172,6 @@ public class BaseContainerAdapter {
         int position = getViewId(view);
         if (position == Constants.ERROR) return;
         view.setTag(position + 1);
-    }
-
-    public void removeInputItem(View inputItem) {
-        int position = getViewId(inputItem);
-        if (position == Constants.ERROR) return;
-        updateItemsIdAfterRemove(position);
-        mContainer.removeView(inputItem);
-        View previousItem = mContainer.getChildAt(position - 1);
-        if (previousItem != null) {
-            EditText mEditText = (EditText) previousItem.findViewById(R.id.list_input_item_edit_text);
-            mEditText.requestFocus();
-        }
     }
 
     private void updateItemsIdAfterRemove(int removePosition) {
@@ -154,4 +195,7 @@ public class BaseContainerAdapter {
             return Constants.ERROR;
         }
     }
+
+
+    protected abstract boolean isListDataItemChecked();
 }

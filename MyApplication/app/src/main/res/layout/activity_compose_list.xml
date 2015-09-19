@@ -21,6 +21,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView
+        android:id="@+id/compose_list_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -40,26 +41,43 @@
                 android:id="@+id/compose_list_container_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-            </LinearLayout>
+                android:orientation="vertical" />
 
             <TextView
                 android:id="@+id/compose_list_add_list_item_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="45dp"
                 android:drawableLeft="@drawable/ic_add_black_24dp"
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
                 android:text="@string/compose_lise_add_text_view_text" />
 
+            <View style="@style/Divider" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:text="Done" />
+
+            <LinearLayout
+                android:id="@+id/compose_list_container_ticked_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical" />
+
+
+            <View style="@style/Divider" />
+
             <include
                 android:id="@+id/compose_list_reminder_layout"
                 layout="@layout/note_priority_and_reminder_input_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp" />
 
         </LinearLayout>
 
