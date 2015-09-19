@@ -1,12 +1,14 @@
-package com.gcode.notes.adapters;
+package com.gcode.notes.adapters.custom;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.data.ListDataItem;
@@ -17,23 +19,28 @@ import com.gcode.notes.listeners.RemoveListInputOnClickListener;
 
 import java.util.ArrayList;
 
-public class MyCustomContainerAdapter {
+public class BaseContainerAdapter {
     //TODO: scroll after many added items
     LinearLayout mContainer;
+    ScrollView mScrollView;
     LayoutInflater mInflater;
 
-    public MyCustomContainerAdapter(LinearLayout container) {
+    public BaseContainerAdapter(LinearLayout container, ScrollView scrollView) {
         mContainer = container;
+        mScrollView = scrollView;
         mInflater = (LayoutInflater) container.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public void setupContainer() {
         View inputItem = mInflater.inflate(R.layout.list_input_item, mContainer, false);
         inputItem.setTag(0);
+
         EditText mEditText = (EditText) inputItem.findViewById(R.id.list_input_item_edit_text);
         mEditText.setOnKeyListener(new ListInputOnKeyListener(this));
+
         ImageButton mRemoveImageButton = (ImageButton) inputItem.findViewById(R.id.list_input_item_remove_button);
         mRemoveImageButton.setOnClickListener(new RemoveListInputOnClickListener(this));
+
         mContainer.addView(inputItem);
     }
 
@@ -59,7 +66,6 @@ public class MyCustomContainerAdapter {
         EditText mEditText = (EditText) child.findViewById(R.id.list_input_item_edit_text);
         String content = mEditText.getText().toString();
         if (content.trim().length() == 0) return null;
-        //TODO: fix CheckBox issue
         CheckBox mCheckBox = (CheckBox) child.findViewById(R.id.list_input_item_check_box);
         return new ListDataItem(content, mCheckBox.isChecked());
     }
@@ -90,7 +96,16 @@ public class MyCustomContainerAdapter {
         ImageButton mRemoveImageButton = (ImageButton) inputItem.findViewById(R.id.list_input_item_remove_button);
         mRemoveImageButton.setOnClickListener(new RemoveListInputOnClickListener(this));
 
+        final CheckBox mCheckBox = (CheckBox) inputItem.findViewById(R.id.list_input_item_check_box);
+        mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mCheckBox.setChecked(isChecked);
+            }
+        });
+
         mContainer.addView(inputItem, inputItemPosition);
+        mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
         mEditText.requestFocus();
     }
 
