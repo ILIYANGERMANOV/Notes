@@ -20,23 +20,23 @@ import com.gcode.notes.listeners.RemoveListInputOnClickListener;
 
 import java.util.ArrayList;
 
-public abstract class BaseContainerAdapter {
+public abstract class BaseInputContainerAdapter {
     LinearLayout mContainer;
     ScrollView mScrollView;
     LayoutInflater mInflater;
-    BaseContainerAdapter mOtherContainerAdapter;
+    BaseInputContainerAdapter mOtherContainerAdapter;
 
-    public BaseContainerAdapter(LinearLayout container, ScrollView scrollView) {
+    public BaseInputContainerAdapter(LinearLayout container, ScrollView scrollView) {
         mContainer = container;
         mScrollView = scrollView;
         mInflater = (LayoutInflater) container.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public BaseContainerAdapter getOtherContainerAdapter() {
+    public BaseInputContainerAdapter getOtherContainerAdapter() {
         return mOtherContainerAdapter;
     }
 
-    public void setOtherContainerAdapter(BaseContainerAdapter mOtherContainerAdapter) {
+    public void setOtherContainerAdapter(BaseInputContainerAdapter mOtherContainerAdapter) {
         this.mOtherContainerAdapter = mOtherContainerAdapter;
     }
 
@@ -71,7 +71,6 @@ public abstract class BaseContainerAdapter {
         EditText mEditText = getEditTextFromView(child);
         String content = mEditText.getText().toString();
         if (content.trim().length() == 0) return null;
-        CheckBox mCheckBox = (CheckBox) child.findViewById(R.id.list_input_item_check_box);
         return new ListDataItem(content, isListDataItemChecked());
     }
 

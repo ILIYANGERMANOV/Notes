@@ -1,4 +1,4 @@
-package com.gcode.notes.adapters.viewholders;
+package com.gcode.notes.adapters.viewholders.main;
 
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
@@ -14,7 +14,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class BaseItemViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
+public abstract class BaseItemViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
     @Bind(R.id.note_title_text_view)
     TextView mTitleTextView;
 
@@ -50,4 +50,6 @@ public class BaseItemViewHolder extends RecyclerView.ViewHolder implements ItemT
     public void onItemClear() {
         ((CardView) itemView).setCardBackgroundColor(Color.WHITE);
     }
+
+    public abstract void setStartState();
 }

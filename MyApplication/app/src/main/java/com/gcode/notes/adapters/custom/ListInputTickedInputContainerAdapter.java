@@ -9,8 +9,8 @@ import android.widget.ScrollView;
 
 import com.gcode.notes.R;
 
-public class ListInputTickedContainerAdapter extends BaseContainerAdapter {
-    public ListInputTickedContainerAdapter(LinearLayout container, ScrollView scrollView) {
+public class ListInputTickedInputContainerAdapter extends BaseInputContainerAdapter {
+    public ListInputTickedInputContainerAdapter(LinearLayout container, ScrollView scrollView) {
         super(container, scrollView);
     }
 

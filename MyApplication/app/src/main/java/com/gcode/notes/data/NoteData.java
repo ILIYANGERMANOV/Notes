@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.gcode.notes.adapters.viewholders.NoteItemViewHolder;
+import com.gcode.notes.adapters.viewholders.main.NoteItemViewHolder;
 import com.gcode.notes.extras.Constants;
 
 import java.net.URI;

@@ -1,6 +1,8 @@
-package com.gcode.notes.adapters.viewholders;
+package com.gcode.notes.adapters.viewholders.main;
 
 
+import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,10 +26,18 @@ public class NoteItemViewHolder extends BaseItemViewHolder {
     @Bind(R.id.attributes_divider)
     View mAttributesDivider;
 
+    @Bind(R.id.note_item_card_view)
+    CardView mCardView;
+
 
     public NoteItemViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+    }
+
+    @Override
+    public void setStartState() {
+        mCardView.setCardBackgroundColor(Color.WHITE);
     }
 
     public ImageView getVoiceImageView() {

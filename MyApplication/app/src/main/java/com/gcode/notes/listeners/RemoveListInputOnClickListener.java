@@ -2,13 +2,13 @@ package com.gcode.notes.listeners;
 
 import android.view.View;
 
-import com.gcode.notes.adapters.custom.BaseContainerAdapter;
+import com.gcode.notes.adapters.custom.BaseInputContainerAdapter;
 
 public class RemoveListInputOnClickListener implements View.OnClickListener {
-    BaseContainerAdapter mContainerAdapter;
+    BaseInputContainerAdapter mContainerAdapter;
 
-    public RemoveListInputOnClickListener(BaseContainerAdapter baseContainerAdapter) {
-        mContainerAdapter = baseContainerAdapter;
+    public RemoveListInputOnClickListener(BaseInputContainerAdapter baseInputContainerAdapter) {
+        mContainerAdapter = baseInputContainerAdapter;
     }
 
     @Override

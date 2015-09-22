@@ -17,9 +17,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.adapters.custom.BaseContainerAdapter;
-import com.gcode.notes.adapters.custom.ListInputContainerAdapter;
-import com.gcode.notes.adapters.custom.ListInputTickedContainerAdapter;
+import com.gcode.notes.adapters.custom.BaseInputContainerAdapter;
+import com.gcode.notes.adapters.custom.ListInputInputContainerAdapter;
+import com.gcode.notes.adapters.custom.ListInputTickedInputContainerAdapter;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.ListDataItem;
@@ -59,8 +59,8 @@ public class ComposeListActivity extends AppCompatActivity {
     @Bind(R.id.compose_list_container_ticked_layout)
     LinearLayout mTickedContainer;
 
-    BaseContainerAdapter mContainerAdapter;
-    BaseContainerAdapter mTickedContainerAdapter;
+    BaseInputContainerAdapter mContainerAdapter;
+    BaseInputContainerAdapter mTickedContainerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,10 +75,10 @@ public class ComposeListActivity extends AppCompatActivity {
     }
 
     private void setupContainers() {
-        mContainerAdapter = new ListInputContainerAdapter(mContainer, mScrollView);
+        mContainerAdapter = new ListInputInputContainerAdapter(mContainer, mScrollView);
         mContainerAdapter.setupContainer(null);
 
-        mTickedContainerAdapter = new ListInputTickedContainerAdapter(mTickedContainer, mScrollView);
+        mTickedContainerAdapter = new ListInputTickedInputContainerAdapter(mTickedContainer, mScrollView);
 
         mContainerAdapter.setOtherContainerAdapter(mTickedContainerAdapter);
         mTickedContainerAdapter.setOtherContainerAdapter(mContainerAdapter);

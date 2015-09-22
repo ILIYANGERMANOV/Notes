@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
-import com.gcode.notes.adapters.viewholders.BaseItemViewHolder;
+import com.gcode.notes.adapters.viewholders.main.BaseItemViewHolder;
 import com.gcode.notes.extras.Constants;
 
 import java.util.Date;

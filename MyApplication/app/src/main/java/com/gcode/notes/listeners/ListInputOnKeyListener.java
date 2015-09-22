@@ -4,13 +4,13 @@ package com.gcode.notes.listeners;
 import android.view.KeyEvent;
 import android.view.View;
 
-import com.gcode.notes.adapters.custom.BaseContainerAdapter;
+import com.gcode.notes.adapters.custom.BaseInputContainerAdapter;
 
 public class ListInputOnKeyListener implements View.OnKeyListener {
-    BaseContainerAdapter mContainerAdapter;
+    BaseInputContainerAdapter mContainerAdapter;
 
-    public ListInputOnKeyListener(BaseContainerAdapter baseContainerAdapter) {
-        mContainerAdapter = baseContainerAdapter;
+    public ListInputOnKeyListener(BaseInputContainerAdapter baseInputContainerAdapter) {
+        mContainerAdapter = baseInputContainerAdapter;
     }
 
     @Override

@@ -1,6 +1,7 @@
-package com.gcode.notes.adapters.viewholders;
+package com.gcode.notes.adapters.viewholders.main;
 
 
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -20,6 +21,11 @@ public class ListItemViewHolder extends BaseItemViewHolder {
     public ListItemViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+    }
+
+    @Override
+    public void setStartState() {
+        mCardView.setCardBackgroundColor(Color.WHITE);
     }
 
     public RecyclerView getRecyclerView() {

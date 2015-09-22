@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gcode.notes.R;
-import com.gcode.notes.adapters.viewholders.BaseItemViewHolder;
-import com.gcode.notes.adapters.viewholders.ListItemViewHolder;
-import com.gcode.notes.adapters.viewholders.NoteItemViewHolder;
+import com.gcode.notes.adapters.viewholders.main.BaseItemViewHolder;
+import com.gcode.notes.adapters.viewholders.main.ListItemViewHolder;
+import com.gcode.notes.adapters.viewholders.main.NoteItemViewHolder;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.NoteData;
@@ -59,6 +59,7 @@ public class NotesAdapter extends RecyclerView.Adapter<BaseItemViewHolder> imple
 
     @Override
     public void onBindViewHolder(final BaseItemViewHolder holder, int position) {
+        holder.setStartState();
         ContentBase currentItem = mData.get(position);
         if (currentItem != null) {
             if (currentItem.getType() == Constants.TYPE_NOTE) {

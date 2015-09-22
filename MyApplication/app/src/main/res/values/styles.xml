@@ -15,6 +15,7 @@
     <style name="MyCardView" parent="CardView">
         <item name="android:layout_margin">4dp</item>
         <item name="cardCornerRadius">2dp</item>
+        <item name="cardBackgroundColor">@color/card_view_background</item>
         <item name="cardElevation">2dp</item>
     </style>
 
