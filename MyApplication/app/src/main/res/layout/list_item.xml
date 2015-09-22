@@ -22,7 +22,8 @@
             android:id="@+id/list_item_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp" />
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
 
         <include
             android:id="@+id/list_attributes_layout"

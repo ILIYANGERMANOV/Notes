@@ -23,9 +23,6 @@ public class NoteItemViewHolder extends BaseItemViewHolder {
     @Bind(R.id.voice_image_view)
     ImageView mVoiceImageView;
 
-    @Bind(R.id.attributes_divider)
-    View mAttributesDivider;
-
     @Bind(R.id.note_item_card_view)
     CardView mCardView;
 
@@ -50,9 +47,5 @@ public class NoteItemViewHolder extends BaseItemViewHolder {
 
     public TextView getContentTextView() {
         return mContentTextView;
-    }
-
-    public View getAttributesDivider() {
-        return mAttributesDivider;
     }
 }

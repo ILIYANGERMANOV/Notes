@@ -24,6 +24,9 @@ public abstract class BaseItemViewHolder extends RecyclerView.ViewHolder impleme
     @Bind(R.id.reminder_text_view)
     TextView mReminderTextView;
 
+    @Bind(R.id.attributes_divider)
+    View mAttributesDivider;
+
     public BaseItemViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
@@ -40,6 +43,11 @@ public abstract class BaseItemViewHolder extends RecyclerView.ViewHolder impleme
     public TextView getReminderTextView() {
         return mReminderTextView;
     }
+
+    public View getAttributesDivider() {
+        return mAttributesDivider;
+    }
+
 
     @Override
     public void onItemSelected() {

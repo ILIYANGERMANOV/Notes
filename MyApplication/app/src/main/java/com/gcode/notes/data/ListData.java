@@ -4,6 +4,7 @@ package com.gcode.notes.data;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.gcode.notes.adapters.ListItemAdapter;
 import com.gcode.notes.adapters.viewholders.main.ListItemViewHolder;
@@ -39,6 +40,9 @@ public class ListData extends ContentBase {
 
     public void displayList(Context mContext, ListItemViewHolder holder) {
         displayBase(holder);
+        if (hasReminder()) {
+            holder.getAttributesDivider().setVisibility(View.VISIBLE);
+        }
         RecyclerView mRecyclerView = holder.getRecyclerView();
         mRecyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(mContext));
         if (list == null) {

@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/single_list_data_item_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal">
-
-    <android.support.v7.widget.AppCompatCheckedTextView
-        android:id="@+id/single_list_data_checked_text_view"
-        android:layout_width="fill_parent"
-        android:layout_height="?android:attr/listPreferredItemHeight"
-        android:layout_gravity="center_horizontal"
-        android:checked="false"
-        android:drawableLeft="?android:attr/listChoiceIndicatorMultiple"
-        android:drawablePadding="5dp"
-        android:gravity="center_vertical"
-        android:text="Test text" />
-
-</LinearLayout>
+<android.support.v7.widget.AppCompatCheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/single_list_data_checked_text_view"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:checked="false"
+    android:drawableLeft="?android:attr/listChoiceIndicatorMultiple"
+    android:drawablePadding="5dp"
+    android:gravity="center_vertical"
+    android:paddingBottom="2dp"
+    android:paddingTop="2dp"
+    android:text="Test text" />
