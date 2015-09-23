@@ -46,6 +46,7 @@ public abstract class BaseController {
         NotesAdapter mNotesAdapter = getNotesAdapter();
         if (mNotesAdapter != null) {
             mNotesAdapter.updateContent(newContent);
+            mRecyclerView.invalidate();
         }
     }
 

@@ -48,7 +48,7 @@ public class ListData extends ContentBase {
         if (list == null) {
             list = new ArrayList<>();
         }
-        mRecyclerView.setAdapter(new ListItemAdapter(list));
+        mRecyclerView.setAdapter(new ListItemAdapter(mContext, list, this));
         mRecyclerView.setNestedScrollingEnabled(false);
     }
 }

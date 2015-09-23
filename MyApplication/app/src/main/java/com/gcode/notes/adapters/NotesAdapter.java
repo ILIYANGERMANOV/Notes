@@ -51,9 +51,9 @@ public class NotesAdapter extends RecyclerView.Adapter<BaseItemViewHolder> imple
     public BaseItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         if (viewType == Constants.TYPE_NOTE) {
-            return new NoteItemViewHolder(inflater.inflate(R.layout.note_item, parent, false));
+            return new NoteItemViewHolder(mContext, inflater.inflate(R.layout.note_item, parent, false), mData);
         } else {
-            return new ListItemViewHolder(inflater.inflate(R.layout.list_item, parent, false));
+            return new ListItemViewHolder(mContext, inflater.inflate(R.layout.list_item, parent, false), mData);
         }
     }
 
