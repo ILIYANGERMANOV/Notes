@@ -11,7 +11,7 @@ import com.gcode.notes.database.NotesContract.ListEntry;
 import com.gcode.notes.database.NotesContract.NoteEntry;
 import com.gcode.notes.database.NotesContract.PictureEntry;
 import com.gcode.notes.database.NotesContract.SoundEntry;
-import com.gcode.notes.extras.ListDataSerializer;
+import com.gcode.notes.extras.Serializer;
 import com.gcode.notes.extras.MyDebugger;
 
 import java.net.URI;
@@ -50,7 +50,7 @@ public class AttachHelper {
         );
 
         if (listCursor.moveToFirst()) {
-            ArrayList<ListDataItem> mList = ListDataSerializer.parse(
+            ArrayList<ListDataItem> mList = Serializer.parse(
                     listCursor.getString(listCursor.getColumnIndex(ListEntry.COLUMN_NAME_TASKS_SERIALIZED))
             );
 

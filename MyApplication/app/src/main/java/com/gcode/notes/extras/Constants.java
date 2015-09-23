@@ -40,4 +40,7 @@ public class Constants {
 
     public static final String NO_REMINDER = "no_reminder";
     public static final String NO_AUDIO = "no_audio_attached";
+
+    public static final String EXTRA_LIST_DATA = "list_data_extra";
+    public static final String EXTRA_NOTE_DATA = "note_data_extra";
 }

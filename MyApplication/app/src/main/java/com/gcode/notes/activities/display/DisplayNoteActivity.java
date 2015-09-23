@@ -1,14 +1,18 @@
 package com.gcode.notes.activities.display;
 
-import android.support.v4.content.ContextCompat;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.gcode.notes.R;
+import com.gcode.notes.data.NoteData;
+import com.gcode.notes.extras.Constants;
+import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.Serializer;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,7 +31,19 @@ public class DisplayNoteActivity extends AppCompatActivity {
     }
 
     private void setupStartState() {
-        //TODO: setup start state
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            String serializedNoteData = extras.getString(Constants.EXTRA_NOTE_DATA);
+            if (serializedNoteData != null) {
+                NoteData noteData = Serializer.parseNoteData(serializedNoteData);
+                display(noteData);
+            }
+        }
+    }
+
+    private void display(NoteData noteData) {
+        //TODO: display note
     }
 
     private void setupToolbar() {

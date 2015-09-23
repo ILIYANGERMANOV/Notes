@@ -372,15 +372,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.action_settings:
                 return true;
             case R.id.action_search:
-                MyDebugger.toast(this, "Search");
-                ArrayList<ListDataItem> list = new ArrayList<>();
-                list.add(new ListDataItem("bravo", true));
-                list.add(new ListDataItem("raboti we", true));
-                list.add(new ListDataItem("test", false));
-                list.add(new ListDataItem("gg", true));
-                ListData listData = new ListData("list", Constants.MODE_NORMAL, true, list, Constants.NO_REMINDER);
-                MyApplication.getWritableDatabase().insertNote(listData);
-                BaseController.getInstance().update(Constants.MODE_NORMAL);
                 return true;
             case Constants.MENU_EMPTY_BIN:
                 ActionExecutor.emptyRecyclerBin(this);

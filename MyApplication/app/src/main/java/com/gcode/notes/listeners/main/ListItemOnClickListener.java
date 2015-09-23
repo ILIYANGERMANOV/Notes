@@ -7,6 +7,8 @@ import android.view.View;
 
 import com.gcode.notes.activities.display.DisplayListActivity;
 import com.gcode.notes.data.ListData;
+import com.gcode.notes.extras.Constants;
+import com.gcode.notes.extras.Serializer;
 
 public class ListItemOnClickListener implements View.OnClickListener {
     Context mContext;
@@ -20,6 +22,7 @@ public class ListItemOnClickListener implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(mContext, DisplayListActivity.class);
+        intent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(mListData));
         mContext.startActivity(intent);
     }
 }

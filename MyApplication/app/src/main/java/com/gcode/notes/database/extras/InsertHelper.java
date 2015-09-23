@@ -13,7 +13,7 @@ import com.gcode.notes.database.NotesContract.PictureEntry;
 import com.gcode.notes.database.NotesContract.SoundEntry;
 import com.gcode.notes.extras.Constants;
 import com.gcode.notes.extras.DateUtils;
-import com.gcode.notes.extras.ListDataSerializer;
+import com.gcode.notes.extras.Serializer;
 import com.gcode.notes.extras.MyDebugger;
 
 import java.net.URI;
@@ -58,7 +58,7 @@ public class InsertHelper {
         ListData listData = (ListData) contentBase;
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(ListEntry.COLUMN_NAME_TASKS_SERIALIZED, ListDataSerializer.serialize(listData.getList()));
+        contentValues.put(ListEntry.COLUMN_NAME_TASKS_SERIALIZED, Serializer.serialize(listData.getList()));
 
         if (mDatabase.insert(ListEntry.TABLE_NAME, null, contentValues) == Constants.DATABASE_ERROR) {
             //TODO: handle error

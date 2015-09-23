@@ -1,13 +1,17 @@
 package com.gcode.notes.activities.display;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.gcode.notes.R;
+import com.gcode.notes.data.ListData;
+import com.gcode.notes.extras.Constants;
+import com.gcode.notes.extras.Serializer;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -26,7 +30,19 @@ public class DisplayListActivity extends AppCompatActivity {
     }
 
     private void setupStartState() {
-        //TODO: setup start state
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            String serializedListData = extras.getString(Constants.EXTRA_LIST_DATA);
+            if (serializedListData != null) {
+                ListData listData = Serializer.parseListData(serializedListData);
+                display(listData);
+            }
+        }
+    }
+
+    private void display(ListData listData) {
+        //TODO: display list
     }
 
     private void setupToolbar() {
