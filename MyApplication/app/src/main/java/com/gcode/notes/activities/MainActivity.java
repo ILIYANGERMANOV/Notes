@@ -27,6 +27,10 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.activities.compose.ComposeListActivity;
+import com.gcode.notes.activities.compose.ComposeNoteActivity;
+import com.gcode.notes.activities.extra.ExploreActivity;
+import com.gcode.notes.activities.extra.SettingsActivity;
 import com.gcode.notes.adapters.NotesAdapter;
 import com.gcode.notes.animations.MyAnimator;
 import com.gcode.notes.controllers.AllNotesController;
@@ -412,7 +416,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onClick(View v) {
         if (v.getTag() == null) return;
 
-        Intent mIntent = null;
+        Intent mIntent;
 
         String tag = (String) v.getTag();
         switch (tag) {

@@ -1,4 +1,4 @@
-package com.gcode.notes.activities;
+package com.gcode.notes.activities.extra;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

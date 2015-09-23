@@ -2,10 +2,11 @@ package com.gcode.notes.listeners.main;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 
+import com.gcode.notes.activities.display.DisplayNoteActivity;
 import com.gcode.notes.data.NoteData;
-import com.gcode.notes.extras.MyDebugger;
 
 public class NoteItemOnClickListener implements View.OnClickListener {
     Context mContext;
@@ -18,6 +19,7 @@ public class NoteItemOnClickListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        MyDebugger.log("onClick()");
+        Intent intent = new Intent(mContext, DisplayNoteActivity.class);
+        mContext.startActivity(intent);
     }
 }

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.gcode.notes.activities.ComposeNoteActivity">
+    tools:context="com.gcode.notes.activities.compose.ComposeNoteActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/compose_note_app_bar_layout"

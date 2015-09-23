@@ -2,10 +2,11 @@ package com.gcode.notes.listeners.main;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 
+import com.gcode.notes.activities.display.DisplayListActivity;
 import com.gcode.notes.data.ListData;
-import com.gcode.notes.extras.MyDebugger;
 
 public class ListItemOnClickListener implements View.OnClickListener {
     Context mContext;
@@ -18,6 +19,7 @@ public class ListItemOnClickListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        MyDebugger.log("onClick() list");
+        Intent intent = new Intent(mContext, DisplayListActivity.class);
+        mContext.startActivity(intent);
     }
 }
