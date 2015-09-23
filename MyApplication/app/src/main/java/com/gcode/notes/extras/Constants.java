@@ -43,4 +43,7 @@ public class Constants {
 
     public static final String EXTRA_LIST_DATA = "list_data_extra";
     public static final String EXTRA_NOTE_DATA = "note_data_extra";
+
+    public static final int CALLED_FROM_MAIN = 1;
+    public static final int CALLED_FROM_DISPLAY = 2;
 }

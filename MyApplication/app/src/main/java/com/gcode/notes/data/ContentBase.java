@@ -155,9 +155,9 @@ public class ContentBase {
         return Constants.ERROR;
     }
 
-    public void displayBase(BaseItemViewHolder holder) {
-        holder.getTitleTextView().setText(title);
-        displayReminder(holder.getReminderTextView());
+    public void displayBase(TextView titleText, TextView reminderTextView) {
+        titleText.setText(title);
+        displayReminder(reminderTextView);
     }
 
     public void displayReminder(TextView reminderTextView) {

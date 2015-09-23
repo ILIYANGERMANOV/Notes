@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:contentDescription="@string/compose_note_attached_image_desc"
+                android:contentDescription="@string/attached_image_desc"
                 android:maxHeight="100dp"
                 android:maxWidth="100dp"
                 android:src="@drawable/ic_description_black_24dp"

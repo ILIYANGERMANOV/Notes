@@ -30,6 +30,7 @@
             android:drawableLeft="@drawable/ic_access_time_black_18dp"
             android:drawablePadding="5dp"
             android:gravity="center_vertical"
+            android:visibility="gone"
             android:paddingTop="2dp" />
 
     </LinearLayout>

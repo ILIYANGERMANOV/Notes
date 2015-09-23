@@ -7,11 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.Constants;
-import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.Serializer;
 
 import butterknife.Bind;
@@ -20,6 +22,24 @@ import butterknife.ButterKnife;
 public class DisplayNoteActivity extends AppCompatActivity {
     @Bind(R.id.display_note_toolbar)
     Toolbar mToolbar;
+
+    @Bind(R.id.display_note_title_text_view)
+    TextView mTitleTextView;
+
+    @Bind(R.id.display_note_description_text_view)
+    TextView mDescriptionTextView;
+
+    @Bind(R.id.display_note_image_view)
+    ImageView mAttachedImageView;
+
+    @Bind(R.id.voice_image_view)
+    ImageView mVoiceImageView;
+
+    @Bind(R.id.reminder_text_view)
+    TextView mReminderTextView;
+
+    @Bind(R.id.attributes_divider)
+    View mAttributesDividerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +63,10 @@ public class DisplayNoteActivity extends AppCompatActivity {
     }
 
     private void display(NoteData noteData) {
-        //TODO: display note
+        if (noteData != null) {
+            noteData.displayNote(mTitleTextView, mReminderTextView, mDescriptionTextView,
+                    mAttachedImageView, mVoiceImageView, mAttributesDividerView);
+        }
     }
 
     private void setupToolbar() {

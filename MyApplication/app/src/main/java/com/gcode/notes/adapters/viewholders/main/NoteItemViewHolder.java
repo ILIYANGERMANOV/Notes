@@ -47,7 +47,6 @@ public class NoteItemViewHolder extends BaseItemViewHolder {
     Runnable mSetOnClickListener = new Runnable() {
         @Override
         public void run() {
-            MyDebugger.log("repeat");
             int itemPosition = getAdapterPosition();
             if (itemPosition != RecyclerView.NO_POSITION) {
                 NoteData noteData = (NoteData) mData.get(itemPosition);

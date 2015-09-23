@@ -65,7 +65,7 @@ public class NotesAdapter extends RecyclerView.Adapter<BaseItemViewHolder> imple
             if (currentItem.getType() == Constants.TYPE_NOTE) {
                 ((NoteData) currentItem).displayNote((NoteItemViewHolder) holder);
             } else {
-                ((ListData) currentItem).displayList(mContext, (ListItemViewHolder) holder);
+                ((ListData) currentItem).displayList(mContext, (ListItemViewHolder) holder, Constants.CALLED_FROM_MAIN);
             }
         }
         //Start a drag whenever the view is touched

@@ -17,18 +17,20 @@ public class ListItemAdapter extends RecyclerView.Adapter<SingleListItemViewHold
     Context mContext;
     ArrayList<ListDataItem> mData;
     ListData mListData;
+    int mCalledFrom;
 
-    public ListItemAdapter(Context context, ArrayList<ListDataItem> data, ListData listData) {
+    public ListItemAdapter(Context context, ArrayList<ListDataItem> data, ListData listData, int calledFrom) {
         mContext = context;
         mData = data;
         mListData = listData;
+        mCalledFrom = calledFrom;
     }
 
     @Override
     public SingleListItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         return new SingleListItemViewHolder(mContext, inflater.inflate(R.layout.single_list_data_item, parent, false),
-                mListData);
+                mListData, mCalledFrom);
     }
 
     @Override

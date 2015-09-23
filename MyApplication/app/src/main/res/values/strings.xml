@@ -28,7 +28,7 @@
     <string name="note_image_view_desc">Attached image to note.</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="compose_note_attached_image_desc">Note attached image.</string>
+    <string name="attached_image_desc">Note attached image.</string>
     <string name="compose_note_title_hint">Title</string>
     <string name="compose_note_description_hint">Note</string>
     <string name="compose_note_priority_switch_text">Priority</string>

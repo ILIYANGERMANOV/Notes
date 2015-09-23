@@ -38,7 +38,6 @@ public class ListItemViewHolder extends BaseItemViewHolder {
     Runnable mSetOnClickListener = new Runnable() {
         @Override
         public void run() {
-            MyDebugger.log("repeat");
             int itemPosition = getAdapterPosition();
             if (itemPosition != RecyclerView.NO_POSITION) {
                 ListData listData = (ListData) mData.get(itemPosition);

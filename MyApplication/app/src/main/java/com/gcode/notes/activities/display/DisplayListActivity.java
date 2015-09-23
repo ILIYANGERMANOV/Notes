@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.data.ListData;
@@ -19,6 +22,18 @@ import butterknife.ButterKnife;
 public class DisplayListActivity extends AppCompatActivity {
     @Bind(R.id.display_list_toolbar)
     Toolbar mToolbar;
+
+    @Bind(R.id.display_list_title_text_view)
+    TextView mTitleTextView;
+
+    @Bind(R.id.display_list_recycler_view)
+    RecyclerView mRecyclerView;
+
+    @Bind(R.id.reminder_text_view)
+    TextView mReminderTextView;
+
+    @Bind(R.id.attributes_divider)
+    View mAttributesDividerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +57,10 @@ public class DisplayListActivity extends AppCompatActivity {
     }
 
     private void display(ListData listData) {
-        //TODO: display list
+        if (listData != null) {
+            listData.displayList(this, mTitleTextView, mReminderTextView,
+                    mAttributesDividerView, mRecyclerView);
+        }
     }
 
     private void setupToolbar() {

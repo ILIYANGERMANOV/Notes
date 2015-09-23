@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.gcode.notes.activities.display.DisplayNoteActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -12,10 +12,53 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/display_note_toolbar"
-            app:popupTheme="@style/Theme.AppCompat.Light"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:theme="@style/MyToolbarTheme" />
+            android:theme="@style/MyToolbarTheme"
+            app:popupTheme="@style/Theme.AppCompat.Light" />
 
     </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:id="@+id/display_note_content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/display_note_app_bar_layout"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/display_note_title_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/placeholder_short"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/display_note_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/attached_image_desc"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/display_note_description_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/placeholder_short"
+            android:textSize="14sp" />
+
+        <include
+            android:id="@+id/display_note_attributes_layout"
+            layout="@layout/note_attributes_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
+
+
+    </LinearLayout>
 </RelativeLayout>
