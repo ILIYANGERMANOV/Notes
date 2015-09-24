@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.gcode.notes.R;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.data.NoteData;
-import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.listeners.main.NoteItemOnClickListener;
 
 import java.util.ArrayList;
@@ -69,6 +68,7 @@ public class NoteItemViewHolder extends BaseItemViewHolder {
     @Override
     public void setStartState() {
         mCardView.setCardBackgroundColor(Color.WHITE);
+        startRepeatingTask();
     }
 
     public ImageView getVoiceImageView() {

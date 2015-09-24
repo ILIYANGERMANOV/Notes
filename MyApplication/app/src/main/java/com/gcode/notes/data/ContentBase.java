@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
-import com.gcode.notes.adapters.viewholders.main.BaseItemViewHolder;
 import com.gcode.notes.extras.Constants;
 
 import java.util.Date;
@@ -45,20 +44,20 @@ public class ContentBase {
         this.reminderString = reminderString;
     }
 
-    public int getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
-    }
-
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
     public int getTargetId() {

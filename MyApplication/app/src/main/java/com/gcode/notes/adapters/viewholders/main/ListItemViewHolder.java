@@ -60,6 +60,7 @@ public class ListItemViewHolder extends BaseItemViewHolder {
     @Override
     public void setStartState() {
         mCardView.setCardBackgroundColor(Color.WHITE);
+        startRepeatingTask();
     }
 
     public RecyclerView getRecyclerView() {

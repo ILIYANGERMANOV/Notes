@@ -22,7 +22,6 @@ public class ListData extends ContentBase {
 
         super(title, mode, reminderString);
         this.hasAttributes = hasAttributes;
-
         this.list = list;
     }
 

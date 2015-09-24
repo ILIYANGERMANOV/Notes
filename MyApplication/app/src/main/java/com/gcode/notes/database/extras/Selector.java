@@ -17,7 +17,6 @@ public class Selector {
         int targetId = 0;
         Cursor cursor = mDatabase.rawQuery(Queries.selectLastRowIdForTable(tableName), null);
         if (cursor.moveToFirst()) {
-            //TODO: may cause problems
             targetId = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
         }
         cursor.close();

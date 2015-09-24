@@ -61,7 +61,6 @@ public class InsertHelper {
         contentValues.put(ListEntry.COLUMN_NAME_TASKS_SERIALIZED, Serializer.serialize(listData.getList()));
 
         if (mDatabase.insert(ListEntry.TABLE_NAME, null, contentValues) == Constants.DATABASE_ERROR) {
-            //TODO: handle error
             contentBase.setAttributes(false);
             MyDebugger.log("ERROR INSERTING LIST ATTRIBUTES!");
         }
@@ -83,7 +82,6 @@ public class InsertHelper {
                 insertAudio(mDatabase, noteData.getAudioURI());
             }
         } else {
-            //TODO: handle error
             contentBase.setAttributes(false);
             MyDebugger.log("ERROR INSERTING NOTE ATTRIBUTES!");
         }
