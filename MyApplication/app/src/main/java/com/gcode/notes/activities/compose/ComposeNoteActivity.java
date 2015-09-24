@@ -105,9 +105,6 @@ public class ComposeNoteActivity extends AppCompatActivity {
                 mResultIntent.putExtra(Constants.NOTE_ADDED_SUCCESSFULLY, true);
                 mResultIntent.putExtra(Constants.COMPOSE_NOTE_MODE, mode);
             }
-        } else {
-            //TODO: handle not valid note
-            MyDebugger.toast(this, "Note is not valid!");
         }
         setResult(Activity.RESULT_OK, mResultIntent);
     }

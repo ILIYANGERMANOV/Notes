@@ -57,7 +57,6 @@ public class ActionExecutor {
                     BaseController mController = BaseController.getInstance();
                     if (mController.getControllerId() == Constants.CONTROLLER_BIN) {
                         BinController mBinController = (BinController) mController;
-                        mBinController.setAnimate(false);
                         mBinController.setContent();
                     }
                 } else {

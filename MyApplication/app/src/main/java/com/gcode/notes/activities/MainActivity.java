@@ -39,15 +39,12 @@ import com.gcode.notes.controllers.BinController;
 import com.gcode.notes.controllers.ImportantController;
 import com.gcode.notes.controllers.PrivateController;
 import com.gcode.notes.data.ContentBase;
-import com.gcode.notes.data.ListData;
-import com.gcode.notes.data.ListDataItem;
 import com.gcode.notes.extras.Constants;
 import com.gcode.notes.extras.Keys;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.Tags;
 import com.gcode.notes.helper.OnStartDragListener;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
-import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.ui.ActionExecutor;
 import com.gcode.notes.ui.NavDrawerHelper;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
@@ -80,10 +77,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle mDrawerToggle;
     private int mSelectedId = R.id.navigation_item_all_notes;
     private boolean mSubMenuOpened;
-    private GridLayoutManager mGridLayoutManager;
-    private NotesAdapter mAdapter;
-    private ArrayList<ContentBase> mNotesList;
-    private RecyclerView.ItemAnimator mItemAnimator;
     private ItemTouchHelper mItemTouchHelper;
     private Menu mMenu;
 
@@ -100,64 +93,58 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setupNavigationDrawer();
         setupFloatingActionButtonMenu();
         setupRecyclerView();
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                applySelectedOption(mSelectedId, false, mSelectedId != R.id.navigation_item_bin);
+                applySelectedOption(mSelectedId, false);
             }
         }, 10);
     }
 
-    private void applySelectedOption(int selectedId, boolean notForFirstTime, boolean animateBin) {
+    private void applySelectedOption(int selectedId, boolean notForFirstTime) {
         if (mSelectedId == selectedId && notForFirstTime) return;
 
         switch (selectedId) {
             case R.id.navigation_item_all_notes:
                 mSelectedId = selectedId;
-                BaseController.setInstance(new AllNotesController(mToolbar, mRecyclerView));
+                BaseController.setInstance(new AllNotesController(this, mToolbar, mRecyclerView, mFab, mAppBarLayout));
                 break;
             case R.id.navigation_item_important:
                 mSelectedId = selectedId;
-                BaseController.setInstance(new ImportantController(mToolbar, mRecyclerView));
+                BaseController.setInstance(new ImportantController(this, mToolbar, mRecyclerView, mFab, mAppBarLayout));
                 break;
             case R.id.navigation_item_private:
                 mSelectedId = selectedId;
-                BaseController.setInstance(new PrivateController(mToolbar, mRecyclerView));
+                BaseController.setInstance(new PrivateController(this, mToolbar, mRecyclerView, mFab, mAppBarLayout));
                 break;
             case R.id.navigation_item_bin:
-                BaseController.setInstance(new BinController(mToolbar, mRecyclerView, mFab, animateBin));
+                BaseController.setInstance(new BinController(this, mToolbar, mRecyclerView, mFab, mAppBarLayout));
                 mSelectedId = selectedId;
                 break;
             case R.id.navigation_item_explore:
                 startActivity(new Intent(this, ExploreActivity.class));
-                break;
+                return;
             case R.id.navigation_item_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
-                break;
+                return;
             default:
-                break;
+                return;
         }
 
-        setStartState();
         BaseController.getInstance().setContent();
         if (mMenu != null) {
             onPrepareOptionsMenu(mMenu);
         }
     }
 
-    private void setStartState() {
-        mFab.setVisibility(View.VISIBLE);
-        mAppBarLayout.setExpanded(true, mFab.getTranslationY() != 0);
-        MyAnimator.startAnimation(this, mFab, R.anim.expand_anim);
-    }
-
 
     private void setupRecyclerView() {
-        mNotesList = new ArrayList<>();
+        ArrayList<ContentBase> mNotesList = new ArrayList<>();
 
-        mAdapter = new NotesAdapter(this, mRecyclerView, mNotesList, this, mCoordinatorLayout);
-        mGridLayoutManager = new GridLayoutManager(this, Constants.GRID_COLUMNS_COUNT);
-        mItemAnimator = new DefaultItemAnimator();
+        NotesAdapter mAdapter = new NotesAdapter(this, mRecyclerView, mNotesList, this, mCoordinatorLayout);
+        GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, Constants.GRID_COLUMNS_COUNT);
+        RecyclerView.ItemAnimator mItemAnimator = new DefaultItemAnimator();
 
         mRecyclerView.setLayoutManager(mGridLayoutManager);
         mRecyclerView.setItemAnimator(mItemAnimator);
@@ -308,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             menuItem.setChecked(true);
             NavDrawerHelper.hideDrawer(mDrawerLayout);
         }
-        applySelectedOption(menuItem.getItemId(), true, true);
+        applySelectedOption(menuItem.getItemId(), true);
         return true;
     }
 
@@ -348,7 +335,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        //TODO: Refactor and optimize
         if (BaseController.getInstance().getControllerId() == Constants.CONTROLLER_BIN) {
             if (menu.findItem(Constants.MENU_EMPTY_BIN) == null) {
                 menu.add(0, Constants.MENU_EMPTY_BIN, Menu.NONE, R.string.action_empty_bin).

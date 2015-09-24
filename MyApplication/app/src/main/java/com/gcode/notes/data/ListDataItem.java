@@ -8,7 +8,7 @@ import com.gcode.notes.adapters.viewholders.SingleListItemViewHolder;
 
 import java.io.Serializable;
 
-public class ListDataItem implements Serializable {
+public class ListDataItem {
     String content;
     boolean checked;
 
