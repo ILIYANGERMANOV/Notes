@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View.OnClickListener, OnStartDragListener {
 
     public static FloatingActionMenu mActionMenu;
+
     @Bind(R.id.main_toolbar)
     Toolbar mToolbar;
     @Bind(R.id.main_app_bar_layout)
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FloatingActionButton mFab;
     @Bind(R.id.main_content_recycler_view)
     RecyclerView mRecyclerView;
+
     SimpleItemTouchHelperCallback mSimpleItemTouchHelperCallback = null;
     private ActionBarDrawerToggle mDrawerToggle;
     private int mSelectedId = R.id.navigation_item_all_notes;
@@ -353,7 +355,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         switch (id) {
             case R.id.action_settings:
                 return true;

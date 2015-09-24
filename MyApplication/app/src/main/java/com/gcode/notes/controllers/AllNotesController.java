@@ -11,7 +11,6 @@ import android.view.View;
 import com.gcode.notes.R;
 import com.gcode.notes.animations.MyAnimator;
 import com.gcode.notes.extras.Constants;
-import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.tasks.LoadContentTask;
 
@@ -33,7 +32,6 @@ public class AllNotesController extends BaseController {
     @Override
     protected void onSetContentAnimation() {
         super.onSetContentAnimation();
-        MyDebugger.log("previousControllerId", mPreviousControllerId);
         switch (mPreviousControllerId) {
             case Constants.ERROR:
             case Constants.CONTROLLER_BIN:
