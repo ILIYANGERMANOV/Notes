@@ -9,8 +9,8 @@ import android.widget.ScrollView;
 
 import com.gcode.notes.R;
 
-public class ListInputTickedInputContainerAdapter extends BaseInputContainerAdapter {
-    public ListInputTickedInputContainerAdapter(LinearLayout container, ScrollView scrollView) {
+public class ListInputTickedContainerAdapter extends BaseInputContainerAdapter {
+    public ListInputTickedContainerAdapter(LinearLayout container, ScrollView scrollView) {
         super(container, scrollView);
     }
 
@@ -30,7 +30,7 @@ public class ListInputTickedInputContainerAdapter extends BaseInputContainerAdap
     protected void onUnchecked(View parent) {
         removeInputItem(parent);
         EditText mEditText = getEditTextFromView(parent);
-        mOtherContainerAdapter.addInputItem(mEditText.getText().toString());
+        mOtherContainerAdapter.addInputItem(mEditText.getText().toString(), true);
     }
 
     @Override

@@ -8,7 +8,7 @@ import android.view.View;
 import com.gcode.notes.activities.display.DisplayListActivity;
 import com.gcode.notes.data.ListData;
 import com.gcode.notes.extras.Constants;
-import com.gcode.notes.extras.Serializer;
+import com.gcode.notes.serialization.Serializer;
 
 public class ListItemOnClickListener implements View.OnClickListener {
     Context mContext;

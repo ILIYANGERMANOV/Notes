@@ -19,7 +19,7 @@ public class ListInputOnKeyListener implements View.OnKeyListener {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_DPAD_CENTER:
                 case KeyEvent.KEYCODE_ENTER:
-                    mContainerAdapter.addInputItemAfterView((View) v.getParent(), null);
+                    mContainerAdapter.addInputItemAfterView((View) v.getParent(), null, true);
                     return true;
                 default:
                     break;

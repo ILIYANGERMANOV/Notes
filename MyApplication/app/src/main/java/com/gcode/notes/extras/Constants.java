@@ -43,6 +43,9 @@ public class Constants {
 
     public static final String EXTRA_LIST_DATA = "list_data_extra";
     public static final String EXTRA_NOTE_DATA = "note_data_extra";
+    //TODO: add picture, sound extra
+    public static final String EXTRA_LIST_DATA_ITEMS = "list_data_items_extra";
+    public static final String EXTRA_TICKED_LIST_DATA_ITEMS = "ticked_list_data_items_extra";
 
     public static final int CALLED_FROM_MAIN = 1;
     public static final int CALLED_FROM_DISPLAY = 2;

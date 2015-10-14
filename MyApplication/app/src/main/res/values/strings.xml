@@ -42,5 +42,7 @@
     <string name="delete_note_bin_dialog_disagree">Cancel</string>
     <string name="snackbar_action_undo">Undo</string>
     <string name="compose_lise_add_text_view_text">List item</string>
+    <string name="action_edit">Edit</string>
+    <string name="compose_list_done_tasks_caption">Done</string>
 
 </resources>

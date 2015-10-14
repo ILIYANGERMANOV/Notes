@@ -13,7 +13,7 @@ import com.gcode.notes.database.NotesContract.PictureEntry;
 import com.gcode.notes.database.NotesContract.SoundEntry;
 import com.gcode.notes.extras.Constants;
 import com.gcode.notes.extras.DateUtils;
-import com.gcode.notes.extras.Serializer;
+import com.gcode.notes.serialization.Serializer;
 import com.gcode.notes.extras.MyDebugger;
 
 import java.net.URI;

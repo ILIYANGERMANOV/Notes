@@ -11,7 +11,7 @@ import com.gcode.notes.database.NotesContract.ListEntry;
 import com.gcode.notes.database.NotesContract.NoteEntry;
 import com.gcode.notes.database.NotesContract.PictureEntry;
 import com.gcode.notes.database.NotesContract.SoundEntry;
-import com.gcode.notes.extras.Serializer;
+import com.gcode.notes.serialization.Serializer;
 import com.gcode.notes.extras.MyDebugger;
 
 import java.net.URI;

@@ -21,6 +21,7 @@ import com.gcode.notes.listeners.RemoveListInputOnClickListener;
 import java.util.ArrayList;
 
 public abstract class BaseInputContainerAdapter {
+    //TODO: REFACTOR AND OPTIMIZE
     LinearLayout mContainer;
     ScrollView mScrollView;
     LayoutInflater mInflater;
@@ -40,7 +41,7 @@ public abstract class BaseInputContainerAdapter {
         this.mOtherContainerAdapter = mOtherContainerAdapter;
     }
 
-    public void setupContainer(@Nullable String itemContent) {
+    private void setupContainer(@Nullable String itemContent) {
         View inputItem = createView();
         inputItem.setTag(0);
 
@@ -49,21 +50,28 @@ public abstract class BaseInputContainerAdapter {
         mContainer.addView(inputItem);
     }
 
-    public ArrayList<ListDataItem> getListDataItems() {
+    public ArrayList<ListDataItem> getListDataItems(boolean filterEmpty) {
+        return getListDataItemsFromContainer(mContainer, filterEmpty);
+    }
+
+    private ArrayList<ListDataItem> getListDataItemsFromContainer(LinearLayout container, boolean filterEmpty) {
         ArrayList<ListDataItem> mList = new ArrayList<>();
 
-        int childCount = mContainer.getChildCount();
+        int childCount = container.getChildCount();
 
         for (int i = 0; i < childCount; ++i) {
-            View child = mContainer.getChildAt(i);
+            View child = container.getChildAt(i);
             if (child != null) {
                 ListDataItem mItem = getListDataItemFromChild(child);
                 if (mItem != null) {
                     mList.add(mItem);
+                } else {
+                    if (!filterEmpty) {
+                        mList.add(new ListDataItem("", isListDataItemChecked()));
+                    }
                 }
             }
         }
-
         return mList;
     }
 
@@ -74,9 +82,9 @@ public abstract class BaseInputContainerAdapter {
         return new ListDataItem(content, isListDataItemChecked());
     }
 
-    public void addInputItem(@Nullable String inputItemContent) {
+    public void addInputItem(@Nullable String inputItemContent, boolean requestFocus) {
         if (mContainer.getChildCount() != 0) {
-            addInputItemAfterView(mContainer.getChildAt(mContainer.getChildCount() - 1), inputItemContent);
+            addInputItemAfterView(mContainer.getChildAt(mContainer.getChildCount() - 1), inputItemContent, requestFocus);
         } else {
             setupContainer(inputItemContent);
             //set focus to first item
@@ -95,15 +103,15 @@ public abstract class BaseInputContainerAdapter {
         mContainer.removeView(inputItem);
         View previousItem = mContainer.getChildAt(position - 1);
         if (previousItem != null) {
-            setupFocusOnItemRemove(previousItem);
+            onRemoveItemRequestFocus(previousItem);
         }
     }
 
-    protected void setupFocusOnItemRemove(View previousItem) {
+    protected void onRemoveItemRequestFocus(View previousItem) {
 
     }
 
-    public void addInputItemAfterView(View view, @Nullable String inputItemContent) {
+    public void addInputItemAfterView(View view, @Nullable String inputItemContent, boolean requestFocus) {
         int viewId = getViewId(view);
         if (viewId == Constants.ERROR) return;
 
@@ -115,13 +123,15 @@ public abstract class BaseInputContainerAdapter {
         setupInputItemLayout(inputItem, inputItemContent);
 
         mContainer.addView(inputItem, inputItemPosition);
-        setupInputItemScrollingAndFocus(inputItem);
+        if (requestFocus) {
+            onAddItemRequestFocus(inputItem);
+        }
     }
 
     abstract protected View createView();
 
 
-    protected void setupInputItemScrollingAndFocus(View inputItem) {
+    protected void onAddItemRequestFocus(View inputItem) {
     }
 
     protected void setupInputItemLayout(View inputItem, String inputItemContent) {

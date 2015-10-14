@@ -28,7 +28,7 @@
         <LinearLayout
             android:id="@+id/compose_list_content_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -60,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
-                android:text="Done" />
+                android:text="@string/compose_list_done_tasks_caption" />
 
             <LinearLayout
                 android:id="@+id/compose_list_container_ticked_layout"
@@ -73,7 +73,7 @@
             <View style="@style/Divider" />
 
             <include
-                android:id="@+id/compose_list_reminder_layout"
+                android:id="@+id/compose_list_priority_and_reminder_layout"
                 layout="@layout/note_priority_and_reminder_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

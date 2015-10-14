@@ -12,9 +12,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.activities.compose.ComposeListActivity;
 import com.gcode.notes.data.ListData;
 import com.gcode.notes.extras.Constants;
-import com.gcode.notes.extras.Serializer;
+import com.gcode.notes.serialization.Serializer;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,6 +36,8 @@ public class DisplayListActivity extends AppCompatActivity {
     @Bind(R.id.attributes_divider)
     View mAttributesDividerView;
 
+    ListData mListData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,8 +53,8 @@ public class DisplayListActivity extends AppCompatActivity {
         if (extras != null) {
             String serializedListData = extras.getString(Constants.EXTRA_LIST_DATA);
             if (serializedListData != null) {
-                ListData listData = Serializer.parseListData(serializedListData);
-                display(listData);
+                mListData = Serializer.parseListData(serializedListData);
+                display(mListData);
             }
         }
     }
@@ -93,6 +96,12 @@ public class DisplayListActivity extends AppCompatActivity {
                 return true;
             case android.R.id.home:
                 finish();
+                return true;
+            case R.id.action_edit:
+                Intent intent = new Intent(this, ComposeListActivity.class);
+                intent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(mListData));
+                startActivity(intent);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

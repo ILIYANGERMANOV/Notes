@@ -7,14 +7,14 @@ import android.widget.ScrollView;
 
 import com.gcode.notes.R;
 
-public class ListInputInputContainerAdapter extends BaseInputContainerAdapter {
+public class ListInputContainerAdapter extends BaseInputContainerAdapter {
 
-    public ListInputInputContainerAdapter(LinearLayout container, ScrollView scrollView) {
+    public ListInputContainerAdapter(LinearLayout container, ScrollView scrollView) {
         super(container, scrollView);
     }
 
     @Override
-    protected void setupInputItemScrollingAndFocus(View inputItem) {
+    protected void onAddItemRequestFocus(View inputItem) {
         final EditText mEditText = getEditTextFromView(inputItem);
         mScrollView.post(new Runnable() {
             @Override
@@ -27,7 +27,7 @@ public class ListInputInputContainerAdapter extends BaseInputContainerAdapter {
     }
 
     @Override
-    protected void setupFocusOnItemRemove(View previousItem) {
+    protected void onRemoveItemRequestFocus(View previousItem) {
         EditText mEditText = getEditTextFromView(previousItem);
         mEditText.requestFocus();
     }
@@ -47,7 +47,7 @@ public class ListInputInputContainerAdapter extends BaseInputContainerAdapter {
     protected void onChecked(View parent) {
         removeInputItem(parent);
         EditText mEditText = getEditTextFromView(parent);
-        mOtherContainerAdapter.addInputItem(mEditText.getText().toString());
+        mOtherContainerAdapter.addInputItem(mEditText.getText().toString(), false);
     }
 
     @Override

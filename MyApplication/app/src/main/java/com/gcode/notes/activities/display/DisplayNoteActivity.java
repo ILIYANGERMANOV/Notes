@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.gcode.notes.R;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.Constants;
-import com.gcode.notes.extras.Serializer;
+import com.gcode.notes.serialization.Serializer;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
