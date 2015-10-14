@@ -12,6 +12,7 @@ public class Constants {
     public static final int COMPOSE_NOTE_REQUEST_CODE = 1;
 
     public static final int ERROR = 666;
+    public static final int NO_FOCUS = 512;
 
     public static final String NOTE_ADDED_SUCCESSFULLY = "note_added_successfully";
     public static final String COMPOSE_NOTE_MODE = "compose_note_mode";
@@ -46,6 +47,7 @@ public class Constants {
     //TODO: add picture, sound extra
     public static final String EXTRA_LIST_DATA_ITEMS = "list_data_items_extra";
     public static final String EXTRA_TICKED_LIST_DATA_ITEMS = "ticked_list_data_items_extra";
+    public static final String EXTRA_LAST_FOCUSED = "last_focused_extra";
 
     public static final int CALLED_FROM_MAIN = 1;
     public static final int CALLED_FROM_DISPLAY = 2;

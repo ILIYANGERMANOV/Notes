@@ -15,8 +15,9 @@ import com.gcode.notes.R;
 import com.gcode.notes.data.ListDataItem;
 import com.gcode.notes.extras.Constants;
 import com.gcode.notes.extras.MyDebugger;
-import com.gcode.notes.listeners.ListInputOnKeyListener;
-import com.gcode.notes.listeners.RemoveListInputOnClickListener;
+import com.gcode.notes.listeners.list.ListInputOnKeyListener;
+import com.gcode.notes.listeners.list.MyFocusListener;
+import com.gcode.notes.listeners.list.RemoveListInputOnClickListener;
 
 import java.util.ArrayList;
 
@@ -27,10 +28,37 @@ public abstract class BaseInputContainerAdapter {
     LayoutInflater mInflater;
     BaseInputContainerAdapter mOtherContainerAdapter;
 
+    int mLastFocused;
+
     public BaseInputContainerAdapter(LinearLayout container, ScrollView scrollView) {
         mContainer = container;
         mScrollView = scrollView;
         mInflater = (LayoutInflater) container.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mLastFocused = Constants.NO_FOCUS;
+    }
+
+    public void setLastFocused(int value) {
+        mLastFocused = value;
+    }
+
+    public void setLastFocused(View v) {
+        mLastFocused = getViewId(v);
+        if (mLastFocused != Constants.ERROR) {
+            mOtherContainerAdapter.setLastFocused(Constants.NO_FOCUS);
+        }
+    }
+
+    public int getLastFocused() {
+        return mLastFocused;
+    }
+
+    public void setFocusOnChild(int childId) {
+        View child = mContainer.getChildAt(childId);
+        if (child != null) {
+            child.requestFocus();
+        } else {
+            MyDebugger.log("Child to focus is null");
+        }
     }
 
     public BaseInputContainerAdapter getOtherContainerAdapter() {
@@ -41,14 +69,17 @@ public abstract class BaseInputContainerAdapter {
         this.mOtherContainerAdapter = mOtherContainerAdapter;
     }
 
-    private void setupContainer(@Nullable String itemContent) {
+    private void setupContainer(@Nullable String itemContent, boolean requestFocus) {
         View inputItem = createView();
         inputItem.setTag(0);
 
         setupInputItemLayout(inputItem, itemContent);
-
         mContainer.addView(inputItem);
+        if (requestFocus) {
+            onAddItemRequestFocus(inputItem);
+        }
     }
+
 
     public ArrayList<ListDataItem> getListDataItems(boolean filterEmpty) {
         return getListDataItemsFromContainer(mContainer, filterEmpty);
@@ -86,14 +117,8 @@ public abstract class BaseInputContainerAdapter {
         if (mContainer.getChildCount() != 0) {
             addInputItemAfterView(mContainer.getChildAt(mContainer.getChildCount() - 1), inputItemContent, requestFocus);
         } else {
-            setupContainer(inputItemContent);
-            //set focus to first item
-            onFirstItemAdded();
+            setupContainer(inputItemContent, requestFocus);
         }
-    }
-
-    protected void onFirstItemAdded() {
-
     }
 
     public void removeInputItem(View inputItem) {
@@ -137,6 +162,7 @@ public abstract class BaseInputContainerAdapter {
     protected void setupInputItemLayout(View inputItem, String inputItemContent) {
         EditText mEditText = getEditTextFromView(inputItem);
         mEditText.setOnKeyListener(new ListInputOnKeyListener(this));
+        mEditText.setOnFocusChangeListener(new MyFocusListener(this));
 
         ImageButton mRemoveImageButton = (ImageButton) inputItem.findViewById(R.id.list_input_item_remove_button);
         mRemoveImageButton.setOnClickListener(new RemoveListInputOnClickListener(this));

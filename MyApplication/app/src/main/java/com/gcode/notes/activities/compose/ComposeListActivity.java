@@ -77,51 +77,86 @@ public class ComposeListActivity extends AppCompatActivity {
 
     private void setupStartState(final Bundle savedInstanceState) {
         setupContainers();
+        mTitleEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                //if title is focused drop focus from containers
+                mContainerAdapter.setLastFocused(Constants.NO_FOCUS);
+                mTickedContainerAdapter.setLastFocused(Constants.NO_FOCUS);
+            }
+        });
         Bundle extras = getIntent().getExtras();
         if (savedInstanceState == null) {
             if (extras != null) {
                 //List opened in edit mode
-                ListData listData = Serializer.parseListData(extras.getString(Constants.EXTRA_LIST_DATA));
-                if (listData != null) {
-                    mTitleEditText.setText(listData.getTitle());
-                    mPrioritySwitch.setChecked(listData.isImportant());
-                    String reminderString = listData.getReminderString();
-                    if (!reminderString.equals(Constants.NO_REMINDER)) {
-                        mReminderTextView.setText(reminderString);
-                    }
-                    ArrayList<ListDataItem> listDataItems = listData.getList();
-                    if (listDataItems != null) {
-                        addListDataItems(listDataItems);
-                    }
-                }
+                setupFromEditMode(extras);
             } else {
-                //New list
-                mContainerAdapter.addInputItem(null, false);
-                setupMode();
+                //New list add empty item and focus it
+                setupFromZero();
             }
         } else {
             //Saved instance state
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    String serializedObject = savedInstanceState.getString(Constants.EXTRA_LIST_DATA_ITEMS);
-                    if (serializedObject != null) {
-                        mListDataItems = Serializer.parseListDataItems(serializedObject);
-                        if (mListDataItems != null) {
-                            addListDataItems(mListDataItems);
-                        }
-                    }
+            handlerScreenRotation(savedInstanceState);
+        }
+    }
 
-                    serializedObject = savedInstanceState.getString(Constants.EXTRA_TICKED_LIST_DATA_ITEMS);
-                    if (serializedObject != null) {
-                        mTickedListDataItems = Serializer.parseListDataItems(serializedObject);
-                        if (mTickedListDataItems != null) {
-                            addListDataItems(mTickedListDataItems);
-                        }
+    private void setupFromZero() {
+        mContainerAdapter.addInputItem(null, false);
+        mContainerAdapter.setFocusOnChild(0);
+        setupMode();
+    }
+
+    private void setupFromEditMode(Bundle extras) {
+        ListData listData = Serializer.parseListData(extras.getString(Constants.EXTRA_LIST_DATA));
+        if (listData != null) {
+            mTitleEditText.setText(listData.getTitle());
+            mPrioritySwitch.setChecked(listData.isImportant());
+            String reminderString = listData.getReminderString();
+            if (!reminderString.equals(Constants.NO_REMINDER)) {
+                mReminderTextView.setText(reminderString);
+            }
+            ArrayList<ListDataItem> listDataItems = listData.getList();
+            if (listDataItems != null) {
+                addListDataItems(listDataItems);
+            }
+        }
+    }
+
+    private void handlerScreenRotation(final Bundle savedInstanceState) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String serializedObject = savedInstanceState.getString(Constants.EXTRA_LIST_DATA_ITEMS);
+                if (serializedObject != null) {
+                    mListDataItems = Serializer.parseListDataItems(serializedObject);
+                    if (mListDataItems != null) {
+                        addListDataItems(mListDataItems);
                     }
                 }
-            }, 20);
-        }
+
+                serializedObject = savedInstanceState.getString(Constants.EXTRA_TICKED_LIST_DATA_ITEMS);
+                if (serializedObject != null) {
+                    mTickedListDataItems = Serializer.parseListDataItems(serializedObject);
+                    if (mTickedListDataItems != null) {
+                        addListDataItems(mTickedListDataItems);
+                    }
+                }
+                //WARNING: lastFocused MUST BE lastFocused -= 1
+                int lastFocused = savedInstanceState.getInt(Constants.EXTRA_LAST_FOCUSED, Constants.NO_FOCUS);
+                if (Math.abs(lastFocused) - 1 != Constants.NO_FOCUS) {
+                    if (lastFocused > 0) {
+                        //focused from mContainerAdapter
+                        mContainerAdapter.setFocusOnChild(lastFocused - 1);
+                    } else {
+                        //focused from mTickedContainerAdapter (lastFocused is passed negated)
+                        mTickedContainerAdapter.setFocusOnChild(lastFocused * -1 - 1);
+                    }
+                } else {
+                    //request focus on title
+                    mTitleEditText.requestFocus();
+                }
+            }
+        }, 20);
     }
 
     @Override
@@ -147,6 +182,18 @@ public class ComposeListActivity extends AppCompatActivity {
         } else {
             outState.putString(Constants.EXTRA_TICKED_LIST_DATA_ITEMS,
                     Serializer.serializeListDataItems(mTickedContainerAdapter.getListDataItems(false)));
+        }
+        int lastFocused = mContainerAdapter.getLastFocused();
+        if (lastFocused != Constants.NO_FOCUS) {
+            //adding 1 in order to escape problems with id 0
+            outState.putInt(Constants.EXTRA_LAST_FOCUSED, lastFocused + 1);
+        } else {
+            lastFocused = mTickedContainerAdapter.getLastFocused();
+            if (lastFocused != Constants.NO_FOCUS) {
+                //if last focused is from ticked items its passed negated
+                //adding 1 in order to escape problems with id 0
+                outState.putInt(Constants.EXTRA_LAST_FOCUSED, (lastFocused + 1) * -1);
+            }
         }
     }
 

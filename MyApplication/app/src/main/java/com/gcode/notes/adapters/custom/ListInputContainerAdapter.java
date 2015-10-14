@@ -33,12 +33,6 @@ public class ListInputContainerAdapter extends BaseInputContainerAdapter {
     }
 
     @Override
-    protected void onFirstItemAdded() {
-        EditText mEditText = getEditTextFromView(mContainer.getChildAt(0));
-        mEditText.requestFocus();
-    }
-
-    @Override
     protected View createView() {
         return mInflater.inflate(R.layout.list_input_item, mContainer, false);
     }
