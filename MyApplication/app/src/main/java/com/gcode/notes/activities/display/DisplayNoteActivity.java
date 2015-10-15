@@ -44,14 +44,12 @@ public class DisplayNoteActivity extends AppCompatActivity {
     View mAttributesDividerView;
 
     NoteData mNoteData;
-    Intent mResultIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_note);
         ButterKnife.bind(this);
-        mResultIntent = new Intent();
         setupToolbar();
         setupStartState();
     }
@@ -111,14 +109,14 @@ public class DisplayNoteActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        buildResultIntent();
-        setResult(Activity.RESULT_OK, mResultIntent);
+        saveChanges();
         super.onBackPressed();
     }
 
-    private void buildResultIntent() {
-        mResultIntent = new Intent();
-        mResultIntent.putExtra(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(mNoteData));
+    private void saveChanges() {
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(mNoteData));
+        setResult(Activity.RESULT_OK, resultIntent);
     }
 
     @Override
@@ -139,8 +137,7 @@ public class DisplayNoteActivity extends AppCompatActivity {
             case R.id.action_settings:
                 return true;
             case android.R.id.home:
-                buildResultIntent();
-                setResult(Activity.RESULT_OK, mResultIntent);
+                saveChanges();
                 finish();
                 return true;
             case R.id.action_edit:

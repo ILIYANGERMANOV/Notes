@@ -102,7 +102,7 @@ public class UpdateHelper {
         database.update(SoundEntry.TABLE_NAME, contentValues, whereClause, getContentBaseId(noteData));
     }
 
-    private static int updateListAttributes(SQLiteDatabase database, ListData listData) {
+    public static int updateListAttributes(SQLiteDatabase database, ListData listData) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(ListEntry.COLUMN_NAME_TASKS_SERIALIZED, Serializer.serializeListDataItems(listData.getList()));
 

@@ -44,5 +44,6 @@
     <string name="compose_lise_add_text_view_text">List item</string>
     <string name="action_edit">Edit</string>
     <string name="compose_list_done_tasks_caption">Done</string>
+    <string name="compose_list_todo_tasks_caption">Todo</string>
 
 </resources>

@@ -17,17 +17,25 @@ public class ListItemAdapter extends RecyclerView.Adapter<SingleListItemViewHold
     Activity mActivity;
     ArrayList<ListDataItem> mData;
     ListData mListData;
+    RecyclerView mRecyclerView;
 
     int mCalledFrom;
     boolean mIsTickedModeOn;
 
     ListItemAdapter mOtherAdapter;
 
-    public ListItemAdapter(Activity activity, ArrayList<ListDataItem> data, ListData listData, int calledFrom) {
+    public ListItemAdapter(Activity activity, ArrayList<ListDataItem> data, ListData listData,
+                           RecyclerView recyclerView, int calledFrom) {
+
         mActivity = activity;
         mData = data;
         mListData = listData;
+        mRecyclerView = recyclerView;
         mCalledFrom = calledFrom;
+    }
+
+    public RecyclerView getRecyclerView() {
+        return mRecyclerView;
     }
 
     public void setTickedModeOn() {
@@ -59,6 +67,10 @@ public class ListItemAdapter extends RecyclerView.Adapter<SingleListItemViewHold
         }
         mData.add(item);
         notifyItemInserted(getItemCount() - 1);
+    }
+
+    public void smoothScrollToLastItem() {
+        mRecyclerView.smoothScrollToPosition(getItemCount() - 1);
     }
 
     @Override

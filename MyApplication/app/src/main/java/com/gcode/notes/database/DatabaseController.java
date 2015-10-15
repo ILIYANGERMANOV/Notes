@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.gcode.notes.data.ContentBase;
+import com.gcode.notes.data.ListData;
 import com.gcode.notes.database.extras.Builder;
 import com.gcode.notes.database.extras.DeleteHelper;
 import com.gcode.notes.database.extras.InsertHelper;
@@ -121,6 +122,10 @@ public class DatabaseController {
 
     public boolean updateNote(ContentBase contentBase) {
         return UpdateHelper.updateNote(mDatabase, contentBase) > 0;
+    }
+
+    public boolean updateListAttributes(ListData listData) {
+        return UpdateHelper.updateListAttributes(mDatabase, listData) > 0;
     }
     //UPDATES------------------------------------------------------------------------------------------------------
 

@@ -33,7 +33,17 @@
             android:layout_height="wrap_content"
             android:text="@string/placeholder_short"
             android:textSize="20sp"
+            android:layout_marginBottom="5dp"
             android:textStyle="bold" />
+
+        <View style="@style/Divider" />
+
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:text="@string/compose_list_todo_tasks_caption" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/display_list_recycler_view"
@@ -43,9 +53,10 @@
             android:layout_weight="1"
             android:scrollbars="vertical" />
 
-        <include layout="@layout/list_done_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+
+        <View style="@style/Divider" />
+
+        <include layout="@layout/list_done_text_view" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/display_list_ticked_recycler_view"
@@ -54,6 +65,8 @@
             android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:scrollbars="vertical" />
+
+        <View style="@style/Divider" />
 
         <include
             android:id="@+id/display_list_attributes_layout"

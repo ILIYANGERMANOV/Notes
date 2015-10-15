@@ -22,7 +22,6 @@ import com.gcode.notes.listeners.list.RemoveListInputOnClickListener;
 import java.util.ArrayList;
 
 public abstract class BaseInputContainerAdapter {
-    //TODO: REFACTOR AND OPTIMIZE
     LinearLayout mContainer;
     ScrollView mScrollView;
     LayoutInflater mInflater;
@@ -37,19 +36,28 @@ public abstract class BaseInputContainerAdapter {
         mLastFocused = Constants.NO_FOCUS;
     }
 
+    public BaseInputContainerAdapter getOtherContainerAdapter() {
+        return mOtherContainerAdapter;
+    }
+
+    public void setOtherContainerAdapter(BaseInputContainerAdapter mOtherContainerAdapter) {
+        this.mOtherContainerAdapter = mOtherContainerAdapter;
+    }
+
     public void setLastFocused(int value) {
         mLastFocused = value;
     }
 
-    public void setLastFocused(View v) {
-        mLastFocused = getViewId(v);
-        if (mLastFocused != Constants.ERROR) {
-            mOtherContainerAdapter.setLastFocused(Constants.NO_FOCUS);
-        }
-    }
-
     public int getLastFocused() {
         return mLastFocused;
+    }
+
+    public void setLastFocused(View v) {
+        int lastFocused = getViewId(v);
+        if (lastFocused != Constants.ERROR) {
+            mLastFocused = lastFocused;
+            mOtherContainerAdapter.setLastFocused(Constants.NO_FOCUS);
+        }
     }
 
     public void setFocusOnChild(int childId) {
@@ -61,56 +69,8 @@ public abstract class BaseInputContainerAdapter {
         }
     }
 
-    public BaseInputContainerAdapter getOtherContainerAdapter() {
-        return mOtherContainerAdapter;
-    }
-
-    public void setOtherContainerAdapter(BaseInputContainerAdapter mOtherContainerAdapter) {
-        this.mOtherContainerAdapter = mOtherContainerAdapter;
-    }
-
-    private void setupContainer(@Nullable String itemContent, boolean requestFocus) {
-        View inputItem = createView();
-        inputItem.setTag(0);
-
-        setupInputItemLayout(inputItem, itemContent);
-        mContainer.addView(inputItem);
-        if (requestFocus) {
-            onAddItemRequestFocus(inputItem);
-        }
-    }
-
-
     public ArrayList<ListDataItem> getListDataItems(boolean filterEmpty) {
         return getListDataItemsFromContainer(mContainer, filterEmpty);
-    }
-
-    private ArrayList<ListDataItem> getListDataItemsFromContainer(LinearLayout container, boolean filterEmpty) {
-        ArrayList<ListDataItem> mList = new ArrayList<>();
-
-        int childCount = container.getChildCount();
-
-        for (int i = 0; i < childCount; ++i) {
-            View child = container.getChildAt(i);
-            if (child != null) {
-                ListDataItem mItem = getListDataItemFromChild(child);
-                if (mItem != null) {
-                    mList.add(mItem);
-                } else {
-                    if (!filterEmpty) {
-                        mList.add(new ListDataItem("", isListDataItemChecked()));
-                    }
-                }
-            }
-        }
-        return mList;
-    }
-
-    private ListDataItem getListDataItemFromChild(View child) {
-        EditText mEditText = getEditTextFromView(child);
-        String content = mEditText.getText().toString();
-        if (content.trim().length() == 0) return null;
-        return new ListDataItem(content, isListDataItemChecked());
     }
 
     public void addInputItem(@Nullable String inputItemContent, boolean requestFocus) {
@@ -119,21 +79,6 @@ public abstract class BaseInputContainerAdapter {
         } else {
             setupContainer(inputItemContent, requestFocus);
         }
-    }
-
-    public void removeInputItem(View inputItem) {
-        int position = getViewId(inputItem);
-        if (position == Constants.ERROR) return;
-        updateItemsIdAfterRemove(position);
-        mContainer.removeView(inputItem);
-        View previousItem = mContainer.getChildAt(position - 1);
-        if (previousItem != null) {
-            onRemoveItemRequestFocus(previousItem);
-        }
-    }
-
-    protected void onRemoveItemRequestFocus(View previousItem) {
-
     }
 
     public void addInputItemAfterView(View view, @Nullable String inputItemContent, boolean requestFocus) {
@@ -153,10 +98,46 @@ public abstract class BaseInputContainerAdapter {
         }
     }
 
-    abstract protected View createView();
+    public void removeInputItem(View inputItem) {
+        int position = getViewId(inputItem);
+        if (position == Constants.ERROR) return;
+        updateItemsIdAfterRemove(position);
+        mContainer.removeView(inputItem);
+        View previousItem = mContainer.getChildAt(position - 1);
+        if (previousItem != null) {
+            onRemoveItemRequestFocus(previousItem);
+        }
+    }
+
+    protected abstract View createView();
+    protected abstract boolean isListDataItemChecked();
+
+    protected void onRemoveItemRequestFocus(View previousItem) {
+
+    }
 
 
     protected void onAddItemRequestFocus(View inputItem) {
+
+    }
+
+    protected void onChecked(View parent) {
+
+    }
+
+    protected void onUnchecked(View parent) {
+
+    }
+
+    private void setupContainer(@Nullable String itemContent, boolean requestFocus) {
+        View inputItem = createView();
+        inputItem.setTag(0);
+
+        setupInputItemLayout(inputItem, itemContent);
+        mContainer.addView(inputItem);
+        if (requestFocus) {
+            onAddItemRequestFocus(inputItem);
+        }
     }
 
     protected void setupInputItemLayout(View inputItem, String inputItemContent) {
@@ -189,12 +170,32 @@ public abstract class BaseInputContainerAdapter {
         return (EditText) view.findViewById(R.id.list_input_item_edit_text);
     }
 
-    protected void onChecked(View parent) {
+    private ArrayList<ListDataItem> getListDataItemsFromContainer(LinearLayout container, boolean filterEmpty) {
+        ArrayList<ListDataItem> mList = new ArrayList<>();
 
+        int childCount = container.getChildCount();
+
+        for (int i = 0; i < childCount; ++i) {
+            View child = container.getChildAt(i);
+            if (child != null) {
+                ListDataItem mItem = getListDataItemFromChild(child);
+                if (mItem != null) {
+                    mList.add(mItem);
+                } else {
+                    if (!filterEmpty) {
+                        mList.add(new ListDataItem("", isListDataItemChecked()));
+                    }
+                }
+            }
+        }
+        return mList;
     }
 
-    protected void onUnchecked(View parent) {
-
+    private ListDataItem getListDataItemFromChild(View child) {
+        EditText mEditText = getEditTextFromView(child);
+        String content = mEditText.getText().toString();
+        if (content.trim().length() == 0) return null;
+        return new ListDataItem(content, isListDataItemChecked());
     }
 
     private void updateItemsIdAfterAdd(int inputItemPosition) {
@@ -230,7 +231,4 @@ public abstract class BaseInputContainerAdapter {
             return Constants.ERROR;
         }
     }
-
-
-    protected abstract boolean isListDataItemChecked();
 }

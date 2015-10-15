@@ -2,15 +2,12 @@ package com.gcode.notes.data;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 
 import com.gcode.notes.adapters.ListItemAdapter;
 import com.gcode.notes.adapters.viewholders.main.ListItemViewHolder;
-import com.gcode.notes.extras.Constants;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,7 +51,7 @@ public class ListData extends ContentBase {
         if (list == null) {
             list = new ArrayList<>();
         }
-        recyclerView.setAdapter(new ListItemAdapter(activity, list, this, calledFrom));
+        recyclerView.setAdapter(new ListItemAdapter(activity, list, this, null, calledFrom));
         recyclerView.setNestedScrollingEnabled(false);
     }
 

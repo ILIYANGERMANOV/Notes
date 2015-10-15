@@ -19,6 +19,7 @@ import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.ListDataItem;
 import com.gcode.notes.extras.Constants;
 import com.gcode.notes.serialization.Serializer;
+import com.gcode.notes.tasks.UpdateListAttributesTask;
 
 import java.util.ArrayList;
 
@@ -26,7 +27,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class DisplayListActivity extends AppCompatActivity {
-    //TODO: handle screen rotation
     @Bind(R.id.display_list_toolbar)
     Toolbar mToolbar;
 
@@ -53,27 +53,39 @@ public class DisplayListActivity extends AppCompatActivity {
     ArrayList<ListDataItem> mListDataItems;
     ArrayList<ListDataItem> mTickedListDataItems;
 
-    Intent mResultIntent;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_list);
         ButterKnife.bind(this);
         setupToolbar();
-        setupStartState();
+        setupStartState(savedInstanceState);
     }
 
-    private void setupStartState() {
+    private void setupStartState(Bundle savedInstanceState) {
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        if (extras != null) {
-            String serializedListData = extras.getString(Constants.EXTRA_LIST_DATA);
-            if (serializedListData != null) {
-                mListData = Serializer.parseListData(serializedListData);
-                displayListData();
-            }
+        if (extras != null && savedInstanceState == null) {
+            //first time started
+            setupFromBundle(extras);
+        } else {
+            //from saved instance state
+            setupFromBundle(savedInstanceState);
         }
+    }
+
+    private void setupFromBundle(Bundle bundle) {
+        String serializedListData = bundle.getString(Constants.EXTRA_LIST_DATA);
+        if (serializedListData != null) {
+            mListData = Serializer.parseListData(serializedListData);
+            displayListData();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(mListData));
     }
 
     private void displayListData() {
@@ -83,7 +95,7 @@ public class DisplayListActivity extends AppCompatActivity {
                 //displayListData for first time
                 setupRecyclerViews();
             } else {
-                //onItemAdded existing
+                //displayExisting existing
                 mListDataItems.clear();
                 mTickedListDataItems.clear();
 
@@ -104,8 +116,11 @@ public class DisplayListActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(this));
         mTickedRecyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(this));
 
-        mAdapter = new ListItemAdapter(this, mListDataItems, null, Constants.CALLED_FROM_DISPLAY);
-        mTickedAdapter = new ListItemAdapter(this, mTickedListDataItems, null, Constants.CALLED_FROM_DISPLAY);
+        mAdapter = new ListItemAdapter(this, mListDataItems, null,
+                mRecyclerView, Constants.CALLED_FROM_DISPLAY);
+
+        mTickedAdapter = new ListItemAdapter(this, mTickedListDataItems, null,
+                mTickedRecyclerView, Constants.CALLED_FROM_DISPLAY);
         mTickedAdapter.setTickedModeOn();
 
         mAdapter.setOtherAdapter(mTickedAdapter);
@@ -170,17 +185,23 @@ public class DisplayListActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        buildResultIntent();
-        setResult(Activity.RESULT_OK, mResultIntent);
+        saveChanges();
         super.onBackPressed();
     }
 
-    private void buildResultIntent() {
-        mResultIntent = new Intent();
+    private void saveChanges() {
+        //create result intent
+        Intent resultIntent = new Intent();
         mListData.getList().clear();
         mListData.getList().addAll(mListDataItems);
         mListData.getList().addAll(mTickedListDataItems);
-        mResultIntent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(mListData));
+        resultIntent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(mListData));
+        setResult(Activity.RESULT_OK, resultIntent);
+
+        if (mListData.hasAttributes()) {
+            //save done/undone changes to database
+            new UpdateListAttributesTask().execute(mListData);
+        }
     }
 
     @Override
@@ -194,8 +215,7 @@ public class DisplayListActivity extends AppCompatActivity {
             case R.id.action_settings:
                 return true;
             case android.R.id.home:
-                buildResultIntent();
-                setResult(Activity.RESULT_OK, mResultIntent);
+                saveChanges();
                 finish();
                 return true;
             case R.id.action_edit:
