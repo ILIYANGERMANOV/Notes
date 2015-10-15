@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtils {
+    //TODO: use user friendly date format for the specific region
     public static String getCurrentTime() {
         Date date = Calendar.getInstance().getTime();
         return dateToString(date);

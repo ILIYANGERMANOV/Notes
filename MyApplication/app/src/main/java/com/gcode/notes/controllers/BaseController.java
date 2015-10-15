@@ -54,6 +54,7 @@ public class BaseController {
         if (mNotesAdapter != null) {
             mNotesAdapter.updateContent(newContent);
             mRecyclerView.invalidate();
+            mRecyclerView.smoothScrollToPosition(0);
         }
     }
 

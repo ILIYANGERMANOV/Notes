@@ -18,8 +18,8 @@
     <ImageButton
         android:id="@+id/title_image_button"
         style="?android:attr/borderlessButtonStyle"
-        android:layout_width="24dp"
-        android:layout_height="match_parent"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_gravity="center_vertical"
         android:contentDescription="@string/title_image_button_desc"
         android:src="@drawable/ic_touch_point_18dp" />
