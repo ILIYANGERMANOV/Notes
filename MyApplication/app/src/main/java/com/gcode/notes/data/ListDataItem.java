@@ -2,11 +2,10 @@ package com.gcode.notes.data;
 
 
 import android.graphics.Paint;
-import android.widget.CheckedTextView;
+import android.widget.CheckBox;
+import android.widget.TextView;
 
 import com.gcode.notes.adapters.viewholders.SingleListItemViewHolder;
-
-import java.io.Serializable;
 
 public class ListDataItem {
     String content;
@@ -34,14 +33,15 @@ public class ListDataItem {
     }
 
     public void display(SingleListItemViewHolder holder) {
-        CheckedTextView mCheckedTextView = holder.getCheckedTextView();
-        mCheckedTextView.setText(content);
+        CheckBox checkBox = holder.getCheckBox();
+        TextView textView = holder.getTextView();
+        textView.setText(content);
         if (checked) {
-            mCheckedTextView.setChecked(true);
-            mCheckedTextView.setPaintFlags(mCheckedTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            checkBox.setChecked(true);
+            textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
-            mCheckedTextView.setChecked(false);
-            mCheckedTextView.setPaintFlags(mCheckedTextView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            checkBox.setChecked(false);
+            textView.setPaintFlags(textView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         }
     }
 }

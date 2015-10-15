@@ -57,13 +57,21 @@ public class BaseController {
         }
     }
 
-    public void applyUpdate(ContentBase item) {
+    public void addItem(ContentBase item) {
         NotesAdapter mNotesAdapter = getNotesAdapter();
         if (mNotesAdapter != null) {
             mNotesAdapter.addItem(item);
             mRecyclerView.smoothScrollToPosition(0);
         }
     }
+
+    public void updateItem(ContentBase item) {
+        NotesAdapter mNotesAdapter = getNotesAdapter();
+        if (mNotesAdapter != null) {
+            mNotesAdapter.updateItem(item);
+        }
+    }
+
 
     public int getControllerId() {
         if (this instanceof AllNotesController) {
@@ -99,7 +107,11 @@ public class BaseController {
         mAppBarLayout.setExpanded(true, mFab.getTranslationY() != 0);
     }
 
-    public void update(int mode) {
+    public void onItemAdded(int mode) {
+
+    }
+
+    public void onItemChanged(ContentBase item) {
 
     }
 }

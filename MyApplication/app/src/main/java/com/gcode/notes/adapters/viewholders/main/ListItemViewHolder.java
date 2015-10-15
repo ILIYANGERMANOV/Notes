@@ -1,6 +1,7 @@
 package com.gcode.notes.adapters.viewholders.main;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
@@ -11,7 +12,6 @@ import android.view.View;
 import com.gcode.notes.R;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.data.ListData;
-import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.listeners.main.ListItemOnClickListener;
 
 import java.util.ArrayList;
@@ -28,8 +28,8 @@ public class ListItemViewHolder extends BaseItemViewHolder {
 
     Handler mHandler;
 
-    public ListItemViewHolder(Context context, View itemView, ArrayList<ContentBase> data) {
-        super(context, itemView, data);
+    public ListItemViewHolder(Activity activity, View itemView, ArrayList<ContentBase> data) {
+        super(activity, itemView, data);
         ButterKnife.bind(this, itemView);
         mHandler = new Handler();
         startRepeatingTask();
@@ -41,7 +41,7 @@ public class ListItemViewHolder extends BaseItemViewHolder {
             int itemPosition = getAdapterPosition();
             if (itemPosition != RecyclerView.NO_POSITION) {
                 ListData listData = (ListData) mData.get(itemPosition);
-                itemView.setOnClickListener(new ListItemOnClickListener(mContext, listData));
+                itemView.setOnClickListener(new ListItemOnClickListener(mActivity, listData));
                 stopRepeatingTask();
                 return;
             }

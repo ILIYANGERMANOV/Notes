@@ -1,7 +1,7 @@
 package com.gcode.notes.adapters;
 
 
-import android.content.Context;
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -14,23 +14,58 @@ import com.gcode.notes.data.ListDataItem;
 import java.util.ArrayList;
 
 public class ListItemAdapter extends RecyclerView.Adapter<SingleListItemViewHolder> {
-    Context mContext;
+    Activity mActivity;
     ArrayList<ListDataItem> mData;
     ListData mListData;
-    int mCalledFrom;
 
-    public ListItemAdapter(Context context, ArrayList<ListDataItem> data, ListData listData, int calledFrom) {
-        mContext = context;
+    int mCalledFrom;
+    boolean mIsTickedModeOn;
+
+    ListItemAdapter mOtherAdapter;
+
+    public ListItemAdapter(Activity activity, ArrayList<ListDataItem> data, ListData listData, int calledFrom) {
+        mActivity = activity;
         mData = data;
         mListData = listData;
         mCalledFrom = calledFrom;
     }
 
+    public void setTickedModeOn() {
+        mIsTickedModeOn = true;
+    }
+
+    public void setOtherAdapter(ListItemAdapter otherAdapter) {
+        this.mOtherAdapter = otherAdapter;
+    }
+
+    public ListItemAdapter getOtherAdapter() {
+        return mOtherAdapter;
+    }
+
+    public ListDataItem getItemAtPosition(int position) {
+        return mData.get(position);
+    }
+
+    public void remove(int position) {
+        mData.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void add(ListDataItem item) {
+        if (mIsTickedModeOn) {
+            item.setChecked(true);
+        } else {
+            item.setChecked(false);
+        }
+        mData.add(item);
+        notifyItemInserted(getItemCount() - 1);
+    }
+
     @Override
     public SingleListItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new SingleListItemViewHolder(mContext, inflater.inflate(R.layout.single_list_data_item, parent, false),
-                mListData, mCalledFrom);
+        return new SingleListItemViewHolder(mActivity, inflater.inflate(R.layout.single_list_data_item, parent, false),
+                mListData, this, mCalledFrom);
     }
 
     @Override

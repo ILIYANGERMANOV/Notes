@@ -1,6 +1,7 @@
 package com.gcode.notes.adapters.viewholders.main;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
@@ -36,8 +37,8 @@ public class NoteItemViewHolder extends BaseItemViewHolder {
 
     Handler mHandler;
 
-    public NoteItemViewHolder(Context context, final View itemView, ArrayList<ContentBase> data) {
-        super(context, itemView, data);
+    public NoteItemViewHolder(Activity activity, final View itemView, ArrayList<ContentBase> data) {
+        super(activity, itemView, data);
         ButterKnife.bind(this, itemView);
         mHandler = new Handler();
         startRepeatingTask();
@@ -49,7 +50,7 @@ public class NoteItemViewHolder extends BaseItemViewHolder {
             int itemPosition = getAdapterPosition();
             if (itemPosition != RecyclerView.NO_POSITION) {
                 NoteData noteData = (NoteData) mData.get(itemPosition);
-                itemView.setOnClickListener(new NoteItemOnClickListener(mContext, noteData));
+                itemView.setOnClickListener(new NoteItemOnClickListener(mActivity, noteData));
                 stopRepeatingTask();
                 return;
             }

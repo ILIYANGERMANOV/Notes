@@ -118,6 +118,10 @@ public class DatabaseController {
         noteA.setOrderId(noteB.getOrderId());
         noteB.setOrderId(orderIdHolder);
     }
+
+    public boolean updateNote(ContentBase contentBase) {
+        return UpdateHelper.updateNote(mDatabase, contentBase) > 0;
+    }
     //UPDATES------------------------------------------------------------------------------------------------------
 
 

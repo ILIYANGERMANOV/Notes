@@ -1,6 +1,7 @@
 package com.gcode.notes.data;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -39,33 +40,22 @@ public class ListData extends ContentBase {
         this.list = list;
     }
 
-    public void displayList(Context context, ListItemViewHolder holder, int calledFrom) {
+    public void displayList(Activity activity, ListItemViewHolder holder, int calledFrom) {
         displayBase(holder.getTitleTextView(), holder.getReminderTextView());
         if (hasReminder()) {
             holder.getAttributesDivider().setVisibility(View.VISIBLE);
         }
         RecyclerView mRecyclerView = holder.getRecyclerView();
-        setupRecyclerView(context, mRecyclerView, calledFrom);
+        setupRecyclerView(activity, mRecyclerView, calledFrom);
     }
 
-    private void setupRecyclerView(Context context, RecyclerView recyclerView, int calledFrom) {
-        recyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(context));
+    private void setupRecyclerView(Activity activity, RecyclerView recyclerView, int calledFrom) {
+        recyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(activity));
         if (list == null) {
             list = new ArrayList<>();
         }
-        recyclerView.setAdapter(new ListItemAdapter(context, list, this, calledFrom));
+        recyclerView.setAdapter(new ListItemAdapter(activity, list, this, calledFrom));
         recyclerView.setNestedScrollingEnabled(false);
     }
-
-    public void displayList(Context context, TextView titleTextView, TextView reminderTextView,
-                            View attributesDividerView, RecyclerView recyclerView) {
-
-        displayBase(titleTextView, reminderTextView);
-        if (hasReminder()) {
-            attributesDividerView.setVisibility(View.VISIBLE);
-        }
-        setupRecyclerView(context, recyclerView, Constants.CALLED_FROM_DISPLAY);
-    }
-
 
 }

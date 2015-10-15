@@ -10,11 +10,16 @@ public class Constants {
     public static final int GRID_COLUMNS_COUNT = 2;
 
     public static final int COMPOSE_NOTE_REQUEST_CODE = 1;
+    public static final int LIST_FROM_DISPLAY_RES_CODE = 3;
+    public static final int NOTE_FROM_DISPLAY_RES_CODE = 4;
 
     public static final int ERROR = 666;
+
+    //must be positive and greater than max list items + 1
     public static final int NO_FOCUS = 512;
 
     public static final String NOTE_ADDED_SUCCESSFULLY = "note_added_successfully";
+    public static final String NOTE_UPDATED_SUCCESSFULLY = "note_updated_successfully";
     public static final String COMPOSE_NOTE_MODE = "compose_note_mode";
 
     public static final String DEBUG_TAG = "ddq";
@@ -48,6 +53,8 @@ public class Constants {
     public static final String EXTRA_LIST_DATA_ITEMS = "list_data_items_extra";
     public static final String EXTRA_TICKED_LIST_DATA_ITEMS = "ticked_list_data_items_extra";
     public static final String EXTRA_LAST_FOCUSED = "last_focused_extra";
+    public static final String EXTRA_IS_OPENED_IN_EDIT_MODE = "is_opened_in_edit_mode_extra";
+    public static final String EXTRA_EDIT_NOTE_ID = "edit_note_id_extra";
 
     public static final int CALLED_FROM_MAIN = 1;
     public static final int CALLED_FROM_DISPLAY = 2;

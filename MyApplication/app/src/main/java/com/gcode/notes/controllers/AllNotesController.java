@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.gcode.notes.R;
 import com.gcode.notes.animations.MyAnimator;
+import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.extras.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.tasks.LoadContentTask;
@@ -42,9 +43,17 @@ public class AllNotesController extends BaseController {
     }
 
     @Override
-    public void update(int mode) {
+    public void onItemAdded(int mode) {
         if (mode == Constants.MODE_NORMAL || mode == Constants.MODE_IMPORTANT) {
-            applyUpdate(MyApplication.getWritableDatabase().getLastVisibleNote());
+            addItem(MyApplication.getWritableDatabase().getLastVisibleNote());
+        }
+    }
+
+    @Override
+    public void onItemChanged(ContentBase item) {
+        int mode = item.getMode();
+        if(mode == Constants.MODE_NORMAL || mode == Constants.MODE_IMPORTANT) {
+            updateItem(item);
         }
     }
 }

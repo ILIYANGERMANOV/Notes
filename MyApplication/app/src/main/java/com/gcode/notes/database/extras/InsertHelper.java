@@ -54,11 +54,11 @@ public class InsertHelper {
         return mDatabase.insert(ContentEntry.TABLE_NAME, ContentEntry.COLUMN_NAME_EXPIRATION_DATE, contentValues);
     }
 
-    private static void insertAttributesInLists(SQLiteDatabase mDatabase, ContentBase contentBase) {
+    public static void insertAttributesInLists(SQLiteDatabase mDatabase, ContentBase contentBase) {
         ListData listData = (ListData) contentBase;
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(ListEntry.COLUMN_NAME_TASKS_SERIALIZED, Serializer.serialize(listData.getList()));
+        contentValues.put(ListEntry.COLUMN_NAME_TASKS_SERIALIZED, Serializer.serializeListDataItems(listData.getList()));
 
         if (mDatabase.insert(ListEntry.TABLE_NAME, null, contentValues) == Constants.DATABASE_ERROR) {
             contentBase.setAttributes(false);
@@ -66,7 +66,7 @@ public class InsertHelper {
         }
     }
 
-    private static void insertAttributesInNotes(SQLiteDatabase mDatabase, ContentBase contentBase) {
+    public static void insertAttributesInNotes(SQLiteDatabase mDatabase, ContentBase contentBase) {
         NoteData noteData = (NoteData) contentBase;
         ContentValues contentValues = new ContentValues();
 

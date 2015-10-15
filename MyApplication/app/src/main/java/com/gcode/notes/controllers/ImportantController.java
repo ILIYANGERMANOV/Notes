@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.gcode.notes.R;
-import com.gcode.notes.adapters.NotesAdapter;
 import com.gcode.notes.animations.MyAnimator;
 import com.gcode.notes.extras.Constants;
 import com.gcode.notes.notes.MyApplication;
@@ -39,9 +38,9 @@ public class ImportantController extends BaseController {
     }
 
     @Override
-    public void update(int mode) {
+    public void onItemAdded(int mode) {
         if (mode == Constants.MODE_IMPORTANT) {
-            applyUpdate(MyApplication.getWritableDatabase().getLastImportantNote());
+            addItem(MyApplication.getWritableDatabase().getLastImportantNote());
         }
     }
 }

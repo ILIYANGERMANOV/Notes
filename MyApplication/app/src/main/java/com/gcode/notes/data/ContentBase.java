@@ -42,6 +42,7 @@ public class ContentBase {
         this.title = title;
         this.mode = mode;
         this.reminderString = reminderString;
+        this.targetId = Constants.ERROR;
     }
 
     public int getId() {

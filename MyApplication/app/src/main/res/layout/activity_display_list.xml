@@ -43,6 +43,18 @@
             android:layout_weight="1"
             android:scrollbars="vertical" />
 
+        <include layout="@layout/list_done_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/display_list_ticked_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:scrollbars="vertical" />
+
         <include
             android:id="@+id/display_list_attributes_layout"
             layout="@layout/note_attributes_layout"

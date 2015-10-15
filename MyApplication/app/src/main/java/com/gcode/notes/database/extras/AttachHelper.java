@@ -50,7 +50,7 @@ public class AttachHelper {
         );
 
         if (listCursor.moveToFirst()) {
-            ArrayList<ListDataItem> mList = Serializer.parse(
+            ArrayList<ListDataItem> mList = Serializer.parseListDataItems(
                     listCursor.getString(listCursor.getColumnIndex(ListEntry.COLUMN_NAME_TASKS_SERIALIZED))
             );
 

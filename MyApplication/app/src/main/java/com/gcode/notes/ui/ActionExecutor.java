@@ -30,7 +30,7 @@ public class ActionExecutor {
                     } else {
                         BaseController mController = BaseController.getInstance();
                         if (mController.getControllerId() == Constants.CONTROLLER_BIN) {
-                            mController.update(mNote.setAndReturnDeletedMode());
+                            mController.onItemAdded(mNote.setAndReturnDeletedMode());
                         }
 
                     }

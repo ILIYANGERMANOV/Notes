@@ -39,9 +39,9 @@ public class PrivateController extends BaseController {
     }
 
     @Override
-    public void update(int mode) {
+    public void onItemAdded(int mode) {
         if (mode == Constants.MODE_PRIVATE) {
-            applyUpdate(MyApplication.getWritableDatabase().getLastPrivateNote());
+            addItem(MyApplication.getWritableDatabase().getLastPrivateNote());
         }
     }
 }

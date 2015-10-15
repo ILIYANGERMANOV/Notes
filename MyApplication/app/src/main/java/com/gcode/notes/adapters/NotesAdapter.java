@@ -1,7 +1,7 @@
 package com.gcode.notes.adapters;
 
 
-import android.content.Context;
+import android.app.Activity;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,6 +17,7 @@ import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.Constants;
+import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.helper.ItemTouchHelperAdapter;
 import com.gcode.notes.helper.OnStartDragListener;
 import com.gcode.notes.notes.MyApplication;
@@ -29,14 +30,14 @@ public class NotesAdapter extends RecyclerView.Adapter<BaseItemViewHolder> imple
     private final OnStartDragListener mDragStartListener;
     ArrayList<ContentBase> mData;
     View mRootView;
-    Context mContext;
+    Activity mActivity;
     RecyclerView mRecyclerView;
 
-    public NotesAdapter(Context context, RecyclerView recyclerView, ArrayList<ContentBase> data,
+    public NotesAdapter(Activity activity, RecyclerView recyclerView, ArrayList<ContentBase> data,
                         OnStartDragListener dragStartListener, View rooView) {
 
         mRecyclerView = recyclerView;
-        mContext = context;
+        mActivity = activity;
         mData = data;
         mDragStartListener = dragStartListener;
         mRootView = rooView;
@@ -51,9 +52,9 @@ public class NotesAdapter extends RecyclerView.Adapter<BaseItemViewHolder> imple
     public BaseItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         if (viewType == Constants.TYPE_NOTE) {
-            return new NoteItemViewHolder(mContext, inflater.inflate(R.layout.note_item, parent, false), mData);
+            return new NoteItemViewHolder(mActivity, inflater.inflate(R.layout.note_item, parent, false), mData);
         } else {
-            return new ListItemViewHolder(mContext, inflater.inflate(R.layout.list_item, parent, false), mData);
+            return new ListItemViewHolder(mActivity, inflater.inflate(R.layout.list_item, parent, false), mData);
         }
     }
 
@@ -65,7 +66,7 @@ public class NotesAdapter extends RecyclerView.Adapter<BaseItemViewHolder> imple
             if (currentItem.getType() == Constants.TYPE_NOTE) {
                 ((NoteData) currentItem).displayNote((NoteItemViewHolder) holder);
             } else {
-                ((ListData) currentItem).displayList(mContext, (ListItemViewHolder) holder, Constants.CALLED_FROM_MAIN);
+                ((ListData) currentItem).displayList(mActivity, (ListItemViewHolder) holder, Constants.CALLED_FROM_MAIN);
             }
         }
         //Start a drag whenever the view is touched
@@ -85,6 +86,21 @@ public class NotesAdapter extends RecyclerView.Adapter<BaseItemViewHolder> imple
         return mData.size();
     }
 
+    public void updateItem(ContentBase item) {
+        int position = Constants.ERROR;
+        for (int i = 0; i < getItemCount(); ++i) {
+            if (item.getId() == mData.get(i).getId()) {
+                position = i;
+            }
+        }
+        if (position != Constants.ERROR) {
+            mData.set(position, item);
+            notifyItemChanged(position);
+        } else {
+            MyDebugger.log("Invalid position in UpdateItem");
+        }
+    }
+
     public void addItem(int position, ContentBase item) {
         mData.add(position, item);
         notifyItemInserted(position);
@@ -97,7 +113,7 @@ public class NotesAdapter extends RecyclerView.Adapter<BaseItemViewHolder> imple
 
     @Override
     public void onItemDismissFromBin(int position) {
-        ActionExecutor.deleteNoteFromBin(mContext, this, mData.get(position), position);
+        ActionExecutor.deleteNoteFromBin(mActivity, this, mData.get(position), position);
         dismissItem(position);
     }
 

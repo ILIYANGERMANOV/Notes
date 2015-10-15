@@ -62,7 +62,7 @@ public class Queries {
                     " )";
     private static final String SELECT_ALL_FROM = "SELECT * FROM ";
     private static final String WHERE = " WHERE ";
-    private static final String EQUALS_TO = " = ?";
+    public static final String EQUALS_TO = " = ?";
     public static final String SELECT_ALL_FROM_NOTES_FOR_ID =
             SELECT_ALL_FROM + NoteEntry.TABLE_NAME + WHERE +
                     NoteEntry._ID + EQUALS_TO;
@@ -75,7 +75,10 @@ public class Queries {
     public static final String SELECT_ALL_FROM_LISTS_FOR_ID =
             SELECT_ALL_FROM + ListEntry.TABLE_NAME + WHERE +
                     ListEntry._ID + EQUALS_TO;
+
     public static String whereClauseContentId = ContentEntry._ID + EQUALS_TO;
+    public static String whereClauseNoteId = NoteEntry._ID + EQUALS_TO;
+    public static String whereClauseListId = ListEntry._ID + EQUALS_TO;
 
     public static String selectLastRowIdForTable(String tableName) {
         return "SELECT " + BaseColumns._ID + " FROM " + tableName +

@@ -39,9 +39,9 @@ public class BinController extends BaseController {
     }
 
     @Override
-    public void update(int mode) {
+    public void onItemAdded(int mode) {
         if (mode == Constants.MODE_DELETED_NORMAL || mode == Constants.MODE_DELETED_IMPORTANT) {
-            applyUpdate(MyApplication.getWritableDatabase().getLastDeletedNote());
+            addItem(MyApplication.getWritableDatabase().getLastDeletedNote());
         }
     }
 }

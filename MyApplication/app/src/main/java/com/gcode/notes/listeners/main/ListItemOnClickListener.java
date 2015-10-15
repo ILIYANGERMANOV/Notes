@@ -1,7 +1,7 @@
 package com.gcode.notes.listeners.main;
 
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 
@@ -11,18 +11,18 @@ import com.gcode.notes.extras.Constants;
 import com.gcode.notes.serialization.Serializer;
 
 public class ListItemOnClickListener implements View.OnClickListener {
-    Context mContext;
+    Activity mActivity;
     ListData mListData;
 
-    public ListItemOnClickListener(Context context, ListData listData) {
-        mContext = context;
+    public ListItemOnClickListener(Activity activity, ListData listData) {
+        mActivity = activity;
         mListData = listData;
     }
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(mContext, DisplayListActivity.class);
+        Intent intent = new Intent(mActivity, DisplayListActivity.class);
         intent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(mListData));
-        mContext.startActivity(intent);
+        mActivity.startActivityForResult(intent, Constants.LIST_FROM_DISPLAY_RES_CODE);
     }
 }

@@ -1,8 +1,8 @@
 package com.gcode.notes.adapters.viewholders.main;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Handler;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.data.ContentBase;
-import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.helper.ItemTouchHelperViewHolder;
 
 import java.util.ArrayList;
@@ -33,13 +32,13 @@ public abstract class BaseItemViewHolder extends RecyclerView.ViewHolder impleme
     @Bind(R.id.attributes_divider)
     View mAttributesDivider;
 
-    Context mContext;
+    Activity mActivity;
     ArrayList<ContentBase> mData;
 
-    public BaseItemViewHolder(Context context, View itemView, ArrayList<ContentBase> data) {
+    public BaseItemViewHolder(Activity activity, View itemView, ArrayList<ContentBase> data) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        mContext = context;
+        mActivity = activity;
         mData = data;
     }
 

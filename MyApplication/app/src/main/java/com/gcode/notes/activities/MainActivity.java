@@ -39,12 +39,14 @@ import com.gcode.notes.controllers.BinController;
 import com.gcode.notes.controllers.ImportantController;
 import com.gcode.notes.controllers.PrivateController;
 import com.gcode.notes.data.ContentBase;
+import com.gcode.notes.data.ListData;
 import com.gcode.notes.extras.Constants;
 import com.gcode.notes.extras.Keys;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.Tags;
 import com.gcode.notes.helper.OnStartDragListener;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
+import com.gcode.notes.serialization.Serializer;
 import com.gcode.notes.ui.ActionExecutor;
 import com.gcode.notes.ui.NavDrawerHelper;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
@@ -371,21 +373,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case (Constants.COMPOSE_NOTE_REQUEST_CODE): {
-                if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case Constants.COMPOSE_NOTE_REQUEST_CODE:
                     if (data != null) {
                         if (data.getBooleanExtra(Constants.NOTE_ADDED_SUCCESSFULLY, false)) {
                             int mode = data.getIntExtra(Constants.COMPOSE_NOTE_MODE, Constants.ERROR);
                             if (mode != Constants.ERROR) {
-                                BaseController.getInstance().update(mode);
+                                BaseController.getInstance().onItemAdded(mode);
                             } else {
                                 MyDebugger.log("onActivityResult() mode ERROR!");
                             }
                         }
                     }
-                }
-                break;
+                    break;
+                case Constants.LIST_FROM_DISPLAY_RES_CODE:
+                    if (data != null) {
+                        String serializedListData = data.getStringExtra(Constants.EXTRA_LIST_DATA);
+                        if (serializedListData != null) {
+                            ListData listData = Serializer.parseListData(serializedListData);
+                            if (listData != null) {
+                                BaseController.getInstance().onItemChanged(listData);
+                            } else {
+                                MyDebugger.log("LIST_FROM_DISPLAY listData is null!");
+                            }
+                        } else {
+                            MyDebugger.log("LIST_FROM_DISPLAY serializedListData is null!");
+                        }
+                    } else {
+                        MyDebugger.log("Result: LIST_FROM_DISPLAY data is null!");
+                    }
+                    break;
+                case Constants.NOTE_FROM_DISPLAY_RES_CODE:
+                    //TODO: handle note from display result
+                    break;
             }
         }
     }

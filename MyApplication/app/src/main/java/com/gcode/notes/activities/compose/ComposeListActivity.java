@@ -24,6 +24,7 @@ import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.ListDataItem;
 import com.gcode.notes.extras.Constants;
+import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
 
@@ -65,6 +66,9 @@ public class ComposeListActivity extends AppCompatActivity {
     ArrayList<ListDataItem> mListDataItems;
     ArrayList<ListDataItem> mTickedListDataItems;
 
+    boolean mIsOpenedInEditMode;
+    int mEditNoteId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,9 +93,11 @@ public class ComposeListActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             if (extras != null) {
                 //List opened in edit mode
+                mIsOpenedInEditMode = true;
                 setupFromEditMode(extras);
             } else {
                 //New list add empty item and focus it
+                mIsOpenedInEditMode = false;
                 setupFromZero();
             }
         } else {
@@ -109,6 +115,7 @@ public class ComposeListActivity extends AppCompatActivity {
     private void setupFromEditMode(Bundle extras) {
         ListData listData = Serializer.parseListData(extras.getString(Constants.EXTRA_LIST_DATA));
         if (listData != null) {
+            mEditNoteId = listData.getId();
             mTitleEditText.setText(listData.getTitle());
             mPrioritySwitch.setChecked(listData.isImportant());
             String reminderString = listData.getReminderString();
@@ -157,6 +164,10 @@ public class ComposeListActivity extends AppCompatActivity {
                 }
             }
         }, 20);
+        mIsOpenedInEditMode = savedInstanceState.getBoolean(Constants.EXTRA_IS_OPENED_IN_EDIT_MODE);
+        if (mIsOpenedInEditMode) {
+            mEditNoteId = savedInstanceState.getInt(Constants.EXTRA_EDIT_NOTE_ID);
+        }
     }
 
     @Override
@@ -194,6 +205,10 @@ public class ComposeListActivity extends AppCompatActivity {
                 //adding 1 in order to escape problems with id 0
                 outState.putInt(Constants.EXTRA_LAST_FOCUSED, (lastFocused + 1) * -1);
             }
+        }
+        outState.putBoolean(Constants.EXTRA_IS_OPENED_IN_EDIT_MODE, mIsOpenedInEditMode);
+        if (mIsOpenedInEditMode) {
+            outState.putInt(Constants.EXTRA_EDIT_NOTE_ID, mEditNoteId);
         }
     }
 
@@ -266,7 +281,6 @@ public class ComposeListActivity extends AppCompatActivity {
 
         String title = mTitleEditText.getText().toString();
         ArrayList<ListDataItem> listDataItems = mContainerAdapter.getListDataItems(true);
-
         listDataItems.addAll(mTickedContainerAdapter.getListDataItems(true));
 
         if (isValidList(title, listDataItems)) {
@@ -278,9 +292,22 @@ public class ComposeListActivity extends AppCompatActivity {
 
             ListData listData = new ListData(title, mode, listDataItems.size() > 0, listDataItems, reminderString);
 
-            if (MyApplication.getWritableDatabase().insertNote(listData) != Constants.DATABASE_ERROR) {
-                mResultIntent.putExtra(Constants.NOTE_ADDED_SUCCESSFULLY, true);
-                mResultIntent.putExtra(Constants.COMPOSE_NOTE_MODE, mode);
+            if (!mIsOpenedInEditMode) {
+                //save new list
+                if (MyApplication.getWritableDatabase().insertNote(listData) != Constants.DATABASE_ERROR) {
+                    mResultIntent.putExtra(Constants.NOTE_ADDED_SUCCESSFULLY, true);
+                    mResultIntent.putExtra(Constants.COMPOSE_NOTE_MODE, mode);
+                }
+            } else {
+                //update existing list
+                listData.setId(mEditNoteId);
+                if (MyApplication.getWritableDatabase().updateNote(listData)) {
+                    mResultIntent.putExtra(Constants.NOTE_UPDATED_SUCCESSFULLY, true);
+                    mResultIntent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(listData));
+                    mResultIntent.putExtra(Constants.COMPOSE_NOTE_MODE, mode);
+                } else {
+                    MyDebugger.log("Failed to update note.");
+                }
             }
         }
         setResult(Activity.RESULT_OK, mResultIntent);

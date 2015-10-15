@@ -12,17 +12,6 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 
 public class Serializer {
-    public static String serialize(ArrayList<ListDataItem> list) {
-        Gson gson = new Gson();
-        return gson.toJson(list);
-    }
-
-    public static ArrayList<ListDataItem> parse(String serializedObject) {
-        return new Gson().fromJson(serializedObject,
-                new TypeToken<ArrayList<ListDataItem>>() {
-                }.getType());
-    }
-
     public static String serializeListData(ListData listData) {
         Gson gson = new Gson();
         return gson.toJson(listData);
