@@ -1,5 +1,6 @@
 package com.gcode.notes.activities.display;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.activities.compose.ComposeNoteActivity;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.Constants;
 import com.gcode.notes.serialization.Serializer;
@@ -41,11 +43,15 @@ public class DisplayNoteActivity extends AppCompatActivity {
     @Bind(R.id.attributes_divider)
     View mAttributesDividerView;
 
+    NoteData mNoteData;
+    Intent mResultIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_note);
         ButterKnife.bind(this);
+        mResultIntent = new Intent();
         setupToolbar();
         setupStartState();
     }
@@ -56,15 +62,15 @@ public class DisplayNoteActivity extends AppCompatActivity {
         if (extras != null) {
             String serializedNoteData = extras.getString(Constants.EXTRA_NOTE_DATA);
             if (serializedNoteData != null) {
-                NoteData noteData = Serializer.parseNoteData(serializedNoteData);
-                display(noteData);
+                mNoteData = Serializer.parseNoteData(serializedNoteData);
+                displayNoteData();
             }
         }
     }
 
-    private void display(NoteData noteData) {
-        if (noteData != null) {
-            noteData.displayNote(mTitleTextView, mReminderTextView, mDescriptionTextView,
+    private void displayNoteData() {
+        if (mNoteData != null) {
+            mNoteData.displayNote(mTitleTextView, mReminderTextView, mDescriptionTextView,
                     mAttachedImageView, mVoiceImageView, mAttributesDividerView);
         }
     }
@@ -78,6 +84,41 @@ public class DisplayNoteActivity extends AppCompatActivity {
                 mActionBar.setDisplayHomeAsUpEnabled(true);
             }
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case Constants.COMPOSE_NOTE_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data != null) {
+                        if (data.getBooleanExtra(Constants.NOTE_UPDATED_SUCCESSFULLY, false)) {
+                            String serializedNoteData = data.getStringExtra(Constants.EXTRA_NOTE_DATA);
+                            if (serializedNoteData != null) {
+                                NoteData noteData = Serializer.parseNoteData(serializedNoteData);
+                                if (noteData != null) {
+                                    mNoteData = noteData;
+                                    displayNoteData();
+                                }
+                            }
+                        }
+                    }
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        buildResultIntent();
+        setResult(Activity.RESULT_OK, mResultIntent);
+        super.onBackPressed();
+    }
+
+    private void buildResultIntent() {
+        mResultIntent = new Intent();
+        mResultIntent.putExtra(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(mNoteData));
     }
 
     @Override
@@ -98,7 +139,15 @@ public class DisplayNoteActivity extends AppCompatActivity {
             case R.id.action_settings:
                 return true;
             case android.R.id.home:
+                buildResultIntent();
+                setResult(Activity.RESULT_OK, mResultIntent);
                 finish();
+                return true;
+            case R.id.action_edit:
+                Intent intent = new Intent(this, ComposeNoteActivity.class);
+                intent.putExtra(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(mNoteData));
+                startActivityForResult(intent, Constants.COMPOSE_NOTE_REQUEST_CODE);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

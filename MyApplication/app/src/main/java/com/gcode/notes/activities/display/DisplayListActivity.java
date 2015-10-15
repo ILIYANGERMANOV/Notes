@@ -18,7 +18,6 @@ import com.gcode.notes.adapters.ListItemAdapter;
 import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.ListDataItem;
 import com.gcode.notes.extras.Constants;
-import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.serialization.Serializer;
 
 import java.util.ArrayList;
@@ -27,6 +26,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class DisplayListActivity extends AppCompatActivity {
+    //TODO: handle screen rotation
     @Bind(R.id.display_list_toolbar)
     Toolbar mToolbar;
 
@@ -60,7 +60,6 @@ public class DisplayListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_list);
         ButterKnife.bind(this);
-        mResultIntent = new Intent();
         setupToolbar();
         setupStartState();
     }
@@ -153,18 +152,13 @@ public class DisplayListActivity extends AppCompatActivity {
                 if (resultCode == Activity.RESULT_OK) {
                     if (data != null) {
                         if (data.getBooleanExtra(Constants.NOTE_UPDATED_SUCCESSFULLY, false)) {
-                            int mode = data.getIntExtra(Constants.COMPOSE_NOTE_MODE, Constants.ERROR);
-                            if (mode != Constants.ERROR) {
-                                String serializedListData = data.getStringExtra(Constants.EXTRA_LIST_DATA);
-                                if (serializedListData != null) {
-                                    ListData listData = Serializer.parseListData(serializedListData);
-                                    if (listData != null) {
-                                        mListData = listData;
-                                        displayListData();
-                                    }
+                            String serializedListData = data.getStringExtra(Constants.EXTRA_LIST_DATA);
+                            if (serializedListData != null) {
+                                ListData listData = Serializer.parseListData(serializedListData);
+                                if (listData != null) {
+                                    mListData = listData;
+                                    displayListData();
                                 }
-                            } else {
-                                MyDebugger.log("onActivityResult() DisplayList mode ERROR!");
                             }
                         }
                     }
@@ -182,6 +176,7 @@ public class DisplayListActivity extends AppCompatActivity {
     }
 
     private void buildResultIntent() {
+        mResultIntent = new Intent();
         mListData.getList().clear();
         mListData.getList().addAll(mListDataItems);
         mListData.getList().addAll(mTickedListDataItems);

@@ -40,6 +40,7 @@ import com.gcode.notes.controllers.ImportantController;
 import com.gcode.notes.controllers.PrivateController;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.data.ListData;
+import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.Constants;
 import com.gcode.notes.extras.Keys;
 import com.gcode.notes.extras.MyDebugger;
@@ -405,7 +406,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                     break;
                 case Constants.NOTE_FROM_DISPLAY_RES_CODE:
-                    //TODO: handle note from display result
+                    if (data != null) {
+                        String serializedNoteData = data.getStringExtra(Constants.EXTRA_NOTE_DATA);
+                        if (serializedNoteData != null) {
+                            NoteData noteData = Serializer.parseNoteData(serializedNoteData);
+                            if (noteData != null) {
+                                BaseController.getInstance().onItemChanged(noteData);
+                            } else {
+                                MyDebugger.log("NOTE_FROM_DISPLAY noteData is null!");
+                            }
+                        } else {
+                            MyDebugger.log("NOTE_FROM_DISPLAY serializedNoteData is null!");
+                        }
+                    } else {
+                        MyDebugger.log("Result: NOTE_FROM_DISPLAY data is null!");
+                    }
                     break;
             }
         }

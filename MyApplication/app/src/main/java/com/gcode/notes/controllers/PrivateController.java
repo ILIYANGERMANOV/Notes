@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.gcode.notes.R;
 import com.gcode.notes.animations.MyAnimator;
+import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.extras.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.tasks.LoadContentTask;
@@ -35,6 +36,14 @@ public class PrivateController extends BaseController {
         if (mPreviousControllerId == Constants.CONTROLLER_BIN) {
             MyAnimator.startAnimation(mContext, mFab, R.anim.expand_anim);
             mFab.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onItemChanged(ContentBase item) {
+        int mode = item.getMode();
+        if (mode == Constants.MODE_PRIVATE) {
+            updateItem(item);
         }
     }
 

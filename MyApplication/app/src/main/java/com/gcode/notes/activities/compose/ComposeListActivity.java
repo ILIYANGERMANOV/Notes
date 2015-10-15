@@ -130,6 +130,7 @@ public class ComposeListActivity extends AppCompatActivity {
     }
 
     private void handlerScreenRotation(final Bundle savedInstanceState) {
+        //postDelayed because layout isn't loaded and leads to crash
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -297,6 +298,8 @@ public class ComposeListActivity extends AppCompatActivity {
                 if (MyApplication.getWritableDatabase().insertNote(listData) != Constants.DATABASE_ERROR) {
                     mResultIntent.putExtra(Constants.NOTE_ADDED_SUCCESSFULLY, true);
                     mResultIntent.putExtra(Constants.COMPOSE_NOTE_MODE, mode);
+                } else {
+                    MyDebugger.log("Failed to save list.");
                 }
             } else {
                 //update existing list
@@ -304,9 +307,8 @@ public class ComposeListActivity extends AppCompatActivity {
                 if (MyApplication.getWritableDatabase().updateNote(listData)) {
                     mResultIntent.putExtra(Constants.NOTE_UPDATED_SUCCESSFULLY, true);
                     mResultIntent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(listData));
-                    mResultIntent.putExtra(Constants.COMPOSE_NOTE_MODE, mode);
                 } else {
-                    MyDebugger.log("Failed to update note.");
+                    MyDebugger.log("Failed to update list.");
                 }
             }
         }

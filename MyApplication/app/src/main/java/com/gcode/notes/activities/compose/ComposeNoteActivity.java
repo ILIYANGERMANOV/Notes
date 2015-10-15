@@ -3,6 +3,7 @@ package com.gcode.notes.activities.compose;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.Constants;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.notes.MyApplication;
+import com.gcode.notes.serialization.Serializer;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -42,8 +44,10 @@ public class ComposeNoteActivity extends AppCompatActivity {
     SwitchCompat mPrioritySwitch;
 
     @Bind(R.id.compose_note_set_reminder_text_view)
-    TextView mSetReminderTextView;
+    TextView mReminderTextView;
 
+    boolean mIsOpenedInEditMode;
+    int mEditNoteId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +57,62 @@ public class ComposeNoteActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setupToolbar();
+        setupStartState(savedInstanceState);
+    }
+
+    private void setupStartState(Bundle savedInstanceState) {
+        Bundle extras = getIntent().getExtras();
+        if (savedInstanceState == null) {
+            if (extras != null) {
+                //Note opened in edit mode
+                mIsOpenedInEditMode = true;
+                setupFromEditMode(extras);
+            } else {
+                //New note
+                mIsOpenedInEditMode = false;
+                setupFromZero();
+            }
+        } else {
+            //Saved instance state
+            handlerScreenRotation(savedInstanceState);
+        }
+    }
+
+    private void setupFromZero() {
         setupMode();
+    }
+
+    private void setupFromEditMode(Bundle extras) {
+        NoteData noteData = Serializer.parseNoteData(extras.getString(Constants.EXTRA_NOTE_DATA));
+        if (noteData != null) {
+            mEditNoteId = noteData.getId();
+            mTitleEditText.setText(noteData.getTitle());
+            mPrioritySwitch.setChecked(noteData.isImportant());
+            String reminderString = noteData.getReminderString();
+            if (!reminderString.equals(Constants.NO_REMINDER)) {
+                mReminderTextView.setText(reminderString);
+            }
+            //TODO: set picture and audio
+            mDescriptionEditText.setText(noteData.getDescription());
+        }
+    }
+
+    private void handlerScreenRotation(Bundle savedInstanceState) {
+        //TODO: handle screen rotation (picture and audio)
+        mIsOpenedInEditMode = savedInstanceState.getBoolean(Constants.EXTRA_IS_OPENED_IN_EDIT_MODE);
+        if (mIsOpenedInEditMode) {
+            mEditNoteId = savedInstanceState.getInt(Constants.EXTRA_EDIT_NOTE_ID);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        //TODO: add picture and audio
+        outState.putBoolean(Constants.EXTRA_IS_OPENED_IN_EDIT_MODE, mIsOpenedInEditMode);
+        if (mIsOpenedInEditMode) {
+            outState.putInt(Constants.EXTRA_EDIT_NOTE_ID, mEditNoteId);
+        }
     }
 
     private void setupMode() {
@@ -91,7 +150,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
         String description = mDescriptionEditText.getText().toString();
         if (isValidNote(title, description)) {
             int mode = mPrioritySwitch.isChecked() ? Constants.MODE_IMPORTANT : Constants.MODE_NORMAL;
-            String reminderString = mSetReminderTextView.getText().toString();
+            String reminderString = mReminderTextView.getText().toString();
             if (reminderString.equals(getResources().getString(R.string.compose_note_set_reminder_text))) {
                 reminderString = Constants.NO_REMINDER;
             }
@@ -100,10 +159,24 @@ public class ComposeNoteActivity extends AppCompatActivity {
             NoteData noteData = new NoteData(title, mode,
                     hasAttributes(description),
                     description, null, null, reminderString);
-
-            if (MyApplication.getWritableDatabase().insertNote(noteData) != Constants.DATABASE_ERROR) {
-                mResultIntent.putExtra(Constants.NOTE_ADDED_SUCCESSFULLY, true);
-                mResultIntent.putExtra(Constants.COMPOSE_NOTE_MODE, mode);
+            
+            if(!mIsOpenedInEditMode) {
+                //new note
+                if (MyApplication.getWritableDatabase().insertNote(noteData) != Constants.DATABASE_ERROR) {
+                    mResultIntent.putExtra(Constants.NOTE_ADDED_SUCCESSFULLY, true);
+                    mResultIntent.putExtra(Constants.COMPOSE_NOTE_MODE, mode);
+                } else {
+                    MyDebugger.log("Failed to save note.");
+                }
+            } else {
+                //update existing note
+                noteData.setId(mEditNoteId);
+                if (MyApplication.getWritableDatabase().updateNote(noteData)) {
+                    mResultIntent.putExtra(Constants.NOTE_UPDATED_SUCCESSFULLY, true);
+                    mResultIntent.putExtra(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(noteData));
+                } else {
+                    MyDebugger.log("Failed to update note.");
+                }
             }
         }
         setResult(Activity.RESULT_OK, mResultIntent);
