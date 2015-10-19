@@ -101,24 +101,33 @@ public abstract class BaseInputContainerAdapter {
     public void removeInputItem(View inputItem) {
         int position = getViewId(inputItem);
         if (position == Constants.ERROR) return;
+        boolean wasItemFocused = getEditTextFromView(inputItem).isFocused();
         updateItemsIdAfterRemove(position);
         mContainer.removeView(inputItem);
         View previousItem = mContainer.getChildAt(position - 1);
         if (previousItem != null) {
-            onRemoveItemRequestFocus(previousItem);
+            onRemoveItemRequestFocus(previousItem, wasItemFocused);
         }
     }
 
     protected abstract View createView();
+
     protected abstract boolean isListDataItemChecked();
 
-    protected void onRemoveItemRequestFocus(View previousItem) {
+    protected void onRemoveItemRequestFocus(View previousItem, boolean wasItemFocused) {
 
     }
 
-
     protected void onAddItemRequestFocus(View inputItem) {
+        final EditText mEditText = getEditTextFromView(inputItem);
+        mScrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                mScrollView.smoothScrollBy(0, mEditText.getHeight());
 
+            }
+        });
+        mEditText.requestFocus();
     }
 
     protected void onChecked(View parent) {

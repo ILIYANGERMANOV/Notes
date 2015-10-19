@@ -14,20 +14,7 @@ public class ListInputContainerAdapter extends BaseInputContainerAdapter {
     }
 
     @Override
-    protected void onAddItemRequestFocus(View inputItem) {
-        final EditText mEditText = getEditTextFromView(inputItem);
-        mScrollView.post(new Runnable() {
-            @Override
-            public void run() {
-                mScrollView.smoothScrollBy(0, mEditText.getHeight());
-
-            }
-        });
-        mEditText.requestFocus();
-    }
-
-    @Override
-    protected void onRemoveItemRequestFocus(View previousItem) {
+    protected void onRemoveItemRequestFocus(View previousItem, boolean wasFocused) {
         EditText mEditText = getEditTextFromView(previousItem);
         mEditText.requestFocus();
     }

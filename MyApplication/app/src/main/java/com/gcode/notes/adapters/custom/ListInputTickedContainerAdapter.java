@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.extras.MyDebugger;
 
 public class ListInputTickedContainerAdapter extends BaseInputContainerAdapter {
     public ListInputTickedContainerAdapter(LinearLayout container, ScrollView scrollView) {
@@ -24,6 +25,14 @@ public class ListInputTickedContainerAdapter extends BaseInputContainerAdapter {
         super.setupInputItemLayout(inputItem, inputItemContent);
         EditText mEditText = getEditTextFromView(inputItem);
         mEditText.setPaintFlags(mEditText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+    }
+
+    @Override
+    protected void onRemoveItemRequestFocus(View previousItem, boolean wasItemFocused) {
+        if (wasItemFocused) {
+            EditText mEditText = getEditTextFromView(previousItem);
+            mEditText.requestFocus();
+        }
     }
 
     @Override

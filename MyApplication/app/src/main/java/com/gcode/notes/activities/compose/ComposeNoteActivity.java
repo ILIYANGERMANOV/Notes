@@ -157,8 +157,8 @@ public class ComposeNoteActivity extends AppCompatActivity {
             NoteData noteData = new NoteData(title, mode,
                     hasAttributes(description),
                     description, null, null, reminderString);
-            
-            if(!mIsOpenedInEditMode) {
+
+            if (!mIsOpenedInEditMode) {
                 //new note
                 if (MyApplication.getWritableDatabase().insertNote(noteData) != Constants.DATABASE_ERROR) {
                     mResultIntent.putExtra(Constants.NOTE_ADDED_SUCCESSFULLY, true);
