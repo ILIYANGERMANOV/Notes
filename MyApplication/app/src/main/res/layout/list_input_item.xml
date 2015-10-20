@@ -26,6 +26,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="2dp"
         android:layout_weight="1"
+        android:background="@android:color/transparent"
         android:gravity="center_vertical"
         android:inputType="text"
         android:maxLines="2" />

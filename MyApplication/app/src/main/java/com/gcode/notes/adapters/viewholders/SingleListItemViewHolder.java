@@ -52,7 +52,6 @@ public class SingleListItemViewHolder extends RecyclerView.ViewHolder implements
         if (itemPosition != RecyclerView.NO_POSITION) {
             ListItemAdapter otherAdapter = mAdapter.getOtherAdapter();
             otherAdapter.add(mAdapter.getItemAtPosition(itemPosition));
-            otherAdapter.smoothScrollToLastItem();
             mAdapter.remove(itemPosition);
         } else {
             MyDebugger.log("onClick() SingleListItemViewHolder NO_POSITION");

@@ -39,12 +39,6 @@ public class DisplayListActivity extends AppCompatActivity {
     @Bind(R.id.display_list_ticked_recycler_view)
     RecyclerView mTickedRecyclerView;
 
-    @Bind(R.id.reminder_text_view)
-    TextView mReminderTextView;
-
-    @Bind(R.id.attributes_divider)
-    View mAttributesDividerView;
-
     ListData mListData;
 
     ListItemAdapter mAdapter;
@@ -90,7 +84,7 @@ public class DisplayListActivity extends AppCompatActivity {
 
     private void displayListData() {
         if (mListData != null) {
-            mListData.displayBase(mTitleTextView, mReminderTextView);
+            mListData.displayBase(mTitleTextView);
             if (mListDataItems == null || mTickedListDataItems == null) {
                 //displayListData for first time
                 setupRecyclerViews();

@@ -69,10 +69,6 @@ public class ListItemAdapter extends RecyclerView.Adapter<SingleListItemViewHold
         notifyItemInserted(getItemCount() - 1);
     }
 
-    public void smoothScrollToLastItem() {
-        mRecyclerView.smoothScrollToPosition(getItemCount() - 1);
-    }
-
     @Override
     public SingleListItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());

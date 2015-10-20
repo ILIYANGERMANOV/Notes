@@ -43,15 +43,10 @@ public class NoteData extends ContentBase {
 
     }
 
-    public void displayNote(TextView titleTextView, TextView reminderTextView,
-                            TextView descriptionTextView, ImageView attachedImageView,
-                            ImageView voiceImageView, View attributeDividerView) {
-
-        displayBase(titleTextView, reminderTextView);
+    public void displayNote(TextView titleTextView, TextView descriptionTextView, ImageView attachedImageView) {
+        displayBase(titleTextView);
         descriptionTextView.setText(description);
         displayAttachedImage(attachedImageView);
-        displayAudioRecord(voiceImageView);
-        displayDivider(attributeDividerView);
     }
 
     private void displayDivider(View attributesDividerView) {

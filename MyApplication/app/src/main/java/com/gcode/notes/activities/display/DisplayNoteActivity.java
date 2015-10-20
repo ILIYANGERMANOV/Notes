@@ -34,15 +34,6 @@ public class DisplayNoteActivity extends AppCompatActivity {
     @Bind(R.id.display_note_image_view)
     ImageView mAttachedImageView;
 
-    @Bind(R.id.voice_image_view)
-    ImageView mVoiceImageView;
-
-    @Bind(R.id.reminder_text_view)
-    TextView mReminderTextView;
-
-    @Bind(R.id.attributes_divider)
-    View mAttributesDividerView;
-
     NoteData mNoteData;
 
     @Override
@@ -68,8 +59,7 @@ public class DisplayNoteActivity extends AppCompatActivity {
 
     private void displayNoteData() {
         if (mNoteData != null) {
-            mNoteData.displayNote(mTitleTextView, mReminderTextView, mDescriptionTextView,
-                    mAttachedImageView, mVoiceImageView, mAttributesDividerView);
+            mNoteData.displayNote(mTitleTextView, mDescriptionTextView, mAttachedImageView);
         }
     }
 
