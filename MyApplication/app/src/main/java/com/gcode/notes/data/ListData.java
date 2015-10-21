@@ -6,7 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.gcode.notes.adapters.ListItemAdapter;
+import com.gcode.notes.adapters.list.ListItemsBaseAdapter;
+import com.gcode.notes.adapters.list.ListItemsMainAdapter;
 import com.gcode.notes.adapters.viewholders.main.ListItemViewHolder;
 
 import java.util.ArrayList;
@@ -37,21 +38,21 @@ public class ListData extends ContentBase {
         this.list = list;
     }
 
-    public void displayList(Activity activity, ListItemViewHolder holder, int calledFrom) {
+    public void displayList(Activity activity, ListItemViewHolder holder) {
         displayBase(holder.getTitleTextView(), holder.getReminderTextView());
         if (hasReminder()) {
             holder.getAttributesDivider().setVisibility(View.VISIBLE);
         }
         RecyclerView mRecyclerView = holder.getRecyclerView();
-        setupRecyclerView(activity, mRecyclerView, calledFrom);
+        setupRecyclerView(activity, mRecyclerView);
     }
 
-    private void setupRecyclerView(Activity activity, RecyclerView recyclerView, int calledFrom) {
+    private void setupRecyclerView(Activity activity, RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(activity));
         if (list == null) {
             list = new ArrayList<>();
         }
-        recyclerView.setAdapter(new ListItemAdapter(activity, list, this, null, calledFrom));
+        recyclerView.setAdapter(new ListItemsMainAdapter(activity, list, this));
         recyclerView.setNestedScrollingEnabled(false);
     }
 

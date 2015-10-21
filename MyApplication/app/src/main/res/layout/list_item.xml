@@ -13,7 +13,7 @@
         android:padding="7dp">
 
         <include
-            android:id="@+id/note_title_layout"
+            android:id="@+id/note_title_text_view"
             layout="@layout/note_title_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

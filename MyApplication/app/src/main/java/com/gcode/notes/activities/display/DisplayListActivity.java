@@ -5,21 +5,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.activities.compose.ComposeListActivity;
-import com.gcode.notes.adapters.ListItemAdapter;
+import com.gcode.notes.adapters.list.ListItemsBaseAdapter;
+import com.gcode.notes.adapters.list.ListItemsDisplayAdapter;
 import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.ListDataItem;
 import com.gcode.notes.extras.Constants;
 import com.gcode.notes.serialization.Serializer;
 import com.gcode.notes.tasks.UpdateListAttributesTask;
+import com.gcode.notes.views.NonScrollableRecyclerView;
 
 import java.util.ArrayList;
 
@@ -34,15 +34,15 @@ public class DisplayListActivity extends AppCompatActivity {
     TextView mTitleTextView;
 
     @Bind(R.id.display_list_recycler_view)
-    RecyclerView mRecyclerView;
+    NonScrollableRecyclerView mRecyclerView;
 
     @Bind(R.id.display_list_ticked_recycler_view)
-    RecyclerView mTickedRecyclerView;
+    NonScrollableRecyclerView mTickedRecyclerView;
 
     ListData mListData;
 
-    ListItemAdapter mAdapter;
-    ListItemAdapter mTickedAdapter;
+    ListItemsDisplayAdapter mAdapter;
+    ListItemsDisplayAdapter mTickedAdapter;
 
     ArrayList<ListDataItem> mListDataItems;
     ArrayList<ListDataItem> mTickedListDataItems;
@@ -110,19 +110,14 @@ public class DisplayListActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(this));
         mTickedRecyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(this));
 
-        mAdapter = new ListItemAdapter(this, mListDataItems, null,
-                mRecyclerView, Constants.CALLED_FROM_DISPLAY);
-
-        mTickedAdapter = new ListItemAdapter(this, mTickedListDataItems, null,
-                mTickedRecyclerView, Constants.CALLED_FROM_DISPLAY);
-        mTickedAdapter.setTickedModeOn();
+        mAdapter = new ListItemsDisplayAdapter(mListDataItems, false);
+        mTickedAdapter = new ListItemsDisplayAdapter(mTickedListDataItems, true);
 
         mAdapter.setOtherAdapter(mTickedAdapter);
         mTickedAdapter.setOtherAdapter(mAdapter);
 
         mRecyclerView.setAdapter(mAdapter);
         mTickedRecyclerView.setAdapter(mTickedAdapter);
-
     }
 
     private void fillListDataItemLists() {

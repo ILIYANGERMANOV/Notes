@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.gcode.notes.adapters.NotesAdapter;
+import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.controllers.BinController;
 import com.gcode.notes.data.ContentBase;
@@ -16,7 +16,7 @@ import com.gcode.notes.listeners.UndoOnClickListener;
 import com.gcode.notes.notes.MyApplication;
 
 public class ActionExecutor {
-    public static void popUndoSnackbar(View mRoot, RecyclerView mRecyclerView, final NotesAdapter mAdapter,
+    public static void popUndoSnackbar(View mRoot, RecyclerView mRecyclerView, final MainAdapter mAdapter,
                                        final int position, final ContentBase mNote) {
 
         final UndoOnClickListener mUndoOnClickListener = new UndoOnClickListener(mRecyclerView, mAdapter, position, mNote);
@@ -68,7 +68,7 @@ public class ActionExecutor {
         DialogHelper.buildEmptyBinDialog(mContext, mButtonCallback);
     }
 
-    public static void deleteNoteFromBin(Context mContext, final NotesAdapter mAdapter,
+    public static void deleteNoteFromBin(Context mContext, final MainAdapter mAdapter,
                                          final ContentBase mNote, final int mPosition) {
 
         final MaterialDialog.ButtonCallback mButtonCallback = new MaterialDialog.ButtonCallback() {

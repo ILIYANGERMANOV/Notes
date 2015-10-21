@@ -2,10 +2,8 @@ package com.gcode.notes.adapters;
 
 
 import android.app.Activity;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -26,15 +24,15 @@ import com.gcode.notes.ui.ActionExecutor;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class NotesAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implements ItemTouchHelperAdapter {
+public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implements ItemTouchHelperAdapter {
     private final OnStartDragListener mDragStartListener;
     ArrayList<ContentBase> mData;
     View mRootView;
     Activity mActivity;
     RecyclerView mRecyclerView;
 
-    public NotesAdapter(Activity activity, RecyclerView recyclerView, ArrayList<ContentBase> data,
-                        OnStartDragListener dragStartListener, View rooView) {
+    public MainAdapter(Activity activity, RecyclerView recyclerView, ArrayList<ContentBase> data,
+                       OnStartDragListener dragStartListener, View rooView) {
 
         mRecyclerView = recyclerView;
         mActivity = activity;
@@ -66,19 +64,19 @@ public class NotesAdapter extends RecyclerView.Adapter<BaseItemViewHolder> imple
             if (currentItem.getType() == Constants.TYPE_NOTE) {
                 ((NoteData) currentItem).displayNote((NoteItemViewHolder) holder);
             } else {
-                ((ListData) currentItem).displayList(mActivity, (ListItemViewHolder) holder, Constants.CALLED_FROM_MAIN);
+                ((ListData) currentItem).displayList(mActivity, (ListItemViewHolder) holder);
             }
         }
         //Start a drag whenever the view is touched
-        holder.getTitleImageButton().setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
-                    mDragStartListener.onStartDrag(holder);
-                }
-                return false;
-            }
-        });
+//        holder.getTitleImageButton().setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+//                    mDragStartListener.onStartDrag(holder);
+//                }
+//                return false;
+//            }
+//        });
     }
 
     @Override

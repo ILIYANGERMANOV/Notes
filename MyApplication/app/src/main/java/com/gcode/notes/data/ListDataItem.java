@@ -5,7 +5,7 @@ import android.graphics.Paint;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.gcode.notes.adapters.viewholders.SingleListItemViewHolder;
+import com.gcode.notes.adapters.viewholders.list.ListItemBaseViewHolder;
 
 public class ListDataItem {
     String content;
@@ -32,7 +32,7 @@ public class ListDataItem {
         this.content = content;
     }
 
-    public void display(SingleListItemViewHolder holder) {
+    public void display(ListItemBaseViewHolder holder) {
         CheckBox checkBox = holder.getCheckBox();
         TextView textView = holder.getTextView();
         textView.setText(content);

@@ -60,7 +60,7 @@
                         android:gravity="center_vertical"
                         android:text="@string/compose_list_todo_tasks_caption" />
 
-                    <android.support.v7.widget.RecyclerView
+                    <com.gcode.notes.views.NonScrollableRecyclerView
                         android:id="@+id/display_list_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
                         android:gravity="center_vertical"
                         android:text="@string/compose_list_done_tasks_caption" />
 
-                    <android.support.v7.widget.RecyclerView
+                    <com.gcode.notes.views.NonScrollableRecyclerView
                         android:id="@+id/display_list_ticked_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

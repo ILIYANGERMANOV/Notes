@@ -31,7 +31,7 @@ import com.gcode.notes.activities.compose.ComposeListActivity;
 import com.gcode.notes.activities.compose.ComposeNoteActivity;
 import com.gcode.notes.activities.extra.ExploreActivity;
 import com.gcode.notes.activities.extra.SettingsActivity;
-import com.gcode.notes.adapters.NotesAdapter;
+import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.animations.MyAnimator;
 import com.gcode.notes.controllers.AllNotesController;
 import com.gcode.notes.controllers.BaseController;
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setupRecyclerView() {
         ArrayList<ContentBase> mNotesList = new ArrayList<>();
 
-        NotesAdapter mAdapter = new NotesAdapter(this, mRecyclerView, mNotesList, this, mCoordinatorLayout);
+        MainAdapter mAdapter = new MainAdapter(this, mRecyclerView, mNotesList, this, mCoordinatorLayout);
         GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, Constants.GRID_COLUMNS_COUNT);
         RecyclerView.ItemAnimator mItemAnimator = new DefaultItemAnimator();
 

@@ -3,7 +3,7 @@ package com.gcode.notes.listeners;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.gcode.notes.adapters.NotesAdapter;
+import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.data.ContentBase;
 
 
@@ -11,11 +11,11 @@ public class UndoOnClickListener implements View.OnClickListener {
     boolean undo;
 
     RecyclerView mRecyclerView;
-    NotesAdapter mAdapter;
+    MainAdapter mAdapter;
     int mPosition;
     ContentBase mNote;
 
-    public UndoOnClickListener(RecyclerView recyclerView, NotesAdapter adapter, int position, ContentBase note) {
+    public UndoOnClickListener(RecyclerView recyclerView, MainAdapter adapter, int position, ContentBase note) {
         mRecyclerView = recyclerView;
         mAdapter = adapter;
         mPosition = position;

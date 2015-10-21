@@ -21,7 +21,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
-import com.gcode.notes.adapters.NotesAdapter;
+import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.extras.Constants;
 
@@ -41,7 +41,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     private final ItemTouchHelperAdapter mAdapter;
 
-    public SimpleItemTouchHelperCallback(NotesAdapter adapter) {
+    public SimpleItemTouchHelperCallback(MainAdapter adapter) {
         mAdapter = adapter;
     }
 

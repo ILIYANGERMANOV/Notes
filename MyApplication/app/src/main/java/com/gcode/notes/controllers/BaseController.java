@@ -6,7 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
-import com.gcode.notes.adapters.NotesAdapter;
+import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.extras.Constants;
 
@@ -50,26 +50,26 @@ public class BaseController {
     }
 
     public void setNewContent(ArrayList<ContentBase> newContent) {
-        NotesAdapter mNotesAdapter = getNotesAdapter();
-        if (mNotesAdapter != null) {
-            mNotesAdapter.updateContent(newContent);
+        MainAdapter mMainAdapter = getMainAdapter();
+        if (mMainAdapter != null) {
+            mMainAdapter.updateContent(newContent);
             mRecyclerView.invalidate();
             mRecyclerView.smoothScrollToPosition(0);
         }
     }
 
     public void addItem(ContentBase item) {
-        NotesAdapter mNotesAdapter = getNotesAdapter();
-        if (mNotesAdapter != null) {
-            mNotesAdapter.addItem(item);
+        MainAdapter mMainAdapter = getMainAdapter();
+        if (mMainAdapter != null) {
+            mMainAdapter.addItem(item);
             mRecyclerView.smoothScrollToPosition(0);
         }
     }
 
     public void updateItem(ContentBase item) {
-        NotesAdapter mNotesAdapter = getNotesAdapter();
-        if (mNotesAdapter != null) {
-            mNotesAdapter.updateItem(item);
+        MainAdapter mMainAdapter = getMainAdapter();
+        if (mMainAdapter != null) {
+            mMainAdapter.updateItem(item);
         }
     }
 
@@ -91,11 +91,11 @@ public class BaseController {
         return mRecyclerView;
     }
 
-    public NotesAdapter getNotesAdapter() {
+    public MainAdapter getMainAdapter() {
         if (mRecyclerView == null) return null;
         RecyclerView.Adapter mAdapter = mRecyclerView.getAdapter();
-        if (mAdapter instanceof NotesAdapter) {
-            return (NotesAdapter) mAdapter;
+        if (mAdapter instanceof MainAdapter) {
+            return (MainAdapter) mAdapter;
         }
         return null;
     }
