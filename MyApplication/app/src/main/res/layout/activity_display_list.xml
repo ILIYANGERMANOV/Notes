@@ -53,34 +53,34 @@
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
-                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:gravity="center_vertical"
-                        android:text="@string/compose_list_todo_tasks_caption" />
-
                     <com.gcode.notes.views.NonScrollableRecyclerView
                         android:id="@+id/display_list_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:paddingLeft="33dp"
-                        android:scrollbars="vertical" />
+                        android:paddingLeft="21dp"
+                        android:scrollbars="vertical"
+                        android:visibility="visible" />
 
-                    <TextView
+                    <Button
+                        android:id="@+id/display_list_done_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:drawableLeft="@drawable/ic_expand_more_black_24dp"
+                        android:drawablePadding="5dp"
                         android:gravity="center_vertical"
-                        android:text="@string/compose_list_done_tasks_caption" />
+                        android:text="@string/compose_list_done_tasks_caption"
+                        android:textAllCaps="false"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textSize="17sp" />
 
                     <com.gcode.notes.views.NonScrollableRecyclerView
                         android:id="@+id/display_list_ticked_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:paddingLeft="33dp"
+                        android:paddingLeft="21dp"
                         android:scrollbars="vertical" />
 
                     <TextView

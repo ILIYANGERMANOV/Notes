@@ -1,10 +1,11 @@
-package com.gcode.notes.adapters.list;
+package com.gcode.notes.adapters.list.display;
 
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.gcode.notes.R;
+import com.gcode.notes.adapters.list.ListItemsBaseAdapter;
 import com.gcode.notes.adapters.viewholders.list.ListItemBaseViewHolder;
 import com.gcode.notes.adapters.viewholders.list.ListItemDisplayViewHolder;
 import com.gcode.notes.data.ListDataItem;
@@ -13,11 +14,9 @@ import java.util.ArrayList;
 
 public class ListItemsDisplayAdapter extends ListItemsBaseAdapter {
     ListItemsDisplayAdapter mOtherAdapter;
-    boolean mIsTickedModeOn;
 
-    public ListItemsDisplayAdapter(ArrayList<ListDataItem> data, boolean isTickedModeOn) {
+    public ListItemsDisplayAdapter(ArrayList<ListDataItem> data) {
         super(data);
-        mIsTickedModeOn = isTickedModeOn;
     }
 
     @Override
@@ -40,11 +39,7 @@ public class ListItemsDisplayAdapter extends ListItemsBaseAdapter {
     }
 
     public void add(ListDataItem item) {
-        if (mIsTickedModeOn) {
-            item.setChecked(true);
-        } else {
-            item.setChecked(false);
-        }
+        item.setChecked(false);
         mData.add(item);
         notifyItemInserted(getItemCount() - 1);
     }

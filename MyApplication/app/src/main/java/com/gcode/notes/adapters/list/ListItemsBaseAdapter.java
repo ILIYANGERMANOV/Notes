@@ -9,7 +9,7 @@ import com.gcode.notes.data.ListDataItem;
 import java.util.ArrayList;
 
 public abstract class ListItemsBaseAdapter extends RecyclerView.Adapter<ListItemBaseViewHolder> {
-    ArrayList<ListDataItem> mData;
+    protected ArrayList<ListDataItem> mData;
 
     public ListItemsBaseAdapter(ArrayList<ListDataItem> data) {
         mData = data;

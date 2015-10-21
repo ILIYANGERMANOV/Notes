@@ -8,12 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.activities.compose.ComposeListActivity;
-import com.gcode.notes.adapters.list.ListItemsBaseAdapter;
-import com.gcode.notes.adapters.list.ListItemsDisplayAdapter;
+import com.gcode.notes.adapters.list.display.ListItemsDisplayAdapter;
+import com.gcode.notes.adapters.list.display.ListItemsDisplayTickedAdapter;
 import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.ListDataItem;
 import com.gcode.notes.extras.Constants;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class DisplayListActivity extends AppCompatActivity {
     @Bind(R.id.display_list_toolbar)
@@ -39,13 +42,18 @@ public class DisplayListActivity extends AppCompatActivity {
     @Bind(R.id.display_list_ticked_recycler_view)
     NonScrollableRecyclerView mTickedRecyclerView;
 
+    @Bind(R.id.display_list_done_button)
+    Button mDoneButton;
+
     ListData mListData;
 
     ListItemsDisplayAdapter mAdapter;
-    ListItemsDisplayAdapter mTickedAdapter;
+    ListItemsDisplayTickedAdapter mTickedAdapter;
 
     ArrayList<ListDataItem> mListDataItems;
     ArrayList<ListDataItem> mTickedListDataItems;
+
+    boolean mIsDoneHidden;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +73,37 @@ public class DisplayListActivity extends AppCompatActivity {
         } else {
             //from saved instance state
             setupFromBundle(savedInstanceState);
+            handleScreenRotation(savedInstanceState);
         }
+    }
+
+    private void handleScreenRotation(Bundle savedInstanceState) {
+        mIsDoneHidden = savedInstanceState.getBoolean(Constants.EXTRA_IS_DONE_HIDDEN);
+        if (mIsDoneHidden) {
+            //apply hide
+            hideDone();
+        }
+    }
+
+    @OnClick(R.id.display_list_done_button)
+    public void doneClicked() {
+        if (mIsDoneHidden) {
+            showDone();
+        } else {
+            hideDone();
+        }
+    }
+
+    public void hideDone() {
+        mTickedRecyclerView.setVisibility(View.GONE);
+        mDoneButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_expand_less_black_24dp, 0, 0, 0);
+        mIsDoneHidden = true;
+    }
+
+    public void showDone() {
+        mTickedRecyclerView.setVisibility(View.VISIBLE);
+        mDoneButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_expand_more_black_24dp, 0, 0, 0);
+        mIsDoneHidden = false;
     }
 
     private void setupFromBundle(Bundle bundle) {
@@ -80,6 +118,7 @@ public class DisplayListActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(mListData));
+        outState.putBoolean(Constants.EXTRA_IS_DONE_HIDDEN, mIsDoneHidden);
     }
 
     private void displayListData() {
@@ -110,8 +149,8 @@ public class DisplayListActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(this));
         mTickedRecyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(this));
 
-        mAdapter = new ListItemsDisplayAdapter(mListDataItems, false);
-        mTickedAdapter = new ListItemsDisplayAdapter(mTickedListDataItems, true);
+        mAdapter = new ListItemsDisplayAdapter(mListDataItems);
+        mTickedAdapter = new ListItemsDisplayTickedAdapter(mTickedListDataItems, mDoneButton);
 
         mAdapter.setOtherAdapter(mTickedAdapter);
         mTickedAdapter.setOtherAdapter(mAdapter);

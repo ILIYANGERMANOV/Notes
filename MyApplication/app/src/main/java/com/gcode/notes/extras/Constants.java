@@ -55,6 +55,7 @@ public class Constants {
     public static final String EXTRA_LAST_FOCUSED = "last_focused_extra";
     public static final String EXTRA_IS_OPENED_IN_EDIT_MODE = "is_opened_in_edit_mode_extra";
     public static final String EXTRA_EDIT_NOTE_ID = "edit_note_id_extra";
+    public static final String EXTRA_IS_DONE_HIDDEN = "is_done_hidden_extra";
 
     public static final int CALLED_FROM_MAIN = 1;
     public static final int CALLED_FROM_DISPLAY = 2;
