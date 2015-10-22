@@ -13,7 +13,7 @@ public class Constants {
     public static final int LIST_FROM_DISPLAY_RES_CODE = 3;
     public static final int NOTE_FROM_DISPLAY_RES_CODE = 4;
 
-    public static final int ERROR = 666;
+    public static final int ERROR = 7833;
 
     //must be positive and greater than max list items + 1
     public static final int NO_FOCUS = 512;

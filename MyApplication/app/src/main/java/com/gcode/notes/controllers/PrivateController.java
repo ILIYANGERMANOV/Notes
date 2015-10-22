@@ -12,7 +12,7 @@ import com.gcode.notes.R;
 import com.gcode.notes.animations.MyAnimator;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.extras.Constants;
-import com.gcode.notes.notes.MyApplication;
+import com.gcode.notes.tasks.AddItemFromDbToMainTask;
 import com.gcode.notes.tasks.LoadContentTask;
 
 public class PrivateController extends BaseController {
@@ -27,7 +27,7 @@ public class PrivateController extends BaseController {
     public void setContent() {
         super.setContent();
         mToolbar.setTitle("Private");
-        new LoadContentTask(this).execute(getControllerId());
+        new LoadContentTask(this).execute();
     }
 
     @Override
@@ -50,7 +50,7 @@ public class PrivateController extends BaseController {
     @Override
     public void onItemAdded(int mode) {
         if (mode == Constants.MODE_PRIVATE) {
-            addItem(MyApplication.getWritableDatabase().getLastPrivateNote());
+            new AddItemFromDbToMainTask().execute();
         }
     }
 }

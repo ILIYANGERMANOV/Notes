@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
@@ -23,6 +24,8 @@ import com.gcode.notes.serialization.Serializer;
 import com.gcode.notes.tasks.UpdateListAttributesTask;
 import com.gcode.notes.views.NonScrollableRecyclerView;
 
+import org.solovyev.android.views.llm.LinearLayoutManager;
+
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -30,6 +33,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class DisplayListActivity extends AppCompatActivity {
+    @Bind(R.id.display_list_root_layout)
+    RelativeLayout mRootLayout;
+
     @Bind(R.id.display_list_toolbar)
     Toolbar mToolbar;
 
@@ -53,7 +59,7 @@ public class DisplayListActivity extends AppCompatActivity {
     ArrayList<ListDataItem> mListDataItems;
     ArrayList<ListDataItem> mTickedListDataItems;
 
-    boolean mIsDoneHidden;
+    boolean mIsDoneTasksHidden;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,32 +84,32 @@ public class DisplayListActivity extends AppCompatActivity {
     }
 
     private void handleScreenRotation(Bundle savedInstanceState) {
-        mIsDoneHidden = savedInstanceState.getBoolean(Constants.EXTRA_IS_DONE_HIDDEN);
-        if (mIsDoneHidden) {
+        mIsDoneTasksHidden = savedInstanceState.getBoolean(Constants.EXTRA_IS_DONE_HIDDEN);
+        if (mIsDoneTasksHidden) {
             //apply hide
-            hideDone();
+            hideDoneTasks();
         }
     }
 
     @OnClick(R.id.display_list_done_button)
     public void doneClicked() {
-        if (mIsDoneHidden) {
-            showDone();
+        if (mIsDoneTasksHidden) {
+            showDoneTasks();
         } else {
-            hideDone();
+            hideDoneTasks();
         }
     }
 
-    public void hideDone() {
+    public void hideDoneTasks() {
         mTickedRecyclerView.setVisibility(View.GONE);
         mDoneButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_expand_less_black_24dp, 0, 0, 0);
-        mIsDoneHidden = true;
+        mIsDoneTasksHidden = true;
     }
 
-    public void showDone() {
+    public void showDoneTasks() {
         mTickedRecyclerView.setVisibility(View.VISIBLE);
         mDoneButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_expand_more_black_24dp, 0, 0, 0);
-        mIsDoneHidden = false;
+        mIsDoneTasksHidden = false;
     }
 
     private void setupFromBundle(Bundle bundle) {
@@ -118,7 +124,7 @@ public class DisplayListActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(mListData));
-        outState.putBoolean(Constants.EXTRA_IS_DONE_HIDDEN, mIsDoneHidden);
+        outState.putBoolean(Constants.EXTRA_IS_DONE_HIDDEN, mIsDoneTasksHidden);
     }
 
     private void displayListData() {
@@ -146,11 +152,18 @@ public class DisplayListActivity extends AppCompatActivity {
 
         fillListDataItemLists();
 
-        mRecyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(this));
-        mTickedRecyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(this));
+        if (mTickedListDataItems.isEmpty()) {
+            mDoneButton.setVisibility(View.GONE);
+        }
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        LinearLayoutManager tickedLinearLayoutManager = new LinearLayoutManager(this);
+        mTickedRecyclerView.setLayoutManager(tickedLinearLayoutManager);
 
         mAdapter = new ListItemsDisplayAdapter(mListDataItems);
-        mTickedAdapter = new ListItemsDisplayTickedAdapter(mTickedListDataItems, mDoneButton);
+        mTickedAdapter = new ListItemsDisplayTickedAdapter(mTickedListDataItems, mDoneButton,
+                mRootLayout, tickedLinearLayoutManager);
 
         mAdapter.setOtherAdapter(mTickedAdapter);
         mTickedAdapter.setOtherAdapter(mAdapter);
@@ -212,12 +225,21 @@ public class DisplayListActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStop() {
+        if (mListData.hasAttributes()) {
+            //save done/undone changes to database
+            new UpdateListAttributesTask().execute(mListData);
+        }
+        super.onStop();
+    }
+
+    @Override
     public void onBackPressed() {
-        saveChanges();
+        setResult();
         super.onBackPressed();
     }
 
-    private void saveChanges() {
+    private void setResult() {
         //create result intent
         Intent resultIntent = new Intent();
         mListData.getList().clear();
@@ -225,11 +247,6 @@ public class DisplayListActivity extends AppCompatActivity {
         mListData.getList().addAll(mTickedListDataItems);
         resultIntent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(mListData));
         setResult(Activity.RESULT_OK, resultIntent);
-
-        if (mListData.hasAttributes()) {
-            //save done/undone changes to database
-            new UpdateListAttributesTask().execute(mListData);
-        }
     }
 
     @Override
@@ -243,7 +260,7 @@ public class DisplayListActivity extends AppCompatActivity {
             case R.id.action_settings:
                 return true;
             case android.R.id.home:
-                saveChanges();
+                setResult();
                 finish();
                 return true;
             case R.id.action_edit:

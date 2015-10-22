@@ -23,7 +23,7 @@ public class BaseController {
 
     static int mPreviousControllerId;
 
-    public static BaseController getInstance() {
+    public synchronized static BaseController getInstance() {
         if (mInstance == null) {
             mInstance = new BaseController(null, null, null, null, null);
         }
@@ -59,9 +59,9 @@ public class BaseController {
     }
 
     public void addItem(ContentBase item) {
-        MainAdapter mMainAdapter = getMainAdapter();
-        if (mMainAdapter != null) {
-            mMainAdapter.addItem(item);
+        MainAdapter mainAdapter = getMainAdapter();
+        if (mainAdapter != null) {
+            mainAdapter.addItem(0, item);
             mRecyclerView.smoothScrollToPosition(0);
         }
     }

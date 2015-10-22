@@ -25,7 +25,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implements ItemTouchHelperAdapter {
-    private final OnStartDragListener mDragStartListener;
+    //TODO: refactor
+
+    private final OnStartDragListener mDragStartListener; //tova beshe za ruchichkata
     ArrayList<ContentBase> mData;
     View mRootView;
     Activity mActivity;
@@ -79,9 +81,32 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
 //        });
     }
 
+    public RecyclerView getRecyclerView() {
+        return mRecyclerView;
+    }
+
     @Override
     public int getItemCount() {
         return mData.size();
+    }
+
+    public int getIndexOfItem(ContentBase item) {
+        int itemIndex = -1;
+        for (int i = 0; i < getItemCount(); ++i) {
+            if (mData.get(i).getId() == item.getId()) {
+                itemIndex = i;
+                break;
+            }
+        }
+        return itemIndex;
+    }
+
+    public boolean itemExists(ContentBase item) {
+        for (ContentBase currentItem : mData) {
+            if (currentItem.getId() == item.getId())
+                return true;
+        }
+        return false;
     }
 
     public void updateItem(ContentBase item) {
@@ -99,14 +124,20 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
         }
     }
 
-    public void addItem(int position, ContentBase item) {
-        mData.add(position, item);
-        notifyItemInserted(position);
+    public void removeItem(int position) {
+        mData.remove(position);
+        notifyItemRemoved(position);
     }
 
-    public void addItem(ContentBase item) {
-        mData.add(0, item);
-        notifyItemInserted(0);
+    public void addItem(int position, ContentBase item) {
+        try {
+            mData.add(position, item);
+            notifyItemInserted(position);
+        } catch (IndexOutOfBoundsException exception) {
+            MyDebugger.log("MainAdapter(): indexOutOfBoundsException caught."); //undo on click listener will do scrolling to wrong position
+            mData.add(item);
+            notifyItemInserted(getItemCount() - 1);
+        }
     }
 
     @Override
@@ -117,7 +148,7 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
 
     @Override
     public void onItemDismiss(int position) {
-        ActionExecutor.popUndoSnackbar(mRootView, mRecyclerView, this, position, mData.get(position));
+        ActionExecutor.popUndoSnackbar(mRootView, this, position, mData.get(position));
         dismissItem(position);
     }
 

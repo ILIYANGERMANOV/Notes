@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/display_list_root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.gcode.notes.activities.display.DisplayListActivity">
@@ -20,7 +21,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView
-        android:id="@+id/scrollView"
+        android:id="@+id/display_list_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/display_list_app_bar_layout"

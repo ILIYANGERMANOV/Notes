@@ -12,7 +12,7 @@ import com.gcode.notes.R;
 import com.gcode.notes.animations.MyAnimator;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.extras.Constants;
-import com.gcode.notes.notes.MyApplication;
+import com.gcode.notes.tasks.AddItemFromDbToMainTask;
 import com.gcode.notes.tasks.LoadContentTask;
 
 public class AllNotesController extends BaseController {
@@ -27,7 +27,7 @@ public class AllNotesController extends BaseController {
     public void setContent() {
         super.setContent();
         mToolbar.setTitle("All Notes");
-        new LoadContentTask(this).execute(getControllerId());
+        new LoadContentTask(this).execute();
     }
 
     @Override
@@ -45,14 +45,14 @@ public class AllNotesController extends BaseController {
     @Override
     public void onItemAdded(int mode) {
         if (mode == Constants.MODE_NORMAL || mode == Constants.MODE_IMPORTANT) {
-            addItem(MyApplication.getWritableDatabase().getLastVisibleNote());
+            new AddItemFromDbToMainTask().execute();
         }
     }
 
     @Override
     public void onItemChanged(ContentBase item) {
         int mode = item.getMode();
-        if(mode == Constants.MODE_NORMAL || mode == Constants.MODE_IMPORTANT) {
+        if (mode == Constants.MODE_NORMAL || mode == Constants.MODE_IMPORTANT) {
             updateItem(item);
         }
     }
