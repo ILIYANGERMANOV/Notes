@@ -13,9 +13,9 @@ import android.widget.ScrollView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.data.ListDataItem;
-import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.extras.MyDebugger;
-import com.gcode.notes.listeners.list.ListInputOnKeyListener;
+import com.gcode.notes.extras.values.Constants;
+import com.gcode.notes.listeners.list.ListInputOnEditorActionListener;
 import com.gcode.notes.listeners.list.MyFocusListener;
 import com.gcode.notes.listeners.list.RemoveListInputOnClickListener;
 
@@ -151,7 +151,9 @@ public abstract class BaseInputContainerAdapter {
 
     protected void setupInputItemLayout(View inputItem, String inputItemContent) {
         EditText mEditText = getEditTextFromView(inputItem);
-        mEditText.setOnKeyListener(new ListInputOnKeyListener(this));
+        mEditText.setOnEditorActionListener(new ListInputOnEditorActionListener(this));
+        mEditText.setHorizontallyScrolling(false);
+        mEditText.setMaxLines(3);
         mEditText.setOnFocusChangeListener(new MyFocusListener(this));
 
         ImageButton mRemoveImageButton = (ImageButton) inputItem.findViewById(R.id.list_input_item_remove_button);

@@ -3,7 +3,6 @@ package com.gcode.notes.activities.compose;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -63,6 +62,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
 
     private void setupStartState(Bundle savedInstanceState) {
         Bundle extras = getIntent().getExtras();
+        setupLayout();
         if (savedInstanceState == null) {
             if (extras != null) {
                 //Note opened in edit mode
@@ -77,6 +77,11 @@ public class ComposeNoteActivity extends AppCompatActivity {
             //Saved instance state
             handlerScreenRotation(savedInstanceState);
         }
+    }
+
+    private void setupLayout() {
+        mTitleEditText.setHorizontallyScrolling(false);
+        mTitleEditText.setMaxLines(3);
     }
 
     private void setupFromZero() {

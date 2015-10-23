@@ -17,6 +17,7 @@ public class ListItemsDisplayTickedAdapter extends ListItemsDisplayBaseAdapter {
     Button mDoneButton;
     ScrollView mRootScrollView;
     TextView mDatesTextView;
+    boolean mIsDoneHidden;
 
     public ListItemsDisplayTickedAdapter(ArrayList<ListDataItem> data, Button doneButton,
                                          ScrollView rootScrollView, TextView datesTextView) {
@@ -24,6 +25,10 @@ public class ListItemsDisplayTickedAdapter extends ListItemsDisplayBaseAdapter {
         mDoneButton = doneButton;
         mRootScrollView = rootScrollView;
         mDatesTextView = datesTextView;
+    }
+
+    public void setIsDoneHidden(boolean mIsDoneHidden) {
+        this.mIsDoneHidden = mIsDoneHidden;
     }
 
     public void add(ListDataItem item) {
@@ -34,7 +39,7 @@ public class ListItemsDisplayTickedAdapter extends ListItemsDisplayBaseAdapter {
             //show done button if its gone
             mDoneButton.setVisibility(View.VISIBLE);
         }
-        if (!VisibilityHelper.isViewVisibleInScrollView(mDatesTextView, mRootScrollView)) {
+        if (!VisibilityHelper.isViewVisibleInScrollView(mDatesTextView, mRootScrollView) || mIsDoneHidden) {
             //dates text view is not visible show snackbar for item added
             SnackbarHelper.showShortSnackbar(mRootScrollView, SnackbarMessages.ITEM_ADDED_TO_DONE_MESSAGE);
         }

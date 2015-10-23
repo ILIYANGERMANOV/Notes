@@ -34,7 +34,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:description="@string/placeholder_long"
-            android:maxLines="5" />
+            android:maxLines="13" />
+
+        <ImageView
+            android:id="@+id/note_more_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/more_image_view_content_desc"
+            android:src="@drawable/ic_more_horiz_black_24dp"
+            android:visibility="gone" />
 
         <include
             android:id="@+id/note_attributes_layout"

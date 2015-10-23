@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
+    android:layout_marginBottom="5dp"
     android:orientation="horizontal">
 
     <android.support.design.widget.TextInputLayout
@@ -17,7 +17,9 @@
             android:layout_height="wrap_content"
             android:freezesText="true"
             android:hint="@string/compose_note_title_hint"
-            android:inputType="text"
+            android:imeOptions="actionNext"
+            android:inputType="textImeMultiLine"
+            android:scrollHorizontally="false"
             android:textSize="19sp"
             android:textStyle="bold" />
 
@@ -27,7 +29,8 @@
         android:id="@+id/compose_star_image_button"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:layout_gravity="bottom"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="8dp"
         android:layout_marginLeft="8dp"
         android:background="?android:attr/selectableItemBackground"
         android:contentDescription="@string/star_button_content_description"

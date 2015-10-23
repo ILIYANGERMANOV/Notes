@@ -80,7 +80,7 @@ public class NoteItemViewHolder extends BaseItemViewHolder {
         return mAttachedImageView;
     }
 
-    public TextView getContentTextView() {
+    public TextView getDescriptionTextView() {
         return mContentTextView;
     }
 }

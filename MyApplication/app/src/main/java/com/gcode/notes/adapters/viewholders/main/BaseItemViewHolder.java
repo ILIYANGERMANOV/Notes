@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
@@ -20,6 +21,9 @@ import butterknife.ButterKnife;
 public abstract class BaseItemViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
     @Bind(R.id.note_title_text_view)
     TextView mTitleTextView;
+
+    @Bind(R.id.note_more_image_view)
+    ImageView mMoreImageView;
 
     @Bind(R.id.reminder_text_view)
     TextView mReminderTextView;
@@ -49,6 +53,9 @@ public abstract class BaseItemViewHolder extends RecyclerView.ViewHolder impleme
         return mAttributesDivider;
     }
 
+    public ImageView getMoreImageView() {
+        return mMoreImageView;
+    }
 
     @Override
     public void onItemSelected() {

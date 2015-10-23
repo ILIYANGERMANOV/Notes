@@ -5,10 +5,11 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 
-import com.gcode.notes.adapters.list.ListItemsBaseAdapter;
 import com.gcode.notes.adapters.list.ListItemsMainAdapter;
 import com.gcode.notes.adapters.viewholders.main.ListItemViewHolder;
+import com.gcode.notes.extras.values.Constants;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,13 +45,19 @@ public class ListData extends ContentBase {
             holder.getAttributesDivider().setVisibility(View.VISIBLE);
         }
         RecyclerView mRecyclerView = holder.getRecyclerView();
-        setupRecyclerView(activity, mRecyclerView);
+        setupRecyclerView(activity, mRecyclerView, holder.getMoreImageView());
     }
 
-    private void setupRecyclerView(Activity activity, RecyclerView recyclerView) {
+    private void setupRecyclerView(Activity activity, RecyclerView recyclerView, ImageView moreImageView) {
         recyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(activity));
         if (list == null) {
             list = new ArrayList<>();
+        } else {
+            if (list.size() <= Constants.MAX_LIST_ITEMS_TO_DISPLAY) {
+                moreImageView.setVisibility(View.GONE);
+            } else {
+                moreImageView.setVisibility(View.VISIBLE);
+            }
         }
         recyclerView.setAdapter(new ListItemsMainAdapter(activity, list, this));
         recyclerView.setNestedScrollingEnabled(false);

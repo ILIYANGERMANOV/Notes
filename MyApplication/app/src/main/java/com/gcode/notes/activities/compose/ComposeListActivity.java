@@ -84,14 +84,7 @@ public class ComposeListActivity extends AppCompatActivity {
 
     private void setupStartState(final Bundle savedInstanceState) {
         setupContainers();
-        mTitleEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                //if title is focused drop focus from containers
-                mContainerAdapter.setLastFocused(Constants.NO_FOCUS);
-                mTickedContainerAdapter.setLastFocused(Constants.NO_FOCUS);
-            }
-        });
+        setupLayout();
         Bundle extras = getIntent().getExtras();
         if (savedInstanceState == null) {
             if (extras != null) {
@@ -107,6 +100,19 @@ public class ComposeListActivity extends AppCompatActivity {
             //Saved instance state
             handlerScreenRotation(savedInstanceState);
         }
+    }
+
+    private void setupLayout() {
+        mTitleEditText.setHorizontallyScrolling(false);
+        mTitleEditText.setMaxLines(3);
+        mTitleEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                //if title is focused drop focus from containers
+                mContainerAdapter.setLastFocused(Constants.NO_FOCUS);
+                mTickedContainerAdapter.setLastFocused(Constants.NO_FOCUS);
+            }
+        });
     }
 
     private void setupFromZero() {

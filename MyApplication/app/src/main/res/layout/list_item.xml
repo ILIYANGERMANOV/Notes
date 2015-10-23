@@ -22,8 +22,17 @@
             android:id="@+id/list_item_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" />
+
+        <ImageView
+            android:id="@+id/note_more_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/more_image_view_content_desc"
+            android:src="@drawable/ic_more_horiz_black_24dp"
+            android:visibility="gone" />
 
         <include
             android:id="@+id/list_attributes_layout"

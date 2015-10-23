@@ -33,8 +33,6 @@ public class Constants {
     public static final int MODE_DELETED_NORMAL = 4;
     public static final int MODE_DELETED_IMPORTANT = 5;
 
-    public static final String CONTROLLER_ID = "controller_id";
-
     public static final int CONTROLLER_ALL_NOTES = 1;
     public static final int CONTROLLER_IMPORTANT = 2;
     public static final int CONTROLLER_PRIVATE = 3;
@@ -59,6 +57,6 @@ public class Constants {
     public static final String EXTRA_EDIT_NOTE_ID = "edit_note_id_extra";
     public static final String EXTRA_IS_DONE_HIDDEN = "is_done_hidden_extra";
 
-    public static final int CALLED_FROM_MAIN = 1;
-    public static final int CALLED_FROM_DISPLAY = 2;
+    public static final int MAX_LIST_ITEMS_TO_DISPLAY = 5;
+    public static final int MAX_DESCRIPTION_LINES_TO_DISPLAY = 13;
 }

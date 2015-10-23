@@ -144,12 +144,14 @@ public class DisplayListActivity extends AppCompatActivity {
         mTickedRecyclerView.setVisibility(View.GONE);
         mDoneButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_expand_less_black_24dp, 0, 0, 0);
         mIsDoneTasksHidden = true;
+        mTickedAdapter.setIsDoneHidden(true);
     }
 
     public void showDoneTasks() {
         mTickedRecyclerView.setVisibility(View.VISIBLE);
         mDoneButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_expand_more_black_24dp, 0, 0, 0);
         mIsDoneTasksHidden = false;
+        mTickedAdapter.setIsDoneHidden(false);
     }
 
     private void setupFromBundle(Bundle bundle) {

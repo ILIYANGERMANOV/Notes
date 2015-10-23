@@ -20,9 +20,9 @@
         android:layout_marginLeft="3dp"
         android:layout_weight="1"
         android:background="@android:color/transparent"
-        android:gravity="bottom"
-        android:inputType="text"
-        android:maxLines="2" />
+        android:gravity="center_vertical"
+        android:imeOptions="actionGo"
+        android:inputType="textImeMultiLine" />
 
     <ImageButton
         android:id="@+id/list_input_item_remove_button"
