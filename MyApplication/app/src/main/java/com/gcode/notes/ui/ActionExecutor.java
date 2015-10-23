@@ -9,11 +9,12 @@ import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.controllers.BinController;
 import com.gcode.notes.data.ContentBase;
-import com.gcode.notes.extras.Constants;
+import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.listeners.main.UndoOnClickListener;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.tasks.RemoveItemFromMainTask;
+import com.gcode.notes.ui.snackbar.SnackbarHelper;
 
 public class ActionExecutor {
     //TODO: REFACTOR
@@ -36,7 +37,6 @@ public class ActionExecutor {
                         } else {
                             //if item still on view remove it
                             new RemoveItemFromMainTask().execute(note);
-
                         }
                     } else {
                         //failed to delete note, revert it back

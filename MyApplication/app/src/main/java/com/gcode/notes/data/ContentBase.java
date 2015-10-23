@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
-import com.gcode.notes.extras.Constants;
+import com.gcode.notes.extras.values.Constants;
 
 import java.util.Date;
 
@@ -20,6 +20,7 @@ public class ContentBase {
     boolean hasAttributes;
     String reminderString;
     Date creationDate;
+    //TODO: make legit expirationDate, add lastModified
     String expirationDateString;
 
 
@@ -135,6 +136,12 @@ public class ContentBase {
 
     public boolean isImportant() {
         return mode == Constants.MODE_IMPORTANT;
+    }
+
+    public void setImportant(boolean isImportant) {
+        if (mode == Constants.MODE_NORMAL || mode == Constants.MODE_IMPORTANT) {
+            mode = isImportant ? Constants.MODE_IMPORTANT : Constants.MODE_NORMAL;
+        }
     }
 
     boolean hasReminder() {

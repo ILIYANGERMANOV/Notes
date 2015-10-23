@@ -1,5 +1,7 @@
-package com.gcode.notes.extras;
+package com.gcode.notes.extras.utils;
 
+
+import com.gcode.notes.extras.MyDebugger;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

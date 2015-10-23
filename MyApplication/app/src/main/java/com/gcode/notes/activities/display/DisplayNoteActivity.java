@@ -8,25 +8,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.activities.compose.ComposeNoteActivity;
 import com.gcode.notes.data.NoteData;
-import com.gcode.notes.extras.Constants;
+import com.gcode.notes.extras.values.Constants;
+import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class DisplayNoteActivity extends AppCompatActivity {
     @Bind(R.id.display_note_toolbar)
     Toolbar mToolbar;
 
-    @Bind(R.id.display_note_title_text_view)
+    @Bind(R.id.display_title_text_view)
     TextView mTitleTextView;
+
+    @Bind(R.id.display_star_image_button)
+    ImageButton mStarImageButton;
 
     @Bind(R.id.display_note_description_text_view)
     TextView mDescriptionTextView;
@@ -35,6 +40,8 @@ public class DisplayNoteActivity extends AppCompatActivity {
     ImageView mAttachedImageView;
 
     NoteData mNoteData;
+    boolean mIsStarred;
+    boolean mNoteModeChanged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +49,36 @@ public class DisplayNoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_display_note);
         ButterKnife.bind(this);
         setupToolbar();
-        setupStartState();
+        setupStartState(savedInstanceState);
     }
 
-    private void setupStartState() {
+    private void setupStartState(Bundle savedInstanceState) {
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        if (extras != null) {
-            String serializedNoteData = extras.getString(Constants.EXTRA_NOTE_DATA);
+        if (extras != null && savedInstanceState == null) {
+            //first time started
+            setupFromBundle(extras);
+        } else {
+            //from saved instance state
+            setupFromBundle(savedInstanceState);
+            handleScreenRotation(savedInstanceState);
+        }
+    }
+
+    private void handleScreenRotation(Bundle savedInstanceState) {
+        mNoteModeChanged = savedInstanceState.getBoolean(Constants.EXTRA_NOTE_MODE_CHANGED);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(mNoteData));
+        outState.putBoolean(Constants.EXTRA_NOTE_MODE_CHANGED, mNoteModeChanged);
+    }
+
+    private void setupFromBundle(Bundle bundle) {
+        if (bundle != null) {
+            String serializedNoteData = bundle.getString(Constants.EXTRA_NOTE_DATA);
             if (serializedNoteData != null) {
                 mNoteData = Serializer.parseNoteData(serializedNoteData);
                 displayNoteData();
@@ -57,10 +86,38 @@ public class DisplayNoteActivity extends AppCompatActivity {
         }
     }
 
+
     private void displayNoteData() {
         if (mNoteData != null) {
             mNoteData.displayNote(mTitleTextView, mDescriptionTextView, mAttachedImageView);
+            if (mNoteData.isImportant()) {
+                setStarredState();
+            } else {
+                setNotStarredState();
+            }
         }
+    }
+
+    @OnClick(R.id.display_star_image_button)
+    public void starImageButtonClicked() {
+        if (mIsStarred) {
+            setNotStarredState();
+        } else {
+            setStarredState();
+        }
+        mNoteData.setImportant(mIsStarred);
+        mNoteModeChanged = !mNoteModeChanged;
+        MyApplication.getWritableDatabase().updateNoteMode(mNoteData);
+    }
+
+    private void setStarredState() {
+        mIsStarred = true;
+        mStarImageButton.setImageResource(R.drawable.ic_star_orange_36dp);
+    }
+
+    private void setNotStarredState() {
+        mIsStarred = false;
+        mStarImageButton.setImageResource(R.drawable.ic_star_border_black_36dp);
     }
 
     private void setupToolbar() {
@@ -86,6 +143,7 @@ public class DisplayNoteActivity extends AppCompatActivity {
                             if (serializedNoteData != null) {
                                 NoteData noteData = Serializer.parseNoteData(serializedNoteData);
                                 if (noteData != null) {
+                                    mNoteModeChanged = data.getBooleanExtra(Constants.EXTRA_NOTE_MODE_CHANGED, false);
                                     mNoteData = noteData;
                                     displayNoteData();
                                 }
@@ -99,13 +157,14 @@ public class DisplayNoteActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        saveChanges();
+        setResult();
         super.onBackPressed();
     }
 
-    private void saveChanges() {
+    private void setResult() {
         Intent resultIntent = new Intent();
         resultIntent.putExtra(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(mNoteData));
+        resultIntent.putExtra(Constants.EXTRA_NOTE_MODE_CHANGED, mNoteModeChanged);
         setResult(Activity.RESULT_OK, resultIntent);
     }
 
@@ -127,7 +186,7 @@ public class DisplayNoteActivity extends AppCompatActivity {
             case R.id.action_settings:
                 return true;
             case android.R.id.home:
-                saveChanges();
+                setResult();
                 finish();
                 return true;
             case R.id.action_edit:

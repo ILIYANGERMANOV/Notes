@@ -8,8 +8,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.gcode.notes.activities.MainActivity;
-import com.gcode.notes.extras.Constants;
-import com.gcode.notes.extras.Utils;
+import com.gcode.notes.extras.values.Constants;
+import com.gcode.notes.extras.utils.Utils;
 
 public class ScrollingFABBehavior extends FloatingActionButton.Behavior {
     private int toolbarHeight;

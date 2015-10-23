@@ -9,7 +9,7 @@
             android:title="@string/navigation_item_all_notes_title" />
         <item
             android:id="@+id/navigation_item_important"
-            android:icon="@drawable/ic_label_black_24dp"
+            android:icon="@drawable/ic_star_black_24dp"
             android:title="@string/navigation_item_important_title" />
 
         <item

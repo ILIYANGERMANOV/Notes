@@ -11,9 +11,11 @@ import android.view.View;
 import com.gcode.notes.R;
 import com.gcode.notes.animations.MyAnimator;
 import com.gcode.notes.data.ContentBase;
-import com.gcode.notes.extras.Constants;
+import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.tasks.AddItemFromDbToMainTask;
 import com.gcode.notes.tasks.LoadContentTask;
+import com.gcode.notes.tasks.RemoveItemFromMainTask;
 
 public class ImportantController extends BaseController {
     public ImportantController(Context context, Toolbar toolbar, RecyclerView recyclerView,
@@ -25,14 +27,14 @@ public class ImportantController extends BaseController {
     @Override
     public void setContent() {
         super.setContent();
-        mToolbar.setTitle("Important");
+        mToolbar.setTitle("Starred");
         new LoadContentTask(this).execute();
     }
 
     @Override
     protected void onSetContentAnimation() {
         super.onSetContentAnimation();
-        if(mPreviousControllerId == Constants.CONTROLLER_BIN) {
+        if (mPreviousControllerId == Constants.CONTROLLER_BIN) {
             MyAnimator.startAnimation(mContext, mFab, R.anim.expand_anim);
             mFab.setVisibility(View.VISIBLE);
         }
@@ -46,9 +48,16 @@ public class ImportantController extends BaseController {
     }
 
     @Override
+    public void onItemModeChanged(ContentBase item) {
+        if (item.getMode() != Constants.MODE_IMPORTANT) {
+            new RemoveItemFromMainTask().execute(item);
+        }
+    }
+
+    @Override
     public void onItemChanged(ContentBase item) {
         int mode = item.getMode();
-        if(mode == Constants.MODE_IMPORTANT) {
+        if (mode == Constants.MODE_IMPORTANT) {
             updateItem(item);
         }
     }

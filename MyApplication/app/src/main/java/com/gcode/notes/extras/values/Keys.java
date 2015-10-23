@@ -1,4 +1,4 @@
-package com.gcode.notes.extras;
+package com.gcode.notes.extras.values;
 
 /**
  * Created by Iliyan on 9/1/2015.

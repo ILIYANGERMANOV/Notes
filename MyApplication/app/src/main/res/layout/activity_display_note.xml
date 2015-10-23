@@ -45,13 +45,7 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <TextView
-                        android:id="@+id/display_note_title_text_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/placeholder_short"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                    <include layout="@layout/display_header_layout" />
 
                     <ImageView
                         android:id="@+id/display_note_image_view"

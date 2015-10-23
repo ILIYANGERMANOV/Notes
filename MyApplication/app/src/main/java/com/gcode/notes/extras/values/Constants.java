@@ -1,4 +1,4 @@
-package com.gcode.notes.extras;
+package com.gcode.notes.extras.values;
 
 
 import android.view.Menu;
@@ -54,6 +54,8 @@ public class Constants {
     public static final String EXTRA_TICKED_LIST_DATA_ITEMS = "ticked_list_data_items_extra";
     public static final String EXTRA_LAST_FOCUSED = "last_focused_extra";
     public static final String EXTRA_IS_OPENED_IN_EDIT_MODE = "is_opened_in_edit_mode_extra";
+    public static final String EXTRA_IS_STARRED = "is_starred_extra";
+    public static final String EXTRA_NOTE_MODE_CHANGED = "note_mode_changed_extra";
     public static final String EXTRA_EDIT_NOTE_ID = "edit_note_id_extra";
     public static final String EXTRA_IS_DONE_HIDDEN = "is_done_hidden_extra";
 

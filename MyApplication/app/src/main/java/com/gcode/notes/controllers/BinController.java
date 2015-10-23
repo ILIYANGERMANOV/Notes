@@ -10,7 +10,7 @@ import android.view.View;
 
 import com.gcode.notes.R;
 import com.gcode.notes.animations.MyAnimator;
-import com.gcode.notes.extras.Constants;
+import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.tasks.AddItemFromDbToMainTask;
 import com.gcode.notes.tasks.LoadContentTask;
 

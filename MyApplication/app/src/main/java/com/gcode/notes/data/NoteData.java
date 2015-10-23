@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gcode.notes.adapters.viewholders.main.NoteItemViewHolder;
-import com.gcode.notes.extras.Constants;
+import com.gcode.notes.extras.values.Constants;
 
 import java.net.URI;
 import java.util.Date;

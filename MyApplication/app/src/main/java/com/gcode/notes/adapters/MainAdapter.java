@@ -14,8 +14,8 @@ import com.gcode.notes.adapters.viewholders.main.NoteItemViewHolder;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.NoteData;
-import com.gcode.notes.extras.Constants;
 import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.helper.ItemTouchHelperAdapter;
 import com.gcode.notes.helper.OnStartDragListener;
 import com.gcode.notes.notes.MyApplication;
@@ -110,17 +110,22 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
     }
 
     public void updateItem(ContentBase item) {
-        int position = Constants.ERROR;
-        for (int i = 0; i < getItemCount(); ++i) {
-            if (item.getId() == mData.get(i).getId()) {
-                position = i;
-            }
-        }
-        if (position != Constants.ERROR) {
+        int position = getIndexOfItem(item);
+        if (position != -1) {
             mData.set(position, item);
             notifyItemChanged(position);
         } else {
             MyDebugger.log("Invalid position in UpdateItem");
+        }
+    }
+
+    public void updateItemMode(ContentBase item) {
+        int position = getIndexOfItem(item);
+        if (position != -1) {
+            mData.get(position).setMode(item.getMode());
+            notifyItemChanged(position);
+        } else {
+            MyDebugger.log("updateItemMode()", "Item not found");
         }
     }
 

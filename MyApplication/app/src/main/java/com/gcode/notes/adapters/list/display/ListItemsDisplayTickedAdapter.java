@@ -1,29 +1,29 @@
 package com.gcode.notes.adapters.list.display;
 
 
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.gcode.notes.data.ListDataItem;
-import com.gcode.notes.extras.MyDebugger;
-import com.gcode.notes.ui.SnackbarHelper;
-
-import org.solovyev.android.views.llm.LinearLayoutManager;
+import com.gcode.notes.ui.snackbar.SnackbarMessages;
+import com.gcode.notes.ui.snackbar.SnackbarHelper;
+import com.gcode.notes.ui.VisibilityHelper;
 
 import java.util.ArrayList;
 
 public class ListItemsDisplayTickedAdapter extends ListItemsDisplayBaseAdapter {
     Button mDoneButton;
-    View mRootView;
-    LinearLayoutManager mLayoutManager;
+    ScrollView mRootScrollView;
+    TextView mDatesTextView;
 
     public ListItemsDisplayTickedAdapter(ArrayList<ListDataItem> data, Button doneButton,
-                                         View rootView, LinearLayoutManager layoutManager) {
+                                         ScrollView rootScrollView, TextView datesTextView) {
         super(data);
         mDoneButton = doneButton;
-        mRootView = rootView;
-        mLayoutManager = layoutManager;
+        mRootScrollView = rootScrollView;
+        mDatesTextView = datesTextView;
     }
 
     public void add(ListDataItem item) {
@@ -34,16 +34,10 @@ public class ListItemsDisplayTickedAdapter extends ListItemsDisplayBaseAdapter {
             //show done button if its gone
             mDoneButton.setVisibility(View.VISIBLE);
         }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                MyDebugger.log("lastVisPos", mLayoutManager.findLastVisibleItemPosition());
-                MyDebugger.log("itemCount", getItemCount());
-                if (mLayoutManager.findLastVisibleItemPosition() != getItemCount() - 1) {
-                    SnackbarHelper.showShortSnackbar(mRootView, "Item added to done");
-                }
-            }
-        }, 50);
+        if (!VisibilityHelper.isViewVisibleInScrollView(mDatesTextView, mRootScrollView)) {
+            //dates text view is not visible show snackbar for item added
+            SnackbarHelper.showShortSnackbar(mRootScrollView, SnackbarMessages.ITEM_ADDED_TO_DONE_MESSAGE);
+        }
     }
 
     @Override

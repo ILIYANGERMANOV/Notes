@@ -11,7 +11,8 @@ import android.view.View;
 import com.gcode.notes.R;
 import com.gcode.notes.animations.MyAnimator;
 import com.gcode.notes.data.ContentBase;
-import com.gcode.notes.extras.Constants;
+import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.tasks.AddItemFromDbToMainTask;
 import com.gcode.notes.tasks.LoadContentTask;
 
@@ -46,6 +47,14 @@ public class AllNotesController extends BaseController {
     public void onItemAdded(int mode) {
         if (mode == Constants.MODE_NORMAL || mode == Constants.MODE_IMPORTANT) {
             new AddItemFromDbToMainTask().execute();
+        }
+    }
+
+    @Override
+    public void onItemModeChanged(ContentBase item) {
+        int mode = item.getMode();
+        if (mode == Constants.MODE_NORMAL || mode == Constants.MODE_IMPORTANT) {
+            updateItemMode(item);
         }
     }
 

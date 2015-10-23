@@ -5,7 +5,7 @@ import android.database.Cursor;
 import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.database.NotesContract.ContentEntry;
-import com.gcode.notes.extras.DateUtils;
+import com.gcode.notes.extras.utils.DateUtils;
 
 public class Extractor {
     public static NoteData extractNoteDataFromContent(Cursor cursor) {

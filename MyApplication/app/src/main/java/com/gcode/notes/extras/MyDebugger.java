@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.gcode.notes.extras.values.Constants;
+
 public class MyDebugger {
     public static void log(String info) {
         Log.d(Constants.DEBUG_TAG, info);

@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.NoteData;
-import com.gcode.notes.extras.Constants;
+import com.gcode.notes.extras.values.Constants;
 
 import java.util.ArrayList;
 

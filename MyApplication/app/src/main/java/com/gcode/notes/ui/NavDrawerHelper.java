@@ -4,8 +4,8 @@ package com.gcode.notes.ui;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 
-import com.gcode.notes.extras.Keys;
-import com.gcode.notes.extras.Utils;
+import com.gcode.notes.extras.values.Keys;
+import com.gcode.notes.extras.utils.Utils;
 
 public class NavDrawerHelper {
     public static boolean didUserLearnedDrawer() {

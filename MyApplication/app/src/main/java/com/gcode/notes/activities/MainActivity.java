@@ -41,10 +41,10 @@ import com.gcode.notes.controllers.PrivateController;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.NoteData;
-import com.gcode.notes.extras.Constants;
-import com.gcode.notes.extras.Keys;
 import com.gcode.notes.extras.MyDebugger;
-import com.gcode.notes.extras.Tags;
+import com.gcode.notes.extras.values.Constants;
+import com.gcode.notes.extras.values.Keys;
+import com.gcode.notes.extras.values.Tags;
 import com.gcode.notes.helper.OnStartDragListener;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
 import com.gcode.notes.serialization.Serializer;
@@ -394,7 +394,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         if (serializedListData != null) {
                             ListData listData = Serializer.parseListData(serializedListData);
                             if (listData != null) {
-                                BaseController.getInstance().onItemChanged(listData);
+                                BaseController controller = BaseController.getInstance();
+                                controller.onItemChanged(listData);
+                                if (data.getBooleanExtra(Constants.EXTRA_NOTE_MODE_CHANGED, false)) {
+                                    controller.onItemModeChanged(listData);
+                                }
                             } else {
                                 MyDebugger.log("LIST_FROM_DISPLAY listData is null!");
                             }
@@ -411,7 +415,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         if (serializedNoteData != null) {
                             NoteData noteData = Serializer.parseNoteData(serializedNoteData);
                             if (noteData != null) {
-                                BaseController.getInstance().onItemChanged(noteData);
+                                BaseController controller = BaseController.getInstance();
+                                controller.onItemChanged(noteData);
+                                if (data.getBooleanExtra(Constants.EXTRA_NOTE_MODE_CHANGED, false)) {
+                                    controller.onItemModeChanged(noteData);
+                                }
                             } else {
                                 MyDebugger.log("NOTE_FROM_DISPLAY noteData is null!");
                             }

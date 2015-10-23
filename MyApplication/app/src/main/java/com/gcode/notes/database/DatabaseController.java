@@ -12,7 +12,7 @@ import com.gcode.notes.database.extras.InsertHelper;
 import com.gcode.notes.database.extras.Queries;
 import com.gcode.notes.database.extras.UpdateHelper;
 import com.gcode.notes.database.extras.Validator;
-import com.gcode.notes.extras.Constants;
+import com.gcode.notes.extras.values.Constants;
 
 import java.util.ArrayList;
 
@@ -81,6 +81,10 @@ public class DatabaseController {
     //INSERTS--------------------------------------------------------------------------------------------------
 
     //UPDATES------------------------------------------------------------------------------------------------------
+    public void updateNoteMode(ContentBase contentBase) {
+        UpdateHelper.updateNoteMode(mDatabase, contentBase, contentBase.getMode());
+    }
+
     public boolean deleteNote(ContentBase contentBase) {
         int newMode;
         switch (contentBase.getMode()) {

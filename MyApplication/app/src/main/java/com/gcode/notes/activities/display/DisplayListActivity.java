@@ -10,7 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
+import android.widget.ImageButton;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
@@ -19,7 +20,8 @@ import com.gcode.notes.adapters.list.display.ListItemsDisplayAdapter;
 import com.gcode.notes.adapters.list.display.ListItemsDisplayTickedAdapter;
 import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.ListDataItem;
-import com.gcode.notes.extras.Constants;
+import com.gcode.notes.extras.values.Constants;
+import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
 import com.gcode.notes.tasks.UpdateListAttributesTask;
 import com.gcode.notes.views.NonScrollableRecyclerView;
@@ -33,13 +35,19 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class DisplayListActivity extends AppCompatActivity {
-    @Bind(R.id.display_list_root_layout)
-    RelativeLayout mRootLayout;
+    @Bind(R.id.display_list_scroll_view)
+    ScrollView mRootScrollView;
+
+    @Bind(R.id.display_star_image_button)
+    ImageButton mStarImageButton;
+
+    @Bind(R.id.display_list_dates_text_view)
+    TextView mDatesTextView;
 
     @Bind(R.id.display_list_toolbar)
     Toolbar mToolbar;
 
-    @Bind(R.id.display_list_title_text_view)
+    @Bind(R.id.display_title_text_view)
     TextView mTitleTextView;
 
     @Bind(R.id.display_list_recycler_view)
@@ -60,6 +68,8 @@ public class DisplayListActivity extends AppCompatActivity {
     ArrayList<ListDataItem> mTickedListDataItems;
 
     boolean mIsDoneTasksHidden;
+    boolean mIsStarred;
+    boolean mNoteModeChanged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,11 +94,19 @@ public class DisplayListActivity extends AppCompatActivity {
     }
 
     private void handleScreenRotation(Bundle savedInstanceState) {
-        mIsDoneTasksHidden = savedInstanceState.getBoolean(Constants.EXTRA_IS_DONE_HIDDEN);
-        if (mIsDoneTasksHidden) {
+        if (savedInstanceState.getBoolean(Constants.EXTRA_IS_DONE_HIDDEN)) {
             //apply hide
             hideDoneTasks();
         }
+        mNoteModeChanged = savedInstanceState.getBoolean(Constants.EXTRA_NOTE_MODE_CHANGED);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(mListData));
+        outState.putBoolean(Constants.EXTRA_IS_DONE_HIDDEN, mIsDoneTasksHidden);
+        outState.putBoolean(Constants.EXTRA_NOTE_MODE_CHANGED, mNoteModeChanged);
     }
 
     @OnClick(R.id.display_list_done_button)
@@ -98,6 +116,28 @@ public class DisplayListActivity extends AppCompatActivity {
         } else {
             hideDoneTasks();
         }
+    }
+
+    @OnClick(R.id.display_star_image_button)
+    public void starImageButtonClicked() {
+        if (mIsStarred) {
+            setNotStarredState();
+        } else {
+            setStarredState();
+        }
+        mListData.setImportant(mIsStarred);
+        mNoteModeChanged = !mNoteModeChanged;
+        MyApplication.getWritableDatabase().updateNoteMode(mListData);
+    }
+
+    private void setStarredState() {
+        mIsStarred = true;
+        mStarImageButton.setImageResource(R.drawable.ic_star_orange_36dp);
+    }
+
+    private void setNotStarredState() {
+        mIsStarred = false;
+        mStarImageButton.setImageResource(R.drawable.ic_star_border_black_36dp);
     }
 
     public void hideDoneTasks() {
@@ -120,16 +160,14 @@ public class DisplayListActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(mListData));
-        outState.putBoolean(Constants.EXTRA_IS_DONE_HIDDEN, mIsDoneTasksHidden);
-    }
-
     private void displayListData() {
         if (mListData != null) {
             mListData.displayBase(mTitleTextView);
+            if (mListData.isImportant()) {
+                setStarredState();
+            } else {
+                setNotStarredState();
+            }
             if (mListDataItems == null || mTickedListDataItems == null) {
                 //displayListData for first time
                 setupRecyclerViews();
@@ -162,8 +200,7 @@ public class DisplayListActivity extends AppCompatActivity {
         mTickedRecyclerView.setLayoutManager(tickedLinearLayoutManager);
 
         mAdapter = new ListItemsDisplayAdapter(mListDataItems);
-        mTickedAdapter = new ListItemsDisplayTickedAdapter(mTickedListDataItems, mDoneButton,
-                mRootLayout, tickedLinearLayoutManager);
+        mTickedAdapter = new ListItemsDisplayTickedAdapter(mTickedListDataItems, mDoneButton, mRootScrollView, mDatesTextView);
 
         mAdapter.setOtherAdapter(mTickedAdapter);
         mTickedAdapter.setOtherAdapter(mAdapter);
@@ -212,6 +249,7 @@ public class DisplayListActivity extends AppCompatActivity {
                             if (serializedListData != null) {
                                 ListData listData = Serializer.parseListData(serializedListData);
                                 if (listData != null) {
+                                    mNoteModeChanged = data.getBooleanExtra(Constants.EXTRA_NOTE_MODE_CHANGED, false);
                                     mListData = listData;
                                     displayListData();
                                 }
@@ -246,6 +284,7 @@ public class DisplayListActivity extends AppCompatActivity {
         mListData.getList().addAll(mListDataItems);
         mListData.getList().addAll(mTickedListDataItems);
         resultIntent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(mListData));
+        resultIntent.putExtra(Constants.EXTRA_NOTE_MODE_CHANGED, mNoteModeChanged);
         setResult(Activity.RESULT_OK, resultIntent);
     }
 

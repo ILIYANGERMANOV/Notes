@@ -1,4 +1,4 @@
-package com.gcode.notes.extras;
+package com.gcode.notes.extras.values;
 
 public class Tags {
     public static final String TAG_TEXT_NOTE = "tag_text_note";

@@ -1,10 +1,11 @@
-package com.gcode.notes.extras;
+package com.gcode.notes.extras.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 
 import com.gcode.notes.R;
+import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 
 public class Utils {

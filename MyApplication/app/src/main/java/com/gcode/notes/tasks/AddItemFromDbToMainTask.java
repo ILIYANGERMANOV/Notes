@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.ContentBase;
-import com.gcode.notes.extras.Constants;
+import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.notes.MyApplication;
 

@@ -6,11 +6,16 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.ui.snackbar.SnackbarMessages;
+import com.gcode.notes.ui.snackbar.SnackbarHelper;
+import com.gcode.notes.ui.VisibilityHelper;
 
 public class ListInputContainerAdapter extends BaseInputContainerAdapter {
+    View mLastDividerView;
 
-    public ListInputContainerAdapter(LinearLayout container, ScrollView scrollView) {
+    public ListInputContainerAdapter(LinearLayout container, ScrollView scrollView, View lastDividerView) {
         super(container, scrollView);
+        mLastDividerView = lastDividerView;
     }
 
     @Override
@@ -29,6 +34,10 @@ public class ListInputContainerAdapter extends BaseInputContainerAdapter {
         removeInputItem(parent);
         EditText mEditText = getEditTextFromView(parent);
         mOtherContainerAdapter.addInputItem(mEditText.getText().toString(), false);
+        if (!VisibilityHelper.isViewVisibleInScrollView(mLastDividerView, mScrollView)) {
+            //show snackbar for item added to ticked
+            SnackbarHelper.showShortSnackbar(mScrollView, SnackbarMessages.ITEM_ADDED_TO_DONE_MESSAGE);
+        }
     }
 
     @Override

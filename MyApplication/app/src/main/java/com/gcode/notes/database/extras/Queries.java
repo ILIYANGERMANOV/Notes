@@ -92,6 +92,8 @@ public class Queries {
         for (int i = 0; i < argsCount - 1; ++i) {
             returnQuery += "?,";
         }
+
+        //TODO: order by expiration date when its ready (IF ANY DELETED MODE)
         returnQuery += "?) ORDER BY " +
                 ContentEntry.COLUMN_NAME_ORDER_ID + " DESC";
         return returnQuery;

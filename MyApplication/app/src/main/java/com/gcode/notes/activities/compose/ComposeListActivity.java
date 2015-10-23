@@ -7,12 +7,12 @@ import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -23,8 +23,8 @@ import com.gcode.notes.adapters.custom.ListInputTickedContainerAdapter;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.ListDataItem;
-import com.gcode.notes.extras.Constants;
 import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
 
@@ -42,16 +42,16 @@ public class ComposeListActivity extends AppCompatActivity {
     @Bind(R.id.compose_list_scroll_view)
     ScrollView mScrollView;
 
-    @Bind(R.id.compose_list_add_list_item_text_view)
-    TextView mAddInputItemTextView;
+    @Bind(R.id.compose_list_last_divider_view)
+    View mLastDividerView;
 
     @Bind(R.id.compose_note_title_edit_text)
     EditText mTitleEditText;
 
-    @Bind(R.id.compose_note_priority_switch)
-    SwitchCompat mPrioritySwitch;
+    @Bind(R.id.compose_star_image_button)
+    ImageButton mStarImageButton;
 
-    @Bind(R.id.compose_note_set_reminder_text_view)
+    @Bind(R.id.compose_list_reminder_text_view)
     TextView mReminderTextView;
 
     @Bind(R.id.compose_list_container_layout)
@@ -68,6 +68,9 @@ public class ComposeListActivity extends AppCompatActivity {
 
     boolean mIsOpenedInEditMode;
     int mEditNoteId;
+
+    boolean mIsStarred;
+    boolean mNoteModeChanged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +120,9 @@ public class ComposeListActivity extends AppCompatActivity {
         if (listData != null) {
             mEditNoteId = listData.getId();
             mTitleEditText.setText(listData.getTitle());
-            mPrioritySwitch.setChecked(listData.isImportant());
+            if (listData.isImportant()) {
+                setStarredState();
+            }
             String reminderString = listData.getReminderString();
             if (!reminderString.equals(Constants.NO_REMINDER)) {
                 mReminderTextView.setText(reminderString);
@@ -165,10 +170,15 @@ public class ComposeListActivity extends AppCompatActivity {
                 }
             }
         }, 20);
+
         mIsOpenedInEditMode = savedInstanceState.getBoolean(Constants.EXTRA_IS_OPENED_IN_EDIT_MODE);
         if (mIsOpenedInEditMode) {
             mEditNoteId = savedInstanceState.getInt(Constants.EXTRA_EDIT_NOTE_ID);
         }
+        if (savedInstanceState.getBoolean(Constants.EXTRA_IS_STARRED)) {
+            setStarredState();
+        }
+        mNoteModeChanged = savedInstanceState.getBoolean(Constants.EXTRA_NOTE_MODE_CHANGED);
     }
 
     @Override
@@ -211,6 +221,8 @@ public class ComposeListActivity extends AppCompatActivity {
         if (mIsOpenedInEditMode) {
             outState.putInt(Constants.EXTRA_EDIT_NOTE_ID, mEditNoteId);
         }
+        outState.putBoolean(Constants.EXTRA_IS_STARRED, mIsStarred);
+        outState.putBoolean(Constants.EXTRA_NOTE_MODE_CHANGED, mNoteModeChanged);
     }
 
     private void addListDataItems(ArrayList<ListDataItem> listDataItems) {
@@ -225,7 +237,7 @@ public class ComposeListActivity extends AppCompatActivity {
 
     private void setupContainers() {
         if (mContainerAdapter == null || mTickedContainerAdapter == null) {
-            mContainerAdapter = new ListInputContainerAdapter(mContainer, mScrollView);
+            mContainerAdapter = new ListInputContainerAdapter(mContainer, mScrollView, mLastDividerView);
 
             mTickedContainerAdapter = new ListInputTickedContainerAdapter(mTickedContainer, mScrollView);
 
@@ -241,10 +253,10 @@ public class ComposeListActivity extends AppCompatActivity {
 
                 break;
             case Constants.CONTROLLER_IMPORTANT:
-                mPrioritySwitch.setChecked(true);
+                setStarredState();
                 break;
             case Constants.CONTROLLER_PRIVATE:
-                mPrioritySwitch.setVisibility(View.GONE);
+                //TODO: set star image button to lock or sth
                 break;
             default:
                 break;
@@ -269,6 +281,26 @@ public class ComposeListActivity extends AppCompatActivity {
         mContainerAdapter.addInputItem(null, true);
     }
 
+    @OnClick(R.id.compose_star_image_button)
+    public void starImageButtonClicked() {
+        if (mIsStarred) {
+            setNotStarredState();
+        } else {
+            setStarredState();
+        }
+        mNoteModeChanged = !mNoteModeChanged;
+    }
+
+    private void setStarredState() {
+        mIsStarred = true;
+        mStarImageButton.setImageResource(R.drawable.ic_star_orange_36dp);
+    }
+
+    private void setNotStarredState() {
+        mIsStarred = false;
+        mStarImageButton.setImageResource(R.drawable.ic_star_border_black_36dp);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -285,7 +317,7 @@ public class ComposeListActivity extends AppCompatActivity {
         listDataItems.addAll(mTickedContainerAdapter.getListDataItems(true));
 
         if (isValidList(title, listDataItems)) {
-            int mode = mPrioritySwitch.isChecked() ? Constants.MODE_IMPORTANT : Constants.MODE_NORMAL;
+            int mode = mIsStarred ? Constants.MODE_IMPORTANT : Constants.MODE_NORMAL;
             String reminderString = mReminderTextView.getText().toString();
             if (reminderString.equals(getResources().getString(R.string.compose_note_set_reminder_text))) {
                 reminderString = Constants.NO_REMINDER;
@@ -307,6 +339,7 @@ public class ComposeListActivity extends AppCompatActivity {
                 if (MyApplication.getWritableDatabase().updateNote(listData)) {
                     mResultIntent.putExtra(Constants.NOTE_UPDATED_SUCCESSFULLY, true);
                     mResultIntent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(listData));
+                    mResultIntent.putExtra(Constants.EXTRA_NOTE_MODE_CHANGED, mNoteModeChanged);
                 } else {
                     MyDebugger.log("Failed to update list.");
                 }

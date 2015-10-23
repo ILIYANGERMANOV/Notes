@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.data.ContentBase;
-import com.gcode.notes.extras.Constants;
+import com.gcode.notes.extras.values.Constants;
 
 import java.util.ArrayList;
 
@@ -73,6 +73,13 @@ public class BaseController {
         }
     }
 
+    public void updateItemMode(ContentBase item) {
+        MainAdapter mMainAdapter = getMainAdapter();
+        if (mMainAdapter != null) {
+            mMainAdapter.updateItemMode(item);
+        }
+    }
+
 
     public int getControllerId() {
         if (this instanceof AllNotesController) {
@@ -113,6 +120,10 @@ public class BaseController {
     }
 
     public void onItemChanged(ContentBase item) {
+
+    }
+
+    public void onItemModeChanged(ContentBase item) {
 
     }
 }

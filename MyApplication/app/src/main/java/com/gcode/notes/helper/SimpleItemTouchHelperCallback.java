@@ -23,7 +23,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.controllers.BaseController;
-import com.gcode.notes.extras.Constants;
+import com.gcode.notes.extras.values.Constants;
 
 /**
  * An implementation of {@link ItemTouchHelper.Callback} that enables basic drag & drop and
