@@ -14,9 +14,18 @@ import java.util.ArrayList;
 
 public class ListItemsDisplayBaseAdapter extends ListItemsBaseAdapter {
     ListItemsDisplayBaseAdapter mOtherAdapter;
+    boolean mIsDeactivated;
 
     public ListItemsDisplayBaseAdapter(ArrayList<ListDataItem> data) {
         super(data);
+    }
+
+    public boolean isDeactivated() {
+        return mIsDeactivated;
+    }
+
+    public void setDeactivated(boolean mIsDeactivated) {
+        this.mIsDeactivated = mIsDeactivated;
     }
 
     @Override

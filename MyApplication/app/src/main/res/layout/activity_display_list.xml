@@ -4,7 +4,7 @@
     android:id="@+id/display_list_root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.gcode.notes.activities.display.DisplayListActivity">
+    tools:context="com.gcode.notes.activities.display.list.DisplayListBaseActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/display_list_app_bar_layout"

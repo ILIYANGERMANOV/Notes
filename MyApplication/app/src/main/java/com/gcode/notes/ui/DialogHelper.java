@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.R;
-import com.gcode.notes.notes.MyApplication;
 
 public class DialogHelper {
     public static void buildEmptyBinDialog(Context context, MaterialDialog.ButtonCallback mButtonCallback) {
@@ -17,13 +16,14 @@ public class DialogHelper {
                 .show();
     }
 
-    public static void buildDeleteNoteFromBinDialog(Context context, MaterialDialog.ButtonCallback mButtonCallback) {
+    public static void buildDeleteNoteFromBinDialog(Context context, MaterialDialog.ButtonCallback mButtonCallback,
+                                                    boolean cancelable) {
         new MaterialDialog.Builder(context)
                 .title(R.string.delete_note_bin_dialog_title)
                 .positiveText(R.string.delete_note_bin_dialog_agree)
                 .negativeText(R.string.delete_note_bin_dialog_disagree)
                 .callback(mButtonCallback)
-                .cancelable(false)
+                .cancelable(cancelable)
                 .show();
     }
 }

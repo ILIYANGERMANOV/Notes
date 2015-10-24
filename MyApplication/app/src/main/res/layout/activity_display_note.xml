@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.gcode.notes.activities.display.DisplayNoteActivity">
+    tools:context="com.gcode.notes.activities.display.note.DisplayNoteBaseActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/display_note_app_bar_layout"
@@ -60,7 +60,7 @@
                         android:id="@+id/display_note_description_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:text="@string/placeholder_short"
                         android:textSize="14sp" />

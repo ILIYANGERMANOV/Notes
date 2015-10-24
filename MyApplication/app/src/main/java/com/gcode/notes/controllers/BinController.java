@@ -32,9 +32,9 @@ public class BinController extends BaseController {
     @Override
     protected void onSetContentAnimation() {
         super.onSetContentAnimation();
-        if(mPreviousControllerId != Constants.CONTROLLER_BIN) {
+        mFab.setVisibility(View.GONE);
+        if (mPreviousControllerId != Constants.CONTROLLER_BIN) {
             MyAnimator.startAnimation(mContext, mFab, R.anim.collapse_anim);
-            mFab.setVisibility(View.GONE);
         }
     }
 

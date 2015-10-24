@@ -343,7 +343,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (BaseController.getInstance().getControllerId() == Constants.CONTROLLER_BIN) {
             if (menu.findItem(Constants.MENU_EMPTY_BIN) == null) {
                 menu.add(0, Constants.MENU_EMPTY_BIN, Menu.NONE, R.string.action_empty_bin).
-                        setIcon(R.drawable.ic_clear_black_24dp).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+                        setIcon(R.drawable.ic_empty_bin_24dp).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
             }
         } else {
             menu.removeItem(Constants.MENU_EMPTY_BIN);

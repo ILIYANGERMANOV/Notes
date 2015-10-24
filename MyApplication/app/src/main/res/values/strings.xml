@@ -46,5 +46,7 @@
     <string name="compose_list_todo_tasks_caption">Todo</string>
     <string name="star_button_content_description">Star button</string>
     <string name="more_image_view_content_desc">There are more to show image view.</string>
+    <string name="action_delete_forever">Delete note forever</string>
+    <string name="action_restore_deleted">Restore note</string>
 
 </resources>

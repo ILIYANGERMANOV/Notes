@@ -14,6 +14,9 @@ public class ListItemDisplayViewHolder extends ListItemBaseViewHolder implements
         super(itemView);
         mCheckBox.setOnClickListener(this);
         mAdapter = adapter;
+        if (adapter.isDeactivated()) {
+            mCheckBox.setEnabled(false);
+        }
     }
 
     @Override
