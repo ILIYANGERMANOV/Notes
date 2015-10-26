@@ -38,7 +38,7 @@ public class DisplayListBinActivity extends DisplayListBaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_delete_forever:
-                ActionExecutor.deleteNoteFromBin(this, mListData);
+                ActionExecutor.deleteNoteFromDisplayBin(this, mListData);
                 return true;
             case R.id.action_restore_deleted:
                 ActionExecutor.restoreDeletedNote(this, mListData);

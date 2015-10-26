@@ -4,11 +4,11 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 public class SnackbarHelper {
-    public static Snackbar buildUndoSnackbar(View rootView, View.OnClickListener mUndoOnClickListener,
-                                             Snackbar.Callback mCallback) {
+    public static Snackbar buildUndoSnackbar(View rootView, View.OnClickListener undoOnClickListener,
+                                             Snackbar.Callback callback) {
 
         Snackbar snackbar = Snackbar.make(rootView, SnackbarMessages.NOTE_DELETED_MESSAGE, Snackbar.LENGTH_LONG);
-        snackbar.setAction(SnackbarMessages.UNDO_SNACKBAR_ACTION_MESSAGE, mUndoOnClickListener).setCallback(mCallback);
+        snackbar.setAction(SnackbarMessages.UNDO_SNACKBAR_ACTION_MESSAGE, undoOnClickListener).setCallback(callback);
         return snackbar;
     }
 
