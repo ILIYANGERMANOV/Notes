@@ -17,11 +17,10 @@ import com.gcode.notes.extras.values.Constants;
 import java.util.ArrayList;
 
 public class DatabaseController {
-    private NotesDbHelper mHelper;
     private SQLiteDatabase mDatabase;
 
     public DatabaseController(Context context) {
-        mHelper = new NotesDbHelper(context);
+        NotesDbHelper mHelper = new NotesDbHelper(context);
         mDatabase = mHelper.getWritableDatabase();
     }
 
@@ -135,10 +134,13 @@ public class DatabaseController {
 
 
     //DELETE-------------------------------------------------------------------------------------------------------
-
-    //DELETE-------------------------------------------------------------------------------------------------------
     public boolean emptyRecyclerBin() {
         return DeleteHelper.deleteNotesList(mDatabase, getAllDeletedNotes());
+    }
+
+    public boolean deleteExpiredNotes() {
+        Cursor cursor = mDatabase.rawQuery(SelectQueries.SELECT_ALL_EXPIRED_NOTES, null);
+        return DeleteHelper.deleteNotesList(mDatabase, Builder.buildItemList(mDatabase, cursor));
     }
 
     public boolean deleteNoteFromBin(ContentBase note) {
@@ -147,11 +149,26 @@ public class DatabaseController {
     //DELETE------------------------------------------------------------------------------------------------------------
 
     //PRIVATE----------------------------------------------------------------------------------------------------
+
+    /**
+     * @param modes - MUST CONTAIN AT LEAST ONE MODE; to order by expiration date pass MODE_DELETED_NORMAL as first argument
+     * @return Cursor with the result of the query
+     */
     private Cursor getCursorForAllItemsFromContentForModes(int... modes) {
-        return mDatabase.rawQuery(SelectQueries.selectAllItemsFromContentForModes(modes.length), SelectQueries.buildSelectionArgs(modes));
+        return mDatabase.rawQuery(
+                SelectQueries.selectAllItemsFromContentForModes(modes.length, modes[0] != Constants.MODE_DELETED_NORMAL),
+                SelectQueries.buildSelectionArgs(modes)
+        );
     }
 
+    /**
+     * @param modes - MUST CONTAIN AT LEAST ONE MODE; to order by expiration date pass MODE_DELETED_NORMAL as first argument
+     * @return Cursor with the result of the query
+     */
     private Cursor getCursorForLastItemFromContentForMode(int... modes) {
-        return mDatabase.rawQuery(SelectQueries.selectLastItemFromContentForModes(modes.length), SelectQueries.buildSelectionArgs(modes));
+        return mDatabase.rawQuery(
+                SelectQueries.selectLastItemFromContentForModes(modes.length, modes[0] != Constants.MODE_DELETED_NORMAL),
+                SelectQueries.buildSelectionArgs(modes)
+        );
     }
 }

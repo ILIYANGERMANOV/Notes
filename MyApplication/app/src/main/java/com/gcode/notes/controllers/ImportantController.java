@@ -11,17 +11,18 @@ import android.view.View;
 import com.gcode.notes.R;
 import com.gcode.notes.animations.MyAnimator;
 import com.gcode.notes.data.ContentBase;
-import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
+import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
 import com.gcode.notes.tasks.AddItemFromDbToMainTask;
 import com.gcode.notes.tasks.LoadContentTask;
 import com.gcode.notes.tasks.RemoveItemFromMainTask;
 
 public class ImportantController extends BaseController {
     public ImportantController(Context context, Toolbar toolbar, RecyclerView recyclerView,
-                               FloatingActionButton fab, AppBarLayout appBarLayout) {
+                               FloatingActionButton fab, AppBarLayout appBarLayout,
+                               SimpleItemTouchHelperCallback simpleItemTouchHelperCallback) {
 
-        super(context, toolbar, recyclerView, fab, appBarLayout);
+        super(context, toolbar, recyclerView, fab, appBarLayout, simpleItemTouchHelperCallback);
     }
 
     @Override
@@ -29,6 +30,7 @@ public class ImportantController extends BaseController {
         super.setContent();
         mToolbar.setTitle("Starred");
         new LoadContentTask(this).execute();
+        mSimpleItemTouchHelperCallback.setLongPressDragEnabled(true);
     }
 
     @Override
@@ -50,7 +52,7 @@ public class ImportantController extends BaseController {
     @Override
     public void onItemModeChanged(ContentBase item) {
         if (item.getMode() != Constants.MODE_IMPORTANT) {
-            new RemoveItemFromMainTask().execute(item);
+            new RemoveItemFromMainTask("Note moved to All notes.").execute(item);
         }
     }
 

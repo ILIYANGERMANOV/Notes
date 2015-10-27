@@ -21,7 +21,7 @@ public class RestoreNoteFromDisplayCallback extends MaterialDialog.ButtonCallbac
     public void onPositive(MaterialDialog dialog) {
         if (MyApplication.getWritableDatabase().restoreNoteFromBin(mNote)) {
             //note restored successfully
-            new RemoveItemFromMainTask().execute(mNote);
+            new RemoveItemFromMainTask("Note restored successfully.").execute(mNote);
             mActivity.finish();
         } else {
             //failed to restore note

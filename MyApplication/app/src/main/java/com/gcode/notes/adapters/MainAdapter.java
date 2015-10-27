@@ -17,7 +17,6 @@ import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.helper.ItemTouchHelperAdapter;
-import com.gcode.notes.helper.OnStartDragListener;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.ui.ActionExecutor;
 
@@ -140,7 +139,7 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
 
     @Override
     public void onItemDismiss(int position) {
-        ActionExecutor.popUndoSnackbar(mRootView, this, position, mData.get(position));
+        ActionExecutor.popNoteDeletedSnackbar(mRootView, this, position, mData.get(position));
         dismissItem(position);
     }
 

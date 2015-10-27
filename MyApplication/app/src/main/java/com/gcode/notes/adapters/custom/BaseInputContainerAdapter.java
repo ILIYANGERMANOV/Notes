@@ -37,12 +37,16 @@ public abstract class BaseInputContainerAdapter {
         mLastFocused = Constants.NO_FOCUS;
     }
 
+    public void setOtherContainerAdapter(BaseInputContainerAdapter mOtherContainerAdapter) {
+        this.mOtherContainerAdapter = mOtherContainerAdapter;
+    }
+
     public BaseInputContainerAdapter getOtherContainerAdapter() {
         return mOtherContainerAdapter;
     }
 
-    public void setOtherContainerAdapter(BaseInputContainerAdapter mOtherContainerAdapter) {
-        this.mOtherContainerAdapter = mOtherContainerAdapter;
+    public ScrollView getRootScrollView() {
+        return mScrollView;
     }
 
     public void setLastFocused(int value) {
@@ -111,6 +115,10 @@ public abstract class BaseInputContainerAdapter {
         }
     }
 
+    public EditText getEditTextFromView(View view) {
+        return (EditText) view.findViewById(R.id.list_input_item_edit_text);
+    }
+
     protected abstract View createView();
 
     protected abstract boolean isListDataItemChecked();
@@ -154,7 +162,7 @@ public abstract class BaseInputContainerAdapter {
         EditText mEditText = getEditTextFromView(inputItem);
         mEditText.setOnEditorActionListener(new ListInputOnEditorActionListener(this));
         mEditText.setHorizontallyScrolling(false);
-        mEditText.setMaxLines(3);
+       mEditText.setMaxLines(Constants.MAX_LIST_INPUT_ITEM_LINES);
         mEditText.setOnFocusChangeListener(new MyFocusListener(this));
 
         ImageButton mRemoveImageButton = (ImageButton) inputItem.findViewById(R.id.list_input_item_remove_button);
@@ -176,10 +184,6 @@ public abstract class BaseInputContainerAdapter {
         if (inputItemContent != null) {
             mEditText.setText(inputItemContent);
         }
-    }
-
-    protected EditText getEditTextFromView(View view) {
-        return (EditText) view.findViewById(R.id.list_input_item_edit_text);
     }
 
     private ArrayList<ListDataItem> getListDataItemsFromContainer(LinearLayout container, boolean filterEmpty) {

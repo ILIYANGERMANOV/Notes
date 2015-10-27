@@ -52,7 +52,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:paddingEnd="21dp"
                         android:paddingLeft="21dp"
+                        android:paddingRight="21dp"
+                        android:paddingStart="21dp"
                         android:scrollbars="vertical"
                         android:visibility="visible" />
 
@@ -64,6 +67,7 @@
                         android:background="?android:attr/selectableItemBackground"
                         android:drawableLeft="@drawable/ic_expand_more_black_24dp"
                         android:drawablePadding="5dp"
+                        android:drawableStart="@drawable/ic_expand_more_black_24dp"
                         android:gravity="center_vertical"
                         android:text="@string/compose_list_done_tasks_caption"
                         android:textAllCaps="false"
@@ -74,7 +78,10 @@
                         android:id="@+id/display_list_ticked_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingEnd="21dp"
                         android:paddingLeft="21dp"
+                        android:paddingRight="21dp"
+                        android:paddingStart="21dp"
                         android:scrollbars="vertical" />
 
                     <TextView
@@ -85,7 +92,6 @@
                         android:layout_marginTop="23dp"
                         android:layout_weight="1"
                         android:gravity="bottom|end"
-                        android:text="Last modified: 21/10/2015 13:37\nCreated on: 13/10/2015 22:25"
                         android:textSize="14sp" />
 
                     <TextView

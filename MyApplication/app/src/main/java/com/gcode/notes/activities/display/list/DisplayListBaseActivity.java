@@ -66,7 +66,7 @@ public class DisplayListBaseActivity extends AppCompatActivity {
     boolean mIsDoneTasksHidden;
     boolean mNoteModeChanged;
 
-    //TODO: fix display list with items longet than maxLines (on add item)
+    //TODO: fix display list with items longer than maxLines (on add item)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

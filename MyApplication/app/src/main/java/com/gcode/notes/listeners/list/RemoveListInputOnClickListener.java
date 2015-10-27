@@ -3,6 +3,7 @@ package com.gcode.notes.listeners.list;
 import android.view.View;
 
 import com.gcode.notes.adapters.custom.BaseInputContainerAdapter;
+import com.gcode.notes.ui.ActionExecutor;
 
 public class RemoveListInputOnClickListener implements View.OnClickListener {
     BaseInputContainerAdapter mContainerAdapter;
@@ -13,6 +14,8 @@ public class RemoveListInputOnClickListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        mContainerAdapter.removeInputItem((View) v.getParent());
+        View inputItem = (View) v.getParent();
+        mContainerAdapter.removeInputItem(inputItem);
+        ActionExecutor.popListItemDeletedSnackbar(mContainerAdapter, inputItem);
     }
 }

@@ -12,15 +12,17 @@ import com.gcode.notes.R;
 import com.gcode.notes.animations.MyAnimator;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.extras.values.Constants;
+import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
 import com.gcode.notes.tasks.AddItemFromDbToMainTask;
 import com.gcode.notes.tasks.LoadContentTask;
 
 public class PrivateController extends BaseController {
 
     public PrivateController(Context context, Toolbar toolbar, RecyclerView recyclerView,
-                             FloatingActionButton fab, AppBarLayout appBarLayout) {
+                             FloatingActionButton fab, AppBarLayout appBarLayout,
+                             SimpleItemTouchHelperCallback simpleItemTouchHelperCallback) {
 
-        super(context, toolbar, recyclerView, fab, appBarLayout);
+        super(context, toolbar, recyclerView, fab, appBarLayout, simpleItemTouchHelperCallback);
     }
 
     @Override
@@ -28,6 +30,7 @@ public class PrivateController extends BaseController {
         super.setContent();
         mToolbar.setTitle("Private");
         new LoadContentTask(this).execute();
+        mSimpleItemTouchHelperCallback.setLongPressDragEnabled(true);
     }
 
     @Override

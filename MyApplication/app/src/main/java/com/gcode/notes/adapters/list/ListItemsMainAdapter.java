@@ -28,7 +28,7 @@ public class ListItemsMainAdapter extends ListItemsBaseAdapter {
     @Override
     public ListItemBaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.single_list_data_item, parent, false);
+        View view = inflater.inflate(R.layout.list_data_item_main, parent, false);
         return new ListItemMainViewHolder(mActivity, view, mListData);
     }
 

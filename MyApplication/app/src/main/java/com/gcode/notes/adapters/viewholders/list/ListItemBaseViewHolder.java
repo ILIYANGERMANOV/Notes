@@ -11,10 +11,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ListItemBaseViewHolder extends RecyclerView.ViewHolder {
-    @Bind(R.id.single_list_data_item_check_box)
+    @Bind(R.id.list_data_item_check_box)
     CheckBox mCheckBox;
 
-    @Bind(R.id.single_list_data_item_text_view)
+    @Bind(R.id.list_data_item_text_view)
     TextView mTextView;
 
     public ListItemBaseViewHolder(View itemView) {

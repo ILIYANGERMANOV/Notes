@@ -31,7 +31,7 @@ public class ListItemsDisplayBaseAdapter extends ListItemsBaseAdapter {
     @Override
     public ListItemBaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new ListItemDisplayViewHolder(inflater.inflate(R.layout.single_list_data_item, parent, false), this);
+        return new ListItemDisplayViewHolder(inflater.inflate(R.layout.list_data_item_display, parent, false), this);
 
     }
 

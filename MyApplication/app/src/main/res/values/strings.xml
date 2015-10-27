@@ -49,5 +49,7 @@
     <string name="restore_note_dialog_title">Restore note?</string>
     <string name="restore_note_dialog_content">Note will restore its previous state.</string>
     <string name="restore_note_dialog_agree">Restore</string>
+    <string name="remove_list_input_item_image_desc">Remove list input item</string>
+    <string name="list_input_item_move_image_desc">Move list input items</string>
 
 </resources>

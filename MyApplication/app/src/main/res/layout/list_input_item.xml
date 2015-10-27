@@ -9,6 +9,7 @@
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:contentDescription="@string/list_input_item_move_image_desc"
         android:layout_gravity="center_vertical"
         android:src="@drawable/ic_reorder_black_24dp" />
 
@@ -25,6 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="2dp"
+        android:layout_marginStart="2dp"
         android:layout_weight="1"
         android:background="@android:color/transparent"
         android:gravity="center_vertical"
@@ -37,6 +39,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center_vertical"
+        android:contentDescription="@string/remove_list_input_item_image_desc"
         android:src="@drawable/ic_remove_circle_black_24dp" />
 
 </LinearLayout>

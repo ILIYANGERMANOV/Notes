@@ -31,9 +31,10 @@ public class DeleteHelper {
             }
         }
 
-        return mDatabase.delete(ContentEntry.TABLE_NAME, SelectQueries.whereClauseContentId, new String[]{
-                Integer.toString(note.getId())
-        });
+        return mDatabase.delete(ContentEntry.TABLE_NAME, SelectQueries.whereClauseContentId,
+                new String[]{
+                        Integer.toString(note.getId())
+                });
     }
 
     private static int deleteAttributes(SQLiteDatabase mDatabase, ContentBase note) {

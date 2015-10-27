@@ -9,13 +9,13 @@ import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.tasks.UndoItemDeletionTask;
 
 
-public class UndoOnClickListener implements View.OnClickListener {
+public class NoteDeletedUndoOnClickListener implements View.OnClickListener {
     boolean mUndo;
 
     int mPosition;
     ContentBase mNote;
 
-    public UndoOnClickListener(int position, ContentBase note) {
+    public NoteDeletedUndoOnClickListener(int position, ContentBase note) {
         mPosition = position;
         mNote = note;
     }

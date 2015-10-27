@@ -45,9 +45,9 @@ import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.extras.values.Keys;
 import com.gcode.notes.extras.values.Tags;
-import com.gcode.notes.helper.OnStartDragListener;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
 import com.gcode.notes.serialization.Serializer;
+import com.gcode.notes.tasks.DeleteExpiredNotesTask;
 import com.gcode.notes.ui.ActionExecutor;
 import com.gcode.notes.ui.NavDrawerHelper;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
@@ -58,8 +58,8 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        View.OnClickListener, OnStartDragListener {
+public class MainActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     public static FloatingActionMenu mActionMenu;
 
@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle mDrawerToggle;
     private int mSelectedId = R.id.navigation_item_all_notes;
     private boolean mSubMenuOpened;
-    private ItemTouchHelper mItemTouchHelper;
     private Menu mMenu;
 
     @Override
@@ -105,6 +104,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 applySelectedOption(mSelectedId, false);
             }
         }, 10);
+
+        if (savedInstanceState == null) {
+            new DeleteExpiredNotesTask().execute();
+        }
     }
 
     private void applySelectedOption(int selectedId, boolean notForFirstTime) {
@@ -113,18 +116,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (selectedId) {
             case R.id.navigation_item_all_notes:
                 mSelectedId = selectedId;
-                BaseController.setInstance(new AllNotesController(this, mToolbar, mRecyclerView, mFab, mAppBarLayout));
+                BaseController.setInstance(new AllNotesController(this, mToolbar, mRecyclerView, mFab,
+                        mAppBarLayout, mSimpleItemTouchHelperCallback));
                 break;
             case R.id.navigation_item_important:
                 mSelectedId = selectedId;
-                BaseController.setInstance(new ImportantController(this, mToolbar, mRecyclerView, mFab, mAppBarLayout));
+                BaseController.setInstance(new ImportantController(this, mToolbar, mRecyclerView, mFab,
+                        mAppBarLayout, mSimpleItemTouchHelperCallback));
                 break;
             case R.id.navigation_item_private:
                 mSelectedId = selectedId;
-                BaseController.setInstance(new PrivateController(this, mToolbar, mRecyclerView, mFab, mAppBarLayout));
+                BaseController.setInstance(new PrivateController(this, mToolbar, mRecyclerView, mFab,
+                        mAppBarLayout, mSimpleItemTouchHelperCallback));
                 break;
             case R.id.navigation_item_bin:
-                BaseController.setInstance(new BinController(this, mToolbar, mRecyclerView, mFab, mAppBarLayout));
+                BaseController.setInstance(new BinController(this, mToolbar, mRecyclerView, mFab,
+                        mAppBarLayout, mSimpleItemTouchHelperCallback));
                 mSelectedId = selectedId;
                 break;
             case R.id.navigation_item_explore:
@@ -156,8 +163,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mRecyclerView.setAdapter(mAdapter);
 
         mSimpleItemTouchHelperCallback = new SimpleItemTouchHelperCallback(mAdapter);
-        mItemTouchHelper = new ItemTouchHelper(mSimpleItemTouchHelperCallback);
-        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(mSimpleItemTouchHelperCallback);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
     private void handleScreenRotation(Bundle savedInstanceState) {
@@ -459,10 +466,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         mActionMenu.toggle(false);   //can cause problems with startActivity() before it
-    }
-
-    @Override
-    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
-        mItemTouchHelper.startDrag(viewHolder);
     }
 }

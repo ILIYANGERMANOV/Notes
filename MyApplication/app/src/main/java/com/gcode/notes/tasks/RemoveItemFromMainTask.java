@@ -1,15 +1,23 @@
 package com.gcode.notes.tasks;
 
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.notes.MyApplication;
+import com.gcode.notes.ui.snackbar.SnackbarHelper;
 
 public class RemoveItemFromMainTask extends AsyncTask<ContentBase, Void, Boolean> {
     MainAdapter mAdapter;
     int mItemPosition;
+    String mMessage;
+
+    public RemoveItemFromMainTask(String message) {
+        mMessage = message;
+    }
 
     @Override
     protected Boolean doInBackground(ContentBase... params) {
@@ -35,6 +43,7 @@ public class RemoveItemFromMainTask extends AsyncTask<ContentBase, Void, Boolean
         if (deleteItem) {
             //delete item
             mAdapter.removeItem(mItemPosition);
+            Toast.makeText(MyApplication.getAppContext(), mMessage, Toast.LENGTH_LONG).show();
         }
     }
 }

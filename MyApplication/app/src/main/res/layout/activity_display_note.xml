@@ -72,7 +72,6 @@
                         android:layout_gravity="end"
                         android:layout_marginTop="23dp"
                         android:gravity="bottom|end"
-                        android:text="Last modified: 21/10/2015 13:37\nCreated on: 13/10/2015 22:25"
                         android:textSize="14sp" />
 
                     <TextView

@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
         android:checked="true" />
 
     <EditText
@@ -18,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="3dp"
+        android:layout_marginStart="3dp"
         android:layout_weight="1"
         android:background="@android:color/transparent"
         android:gravity="center_vertical"
@@ -27,6 +29,7 @@
     <ImageButton
         android:id="@+id/list_input_item_remove_button"
         style="?android:attr/borderlessButtonStyle"
+        android:contentDescription="@string/remove_list_input_item_image_desc"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center_vertical"

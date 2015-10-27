@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.extras.values.Constants;
+import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
 
 import java.util.ArrayList;
 
@@ -20,12 +21,13 @@ public class BaseController {
     RecyclerView mRecyclerView;
     FloatingActionButton mFab;
     AppBarLayout mAppBarLayout;
+    SimpleItemTouchHelperCallback mSimpleItemTouchHelperCallback;
 
     static int mPreviousControllerId;
 
     public synchronized static BaseController getInstance() {
         if (mInstance == null) {
-            mInstance = new BaseController(null, null, null, null, null);
+            mInstance = new BaseController(null, null, null, null, null, null);
         }
         return mInstance;
     }
@@ -40,13 +42,15 @@ public class BaseController {
     }
 
     BaseController(Context context, Toolbar toolbar, RecyclerView recyclerView,
-                   FloatingActionButton fab, AppBarLayout appBarLayout) {
+                   FloatingActionButton fab, AppBarLayout appBarLayout,
+                   SimpleItemTouchHelperCallback simpleItemTouchHelperCallback) {
 
         mContext = context;
         mToolbar = toolbar;
         mRecyclerView = recyclerView;
         mFab = fab;
         mAppBarLayout = appBarLayout;
+        mSimpleItemTouchHelperCallback = simpleItemTouchHelperCallback;
     }
 
     public void setNewContent(ArrayList<ContentBase> newContent) {
