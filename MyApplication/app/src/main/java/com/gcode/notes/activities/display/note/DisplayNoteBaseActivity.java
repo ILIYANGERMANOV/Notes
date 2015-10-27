@@ -26,6 +26,9 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
     @Bind(R.id.display_title_text_view)
     TextView mTitleTextView;
 
+    @Bind(R.id.display_note_dates_text_view)
+    TextView mDatesTextView;
+
     @Bind(R.id.display_action_image_button)
     ImageButton mActionImageButton;
 
@@ -86,6 +89,7 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
 
     protected void displayNoteData() {
         mNoteData.displayNote(mTitleTextView, mDescriptionTextView, mAttachedImageView);
+        mDatesTextView.setText(mNoteData.getDateDetails());
     }
 
     private void setupToolbar() {

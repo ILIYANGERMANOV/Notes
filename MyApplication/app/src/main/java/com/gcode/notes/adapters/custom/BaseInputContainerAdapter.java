@@ -14,6 +14,7 @@ import android.widget.ScrollView;
 import com.gcode.notes.R;
 import com.gcode.notes.data.ListDataItem;
 import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.utils.Utils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.listeners.list.ListInputOnEditorActionListener;
 import com.gcode.notes.listeners.list.MyFocusListener;
@@ -123,7 +124,7 @@ public abstract class BaseInputContainerAdapter {
         mScrollView.post(new Runnable() {
             @Override
             public void run() {
-                mScrollView.smoothScrollBy(0, mEditText.getHeight());
+                mScrollView.smoothScrollBy(0, mEditText.getHeight() + Utils.convertDpInPixels(10));
 
             }
         });

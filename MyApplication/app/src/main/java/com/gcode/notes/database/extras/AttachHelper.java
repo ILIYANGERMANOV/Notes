@@ -11,6 +11,7 @@ import com.gcode.notes.database.NotesContract.ListEntry;
 import com.gcode.notes.database.NotesContract.NoteEntry;
 import com.gcode.notes.database.NotesContract.PictureEntry;
 import com.gcode.notes.database.NotesContract.SoundEntry;
+import com.gcode.notes.database.extras.queries.SelectQueries;
 import com.gcode.notes.serialization.Serializer;
 import com.gcode.notes.extras.MyDebugger;
 
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 
 public class AttachHelper {
     public static void attachNoteDataAttributes(SQLiteDatabase mDatabase, Cursor cursor, NoteData noteData) {
-        Cursor notesCursor = mDatabase.rawQuery(Queries.SELECT_ALL_FROM_NOTES_FOR_ID,
+        Cursor notesCursor = mDatabase.rawQuery(SelectQueries.SELECT_ALL_FROM_NOTES_FOR_ID,
                 new String[]{
                         Integer.toString(cursor.getInt(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_TARGET_ID)))
                 }
@@ -43,7 +44,7 @@ public class AttachHelper {
     }
 
     public static void attachListDataAttributes(SQLiteDatabase mDatabase, Cursor cursor, ListData listData) {
-        Cursor listCursor = mDatabase.rawQuery(Queries.SELECT_ALL_FROM_LISTS_FOR_ID,
+        Cursor listCursor = mDatabase.rawQuery(SelectQueries.SELECT_ALL_FROM_LISTS_FOR_ID,
                 new String[]{
                         Integer.toString(cursor.getInt(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_TARGET_ID)))
                 }
@@ -71,7 +72,7 @@ public class AttachHelper {
     }
 
     private static void attachSoundToNote(SQLiteDatabase mDatabase, Cursor cursor, NoteData noteData) {
-        Cursor soundCursor = mDatabase.rawQuery(Queries.SELECT_PATH_FROM_SOUNDS_FOR_NOTE_ID,
+        Cursor soundCursor = mDatabase.rawQuery(SelectQueries.SELECT_PATH_FROM_SOUNDS_FOR_NOTE_ID,
                 new String[]{
                         Integer.toString(cursor.getInt(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_TARGET_ID)))
                 }
@@ -88,7 +89,7 @@ public class AttachHelper {
     }
 
     private static void attachPictureToNote(SQLiteDatabase mDatabase, Cursor cursor, NoteData noteData) {
-        Cursor pictureCursor = mDatabase.rawQuery(Queries.SELECT_PATH_FROM_PICTURES_FOR_NOTE_ID,
+        Cursor pictureCursor = mDatabase.rawQuery(SelectQueries.SELECT_PATH_FROM_PICTURES_FOR_NOTE_ID,
                 new String[]{
                         Integer.toString(cursor.getInt(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_TARGET_ID)))
                 }

@@ -4,11 +4,12 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.gcode.notes.database.extras.Queries;
+import com.gcode.notes.database.extras.queries.CreateQueries;
+import com.gcode.notes.database.extras.queries.DropQueries;
 
 public class NotesDbHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "Notes.db";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     public NotesDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -16,19 +17,19 @@ public class NotesDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(Queries.SQL_CREATE_TABLE_CONTENT);
-        db.execSQL(Queries.SQL_CREATE_TABLE_NOTES);
-        db.execSQL(Queries.SQL_CREATE_TABLE_LISTS);
-        db.execSQL(Queries.SQL_CREATE_TABLE_PICTURES);
-        db.execSQL(Queries.SQL_CREATE_TABLE_SOUNDS);
+        db.execSQL(CreateQueries.SQL_CREATE_TABLE_CONTENT);
+        db.execSQL(CreateQueries.SQL_CREATE_TABLE_NOTES);
+        db.execSQL(CreateQueries.SQL_CREATE_TABLE_LISTS);
+        db.execSQL(CreateQueries.SQL_CREATE_TABLE_PICTURES);
+        db.execSQL(CreateQueries.SQL_CREATE_TABLE_SOUNDS);
     }
 
     public void dropDatabase(SQLiteDatabase db) {
-        db.execSQL(Queries.SQL_DELETE_TABLE_CONTENT);
-        db.execSQL(Queries.SQL_DELETE_TABLE_NOTES);
-        db.execSQL(Queries.SQL_DELETE_TABLE_LISTS);
-        db.execSQL(Queries.SQL_DELETE_TABLE_PICTURES);
-        db.execSQL(Queries.SQL_DELETE_TABLE_SOUNDS);
+        db.execSQL(DropQueries.SQL_DELETE_TABLE_CONTENT);
+        db.execSQL(DropQueries.SQL_DELETE_TABLE_NOTES);
+        db.execSQL(DropQueries.SQL_DELETE_TABLE_LISTS);
+        db.execSQL(DropQueries.SQL_DELETE_TABLE_PICTURES);
+        db.execSQL(DropQueries.SQL_DELETE_TABLE_SOUNDS);
     }
 
     @Override

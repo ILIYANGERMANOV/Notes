@@ -26,9 +26,9 @@ public class ListData extends ContentBase {
     }
 
     public ListData(int id, int orderId, int targetId, String title, int mode, boolean hasAttributes,
-                    String reminderString, Date creationDate, String expirationDateString) {
+                    String reminderString, String creationDate, String lastModified, String expirationDateString) {
 
-        super(id, orderId, targetId, title, mode, hasAttributes, reminderString, creationDate, expirationDateString);
+        super(id, orderId, targetId, title, mode, hasAttributes, reminderString, creationDate, lastModified, expirationDateString);
     }
 
     public ArrayList<ListDataItem> getList() {

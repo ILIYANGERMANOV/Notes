@@ -9,6 +9,7 @@ import com.gcode.notes.database.NotesContract.ListEntry;
 import com.gcode.notes.database.NotesContract.NoteEntry;
 import com.gcode.notes.database.NotesContract.PictureEntry;
 import com.gcode.notes.database.NotesContract.SoundEntry;
+import com.gcode.notes.database.extras.queries.SelectQueries;
 import com.gcode.notes.extras.MyDebugger;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class DeleteHelper {
             }
         }
 
-        return mDatabase.delete(ContentEntry.TABLE_NAME, Queries.whereClauseContentId, new String[]{
+        return mDatabase.delete(ContentEntry.TABLE_NAME, SelectQueries.whereClauseContentId, new String[]{
                 Integer.toString(note.getId())
         });
     }

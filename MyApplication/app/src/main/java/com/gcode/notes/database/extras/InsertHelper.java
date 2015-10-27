@@ -11,10 +11,10 @@ import com.gcode.notes.database.NotesContract.ListEntry;
 import com.gcode.notes.database.NotesContract.NoteEntry;
 import com.gcode.notes.database.NotesContract.PictureEntry;
 import com.gcode.notes.database.NotesContract.SoundEntry;
-import com.gcode.notes.extras.values.Constants;
-import com.gcode.notes.extras.utils.DateUtils;
-import com.gcode.notes.serialization.Serializer;
 import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.utils.DateUtils;
+import com.gcode.notes.extras.values.Constants;
+import com.gcode.notes.serialization.Serializer;
 
 import java.net.URI;
 
@@ -47,11 +47,14 @@ public class InsertHelper {
         contentValues.put(ContentEntry.COLUMN_NAME_MODE, contentBase.getMode());
         contentValues.put(ContentEntry.COLUMN_NAME_TYPE, contentBase.getType());
         contentValues.put(ContentEntry.COLUMN_NAME_ATTRIBUTES, contentBase.hasAttributes());
-        contentValues.put(ContentEntry.COLUMN_NAME_REMINDER, contentBase.getReminderString());
-        contentValues.put(ContentEntry.COLUMN_NAME_CREATION_DATE, DateUtils.getCurrentTime());
-        contentValues.putNull(ContentEntry.COLUMN_NAME_EXPIRATION_DATE);
+        contentValues.put(ContentEntry.COLUMN_NAME_REMINDER, contentBase.getReminder());
+        //TODO: add legit location
+        contentValues.put(ContentEntry.COLUMN_NAME_LOCATION, Constants.NO_LOCATION);
+        contentValues.put(ContentEntry.COLUMN_NAME_CREATION_DATE, DateUtils.getCurrentTimeSQLiteFormatted());
+        contentValues.put(ContentEntry.COLUMN_NAME_LAST_MODIFIED_DATE, DateUtils.getCurrentTimeSQLiteFormatted());
+        contentValues.put(ContentEntry.COLUMN_NAME_EXPIRATION_DATE, Constants.NO_DATE);
 
-        return mDatabase.insert(ContentEntry.TABLE_NAME, ContentEntry.COLUMN_NAME_EXPIRATION_DATE, contentValues);
+        return mDatabase.insert(ContentEntry.TABLE_NAME, null, contentValues);
     }
 
     public static void insertAttributesInLists(SQLiteDatabase mDatabase, ContentBase contentBase) {

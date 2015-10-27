@@ -9,9 +9,9 @@ import com.gcode.notes.data.ListData;
 import com.gcode.notes.database.extras.Builder;
 import com.gcode.notes.database.extras.DeleteHelper;
 import com.gcode.notes.database.extras.InsertHelper;
-import com.gcode.notes.database.extras.Queries;
 import com.gcode.notes.database.extras.UpdateHelper;
 import com.gcode.notes.database.extras.Validator;
+import com.gcode.notes.database.extras.queries.SelectQueries;
 import com.gcode.notes.extras.values.Constants;
 
 import java.util.ArrayList;
@@ -97,10 +97,10 @@ public class DatabaseController {
             default:
                 return false;
         }
-        return UpdateHelper.updateNoteMode(mDatabase, contentBase, newMode) > 0;
+        return UpdateHelper.updateNoteModeAndExpirationDate(mDatabase, contentBase, newMode, true) > 0;
     }
 
-    public boolean revertNoteFromBin(ContentBase contentBase) {
+    public boolean restoreNoteFromBin(ContentBase contentBase) {
         int newMode;
         switch (contentBase.getMode()) {
             case Constants.MODE_DELETED_NORMAL:
@@ -112,7 +112,7 @@ public class DatabaseController {
             default:
                 return false;
         }
-        return UpdateHelper.updateNoteMode(mDatabase, contentBase, newMode) > 0;
+        return UpdateHelper.updateNoteModeAndExpirationDate(mDatabase, contentBase, newMode, false) > 0;
     }
 
     public void swapNotesPosition(ContentBase noteA, ContentBase noteB) {
@@ -148,10 +148,10 @@ public class DatabaseController {
 
     //PRIVATE----------------------------------------------------------------------------------------------------
     private Cursor getCursorForAllItemsFromContentForModes(int... modes) {
-        return mDatabase.rawQuery(Queries.selectAllItemsFromContentForModes(modes.length), Queries.buildSelectionArgs(modes));
+        return mDatabase.rawQuery(SelectQueries.selectAllItemsFromContentForModes(modes.length), SelectQueries.buildSelectionArgs(modes));
     }
 
     private Cursor getCursorForLastItemFromContentForMode(int... modes) {
-        return mDatabase.rawQuery(Queries.selectLastItemFromContentForModes(modes.length), Queries.buildSelectionArgs(modes));
+        return mDatabase.rawQuery(SelectQueries.selectLastItemFromContentForModes(modes.length), SelectQueries.buildSelectionArgs(modes));
     }
 }

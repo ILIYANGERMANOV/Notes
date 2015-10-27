@@ -66,6 +66,7 @@ public class DisplayListBaseActivity extends AppCompatActivity {
     boolean mIsDoneTasksHidden;
     boolean mNoteModeChanged;
 
+    //TODO: fix display list with items longet than maxLines (on add item)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,6 +140,7 @@ public class DisplayListBaseActivity extends AppCompatActivity {
 
     protected void displayListData() {
         mListData.displayBase(mTitleTextView);
+        mDatesTextView.setText(mListData.getDateDetails());
         if (mListDataItems == null || mTickedListDataItems == null) {
             //displayListData for first time
             setupRecyclerViews();
@@ -166,8 +168,7 @@ public class DisplayListBaseActivity extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        LinearLayoutManager tickedLinearLayoutManager = new LinearLayoutManager(this);
-        mTickedRecyclerView.setLayoutManager(tickedLinearLayoutManager);
+        mTickedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         mAdapter = new ListItemsDisplayAdapter(mListDataItems);
         mTickedAdapter = new ListItemsDisplayTickedAdapter(mTickedListDataItems, mDoneButton,

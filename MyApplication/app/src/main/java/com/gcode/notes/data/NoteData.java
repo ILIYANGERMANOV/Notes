@@ -12,7 +12,6 @@ import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 
 import java.net.URI;
-import java.util.Date;
 
 public class NoteData extends ContentBase {
     String description;
@@ -20,9 +19,9 @@ public class NoteData extends ContentBase {
     URI audioURI;
 
     public NoteData(int id, int orderId, int targetId, String title, int mode, boolean hasAttributes,
-                    String reminderString, Date creationDate, String expirationDateString) {
+                    String reminderString, String creationDate, String lastModifiedDate, String expirationDateString) {
 
-        super(id, orderId, targetId, title, mode, hasAttributes, reminderString, creationDate, expirationDateString);
+        super(id, orderId, targetId, title, mode, hasAttributes, reminderString, creationDate, lastModifiedDate, expirationDateString);
     }
 
     public NoteData(String title, int mode, boolean hasAttributes, String description,

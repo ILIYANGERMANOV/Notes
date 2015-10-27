@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
 import com.gcode.notes.database.NotesContract.ContentEntry;
+import com.gcode.notes.database.extras.queries.SelectQueries;
 
 public class Selector {
     public static int getFirstOrNextIdFromContent(SQLiteDatabase mDatabase) {
@@ -15,7 +16,7 @@ public class Selector {
 
     public static int getLastRowFromTable(SQLiteDatabase mDatabase, String tableName) {
         int targetId = 0;
-        Cursor cursor = mDatabase.rawQuery(Queries.selectLastRowIdForTable(tableName), null);
+        Cursor cursor = mDatabase.rawQuery(SelectQueries.selectLastRowIdForTable(tableName), null);
         if (cursor.moveToFirst()) {
             targetId = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
         }

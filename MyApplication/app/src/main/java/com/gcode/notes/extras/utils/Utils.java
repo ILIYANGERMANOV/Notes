@@ -3,12 +3,18 @@ package com.gcode.notes.extras.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.util.DisplayMetrics;
 
 import com.gcode.notes.R;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 
 public class Utils {
+    public static int convertDpInPixels(int dp) {
+        DisplayMetrics displayMetrics = MyApplication.getAppContext().getResources().getDisplayMetrics();
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
+
     public static int getToolbarHeight(Context context) {
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
                 new int[]{R.attr.actionBarSize});

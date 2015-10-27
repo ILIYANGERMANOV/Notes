@@ -16,8 +16,10 @@ import android.widget.TextView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.controllers.BaseController;
+import com.gcode.notes.data.ContentDetails;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
@@ -50,6 +52,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
 
     boolean mIsStarred;
     boolean mNoteModeChanged;
+    ContentDetails mContentDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,10 +111,10 @@ public class ComposeNoteActivity extends AppCompatActivity {
             if (noteData.isImportant()) {
                 setStarredState();
             }
-            String reminderString = noteData.getReminderString();
-            if (!reminderString.equals(Constants.NO_REMINDER)) {
-                mReminderTextView.setText(reminderString);
+            if (noteData.hasReminder()) {
+                mReminderTextView.setText(noteData.getReminder());
             }
+            mContentDetails = noteData.getContentDetails();
             //TODO: set picture and audio
             mDescriptionEditText.setText(noteData.getDescription());
         }
@@ -127,6 +130,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
             setStarredState();
         }
         mNoteModeChanged = savedInstanceState.getBoolean(Constants.EXTRA_NOTE_MODE_CHANGED);
+        mContentDetails = Serializer.parseContentDetails(savedInstanceState.getString(Constants.EXTRA_CONTENT_DETAILS));
     }
 
     @Override
@@ -139,6 +143,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
         }
         outState.putBoolean(Constants.EXTRA_IS_STARRED, mIsStarred);
         outState.putBoolean(Constants.EXTRA_NOTE_MODE_CHANGED, mNoteModeChanged);
+        outState.putString(Constants.EXTRA_CONTENT_DETAILS, Serializer.serializeContentDetails(mContentDetails));
     }
 
     private void setupToolbar() {
@@ -174,7 +179,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
     }
 
     private void saveNote() {
-        Intent mResultIntent = new Intent();
+        Intent resultIntent = new Intent();
 
         String title = mTitleEditText.getText().toString();
         String description = mDescriptionEditText.getText().toString();
@@ -193,24 +198,30 @@ public class ComposeNoteActivity extends AppCompatActivity {
             if (!mIsOpenedInEditMode) {
                 //new note
                 if (MyApplication.getWritableDatabase().insertNote(noteData) != Constants.DATABASE_ERROR) {
-                    mResultIntent.putExtra(Constants.NOTE_ADDED_SUCCESSFULLY, true);
-                    mResultIntent.putExtra(Constants.COMPOSE_NOTE_MODE, mode);
+                    resultIntent.putExtra(Constants.NOTE_ADDED_SUCCESSFULLY, true);
+                    resultIntent.putExtra(Constants.COMPOSE_NOTE_MODE, mode);
                 } else {
                     MyDebugger.log("Failed to save note.");
                 }
             } else {
                 //update existing note
                 noteData.setId(mEditNoteId);
+                if (mContentDetails != null) {
+                    mContentDetails.setLastModifiedDate(DateUtils.getCurrentTimeSQLiteFormatted());
+                    noteData.setContentDetails(mContentDetails);
+                } else {
+                    MyDebugger.log("ContentDetails are null");
+                }
                 if (MyApplication.getWritableDatabase().updateNote(noteData)) {
-                    mResultIntent.putExtra(Constants.NOTE_UPDATED_SUCCESSFULLY, true);
-                    mResultIntent.putExtra(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(noteData));
-                    mResultIntent.putExtra(Constants.EXTRA_NOTE_MODE_CHANGED, mNoteModeChanged);
+                    resultIntent.putExtra(Constants.NOTE_UPDATED_SUCCESSFULLY, true);
+                    resultIntent.putExtra(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(noteData));
+                    resultIntent.putExtra(Constants.EXTRA_NOTE_MODE_CHANGED, mNoteModeChanged);
                 } else {
                     MyDebugger.log("Failed to update note.");
                 }
             }
         }
-        setResult(Activity.RESULT_OK, mResultIntent);
+        setResult(Activity.RESULT_OK, resultIntent);
     }
 
     private boolean hasAttributes(String description) {

@@ -21,9 +21,11 @@ import com.gcode.notes.R;
 import com.gcode.notes.adapters.custom.ListInputContainerAdapter;
 import com.gcode.notes.adapters.custom.ListInputTickedContainerAdapter;
 import com.gcode.notes.controllers.BaseController;
+import com.gcode.notes.data.ContentDetails;
 import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.ListDataItem;
 import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
@@ -71,6 +73,7 @@ public class ComposeListActivity extends AppCompatActivity {
 
     boolean mIsStarred;
     boolean mNoteModeChanged;
+    ContentDetails mContentDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,10 +132,10 @@ public class ComposeListActivity extends AppCompatActivity {
             if (listData.isImportant()) {
                 setStarredState();
             }
-            String reminderString = listData.getReminderString();
-            if (!reminderString.equals(Constants.NO_REMINDER)) {
-                mReminderTextView.setText(reminderString);
+            if (listData.hasReminder()) {
+                mReminderTextView.setText(listData.getReminder());
             }
+            mContentDetails = listData.getContentDetails();
             ArrayList<ListDataItem> listDataItems = listData.getList();
             if (listDataItems != null) {
                 addListDataItems(listDataItems);
@@ -185,13 +188,7 @@ public class ComposeListActivity extends AppCompatActivity {
             setStarredState();
         }
         mNoteModeChanged = savedInstanceState.getBoolean(Constants.EXTRA_NOTE_MODE_CHANGED);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mListDataItems = mContainerAdapter.getListDataItems(false);
-        mTickedListDataItems = mTickedContainerAdapter.getListDataItems(false);
+        mContentDetails = Serializer.parseContentDetails(savedInstanceState.getString(Constants.EXTRA_CONTENT_DETAILS));
     }
 
     @Override
@@ -229,6 +226,7 @@ public class ComposeListActivity extends AppCompatActivity {
         }
         outState.putBoolean(Constants.EXTRA_IS_STARRED, mIsStarred);
         outState.putBoolean(Constants.EXTRA_NOTE_MODE_CHANGED, mNoteModeChanged);
+        outState.putString(Constants.EXTRA_CONTENT_DETAILS, Serializer.serializeContentDetails(mContentDetails));
     }
 
     private void addListDataItems(ArrayList<ListDataItem> listDataItems) {
@@ -250,6 +248,13 @@ public class ComposeListActivity extends AppCompatActivity {
             mContainerAdapter.setOtherContainerAdapter(mTickedContainerAdapter);
             mTickedContainerAdapter.setOtherContainerAdapter(mContainerAdapter);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mListDataItems = mContainerAdapter.getListDataItems(false);
+        mTickedListDataItems = mTickedContainerAdapter.getListDataItems(false);
     }
 
 
@@ -316,7 +321,7 @@ public class ComposeListActivity extends AppCompatActivity {
     }
 
     private void saveList() {
-        Intent mResultIntent = new Intent();
+        Intent resultIntent = new Intent();
 
         String title = mTitleEditText.getText().toString();
         ArrayList<ListDataItem> listDataItems = mContainerAdapter.getListDataItems(true);
@@ -334,24 +339,30 @@ public class ComposeListActivity extends AppCompatActivity {
             if (!mIsOpenedInEditMode) {
                 //save new list
                 if (MyApplication.getWritableDatabase().insertNote(listData) != Constants.DATABASE_ERROR) {
-                    mResultIntent.putExtra(Constants.NOTE_ADDED_SUCCESSFULLY, true);
-                    mResultIntent.putExtra(Constants.COMPOSE_NOTE_MODE, mode);
+                    resultIntent.putExtra(Constants.NOTE_ADDED_SUCCESSFULLY, true);
+                    resultIntent.putExtra(Constants.COMPOSE_NOTE_MODE, mode);
                 } else {
                     MyDebugger.log("Failed to save list.");
                 }
             } else {
                 //update existing list
                 listData.setId(mEditNoteId);
+                if (mContentDetails != null) {
+                    mContentDetails.setLastModifiedDate(DateUtils.getCurrentTimeSQLiteFormatted());
+                    listData.setContentDetails(mContentDetails);
+                } else {
+                    MyDebugger.log("ContentDetails are null");
+                }
                 if (MyApplication.getWritableDatabase().updateNote(listData)) {
-                    mResultIntent.putExtra(Constants.NOTE_UPDATED_SUCCESSFULLY, true);
-                    mResultIntent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(listData));
-                    mResultIntent.putExtra(Constants.EXTRA_NOTE_MODE_CHANGED, mNoteModeChanged);
+                    resultIntent.putExtra(Constants.NOTE_UPDATED_SUCCESSFULLY, true);
+                    resultIntent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(listData));
+                    resultIntent.putExtra(Constants.EXTRA_NOTE_MODE_CHANGED, mNoteModeChanged);
                 } else {
                     MyDebugger.log("Failed to update list.");
                 }
             }
         }
-        setResult(Activity.RESULT_OK, mResultIntent);
+        setResult(Activity.RESULT_OK, resultIntent);
     }
 
     private boolean isValidList(String title, ArrayList<ListDataItem> listDataItems) {

@@ -9,7 +9,6 @@ public final class NotesContract {
     }
 
     public static abstract class ContentEntry implements BaseColumns {
-        //TODO: add last modified
         public static final String TABLE_NAME = "content";
         public static final String COLUMN_NAME_ORDER_ID = "order_id";
         public static final String COLUMN_NAME_TITLE = "title";
@@ -18,7 +17,9 @@ public final class NotesContract {
         public static final String COLUMN_NAME_TARGET_ID = "target_id";
         public static final String COLUMN_NAME_ATTRIBUTES = "attributes";
         public static final String COLUMN_NAME_REMINDER = "time_reminder";
+        public static final String COLUMN_NAME_LOCATION = "location";
         public static final String COLUMN_NAME_CREATION_DATE = "creation_date";
+        public static final String COLUMN_NAME_LAST_MODIFIED_DATE = "last_modified_date";
         public static final String COLUMN_NAME_EXPIRATION_DATE = "expiration_date";
     }
 

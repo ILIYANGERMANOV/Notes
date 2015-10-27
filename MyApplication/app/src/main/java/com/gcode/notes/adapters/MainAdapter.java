@@ -25,21 +25,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implements ItemTouchHelperAdapter {
-    //TODO: refactor
-
-    private final OnStartDragListener mDragStartListener; //tova beshe za ruchichkata
     ArrayList<ContentBase> mData;
     View mRootView;
     Activity mActivity;
     RecyclerView mRecyclerView;
 
-    public MainAdapter(Activity activity, RecyclerView recyclerView, ArrayList<ContentBase> data,
-                       OnStartDragListener dragStartListener, View rooView) {
+    public MainAdapter(Activity activity, RecyclerView recyclerView, ArrayList<ContentBase> data, View rooView) {
 
         mRecyclerView = recyclerView;
         mActivity = activity;
         mData = data;
-        mDragStartListener = dragStartListener;
         mRootView = rooView;
     }
 
@@ -69,16 +64,6 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
                 ((ListData) currentItem).displayList(mActivity, (ListItemViewHolder) holder);
             }
         }
-        //Start a drag whenever the view is touched
-//        holder.getTitleImageButton().setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
-//                    mDragStartListener.onStartDrag(holder);
-//                }
-//                return false;
-//            }
-//        });
     }
 
     public RecyclerView getRecyclerView() {
@@ -134,14 +119,16 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
         notifyItemRemoved(position);
     }
 
-    public void addItem(int position, ContentBase item) {
+    public boolean addItem(int position, ContentBase item) {
         try {
             mData.add(position, item);
             notifyItemInserted(position);
+            return true;
         } catch (IndexOutOfBoundsException exception) {
-            MyDebugger.log("MainAdapter(): indexOutOfBoundsException caught."); //undo on click listener will do scrolling to wrong position
+            MyDebugger.log("MainAdapter(): indexOutOfBoundsException caught.");
             mData.add(item);
             notifyItemInserted(getItemCount() - 1);
+            return false;
         }
     }
 

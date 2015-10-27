@@ -1,8 +1,7 @@
 package com.gcode.notes.serialization;
 
 
-import android.widget.LinearLayout;
-
+import com.gcode.notes.data.ContentDetails;
 import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.ListDataItem;
 import com.gcode.notes.data.NoteData;
@@ -42,6 +41,17 @@ public class Serializer {
     public static ArrayList<ListDataItem> parseListDataItems(String serializedObject) {
         return new Gson().fromJson(serializedObject,
                 new TypeToken<ArrayList<ListDataItem>>() {
+                }.getType());
+    }
+
+    public static String serializeContentDetails(ContentDetails contentDetails) {
+        Gson gson = new Gson();
+        return gson.toJson(contentDetails);
+    }
+
+    public static ContentDetails parseContentDetails(String serializedObject) {
+        return new Gson().fromJson(serializedObject,
+                new TypeToken<ContentDetails>() {
                 }.getType());
     }
 

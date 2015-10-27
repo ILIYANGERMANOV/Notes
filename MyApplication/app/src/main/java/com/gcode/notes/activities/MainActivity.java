@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setupRecyclerView() {
         ArrayList<ContentBase> mNotesList = new ArrayList<>();
 
-        MainAdapter mAdapter = new MainAdapter(this, mRecyclerView, mNotesList, this, mCoordinatorLayout);
+        MainAdapter mAdapter = new MainAdapter(this, mRecyclerView, mNotesList, mCoordinatorLayout);
         GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, Constants.GRID_COLUMNS_COUNT);
         RecyclerView.ItemAnimator mItemAnimator = new DefaultItemAnimator();
 

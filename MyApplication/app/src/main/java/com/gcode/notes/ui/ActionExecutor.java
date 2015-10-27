@@ -13,6 +13,7 @@ import com.gcode.notes.ui.callbacks.DeleteNoteFromBinCallback;
 import com.gcode.notes.ui.callbacks.DeleteNoteFromDisplayCallback;
 import com.gcode.notes.ui.callbacks.EmptyRecyclerBinCallback;
 import com.gcode.notes.ui.callbacks.PopUndoSnackbarCallback;
+import com.gcode.notes.ui.callbacks.RestoreNoteFromDisplayCallback;
 import com.gcode.notes.ui.snackbar.SnackbarHelper;
 
 public class ActionExecutor {
@@ -31,7 +32,8 @@ public class ActionExecutor {
     }
 
     public static void restoreDeletedNote(Activity activity, ContentBase note) {
-        //TODO: restore deleted note
+        MaterialDialog.ButtonCallback restoreNoteFromDisplayCallback = new RestoreNoteFromDisplayCallback(activity, note);
+        DialogHelper.buildRestoreNoteFromDisplayDialog(activity, restoreNoteFromDisplayCallback);
     }
 
     public static void deleteNoteFromDisplayBin(Activity activity, ContentBase note) {

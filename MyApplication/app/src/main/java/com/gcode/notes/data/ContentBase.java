@@ -5,9 +5,8 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
+import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
-
-import java.util.Date;
 
 public class ContentBase {
     int id;
@@ -18,31 +17,29 @@ public class ContentBase {
     int mode;
     int type;
     boolean hasAttributes;
-    String reminderString;
-    Date creationDate;
-    //TODO: make legit expirationDate, add lastModified
-    String expirationDateString;
+    String reminder;
+
+    ContentDetails contentDetails;
 
 
     public ContentBase(int id, int orderId, int targetId, String title, int mode, boolean hasAttributes,
-                       String reminderString, Date creationDate, String expirationDateString) {
+                       String reminder, String creationDate, String lastModifiedDate, String expirationDate) {
 
         this.id = id;
         this.orderId = orderId;
         this.targetId = targetId;
         this.title = title;
         this.mode = mode;
-        this.reminderString = reminderString;
+        this.reminder = reminder;
         this.hasAttributes = hasAttributes;
-        this.creationDate = creationDate;
-        this.expirationDateString = expirationDateString;
+        contentDetails = new ContentDetails(creationDate, lastModifiedDate, expirationDate);
     }
 
 
-    public ContentBase(String title, int mode, @Nullable String reminderString) {
+    public ContentBase(String title, int mode, @Nullable String reminder) {
         this.title = title;
         this.mode = mode;
-        this.reminderString = reminderString;
+        this.reminder = reminder;
         this.targetId = Constants.ERROR;
     }
 
@@ -70,24 +67,39 @@ public class ContentBase {
         this.targetId = targetId;
     }
 
-    public void setExpirationDateString(String expirationDateString) {
-        this.expirationDateString = expirationDateString;
+    public void setContentDetails(ContentDetails contentDetails) {
+        this.contentDetails = contentDetails;
     }
 
-    public Date getCreationDate() {
-        return creationDate;
+    public ContentDetails getContentDetails() {
+        return contentDetails != null ? contentDetails : new ContentDetails();
     }
 
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public String getExpirationDate() {
-        return expirationDateString;
+    public String getLastModifiedDate() {
+        return contentDetails.getLastModifiedDate();
     }
 
     public boolean hasExpirationDate() {
-        return expirationDateString != null;
+        return !contentDetails.getExpirationDate().trim().equals(Constants.NO_DATE);
+    }
+
+    public String getDateDetails() {
+        String dateDetails = "";
+        if (contentDetails == null) {
+            //contentDetails are null, create dummy details to display
+            contentDetails = new ContentDetails();
+        }
+
+        final String NEW_LINE = "\n";
+        dateDetails += DateUtils.LAST_MODIFIED +
+                DateUtils.formatDateForDisplay(contentDetails.getLastModifiedDate()) + NEW_LINE;
+
+        dateDetails += DateUtils.CREATION_DATE + contentDetails.getCreationDate();
+        if (hasExpirationDate()) {
+            dateDetails += NEW_LINE + DateUtils.EXPIRATION_DATE +
+                    DateUtils.formatDateForDisplay(contentDetails.getExpirationDate());
+        }
+        return dateDetails;
     }
 
     public void setAttributes(boolean hasAttributes) {
@@ -106,12 +118,16 @@ public class ContentBase {
         this.type = type;
     }
 
-    public String getReminderString() {
-        return hasReminder() ? reminderString : Constants.NO_REMINDER;
+    public String getReminder() {
+        return reminder;
     }
 
-    public void setReminderString(String reminderString) {
-        this.reminderString = reminderString;
+    public boolean hasReminder() {
+        return !reminder.equals(Constants.NO_REMINDER);
+    }
+
+    public void setReminder(String reminder) {
+        this.reminder = reminder;
     }
 
     public int getMode() {
@@ -144,10 +160,6 @@ public class ContentBase {
         }
     }
 
-    boolean hasReminder() {
-        return !reminderString.equals(Constants.NO_REMINDER);
-    }
-
     public int setAndReturnDeletedMode() {
         switch (mode) {
             case Constants.MODE_NORMAL:
@@ -173,7 +185,7 @@ public class ContentBase {
 
     public void displayReminder(TextView reminderTextView) {
         if (hasReminder()) {
-            reminderTextView.setText(reminderString);
+            reminderTextView.setText(reminder);
         } else {
             reminderTextView.setVisibility(View.GONE);
         }

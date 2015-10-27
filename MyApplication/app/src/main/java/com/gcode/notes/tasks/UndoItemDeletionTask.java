@@ -38,8 +38,9 @@ public class UndoItemDeletionTask extends AsyncTask<ContentBase, Void, ContentBa
     protected void onPostExecute(ContentBase item) {
         if (item != null) {
             //item not exists in list, add it
-            mAdapter.addItem(mPosition, item);
-            mRecyclerView.smoothScrollToPosition(mPosition);
+            if(mAdapter.addItem(mPosition, item)) {
+                mRecyclerView.smoothScrollToPosition(mPosition);
+            }
         }
     }
 }

@@ -31,15 +31,13 @@
     <string name="attached_image_desc">Note attached image.</string>
     <string name="compose_note_title_hint">Title</string>
     <string name="compose_note_description_hint">Note</string>
-    <string name="compose_note_priority_switch_text">Priority</string>
     <string name="compose_note_set_reminder_text">Set reminder</string>
     <string name="empty_bin_dialog_title">Empty bin?</string>
     <string name="empty_bin_dialog_content">All notes in Bin will be permanently deleted.</string>
     <string name="empty_bin_dialog_agree">Empty Bin</string>
-    <string name="empty_bin_dialog_disagree">Cancel</string>
+    <string name="dialog_cancel">Cancel</string>
     <string name="delete_note_bin_dialog_title">Delete note forever?</string>
     <string name="delete_note_bin_dialog_agree">Delete</string>
-    <string name="delete_note_bin_dialog_disagree">Cancel</string>
     <string name="compose_lise_add_text_view_text">List item</string>
     <string name="action_edit">Edit</string>
     <string name="compose_list_done_tasks_caption">Done</string>
@@ -48,5 +46,8 @@
     <string name="more_image_view_content_desc">There are more to show image view.</string>
     <string name="action_delete_forever">Delete note forever</string>
     <string name="action_restore_deleted">Restore note</string>
+    <string name="restore_note_dialog_title">Restore note?</string>
+    <string name="restore_note_dialog_content">Note will restore its previous state.</string>
+    <string name="restore_note_dialog_agree">Restore</string>
 
 </resources>

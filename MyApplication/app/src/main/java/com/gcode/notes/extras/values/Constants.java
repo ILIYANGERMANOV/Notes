@@ -42,6 +42,8 @@ public class Constants {
 
     public static final int MENU_EMPTY_BIN = Menu.FIRST + 3;
 
+    public static final String NO_LOCATION = "no_location";
+    public static final String NO_DATE = "no_date";
     public static final String NO_REMINDER = "no_reminder";
     public static final String NO_AUDIO = "no_audio_attached";
 
@@ -54,6 +56,7 @@ public class Constants {
     public static final String EXTRA_IS_OPENED_IN_EDIT_MODE = "is_opened_in_edit_mode_extra";
     public static final String EXTRA_IS_STARRED = "is_starred_extra";
     public static final String EXTRA_NOTE_MODE_CHANGED = "note_mode_changed_extra";
+    public static final String EXTRA_CONTENT_DETAILS = "content_details_extra";
     public static final String EXTRA_EDIT_NOTE_ID = "edit_note_id_extra";
     public static final String EXTRA_IS_DONE_HIDDEN = "is_done_hidden_extra";
 
