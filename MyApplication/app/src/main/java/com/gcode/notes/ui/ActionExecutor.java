@@ -6,14 +6,14 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.adapters.MainAdapter;
-import com.gcode.notes.adapters.custom.BaseInputContainerAdapter;
+import com.gcode.notes.adapters.list.compose.BaseComposeContainerAdapter;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.listeners.list.ListItemDeletedUndoOnClickListener;
 import com.gcode.notes.listeners.main.NoteDeletedUndoOnClickListener;
 import com.gcode.notes.ui.callbacks.DeleteNoteFromBinCallback;
 import com.gcode.notes.ui.callbacks.DeleteNoteFromDisplayCallback;
 import com.gcode.notes.ui.callbacks.EmptyRecyclerBinCallback;
-import com.gcode.notes.ui.callbacks.PopUndoSnackbarCallback;
+import com.gcode.notes.ui.callbacks.NoteDeletedSnackbarCallback;
 import com.gcode.notes.ui.callbacks.RestoreNoteFromDisplayCallback;
 import com.gcode.notes.ui.snackbar.SnackbarHelper;
 
@@ -22,11 +22,11 @@ public class ActionExecutor {
                                               int position, ContentBase note) {
 
         NoteDeletedUndoOnClickListener undoOnClickListener = new NoteDeletedUndoOnClickListener(position, note);
-        Snackbar.Callback snackbarCallback = new PopUndoSnackbarCallback(adapter, note, position, undoOnClickListener);
+        Snackbar.Callback snackbarCallback = new NoteDeletedSnackbarCallback(adapter, note, position, undoOnClickListener);
         SnackbarHelper.buildNoteDeletedSnackbar(rootView, undoOnClickListener, snackbarCallback).show();
     }
 
-    public static void popListItemDeletedSnackbar(BaseInputContainerAdapter containerAdapter, View removedItem) {
+    public static void popListItemDeletedSnackbar(BaseComposeContainerAdapter containerAdapter, View removedItem) {
         ListItemDeletedUndoOnClickListener undoOnClickListener =
                 new ListItemDeletedUndoOnClickListener(containerAdapter, removedItem);
         SnackbarHelper.buildListItemDeletedSnackbar(containerAdapter.getRootScrollView(), undoOnClickListener).show();

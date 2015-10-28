@@ -2,13 +2,13 @@ package com.gcode.notes.listeners.list;
 
 import android.view.View;
 
-import com.gcode.notes.adapters.custom.BaseInputContainerAdapter;
+import com.gcode.notes.adapters.list.compose.BaseComposeContainerAdapter;
 
 public class MyFocusListener implements View.OnFocusChangeListener {
-    BaseInputContainerAdapter mContainerAdapter;
+    BaseComposeContainerAdapter mContainerAdapter;
 
-    public MyFocusListener(BaseInputContainerAdapter baseInputContainerAdapter) {
-        mContainerAdapter = baseInputContainerAdapter;
+    public MyFocusListener(BaseComposeContainerAdapter baseComposeContainerAdapter) {
+        mContainerAdapter = baseComposeContainerAdapter;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.gcode.notes.adapters.list.display;
 
 
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -15,9 +16,11 @@ import java.util.ArrayList;
 public class ListItemsDisplayBaseAdapter extends ListItemsBaseAdapter {
     ListItemsDisplayBaseAdapter mOtherAdapter;
     boolean mIsDeactivated;
+    RecyclerView mRecyclerView;
 
-    public ListItemsDisplayBaseAdapter(ArrayList<ListDataItem> data) {
+    public ListItemsDisplayBaseAdapter(ArrayList<ListDataItem> data, RecyclerView recyclerView) {
         super(data);
+        mRecyclerView = recyclerView;
     }
 
     public boolean isDeactivated() {
@@ -32,7 +35,6 @@ public class ListItemsDisplayBaseAdapter extends ListItemsBaseAdapter {
     public ListItemBaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         return new ListItemDisplayViewHolder(inflater.inflate(R.layout.list_data_item_display, parent, false), this);
-
     }
 
     public ListDataItem getItemAtPosition(int position) {

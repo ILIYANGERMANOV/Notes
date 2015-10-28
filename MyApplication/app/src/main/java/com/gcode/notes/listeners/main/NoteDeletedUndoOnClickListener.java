@@ -6,7 +6,7 @@ import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.extras.MyDebugger;
-import com.gcode.notes.tasks.UndoItemDeletionTask;
+import com.gcode.notes.tasks.UndoNoteDeletionTask;
 
 
 public class NoteDeletedUndoOnClickListener implements View.OnClickListener {
@@ -53,7 +53,7 @@ public class NoteDeletedUndoOnClickListener implements View.OnClickListener {
         }
 
         if (addItem) {
-            new UndoItemDeletionTask(mPosition).execute(mNote);
+            new UndoNoteDeletionTask(mPosition).execute(mNote);
         }
     }
 

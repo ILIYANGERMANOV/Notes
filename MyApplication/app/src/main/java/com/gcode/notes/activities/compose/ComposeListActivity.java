@@ -18,8 +18,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.adapters.custom.ListInputContainerAdapter;
-import com.gcode.notes.adapters.custom.ListInputTickedContainerAdapter;
+import com.gcode.notes.adapters.list.compose.ListComposeContainerAdapter;
+import com.gcode.notes.adapters.list.compose.TickedListComposeContainerAdapter;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.ContentDetails;
 import com.gcode.notes.data.ListData;
@@ -62,8 +62,8 @@ public class ComposeListActivity extends AppCompatActivity {
     @Bind(R.id.compose_list_container_ticked_layout)
     LinearLayout mTickedContainer;
 
-    ListInputContainerAdapter mContainerAdapter;
-    ListInputTickedContainerAdapter mTickedContainerAdapter;
+    ListComposeContainerAdapter mContainerAdapter;
+    TickedListComposeContainerAdapter mTickedContainerAdapter;
 
     ArrayList<ListDataItem> mListDataItems;
     ArrayList<ListDataItem> mTickedListDataItems;
@@ -119,7 +119,8 @@ public class ComposeListActivity extends AppCompatActivity {
     }
 
     private void setupFromZero() {
-        mContainerAdapter.addInputItem(null, false);
+        //cast it to String in order to not be ambiguous
+        mContainerAdapter.addInputItem((String) null, false);
         mContainerAdapter.setFocusOnChild(0);
         setupMode();
     }
@@ -241,9 +242,9 @@ public class ComposeListActivity extends AppCompatActivity {
 
     private void setupContainers() {
         if (mContainerAdapter == null || mTickedContainerAdapter == null) {
-            mContainerAdapter = new ListInputContainerAdapter(mContainer, mScrollView, mLastDividerView);
+            mContainerAdapter = new ListComposeContainerAdapter(mContainer, mScrollView, mLastDividerView);
 
-            mTickedContainerAdapter = new ListInputTickedContainerAdapter(mTickedContainer, mScrollView);
+            mTickedContainerAdapter = new TickedListComposeContainerAdapter(mTickedContainer, mScrollView);
 
             mContainerAdapter.setOtherContainerAdapter(mTickedContainerAdapter);
             mTickedContainerAdapter.setOtherContainerAdapter(mContainerAdapter);
@@ -289,7 +290,8 @@ public class ComposeListActivity extends AppCompatActivity {
 
     @OnClick(R.id.compose_list_add_list_item_text_view)
     public void addListInputItem() {
-        mContainerAdapter.addInputItem(null, true);
+        //cast it to String in order to not be ambiguous
+        mContainerAdapter.addInputItem((String) null, true);
     }
 
     @OnClick(R.id.compose_star_image_button)

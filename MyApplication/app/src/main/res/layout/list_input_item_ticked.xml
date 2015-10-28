@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="2dp"
+    android:layout_marginTop="2dp"
     android:orientation="horizontal">
 
     <CheckBox
@@ -29,10 +31,10 @@
     <ImageButton
         android:id="@+id/list_input_item_remove_button"
         style="?android:attr/borderlessButtonStyle"
-        android:contentDescription="@string/remove_list_input_item_image_desc"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center_vertical"
+        android:contentDescription="@string/remove_list_input_item_image_desc"
         android:src="@drawable/ic_remove_circle_black_24dp" />
 
 </LinearLayout>

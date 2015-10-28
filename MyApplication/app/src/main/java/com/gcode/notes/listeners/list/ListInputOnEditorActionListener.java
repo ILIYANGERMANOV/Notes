@@ -5,18 +5,19 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
-import com.gcode.notes.adapters.custom.BaseInputContainerAdapter;
+import com.gcode.notes.adapters.list.compose.BaseComposeContainerAdapter;
 
 public class ListInputOnEditorActionListener implements TextView.OnEditorActionListener {
-    BaseInputContainerAdapter mContainerAdapter;
+    BaseComposeContainerAdapter mContainerAdapter;
 
-    public ListInputOnEditorActionListener(BaseInputContainerAdapter baseInputContainerAdapter) {
-        mContainerAdapter = baseInputContainerAdapter;
+    public ListInputOnEditorActionListener(BaseComposeContainerAdapter baseComposeContainerAdapter) {
+        mContainerAdapter = baseComposeContainerAdapter;
     }
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        mContainerAdapter.addInputItemAfterView((View) v.getParent(), null, true);
+        //cast it to String in order to not be ambiguous
+        mContainerAdapter.addInputItemAfterView((View) v.getParent(), (String) null, true);
         return true;
     }
 }

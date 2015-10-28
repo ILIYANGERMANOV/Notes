@@ -1,4 +1,4 @@
-package com.gcode.notes.adapters.custom;
+package com.gcode.notes.adapters.list.compose;
 
 import android.view.View;
 import android.widget.EditText;
@@ -6,22 +6,23 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.ui.snackbar.SnackbarMessages;
-import com.gcode.notes.ui.snackbar.SnackbarHelper;
 import com.gcode.notes.ui.VisibilityHelper;
+import com.gcode.notes.ui.snackbar.SnackbarHelper;
+import com.gcode.notes.ui.snackbar.SnackbarMessages;
 
-public class ListInputContainerAdapter extends BaseInputContainerAdapter {
+public class ListComposeContainerAdapter extends BaseComposeContainerAdapter {
     View mLastDividerView;
 
-    public ListInputContainerAdapter(LinearLayout container, ScrollView scrollView, View lastDividerView) {
+    public ListComposeContainerAdapter(LinearLayout container, ScrollView scrollView, View lastDividerView) {
         super(container, scrollView);
         mLastDividerView = lastDividerView;
     }
 
     @Override
     protected void onRemoveItemRequestFocus(View previousItem, boolean wasFocused) {
-        EditText mEditText = getEditTextFromView(previousItem);
-        mEditText.requestFocus();
+        EditText editText = getEditTextFromView(previousItem);
+        smoothScrollToView(previousItem);
+        editText.requestFocus();
     }
 
     @Override
@@ -31,7 +32,7 @@ public class ListInputContainerAdapter extends BaseInputContainerAdapter {
 
     @Override
     protected void onChecked(View parent) {
-        removeInputItem(parent);
+        removeInputItem(parent, true);
         EditText mEditText = getEditTextFromView(parent);
         mOtherContainerAdapter.addInputItem(mEditText.getText().toString(), false);
         if (!VisibilityHelper.isViewVisibleInScrollView(mLastDividerView, mScrollView)) {

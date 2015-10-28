@@ -8,12 +8,12 @@ import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.extras.MyDebugger;
 
-public class UndoItemDeletionTask extends AsyncTask<ContentBase, Void, ContentBase> {
+public class UndoNoteDeletionTask extends AsyncTask<ContentBase, Void, ContentBase> {
     MainAdapter mAdapter;
     RecyclerView mRecyclerView;
     int mPosition;
 
-    public UndoItemDeletionTask(int position) {
+    public UndoNoteDeletionTask(int position) {
         mPosition = position;
     }
 
@@ -29,7 +29,6 @@ public class UndoItemDeletionTask extends AsyncTask<ContentBase, Void, ContentBa
             return item;
         } else {
             //item already exists, don't add it cuz will duplicate
-            MyDebugger.log("Item exists");
             return null;
         }
     }

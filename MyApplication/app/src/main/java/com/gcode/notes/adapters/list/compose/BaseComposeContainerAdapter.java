@@ -1,4 +1,4 @@
-package com.gcode.notes.adapters.custom;
+package com.gcode.notes.adapters.list.compose;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -14,7 +14,6 @@ import android.widget.ScrollView;
 import com.gcode.notes.R;
 import com.gcode.notes.data.ListDataItem;
 import com.gcode.notes.extras.MyDebugger;
-import com.gcode.notes.extras.utils.Utils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.listeners.list.ListInputOnEditorActionListener;
 import com.gcode.notes.listeners.list.MyFocusListener;
@@ -22,27 +21,23 @@ import com.gcode.notes.listeners.list.RemoveListInputOnClickListener;
 
 import java.util.ArrayList;
 
-public abstract class BaseInputContainerAdapter {
+public abstract class BaseComposeContainerAdapter {
     LinearLayout mContainer;
     ScrollView mScrollView;
     LayoutInflater mInflater;
-    BaseInputContainerAdapter mOtherContainerAdapter;
+    BaseComposeContainerAdapter mOtherContainerAdapter;
 
     int mLastFocused;
 
-    public BaseInputContainerAdapter(LinearLayout container, ScrollView scrollView) {
+    public BaseComposeContainerAdapter(LinearLayout container, ScrollView scrollView) {
         mContainer = container;
         mScrollView = scrollView;
         mInflater = (LayoutInflater) container.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mLastFocused = Constants.NO_FOCUS;
     }
 
-    public void setOtherContainerAdapter(BaseInputContainerAdapter mOtherContainerAdapter) {
-        this.mOtherContainerAdapter = mOtherContainerAdapter;
-    }
-
-    public BaseInputContainerAdapter getOtherContainerAdapter() {
-        return mOtherContainerAdapter;
+    public void setOtherContainerAdapter(BaseComposeContainerAdapter otherContainerAdapter) {
+        mOtherContainerAdapter = otherContainerAdapter;
     }
 
     public ScrollView getRootScrollView() {
@@ -68,6 +63,7 @@ public abstract class BaseInputContainerAdapter {
     public void setFocusOnChild(int childId) {
         View child = mContainer.getChildAt(childId);
         if (child != null) {
+            smoothScrollToView(child);
             child.requestFocus();
         } else {
             MyDebugger.log("Child to focus is null");
@@ -78,12 +74,29 @@ public abstract class BaseInputContainerAdapter {
         return getListDataItemsFromContainer(mContainer, filterEmpty);
     }
 
+    public void addInputItemAsFirst(View inputItem, boolean requestFocus) {
+        mContainer.addView(inputItem, 0);
+        inputItem.setTag(0);
+        incrementItemsIdFromPosition(1);
+        if (requestFocus) {
+            onItemAddedRequestFocus(inputItem);
+        }
+    }
+
+    public void addInputItem(View inputItem, boolean requestFocus) {
+        addInputItem(getEditTextFromView(inputItem).getText().toString(), requestFocus);
+    }
+
     public void addInputItem(@Nullable String inputItemContent, boolean requestFocus) {
         if (mContainer.getChildCount() != 0) {
             addInputItemAfterView(mContainer.getChildAt(mContainer.getChildCount() - 1), inputItemContent, requestFocus);
         } else {
             setupContainer(inputItemContent, requestFocus);
         }
+    }
+
+    public void addInputItemAfterView(View view, View inputItem, boolean requestFocus) {
+        addInputItemAfterView(view, getEditTextFromView(inputItem).getText().toString(), requestFocus);
     }
 
     public void addInputItemAfterView(View view, @Nullable String inputItemContent, boolean requestFocus) {
@@ -93,30 +106,53 @@ public abstract class BaseInputContainerAdapter {
         View inputItem = createView();
         int inputItemPosition = viewId + 1;
         inputItem.setTag(inputItemPosition);
-        updateItemsIdAfterAdd(inputItemPosition);
+        incrementItemsIdFromPosition(inputItemPosition);
 
         setupInputItemLayout(inputItem, inputItemContent);
 
         mContainer.addView(inputItem, inputItemPosition);
         if (requestFocus) {
-            onAddItemRequestFocus(inputItem);
+            onItemAddedRequestFocus(inputItem);
         }
     }
 
-    public void removeInputItem(View inputItem) {
+    public void removeInputItem(View inputItem, boolean requestFocus) {
         int position = getViewId(inputItem);
         if (position == Constants.ERROR) return;
         boolean wasItemFocused = getEditTextFromView(inputItem).isFocused();
-        updateItemsIdAfterRemove(position);
+        decrementItemsIdAfterPosition(position);
         mContainer.removeView(inputItem);
         View previousItem = mContainer.getChildAt(position - 1);
-        if (previousItem != null) {
+        if (previousItem != null && requestFocus) {
             onRemoveItemRequestFocus(previousItem, wasItemFocused);
         }
     }
 
     public EditText getEditTextFromView(View view) {
         return (EditText) view.findViewById(R.id.list_input_item_edit_text);
+    }
+
+    public int getViewId(View view) {
+        Object idObject = view.getTag();
+        if (idObject != null) {
+            return (int) idObject;
+        } else {
+            MyDebugger.log("viewId not found error");
+            return Constants.ERROR;
+        }
+    }
+
+    public View getViewAtPosition(int position) {
+        return mContainer.getChildAt(position);
+    }
+
+    public void smoothScrollToView(final View view) {
+        mScrollView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mScrollView.smoothScrollTo(0, view.getBottom());
+            }
+        }, 20);
     }
 
     protected abstract View createView();
@@ -127,15 +163,9 @@ public abstract class BaseInputContainerAdapter {
 
     }
 
-    protected void onAddItemRequestFocus(View inputItem) {
+    protected void onItemAddedRequestFocus(final View inputItem) {
         final EditText mEditText = getEditTextFromView(inputItem);
-        mScrollView.post(new Runnable() {
-            @Override
-            public void run() {
-                mScrollView.smoothScrollBy(0, mEditText.getHeight() + Utils.convertDpInPixels(10));
-
-            }
-        });
+        smoothScrollToView(inputItem);
         mEditText.requestFocus();
     }
 
@@ -154,7 +184,7 @@ public abstract class BaseInputContainerAdapter {
         setupInputItemLayout(inputItem, itemContent);
         mContainer.addView(inputItem);
         if (requestFocus) {
-            onAddItemRequestFocus(inputItem);
+            onItemAddedRequestFocus(inputItem);
         }
     }
 
@@ -162,7 +192,7 @@ public abstract class BaseInputContainerAdapter {
         EditText mEditText = getEditTextFromView(inputItem);
         mEditText.setOnEditorActionListener(new ListInputOnEditorActionListener(this));
         mEditText.setHorizontallyScrolling(false);
-       mEditText.setMaxLines(Constants.MAX_LIST_INPUT_ITEM_LINES);
+        mEditText.setMaxLines(Constants.MAX_LIST_INPUT_ITEM_LINES);
         mEditText.setOnFocusChangeListener(new MyFocusListener(this));
 
         ImageButton mRemoveImageButton = (ImageButton) inputItem.findViewById(R.id.list_input_item_remove_button);
@@ -214,37 +244,27 @@ public abstract class BaseInputContainerAdapter {
         return new ListDataItem(content, isListDataItemChecked());
     }
 
-    private void updateItemsIdAfterAdd(int inputItemPosition) {
-        for (int i = inputItemPosition; i < mContainer.getChildCount(); ++i) {
-            moveItemOnePositionForward(mContainer.getChildAt(i));
+    private void incrementItemsIdFromPosition(int startPosition) {
+        for (int i = startPosition; i < mContainer.getChildCount(); ++i) {
+            incrementViewId(mContainer.getChildAt(i));
         }
     }
 
-    private void moveItemOnePositionForward(View view) {
+    private void incrementViewId(View view) {
         int position = getViewId(view);
         if (position == Constants.ERROR) return;
         view.setTag(position + 1);
     }
 
-    private void updateItemsIdAfterRemove(int removePosition) {
-        for (int i = removePosition + 1; i < mContainer.getChildCount(); ++i) {
-            moveItemOnePositionBackward(mContainer.getChildAt(i));
+    private void decrementItemsIdAfterPosition(int position) {
+        for (int i = position + 1; i < mContainer.getChildCount(); ++i) {
+            decrementViewId(mContainer.getChildAt(i));
         }
     }
 
-    private void moveItemOnePositionBackward(View view) {
+    private void decrementViewId(View view) {
         int position = getViewId(view);
         if (position == Constants.ERROR) return;
         view.setTag(position - 1);
-    }
-
-    private int getViewId(View view) {
-        Object idObject = view.getTag();
-        if (idObject != null) {
-            return (int) idObject;
-        } else {
-            MyDebugger.log("viewId not found error");
-            return Constants.ERROR;
-        }
     }
 }

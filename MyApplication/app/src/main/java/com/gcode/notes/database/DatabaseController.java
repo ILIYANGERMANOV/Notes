@@ -12,6 +12,7 @@ import com.gcode.notes.database.extras.InsertHelper;
 import com.gcode.notes.database.extras.UpdateHelper;
 import com.gcode.notes.database.extras.Validator;
 import com.gcode.notes.database.extras.queries.SelectQueries;
+import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 
 import java.util.ArrayList;

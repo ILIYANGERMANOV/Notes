@@ -170,9 +170,9 @@ public class DisplayListBaseActivity extends AppCompatActivity {
 
         mTickedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mAdapter = new ListItemsDisplayAdapter(mListDataItems);
-        mTickedAdapter = new ListItemsDisplayTickedAdapter(mTickedListDataItems, mDoneButton,
-                mRootScrollView, mDatesTextView);
+        mAdapter = new ListItemsDisplayAdapter(mListDataItems, mRecyclerView);
+        mTickedAdapter = new ListItemsDisplayTickedAdapter(mTickedListDataItems, mTickedRecyclerView,
+                mDoneButton, mRootScrollView, mDatesTextView);
 
         mAdapter.setOtherAdapter(mTickedAdapter);
         mTickedAdapter.setOtherAdapter(mAdapter);

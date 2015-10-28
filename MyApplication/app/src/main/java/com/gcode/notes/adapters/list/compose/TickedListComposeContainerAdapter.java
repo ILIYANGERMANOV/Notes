@@ -1,4 +1,4 @@
-package com.gcode.notes.adapters.custom;
+package com.gcode.notes.adapters.list.compose;
 
 
 import android.graphics.Paint;
@@ -8,10 +8,9 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.extras.MyDebugger;
 
-public class ListInputTickedContainerAdapter extends BaseInputContainerAdapter {
-    public ListInputTickedContainerAdapter(LinearLayout container, ScrollView scrollView) {
+public class TickedListComposeContainerAdapter extends BaseComposeContainerAdapter {
+    public TickedListComposeContainerAdapter(LinearLayout container, ScrollView scrollView) {
         super(container, scrollView);
     }
 
@@ -32,12 +31,14 @@ public class ListInputTickedContainerAdapter extends BaseInputContainerAdapter {
         if (wasItemFocused) {
             EditText mEditText = getEditTextFromView(previousItem);
             mEditText.requestFocus();
+        } else {
+            mOtherContainerAdapter.setFocusOnChild(mOtherContainerAdapter.getLastFocused());
         }
     }
 
     @Override
     protected void onUnchecked(View parent) {
-        removeInputItem(parent);
+        removeInputItem(parent, false);
         EditText mEditText = getEditTextFromView(parent);
         mOtherContainerAdapter.addInputItem(mEditText.getText().toString(), true);
     }

@@ -1,6 +1,7 @@
 package com.gcode.notes.adapters.list.display;
 
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
@@ -19,9 +20,9 @@ public class ListItemsDisplayTickedAdapter extends ListItemsDisplayBaseAdapter {
     TextView mDatesTextView;
     boolean mIsDoneHidden;
 
-    public ListItemsDisplayTickedAdapter(ArrayList<ListDataItem> data, Button doneButton,
+    public ListItemsDisplayTickedAdapter(ArrayList<ListDataItem> data, RecyclerView recyclerView, Button doneButton,
                                          ScrollView rootScrollView, TextView datesTextView) {
-        super(data);
+        super(data, recyclerView);
         mDoneButton = doneButton;
         mRootScrollView = rootScrollView;
         mDatesTextView = datesTextView;
