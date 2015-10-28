@@ -123,7 +123,7 @@ public abstract class BaseComposeContainerAdapter {
         decrementItemsIdAfterPosition(position);
         mContainer.removeView(inputItem);
         View previousItem = mContainer.getChildAt(position - 1);
-        if (previousItem != null && requestFocus) {
+        if (requestFocus) {
             onRemoveItemRequestFocus(previousItem, wasItemFocused);
         }
     }
@@ -150,9 +150,15 @@ public abstract class BaseComposeContainerAdapter {
         mScrollView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                mScrollView.smoothScrollTo(0, view.getBottom());
+                //getTop() returns relative coordinates from parent
+                //that's why mContainer.getTop() is used and -view.getHeight() is in order to see previous item
+                mScrollView.smoothScrollTo(0, view.getTop() + mContainer.getTop() - view.getHeight());
             }
         }, 20);
+    }
+
+    public int getItemCount() {
+        return mContainer.getChildCount();
     }
 
     protected abstract View createView();

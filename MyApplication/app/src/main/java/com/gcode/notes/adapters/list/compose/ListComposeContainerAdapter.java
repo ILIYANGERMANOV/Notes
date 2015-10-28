@@ -20,9 +20,11 @@ public class ListComposeContainerAdapter extends BaseComposeContainerAdapter {
 
     @Override
     protected void onRemoveItemRequestFocus(View previousItem, boolean wasFocused) {
-        EditText editText = getEditTextFromView(previousItem);
-        smoothScrollToView(previousItem);
-        editText.requestFocus();
+        if(previousItem != null) {
+            EditText editText = getEditTextFromView(previousItem);
+            smoothScrollToView(previousItem);
+            editText.requestFocus();
+        }
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.extras.MyDebugger;
 
 public class TickedListComposeContainerAdapter extends BaseComposeContainerAdapter {
     public TickedListComposeContainerAdapter(LinearLayout container, ScrollView scrollView) {
@@ -28,11 +29,14 @@ public class TickedListComposeContainerAdapter extends BaseComposeContainerAdapt
 
     @Override
     protected void onRemoveItemRequestFocus(View previousItem, boolean wasItemFocused) {
-        if (wasItemFocused) {
-            EditText mEditText = getEditTextFromView(previousItem);
-            mEditText.requestFocus();
+        if (previousItem != null) {
+            if (wasItemFocused) {
+                EditText mEditText = getEditTextFromView(previousItem);
+                mEditText.requestFocus();
+            }
         } else {
-            mOtherContainerAdapter.setFocusOnChild(mOtherContainerAdapter.getLastFocused());
+            //there are no previous items
+            mOtherContainerAdapter.setFocusOnChild(mOtherContainerAdapter.getItemCount() - 1);
         }
     }
 

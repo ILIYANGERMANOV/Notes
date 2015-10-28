@@ -162,10 +162,6 @@ public class DisplayListBaseActivity extends AppCompatActivity {
 
         fillListDataItemLists();
 
-        if (mTickedListDataItems.isEmpty()) {
-            mDoneButton.setVisibility(View.GONE);
-        }
-
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         mTickedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -188,6 +184,12 @@ public class DisplayListBaseActivity extends AppCompatActivity {
             } else {
                 mTickedListDataItems.add(listDataItem);
             }
+        }
+
+        if (mTickedListDataItems.isEmpty()) {
+            mDoneButton.setVisibility(View.GONE);
+        } else {
+            mDoneButton.setVisibility(View.VISIBLE);
         }
     }
 
