@@ -77,6 +77,7 @@ public abstract class BaseComposeContainerAdapter {
     public void addInputItemAsFirst(View inputItem, boolean requestFocus) {
         mContainer.addView(inputItem, 0);
         inputItem.setTag(0);
+        //inputItem is already added to the container at 0, so update from position 1 (previous first item has position 1)
         incrementItemsIdFromPosition(1);
         if (requestFocus) {
             onItemAddedRequestFocus(inputItem);
@@ -100,12 +101,13 @@ public abstract class BaseComposeContainerAdapter {
     }
 
     public void addInputItemAfterView(View view, @Nullable String inputItemContent, boolean requestFocus) {
-        int viewId = getViewId(view);
-        if (viewId == Constants.ERROR) return;
+        int previousItemId = getViewId(view);
+        if (previousItemId == Constants.ERROR) return;
 
         View inputItem = createView();
-        int inputItemPosition = viewId + 1;
+        int inputItemPosition = previousItemId + 1;
         inputItem.setTag(inputItemPosition);
+        //input item isn't added to container yet, so update items id from its position
         incrementItemsIdFromPosition(inputItemPosition);
 
         setupInputItemLayout(inputItem, inputItemContent);
@@ -117,12 +119,13 @@ public abstract class BaseComposeContainerAdapter {
     }
 
     public void removeInputItem(View inputItem, boolean requestFocus) {
-        int position = getViewId(inputItem);
-        if (position == Constants.ERROR) return;
+        int itemPosition = getViewId(inputItem);
+        if (itemPosition == Constants.ERROR) return;
         boolean wasItemFocused = getEditTextFromView(inputItem).isFocused();
-        decrementItemsIdAfterPosition(position);
+        //item isn't removed yet, so decrement items ids after its position
+        decrementItemsIdAfterPosition(itemPosition);
         mContainer.removeView(inputItem);
-        View previousItem = mContainer.getChildAt(position - 1);
+        View previousItem = mContainer.getChildAt(itemPosition - 1);
         if (requestFocus) {
             onRemoveItemRequestFocus(previousItem, wasItemFocused);
         }
@@ -186,7 +189,6 @@ public abstract class BaseComposeContainerAdapter {
     private void setupContainer(@Nullable String itemContent, boolean requestFocus) {
         View inputItem = createView();
         inputItem.setTag(0);
-
         setupInputItemLayout(inputItem, itemContent);
         mContainer.addView(inputItem);
         if (requestFocus) {
@@ -201,11 +203,11 @@ public abstract class BaseComposeContainerAdapter {
         mEditText.setMaxLines(Constants.MAX_LIST_INPUT_ITEM_LINES);
         mEditText.setOnFocusChangeListener(new MyFocusListener(this));
 
-        ImageButton mRemoveImageButton = (ImageButton) inputItem.findViewById(R.id.list_input_item_remove_button);
-        mRemoveImageButton.setOnClickListener(new RemoveListInputOnClickListener(this));
+        ImageButton removeImageButton = (ImageButton) inputItem.findViewById(R.id.list_input_item_remove_button);
+        removeImageButton.setOnClickListener(new RemoveListInputOnClickListener(this));
 
-        final CheckBox mCheckBox = (CheckBox) inputItem.findViewById(R.id.list_input_item_check_box);
-        mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        final CheckBox checkBox = (CheckBox) inputItem.findViewById(R.id.list_input_item_check_box);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 View parent = (View) buttonView.getParent();
