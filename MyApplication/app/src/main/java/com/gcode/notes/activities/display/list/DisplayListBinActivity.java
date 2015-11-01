@@ -16,10 +16,8 @@ public class DisplayListBinActivity extends DisplayListBaseActivity {
     }
 
     @Override
-    protected void setupRecyclerViews() {
-        super.setupRecyclerViews();
-        mAdapter.setDeactivated(true);
-        mTickedAdapter.setDeactivated(true);
+    protected void setupRecyclerViews(boolean isDeactivated) {
+        super.setupRecyclerViews(true);
     }
 
     @OnClick(R.id.display_action_image_button)
@@ -36,7 +34,7 @@ public class DisplayListBinActivity extends DisplayListBaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.action_delete_forever:
                 ActionExecutor.deleteNoteFromDisplayBin(this, mListData);
                 return true;

@@ -1,12 +1,6 @@
 package com.gcode.notes.data;
 
 
-import android.graphics.Paint;
-import android.widget.CheckBox;
-import android.widget.TextView;
-
-import com.gcode.notes.adapters.viewholders.list.ListItemBaseViewHolder;
-
 public class ListDataItem {
     String content;
     boolean checked;
@@ -30,18 +24,5 @@ public class ListDataItem {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public void display(ListItemBaseViewHolder holder) {
-        CheckBox checkBox = holder.getCheckBox();
-        TextView textView = holder.getTextView();
-        textView.setText(content);
-        if (checked) {
-            checkBox.setChecked(true);
-            textView.setPaintFlags(textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        } else {
-            checkBox.setChecked(false);
-            textView.setPaintFlags(textView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-        }
     }
 }

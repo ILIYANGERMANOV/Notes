@@ -2,12 +2,12 @@ package com.gcode.notes.adapters.viewholders.main;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.gcode.notes.R;
 import com.gcode.notes.data.ContentBase;
@@ -20,8 +20,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ListItemViewHolder extends BaseItemViewHolder {
-    @Bind(R.id.list_item_recycler_view)
-    RecyclerView mRecyclerView;
+    @Bind(R.id.list_item_container_layout)
+    LinearLayout mContainerLayout;
 
     @Bind(R.id.list_item_card_view)
     CardView mCardView;
@@ -63,7 +63,7 @@ public class ListItemViewHolder extends BaseItemViewHolder {
         startRepeatingTask();
     }
 
-    public RecyclerView getRecyclerView() {
-        return mRecyclerView;
+    public LinearLayout getContainerLayout() {
+        return mContainerLayout;
     }
 }

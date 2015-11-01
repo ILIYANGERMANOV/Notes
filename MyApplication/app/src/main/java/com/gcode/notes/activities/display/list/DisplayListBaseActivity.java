@@ -14,15 +14,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.adapters.list.display.ListItemsDisplayAdapter;
-import com.gcode.notes.adapters.list.display.ListItemsDisplayTickedAdapter;
+import com.gcode.notes.adapters.list.display.ListDisplayAdapter;
+import com.gcode.notes.adapters.list.display.ListDisplayTickedAdapter;
 import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.ListDataItem;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
-import com.gcode.notes.views.NonScrollableRecyclerView;
-
-import org.solovyev.android.views.llm.LinearLayoutManager;
+import com.linearlistview.LinearListView;
 
 import java.util.ArrayList;
 
@@ -46,19 +44,19 @@ public class DisplayListBaseActivity extends AppCompatActivity {
     @Bind(R.id.display_title_text_view)
     TextView mTitleTextView;
 
-    @Bind(R.id.display_list_recycler_view)
-    NonScrollableRecyclerView mRecyclerView;
-
-    @Bind(R.id.display_list_ticked_recycler_view)
-    NonScrollableRecyclerView mTickedRecyclerView;
-
     @Bind(R.id.display_list_done_button)
     Button mDoneButton;
 
+    @Bind(R.id.display_list_linear_list_view)
+    LinearListView mLinearListView;
+
+    @Bind(R.id.display_list_ticked_linear_list_view)
+    LinearListView mTickedLinearListView;
+
     ListData mListData;
 
-    ListItemsDisplayAdapter mAdapter;
-    ListItemsDisplayTickedAdapter mTickedAdapter;
+    ListDisplayAdapter mDisplayAdapter;
+    ListDisplayTickedAdapter mDisplayTickedAdapter;
 
     ArrayList<ListDataItem> mListDataItems;
     ArrayList<ListDataItem> mTickedListDataItems;
@@ -66,7 +64,7 @@ public class DisplayListBaseActivity extends AppCompatActivity {
     boolean mIsDoneTasksHidden;
     boolean mNoteModeChanged;
 
-    //TODO: fix display list with items longer than maxLines (on add item)
+    //TODO: fix strange bug when screen rotation many times the result doesn't update right
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,17 +113,17 @@ public class DisplayListBaseActivity extends AppCompatActivity {
     }
 
     public void hideDoneTasks() {
-        mTickedRecyclerView.setVisibility(View.GONE);
+        mTickedLinearListView.setVisibility(View.GONE);
         mDoneButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_expand_less_black_24dp, 0, 0, 0);
         mIsDoneTasksHidden = true;
-        mTickedAdapter.setIsDoneHidden(true);
+        mDisplayTickedAdapter.setDoneHidden(true);
     }
 
     public void showDoneTasks() {
-        mTickedRecyclerView.setVisibility(View.VISIBLE);
+        mTickedLinearListView.setVisibility(View.VISIBLE);
         mDoneButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_expand_more_black_24dp, 0, 0, 0);
         mIsDoneTasksHidden = false;
-        mTickedAdapter.setIsDoneHidden(false);
+        mDisplayTickedAdapter.setDoneHidden(false);
     }
 
     private void setupFromBundle(Bundle bundle) {
@@ -143,7 +141,7 @@ public class DisplayListBaseActivity extends AppCompatActivity {
         mDatesTextView.setText(mListData.getDateDetails());
         if (mListDataItems == null || mTickedListDataItems == null) {
             //displayListData for first time
-            setupRecyclerViews();
+            setupRecyclerViews(false);
         } else {
             //displayExisting existing
             mListDataItems.clear();
@@ -151,30 +149,41 @@ public class DisplayListBaseActivity extends AppCompatActivity {
 
             fillListDataItemLists();
 
-            mAdapter.notifyDataSetChanged();
-            mTickedAdapter.notifyDataSetChanged();
+            mDisplayAdapter.notifyDataSetChanged();
+            mDisplayTickedAdapter.notifyDataSetChanged();
         }
     }
 
-    protected void setupRecyclerViews() {
+    protected void setupRecyclerViews(boolean isDeactivated) {
         mListDataItems = new ArrayList<>();
         mTickedListDataItems = new ArrayList<>();
 
         fillListDataItemLists();
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mDisplayAdapter = new ListDisplayAdapter(this, mListDataItems, isDeactivated);
+        mDisplayTickedAdapter = new ListDisplayTickedAdapter(this, mTickedListDataItems, isDeactivated,
+                mDoneButton, mRootScrollView, mDatesTextView, mTickedLinearListView);
 
-        mTickedRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mLinearListView.setAdapter(mDisplayAdapter);
+        mTickedLinearListView.setAdapter(mDisplayTickedAdapter);
 
-        mAdapter = new ListItemsDisplayAdapter(mListDataItems, mRecyclerView);
-        mTickedAdapter = new ListItemsDisplayTickedAdapter(mTickedListDataItems, mTickedRecyclerView,
-                mDoneButton, mRootScrollView, mDatesTextView);
+        mLinearListView.setOnItemClickListener(new LinearListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(LinearListView parent, View view, int position, long id) {
+                ListDataItem item = mDisplayAdapter.getItem(position);
+                mDisplayAdapter.remove(item);
+                mDisplayTickedAdapter.add(item);
+            }
+        });
 
-        mAdapter.setOtherAdapter(mTickedAdapter);
-        mTickedAdapter.setOtherAdapter(mAdapter);
-
-        mRecyclerView.setAdapter(mAdapter);
-        mTickedRecyclerView.setAdapter(mTickedAdapter);
+        mTickedLinearListView.setOnItemClickListener(new LinearListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(LinearListView parent, View view, int position, long id) {
+                ListDataItem item = mDisplayTickedAdapter.getItem(position);
+                mDisplayTickedAdapter.remove(item);
+                mDisplayAdapter.add(item);
+            }
+        });
     }
 
     private void fillListDataItemLists() {
@@ -215,7 +224,6 @@ public class DisplayListBaseActivity extends AppCompatActivity {
         mListData.getList().clear();
         mListData.getList().addAll(mListDataItems);
         mListData.getList().addAll(mTickedListDataItems);
-
         //create result intent
         Intent resultIntent = new Intent();
         resultIntent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(mListData));

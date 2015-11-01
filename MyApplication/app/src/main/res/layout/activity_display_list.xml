@@ -47,17 +47,17 @@
 
                     <include layout="@layout/display_header_layout" />
 
-                    <com.gcode.notes.views.NonScrollableRecyclerView
-                        android:id="@+id/display_list_recycler_view"
+
+                    <com.linearlistview.LinearListView
+                        android:id="@+id/display_list_linear_list_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:orientation="vertical"
                         android:paddingEnd="21dp"
                         android:paddingLeft="21dp"
                         android:paddingRight="21dp"
-                        android:paddingStart="21dp"
-                        android:scrollbars="vertical"
-                        android:visibility="visible" />
+                        android:paddingStart="21dp" />
 
                     <Button
                         android:id="@+id/display_list_done_button"
@@ -74,15 +74,15 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textSize="17sp" />
 
-                    <com.gcode.notes.views.NonScrollableRecyclerView
-                        android:id="@+id/display_list_ticked_recycler_view"
+                    <com.linearlistview.LinearListView
+                        android:id="@+id/display_list_ticked_linear_list_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         android:paddingEnd="21dp"
                         android:paddingLeft="21dp"
                         android:paddingRight="21dp"
-                        android:paddingStart="21dp"
-                        android:scrollbars="vertical" />
+                        android:paddingStart="21dp" />
 
                     <TextView
                         android:id="@+id/display_list_dates_text_view"

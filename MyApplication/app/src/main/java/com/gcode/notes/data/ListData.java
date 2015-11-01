@@ -2,17 +2,18 @@ package com.gcode.notes.data;
 
 
 import android.app.Activity;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.CheckedTextView;
+import android.widget.LinearLayout;
 
-import com.gcode.notes.adapters.list.ListItemsMainAdapter;
+import com.gcode.notes.R;
 import com.gcode.notes.adapters.viewholders.main.ListItemViewHolder;
 import com.gcode.notes.extras.values.Constants;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ListData extends ContentBase {
     ArrayList<ListDataItem> list;
@@ -44,23 +45,40 @@ public class ListData extends ContentBase {
         if (hasReminder()) {
             holder.getAttributesDivider().setVisibility(View.VISIBLE);
         }
-        RecyclerView mRecyclerView = holder.getRecyclerView();
-        setupRecyclerView(activity, mRecyclerView, holder.getMoreImageView());
-    }
+        LinearLayout containerLayout = holder.getContainerLayout();
 
-    private void setupRecyclerView(Activity activity, RecyclerView recyclerView, ImageView moreImageView) {
-        recyclerView.setLayoutManager(new org.solovyev.android.views.llm.LinearLayoutManager(activity));
-        if (list == null) {
-            list = new ArrayList<>();
-        } else {
-            if (list.size() <= Constants.MAX_LIST_ITEMS_TO_DISPLAY) {
-                moreImageView.setVisibility(View.GONE);
+        //set holder to default state
+        holder.getMoreImageView().setVisibility(View.GONE);
+        containerLayout.removeAllViews();
+
+        //add list items to container
+        LayoutInflater inflater = LayoutInflater.from(activity);
+        for (int i = 0; i < list.size(); ++i) {
+            if (i < Constants.MAX_LIST_ITEMS_TO_DISPLAY) {
+                //display list data item
+                containerLayout.addView(createViewForItem(list.get(i), inflater, containerLayout));
             } else {
-                moreImageView.setVisibility(View.VISIBLE);
+                //max items to display is reached, show more image view
+                holder.getMoreImageView().setVisibility(View.VISIBLE);
+                break;
             }
         }
-        recyclerView.setAdapter(new ListItemsMainAdapter(activity, list, this));
-        recyclerView.setNestedScrollingEnabled(false);
+        containerLayout.invalidate();
     }
 
+    private View createViewForItem(ListDataItem item, LayoutInflater inflater, LinearLayout containerLayout) {
+        //create view
+        View itemView = inflater.inflate(R.layout.list_data_item_row, containerLayout, false);
+        //bind view
+        CheckedTextView checkedTextView = (CheckedTextView) itemView.findViewById(R.id.list_data_item_row_checked_text_view);
+        if (item.isChecked()) {
+            checkedTextView.setChecked(true);
+            checkedTextView.setPaintFlags(checkedTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        } else {
+            checkedTextView.setChecked(false);
+            checkedTextView.setPaintFlags(checkedTextView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+        }
+        checkedTextView.setText(item.getContent());
+        return itemView;
+    }
 }
