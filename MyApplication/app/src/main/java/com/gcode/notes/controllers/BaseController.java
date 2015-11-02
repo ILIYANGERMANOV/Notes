@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.data.ContentBase;
+import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
 
@@ -27,7 +28,9 @@ public class BaseController {
 
     public synchronized static BaseController getInstance() {
         if (mInstance == null) {
+            //TODO: handle problems when clear memory
             mInstance = new BaseController(null, null, null, null, null, null);
+            MyDebugger.log("BaseController is null, fake instance created.");
         }
         return mInstance;
     }
@@ -53,12 +56,14 @@ public class BaseController {
         mSimpleItemTouchHelperCallback = simpleItemTouchHelperCallback;
     }
 
-    public void setNewContent(ArrayList<ContentBase> newContent) {
+    public void setNewContent(ArrayList<ContentBase> newContent, boolean notForFirstTime) {
         MainAdapter mMainAdapter = getMainAdapter();
         if (mMainAdapter != null) {
             mMainAdapter.updateContent(newContent);
             mRecyclerView.invalidate();
-            mRecyclerView.smoothScrollToPosition(0);
+            if (notForFirstTime) {
+                mRecyclerView.smoothScrollToPosition(0);
+            }
         }
     }
 
@@ -74,6 +79,8 @@ public class BaseController {
         MainAdapter mMainAdapter = getMainAdapter();
         if (mMainAdapter != null) {
             mMainAdapter.updateItem(item);
+        } else {
+            MyDebugger.log("Failed to update item, mMainAdapter is null.");
         }
     }
 
@@ -111,7 +118,7 @@ public class BaseController {
         return null;
     }
 
-    public void setContent() {
+    public void setContent(boolean fromSavedInstanceState) {
         onSetContentAnimation();
     }
 
@@ -128,6 +135,5 @@ public class BaseController {
     }
 
     public void onItemModeChanged(ContentBase item) {
-
     }
 }

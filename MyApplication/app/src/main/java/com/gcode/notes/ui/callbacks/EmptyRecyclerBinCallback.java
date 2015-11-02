@@ -19,7 +19,7 @@ public class EmptyRecyclerBinCallback extends MaterialDialog.ButtonCallback {
             BaseController controller = BaseController.getInstance();
             if (controller.getControllerId() == Constants.CONTROLLER_BIN) {
                 BinController binController = (BinController) controller;
-                binController.setContent();
+                binController.setContent(false);
             }
         } else {
             MyDebugger.log("Failed to empty recycler bin");

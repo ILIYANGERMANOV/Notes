@@ -14,9 +14,11 @@ import java.util.ArrayList;
 public class LoadContentTask extends AsyncTask<Void, Void, ArrayList<ContentBase>> {
 
     BaseController mController;
+    boolean mNotForFirstTime;
 
-    public LoadContentTask(BaseController controller) {
-        mController = controller;
+    public LoadContentTask(boolean notForFirstTime) {
+        mController = BaseController.getInstance();
+        mNotForFirstTime = notForFirstTime;
     }
 
     @Override
@@ -39,7 +41,7 @@ public class LoadContentTask extends AsyncTask<Void, Void, ArrayList<ContentBase
     @Override
     protected void onPostExecute(ArrayList<ContentBase> contentList) {
         if (contentList != null) {
-            mController.setNewContent(contentList);
+            mController.setNewContent(contentList, mNotForFirstTime);
         }
     }
 }

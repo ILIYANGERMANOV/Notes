@@ -26,10 +26,10 @@ public class PrivateController extends BaseController {
     }
 
     @Override
-    public void setContent() {
-        super.setContent();
+    public void setContent(boolean notForFirstTime) {
+        super.setContent(notForFirstTime);
         mToolbar.setTitle("Private");
-        new LoadContentTask(this).execute();
+        new LoadContentTask(notForFirstTime).execute();
         mSimpleItemTouchHelperCallback.setLongPressDragEnabled(true);
     }
 

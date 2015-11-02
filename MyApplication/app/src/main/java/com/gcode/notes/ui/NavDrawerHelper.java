@@ -17,11 +17,11 @@ public class NavDrawerHelper {
         Utils.saveToPreferences(Keys.PREF_USER_LEARNED_DRAWER, "true");
     }
 
-    public static void showDrawer(DrawerLayout mDrawerLayout) {
-        mDrawerLayout.openDrawer(GravityCompat.START);
+    public static void showDrawer(DrawerLayout drawerLayout) {
+        drawerLayout.openDrawer(GravityCompat.START);
     }
 
-    public static void hideDrawer(DrawerLayout mDrawerLayout) {
-        mDrawerLayout.closeDrawer(GravityCompat.START);
+    public static void hideDrawer(DrawerLayout drawerLayout) {
+        drawerLayout.closeDrawer(GravityCompat.START);
     }
 }

@@ -27,10 +27,10 @@ public class AllNotesController extends BaseController {
     }
 
     @Override
-    public void setContent() {
-        super.setContent();
+    public void setContent(boolean notForFirstTime) {
+        super.setContent(notForFirstTime);
         mToolbar.setTitle("All Notes");
-        new LoadContentTask(this).execute();
+        new LoadContentTask(notForFirstTime).execute();
         mSimpleItemTouchHelperCallback.setLongPressDragEnabled(true);
     }
 

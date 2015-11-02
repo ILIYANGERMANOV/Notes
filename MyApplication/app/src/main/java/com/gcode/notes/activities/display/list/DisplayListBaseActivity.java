@@ -18,6 +18,7 @@ import com.gcode.notes.adapters.list.display.ListDisplayAdapter;
 import com.gcode.notes.adapters.list.display.ListDisplayTickedAdapter;
 import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.ListDataItem;
+import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 import com.linearlistview.LinearListView;
@@ -64,7 +65,6 @@ public class DisplayListBaseActivity extends AppCompatActivity {
     boolean mIsDoneTasksHidden;
     boolean mNoteModeChanged;
 
-    //TODO: fix strange bug when screen rotation many times the result doesn't update right
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
