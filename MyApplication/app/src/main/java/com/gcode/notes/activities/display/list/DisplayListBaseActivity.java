@@ -18,7 +18,6 @@ import com.gcode.notes.adapters.list.display.ListDisplayAdapter;
 import com.gcode.notes.adapters.list.display.ListDisplayTickedAdapter;
 import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.ListDataItem;
-import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 import com.linearlistview.LinearListView;
@@ -141,7 +140,7 @@ public class DisplayListBaseActivity extends AppCompatActivity {
         mDatesTextView.setText(mListData.getDateDetails());
         if (mListDataItems == null || mTickedListDataItems == null) {
             //displayListData for first time
-            setupRecyclerViews(false);
+            setupLinearListViews(false);
         } else {
             //displayExisting existing
             mListDataItems.clear();
@@ -154,7 +153,7 @@ public class DisplayListBaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void setupRecyclerViews(boolean isDeactivated) {
+    protected void setupLinearListViews(boolean isDeactivated) {
         mListDataItems = new ArrayList<>();
         mTickedListDataItems = new ArrayList<>();
 

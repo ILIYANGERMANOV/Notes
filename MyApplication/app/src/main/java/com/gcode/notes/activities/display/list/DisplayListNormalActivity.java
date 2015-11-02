@@ -52,23 +52,20 @@ public class DisplayListNormalActivity extends DisplayListBaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //TODO: REFACTOR
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case Constants.COMPOSE_NOTE_REQUEST_CODE:
-                if (resultCode == Activity.RESULT_OK && data != null) {
-                    if (data.getBooleanExtra(Constants.NOTE_UPDATED_SUCCESSFULLY, false)) {
-                        String serializedListData = data.getStringExtra(Constants.EXTRA_LIST_DATA);
-                        if (serializedListData != null) {
-                            ListData listData = Serializer.parseListData(serializedListData);
-                            if (listData != null) {
-                                mNoteModeChanged = data.getBooleanExtra(Constants.EXTRA_NOTE_MODE_CHANGED, false);
-                                mListData = listData;
-                                displayListData();
-                            }
-                        }
+        if (resultCode == Activity.RESULT_OK && data != null && requestCode == Constants.COMPOSE_NOTE_REQUEST_CODE) {
+            if (data.getBooleanExtra(Constants.NOTE_UPDATED_SUCCESSFULLY, false)) {
+                String serializedListData = data.getStringExtra(Constants.EXTRA_LIST_DATA);
+                if (serializedListData != null) {
+                    ListData listData = Serializer.parseListData(serializedListData);
+                    if (listData != null) {
+                        mNoteModeChanged = data.getBooleanExtra(Constants.EXTRA_NOTE_MODE_CHANGED, false);
+                        mListData = listData;
+                        displayListData();
                     }
                 }
-                break;
+            }
         }
     }
 

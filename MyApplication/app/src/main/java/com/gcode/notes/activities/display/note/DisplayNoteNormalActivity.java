@@ -52,6 +52,7 @@ public class DisplayNoteNormalActivity extends DisplayNoteBaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //TODO: REFACTOR
         switch (requestCode) {
             case Constants.COMPOSE_NOTE_REQUEST_CODE:
                 if (resultCode == Activity.RESULT_OK && data != null) {

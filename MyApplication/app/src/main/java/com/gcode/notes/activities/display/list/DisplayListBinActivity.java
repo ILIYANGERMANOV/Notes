@@ -16,8 +16,9 @@ public class DisplayListBinActivity extends DisplayListBaseActivity {
     }
 
     @Override
-    protected void setupRecyclerViews(boolean isDeactivated) {
-        super.setupRecyclerViews(true);
+    protected void setupLinearListViews(boolean isDeactivated) {
+        super.setupLinearListViews(true);
+        //TODO: onItemClick show restore note snackbar
     }
 
     @OnClick(R.id.display_action_image_button)

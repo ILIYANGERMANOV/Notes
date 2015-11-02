@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.activities.helpers.compose.ComposeToolbarHelper;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.ContentDetails;
 import com.gcode.notes.data.NoteData;
@@ -59,7 +60,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose_note);
         ButterKnife.bind(this);
-        setupToolbar();
+        ComposeToolbarHelper.setupToolbar(this, mToolbar);
         setupStartState(savedInstanceState);
     }
 
@@ -144,18 +145,6 @@ public class ComposeNoteActivity extends AppCompatActivity {
         outState.putBoolean(Constants.EXTRA_IS_STARRED, mIsStarred);
         outState.putBoolean(Constants.EXTRA_NOTE_MODE_CHANGED, mNoteModeChanged);
         outState.putString(Constants.EXTRA_CONTENT_DETAILS, Serializer.serializeContentDetails(mContentDetails));
-    }
-
-    private void setupToolbar() {
-        if (mToolbar != null) {
-            setSupportActionBar(mToolbar);
-            ActionBar mActionBar = getSupportActionBar();
-            if (mActionBar != null) {
-                mActionBar.setHomeButtonEnabled(true);
-                mActionBar.setDisplayHomeAsUpEnabled(true);
-                mActionBar.setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.ic_done_black_24dp));
-            }
-        }
     }
 
     @OnClick(R.id.compose_star_image_button)

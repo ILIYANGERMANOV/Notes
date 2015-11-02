@@ -28,6 +28,7 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
     View mRootView;
     Activity mActivity;
     RecyclerView mRecyclerView;
+    LayoutInflater mInflater;
 
     public MainAdapter(Activity activity, RecyclerView recyclerView, ArrayList<ContentBase> data, View rooView) {
 
@@ -35,6 +36,7 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
         mActivity = activity;
         mData = data;
         mRootView = rooView;
+        mInflater = LayoutInflater.from(activity);
     }
 
     @Override
@@ -44,11 +46,10 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
 
     @Override
     public BaseItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         if (viewType == Constants.TYPE_NOTE) {
-            return new NoteItemViewHolder(mActivity, inflater.inflate(R.layout.note_item, parent, false), mData);
+            return new NoteItemViewHolder(mActivity, mInflater.inflate(R.layout.note_item, parent, false), mData);
         } else {
-            return new ListItemViewHolder(mActivity, inflater.inflate(R.layout.list_item, parent, false), mData);
+            return new ListItemViewHolder(mActivity, mInflater.inflate(R.layout.list_item, parent, false), mData);
         }
     }
 
@@ -65,13 +66,13 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
         }
     }
 
-    public RecyclerView getRecyclerView() {
-        return mRecyclerView;
-    }
-
     @Override
     public int getItemCount() {
         return mData.size();
+    }
+
+    public RecyclerView getRecyclerView() {
+        return mRecyclerView;
     }
 
     public int getIndexOfItem(ContentBase item) {

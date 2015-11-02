@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -18,6 +16,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.activities.helpers.compose.ComposeToolbarHelper;
 import com.gcode.notes.adapters.list.compose.ListComposeContainerAdapter;
 import com.gcode.notes.adapters.list.compose.TickedListComposeContainerAdapter;
 import com.gcode.notes.controllers.BaseController;
@@ -37,6 +36,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ComposeListActivity extends AppCompatActivity {
+    //TODO: REFACTOR AND OPTIMIZE
 
     @Bind(R.id.compose_list_toolbar)
     Toolbar mToolbar;
@@ -80,8 +80,7 @@ public class ComposeListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose_list);
         ButterKnife.bind(this);
-
-        setupToolbar();
+        ComposeToolbarHelper.setupToolbar(this, mToolbar);
         setupStartState(savedInstanceState);
     }
 
@@ -272,19 +271,6 @@ public class ComposeListActivity extends AppCompatActivity {
                 break;
             default:
                 break;
-        }
-    }
-
-
-    private void setupToolbar() {
-        if (mToolbar != null) {
-            setSupportActionBar(mToolbar);
-            ActionBar mActionBar = getSupportActionBar();
-            if (mActionBar != null) {
-                mActionBar.setHomeButtonEnabled(true);
-                mActionBar.setDisplayHomeAsUpEnabled(true);
-                mActionBar.setHomeAsUpIndicator(ContextCompat.getDrawable(this, R.drawable.ic_done_black_24dp));
-            }
         }
     }
 

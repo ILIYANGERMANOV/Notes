@@ -43,6 +43,7 @@ public class ListData extends ContentBase {
     public void displayList(Activity activity, ListItemViewHolder holder) {
         displayBase(holder.getTitleTextView(), holder.getReminderTextView());
         if (hasReminder()) {
+            //display divider
             holder.getAttributesDivider().setVisibility(View.VISIBLE);
         }
         LinearLayout containerLayout = holder.getContainerLayout();

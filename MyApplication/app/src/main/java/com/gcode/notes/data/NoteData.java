@@ -50,7 +50,7 @@ public class NoteData extends ContentBase {
                         holder.getMoreImageView().setVisibility(View.VISIBLE);
                     }
                 } else {
-                    MyDebugger.log("My linesCount not build.");
+                    MyDebugger.log("displayNote linesCount not build.");
                 }
             }
         }, 50);
