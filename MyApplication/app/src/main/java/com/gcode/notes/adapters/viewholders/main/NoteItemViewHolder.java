@@ -2,13 +2,13 @@ package com.gcode.notes.adapters.viewholders.main;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
@@ -26,8 +26,8 @@ public class NoteItemViewHolder extends BaseItemViewHolder {
     @Bind(R.id.note_description_text_view)
     TextView mContentTextView;
 
-    @Bind(R.id.note_item_image_view)
-    ImageView mAttachedImageView;
+    @Bind(R.id.note_item_images_container)
+    LinearLayout mImagesContainer;
 
     @Bind(R.id.voice_image_view)
     ImageView mVoiceImageView;
@@ -76,8 +76,8 @@ public class NoteItemViewHolder extends BaseItemViewHolder {
         return mVoiceImageView;
     }
 
-    public ImageView getAttachedImageView() {
-        return mAttachedImageView;
+    public LinearLayout getImagesContainer() {
+        return mImagesContainer;
     }
 
     public TextView getDescriptionTextView() {

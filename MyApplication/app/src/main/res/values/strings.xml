@@ -51,5 +51,8 @@
     <string name="restore_note_dialog_agree">Restore</string>
     <string name="remove_list_input_item_image_desc">Remove list input item</string>
     <string name="list_input_item_move_image_desc">Move list input items</string>
+    <string name="add_picture_dialog_title">Add image:</string>
+    <string name="add_picture_dialog_take_photo">Take photo</string>
+    <string name="add_picture_dialog_choose_image">Choose image</string>
 
 </resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="add_picture_dialog_options">
+        <item>Take photo</item>
+        <item>Choose image</item>
+    </string-array>
+</resources>

@@ -79,7 +79,7 @@ public class InsertHelper {
 
         if (mDatabase.insert(NoteEntry.TABLE_NAME, null, contentValues) != Constants.DATABASE_ERROR) {
             if (noteData.hasAttachedImage()) {
-                insertPicture(mDatabase, noteData.getImageURI());
+                insertPicture(mDatabase, noteData.getAttachedImagesString());
             }
             if (noteData.hasAttachedAudio()) {
                 insertAudio(mDatabase, noteData.getAudioURI());
@@ -90,10 +90,10 @@ public class InsertHelper {
         }
     }
 
-    private static void insertPicture(SQLiteDatabase mDatabase, URI imageURI) {
+    private static void insertPicture(SQLiteDatabase mDatabase, String imageString) {
         //TODO: insert picture
         ContentValues contentValues = new ContentValues();
-        contentValues.put(PictureEntry.COLUMN_NAME_PATH, imageURI.toString());
+        contentValues.put(PictureEntry.COLUMN_NAME_PATH, imageString);
         contentValues.put(PictureEntry.COLUMN_NAME_NOTE_ID, Selector.getFirstOrNextIdFromContent(mDatabase));
 
         mDatabase.insert(PictureEntry.TABLE_NAME, null, contentValues);

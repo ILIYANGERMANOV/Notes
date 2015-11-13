@@ -59,9 +59,9 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
         ContentBase currentItem = mData.get(position);
         if (currentItem != null) {
             if (currentItem.getType() == Constants.TYPE_NOTE) {
-                ((NoteData) currentItem).displayNote((NoteItemViewHolder) holder);
+                ((NoteData) currentItem).displayNoteOnMain((NoteItemViewHolder) holder);
             } else {
-                ((ListData) currentItem).displayList(mActivity, (ListItemViewHolder) holder);
+                ((ListData) currentItem).displayListOnMain(mActivity, (ListItemViewHolder) holder);
             }
         }
     }

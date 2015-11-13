@@ -21,10 +21,10 @@ import android.view.MenuItem;
 import com.gcode.notes.R;
 import com.gcode.notes.activities.helpers.main.FloatingActionButtonHelper;
 import com.gcode.notes.activities.helpers.main.MainRecyclerViewHelper;
-import com.gcode.notes.activities.helpers.main.MainResultHandler;
+import com.gcode.notes.activities.helpers.main.MainActivityResultHandler;
 import com.gcode.notes.activities.helpers.main.MainToolbarHelper;
 import com.gcode.notes.activities.helpers.main.NavigationDrawerHelper;
-import com.gcode.notes.activities.helpers.main.OptionExecutor;
+import com.gcode.notes.activities.helpers.main.DrawerOptionExecutor;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.extras.values.Keys;
@@ -108,9 +108,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupStartState() {
-        final OptionExecutor optionExecutor = new OptionExecutor(this);
+        final DrawerOptionExecutor drawerOptionExecutor = new DrawerOptionExecutor(this);
         MainToolbarHelper mainToolbarHelper = new MainToolbarHelper(this);
-        NavigationDrawerHelper navigationDrawerHelper = new NavigationDrawerHelper(this, optionExecutor);
+        NavigationDrawerHelper navigationDrawerHelper = new NavigationDrawerHelper(this, drawerOptionExecutor);
         FloatingActionButtonHelper floatingActionButtonHelper = new FloatingActionButtonHelper(this);
         MainRecyclerViewHelper mainRecyclerViewHelper = new MainRecyclerViewHelper(this);
 
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                optionExecutor.applySelectedOption(mSelectedId, false);
+                drawerOptionExecutor.applySelectedOption(mSelectedId, false);
             }
         }, 10);
     }
@@ -204,8 +204,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //TODO: handle take photo result & choose photo result
         if (resultCode == Activity.RESULT_OK && data != null) {
-            MainResultHandler.handleResult(requestCode, data);
+            MainActivityResultHandler.handleResult(requestCode, data);
         }
     }
 }

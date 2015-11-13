@@ -21,15 +21,17 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.1.0'
-    compile 'com.android.support:recyclerview-v7:23.1.0'
-    compile 'com.android.support:cardview-v7:23.1.0'
-    compile 'com.android.support:design:23.1.0'
+    compile 'com.android.support:appcompat-v7:23.1.0' //using this version until accent color issue is resolved
+    compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile 'com.android.support:cardview-v7:23.1.1'
+    compile 'com.android.support:design:23.1.0' //using this version until accent color issue is resolved
     compile 'com.google.code.gson:gson:2.3'
+
 
     compile 'com.oguzdev:CircularFloatingActionMenu:1.0.2'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.afollestad:material-dialogs:0.7.9.1'
     compile 'org.solovyev.android.views:linear-layout-manager:0.5@aar'
     compile 'com.github.frankiesardo:linearlistview:1.0.1@aar'
+    compile 'com.facebook.fresco:fresco:0.8.1'
 }

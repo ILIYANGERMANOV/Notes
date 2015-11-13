@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
@@ -35,8 +36,8 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
     @Bind(R.id.display_note_description_text_view)
     TextView mDescriptionTextView;
 
-    @Bind(R.id.display_note_image_view)
-    ImageView mAttachedImageView;
+    @Bind(R.id.display_note_images_container)
+    LinearLayout mImagesContainer;
 
     NoteData mNoteData;
     boolean mNoteModeChanged;
@@ -88,7 +89,7 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
 
 
     protected void displayNoteData() {
-        mNoteData.displayNote(mTitleTextView, mDescriptionTextView, mAttachedImageView);
+        mNoteData.displayNote(mTitleTextView, mDescriptionTextView, mImagesContainer);
         mDatesTextView.setText(mNoteData.getDateDetails());
     }
 

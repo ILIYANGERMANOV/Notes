@@ -5,17 +5,20 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.gcode.notes.adapters.viewholders.main.NoteItemViewHolder;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
+import com.gcode.notes.notes.MyApplication;
 
 import java.net.URI;
 
 public class NoteData extends ContentBase {
     String description;
-    URI imageURI;
+    String attachedImagesString;
     URI audioURI;
 
     public NoteData(int id, int orderId, int targetId, String title, int mode, boolean hasAttributes,
@@ -25,17 +28,17 @@ public class NoteData extends ContentBase {
     }
 
     public NoteData(String title, int mode, boolean hasAttributes, String description,
-                    @Nullable URI imageURI, @Nullable URI audioURI, @NonNull String reminderString) {
+                    @Nullable String attachedImagesString, @Nullable URI audioURI, @NonNull String reminderString) {
 
         super(title, mode, reminderString);
         this.description = description;
-        this.imageURI = imageURI;
+        this.attachedImagesString = attachedImagesString;
         this.audioURI = audioURI;
         type = Constants.TYPE_NOTE;
         this.hasAttributes = hasAttributes;
     }
 
-    public void displayNote(final NoteItemViewHolder holder) {
+    public void displayNoteOnMain(final NoteItemViewHolder holder) {
         displayBase(holder.getTitleTextView(), holder.getReminderTextView());
         final TextView descriptionTextView = holder.getDescriptionTextView();
         descriptionTextView.setText(description);
@@ -50,19 +53,19 @@ public class NoteData extends ContentBase {
                         holder.getMoreImageView().setVisibility(View.VISIBLE);
                     }
                 } else {
-                    MyDebugger.log("displayNote linesCount not build.");
+                    MyDebugger.log("displayNoteOnMain linesCount not build.");
                 }
             }
         }, 50);
-        displayAttachedImage(holder.getAttachedImageView());
+        displayAttachedImages(holder.getImagesContainer());
         displayAudioRecord(holder.getVoiceImageView());
         displayDivider(holder.getAttributesDivider());
     }
 
-    public void displayNote(TextView titleTextView, TextView descriptionTextView, ImageView attachedImageView) {
+    public void displayNote(TextView titleTextView, TextView descriptionTextView, LinearLayout imagesContainer) {
         displayBase(titleTextView);
         descriptionTextView.setText(description);
-        displayAttachedImage(attachedImageView);
+        displayAttachedImages(imagesContainer);
     }
 
     private void displayDivider(View attributesDividerView) {
@@ -71,12 +74,9 @@ public class NoteData extends ContentBase {
         }
     }
 
-    public void displayAttachedImage(ImageView noteImageView) {
-        if (hasAttachedImage()) {
-            //TODO: set image
-        } else {
-            noteImageView.setVisibility(View.GONE);
-        }
+    public void displayAttachedImages(LinearLayout imagesContainer) {
+        //SimpleDraweeView draweeView = new SimpleDraweeView(MyApplication.getAppContext());
+
     }
 
     public void displayAudioRecord(ImageView voiceImageView) {
@@ -89,19 +89,19 @@ public class NoteData extends ContentBase {
 
 
     public boolean hasAttachedImage() {
-        return imageURI != null;
+        return attachedImagesString != null;
     }
 
     public boolean hasAttachedAudio() {
         return audioURI != null;
     }
 
-    public URI getImageURI() {
-        return imageURI;
+    public String getAttachedImagesString() {
+        return attachedImagesString;
     }
 
-    public void setImageURI(URI imageURI) {
-        this.imageURI = imageURI;
+    public void setAttachedImagesString(String attachedImagesString) {
+        this.attachedImagesString = attachedImagesString;
     }
 
     public URI getAudioURI() {

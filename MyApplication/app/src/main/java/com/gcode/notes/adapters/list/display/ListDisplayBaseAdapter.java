@@ -44,7 +44,7 @@ public abstract class ListDisplayBaseAdapter extends ArrayAdapter<ListDataItem> 
         CheckedTextView checkedTextView =
                 (CheckedTextView) convertView.findViewById(R.id.list_data_item_row_checked_text_view);
 
-        if(areItemsChecked()) {
+        if (areItemsChecked()) {
             checkedTextView.setChecked(true);
             checkedTextView.setPaintFlags(checkedTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {

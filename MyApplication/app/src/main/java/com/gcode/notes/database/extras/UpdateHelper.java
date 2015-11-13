@@ -103,7 +103,7 @@ public class UpdateHelper {
 
     private static void updateNoteAttachedPicture(SQLiteDatabase database, NoteData noteData) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(PictureEntry.COLUMN_NAME_PATH, noteData.getImageURI().toString());
+        contentValues.put(PictureEntry.COLUMN_NAME_PATH, noteData.getAttachedImagesString().toString());
         String whereClause = PictureEntry.COLUMN_NAME_NOTE_ID + SelectQueries.EQUALS_TO;
         database.update(PictureEntry.TABLE_NAME, contentValues, whereClause, getContentBaseId(noteData));
     }

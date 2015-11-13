@@ -11,7 +11,7 @@ import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 
-public class MainResultHandler {
+public class MainActivityResultHandler {
     public static void handleResult(int requestCode, Intent data) {
         switch (requestCode) {
             case Constants.LIST_FROM_DISPLAY_RES_CODE:

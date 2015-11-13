@@ -16,6 +16,7 @@ import com.gcode.notes.animations.MyAnimator;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.extras.values.Tags;
+import com.gcode.notes.ui.DialogHelper;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
@@ -135,7 +136,7 @@ public class FloatingActionButtonHelper implements View.OnClickListener {
                 MyDebugger.toast(mMainActivity, "Voice note");
                 break;
             case Tags.TAG_CAMERA:
-                MyDebugger.toast(mMainActivity, "Camera");
+                DialogHelper.buildAddPictureDialog(mMainActivity);
                 break;
         }
 

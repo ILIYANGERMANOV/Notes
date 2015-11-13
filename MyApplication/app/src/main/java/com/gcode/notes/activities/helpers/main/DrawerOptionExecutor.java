@@ -13,10 +13,10 @@ import com.gcode.notes.controllers.BinController;
 import com.gcode.notes.controllers.ImportantController;
 import com.gcode.notes.controllers.PrivateController;
 
-public class OptionExecutor {
+public class DrawerOptionExecutor {
     MainActivity mMainActivity;
 
-    public OptionExecutor(MainActivity mainActivity) {
+    public DrawerOptionExecutor(MainActivity mainActivity) {
         mMainActivity = mainActivity;
     }
 

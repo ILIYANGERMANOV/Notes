@@ -40,7 +40,7 @@ public class ListData extends ContentBase {
         this.list = list;
     }
 
-    public void displayList(Activity activity, ListItemViewHolder holder) {
+    public void displayListOnMain(Activity activity, ListItemViewHolder holder) {
         displayBase(holder.getTitleTextView(), holder.getReminderTextView());
         if (hasReminder()) {
             //display divider

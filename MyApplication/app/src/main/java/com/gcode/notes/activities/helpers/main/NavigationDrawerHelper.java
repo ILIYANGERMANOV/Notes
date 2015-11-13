@@ -11,11 +11,11 @@ import com.gcode.notes.ui.NavDrawerHelper;
 
 public class NavigationDrawerHelper implements NavigationView.OnNavigationItemSelectedListener {
     MainActivity mMainActivity;
-    OptionExecutor mOptionExecutor;
+    DrawerOptionExecutor mDrawerOptionExecutor;
 
-    public NavigationDrawerHelper(MainActivity mainActivity, OptionExecutor optionExecutor) {
+    public NavigationDrawerHelper(MainActivity mainActivity, DrawerOptionExecutor drawerOptionExecutor) {
         mMainActivity = mainActivity;
-        mOptionExecutor = optionExecutor;
+        mDrawerOptionExecutor = drawerOptionExecutor;
     }
 
     public void setupNavigationDrawer() {
@@ -59,7 +59,7 @@ public class NavigationDrawerHelper implements NavigationView.OnNavigationItemSe
             menuItem.setChecked(true);
             NavDrawerHelper.hideDrawer(mMainActivity.getDrawerLayout());
         }
-        mOptionExecutor.applySelectedOption(menuItem.getItemId(), true);
+        mDrawerOptionExecutor.applySelectedOption(menuItem.getItemId(), true);
         return true;
     }
 }

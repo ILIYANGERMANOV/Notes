@@ -12,8 +12,8 @@ import com.gcode.notes.database.NotesContract.NoteEntry;
 import com.gcode.notes.database.NotesContract.PictureEntry;
 import com.gcode.notes.database.NotesContract.SoundEntry;
 import com.gcode.notes.database.extras.queries.SelectQueries;
-import com.gcode.notes.serialization.Serializer;
 import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.serialization.Serializer;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -96,9 +96,9 @@ public class AttachHelper {
         );
 
         if (pictureCursor.moveToFirst()) {
-            noteData.setImageURI(URI.create(
+            noteData.setAttachedImagesString(
                     pictureCursor.getString(pictureCursor.getColumnIndex(PictureEntry.COLUMN_NAME_PATH))
-            ));
+            );
             MyDebugger.log("picture set");
         }
         pictureCursor.close();
