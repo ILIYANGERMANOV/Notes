@@ -2,9 +2,8 @@ package com.gcode.notes.activities.compose;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -12,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
@@ -21,6 +21,7 @@ import com.gcode.notes.data.ContentDetails;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.DateUtils;
+import com.gcode.notes.extras.utils.PhotoUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
@@ -36,8 +37,8 @@ public class ComposeNoteActivity extends AppCompatActivity {
     @Bind(R.id.compose_note_title_edit_text)
     EditText mTitleEditText;
 
-    @Bind(R.id.compose_note_attached_image_view)
-    ImageView mAttachedImageView;
+    @Bind(R.id.compose_note_images_container)
+    LinearLayout mImagesContainer;
 
     @Bind(R.id.compose_note_description_edit_text)
     EditText mDescriptionEditText;
@@ -65,13 +66,15 @@ public class ComposeNoteActivity extends AppCompatActivity {
     }
 
     private void setupStartState(Bundle savedInstanceState) {
-        Bundle extras = getIntent().getExtras();
+        Intent intent = getIntent();
         setupLayout();
         if (savedInstanceState == null) {
-            if (extras != null) {
+            if (intent.getStringExtra(Constants.EXTRA_NOTE_DATA) != null) {
                 //Note opened in edit mode
                 mIsOpenedInEditMode = true;
-                setupFromEditMode(extras);
+                setupFromEditMode(intent.getStringExtra(Constants.EXTRA_NOTE_DATA));
+            } else if (intent.getStringExtra(Constants.EXTRA_PHOTO_URI) != null) {
+                setupFromPhoto(intent.getStringExtra(Constants.EXTRA_PHOTO_URI));
             } else {
                 //New note
                 mIsOpenedInEditMode = false;
@@ -81,6 +84,11 @@ public class ComposeNoteActivity extends AppCompatActivity {
             //Saved instance state
             handlerScreenRotation(savedInstanceState);
         }
+    }
+
+    private void setupFromPhoto(String photoUriString) {
+        Uri photoUri = Uri.parse(photoUriString);
+        PhotoUtils.addPhotoToContainer(this, mImagesContainer, photoUri);
     }
 
     private void setupLayout() {
@@ -104,8 +112,8 @@ public class ComposeNoteActivity extends AppCompatActivity {
         }
     }
 
-    private void setupFromEditMode(Bundle extras) {
-        NoteData noteData = Serializer.parseNoteData(extras.getString(Constants.EXTRA_NOTE_DATA));
+    private void setupFromEditMode(String serializedNoteData) {
+        NoteData noteData = Serializer.parseNoteData(serializedNoteData);
         if (noteData != null) {
             mEditNoteId = noteData.getId();
             mTitleEditText.setText(noteData.getTitle());

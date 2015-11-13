@@ -43,7 +43,7 @@ public class ListItemOnClickListener implements View.OnClickListener {
 
         if (intent != null) {
             intent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(mListData));
-            mActivity.startActivityForResult(intent, Constants.LIST_FROM_DISPLAY_RES_CODE);
+            mActivity.startActivityForResult(intent, Constants.LIST_FROM_DISPLAY_REQUEST_CODE);
         } else {
             MyDebugger.log("ListItemOnClickListener", "intent is null");
         }

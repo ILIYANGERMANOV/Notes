@@ -32,17 +32,12 @@
 
             <include layout="@layout/compose_header_layout" />
 
-            <ImageView
-                android:id="@+id/compose_note_attached_image_view"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/compose_note_images_container"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:contentDescription="@string/attached_image_desc"
-                android:maxHeight="100dp"
-                android:maxWidth="100dp"
-                android:src="@drawable/ic_description_black_24dp"
-                android:visibility="gone" />
+                android:orientation="vertical" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"

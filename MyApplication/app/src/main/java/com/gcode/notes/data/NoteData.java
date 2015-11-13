@@ -1,5 +1,6 @@
 package com.gcode.notes.data;
 
+import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,7 +20,7 @@ import java.net.URI;
 public class NoteData extends ContentBase {
     String description;
     String attachedImagesString;
-    URI audioURI;
+    Uri audioUri;
 
     public NoteData(int id, int orderId, int targetId, String title, int mode, boolean hasAttributes,
                     String reminderString, String creationDate, String lastModifiedDate, String expirationDateString) {
@@ -28,12 +29,12 @@ public class NoteData extends ContentBase {
     }
 
     public NoteData(String title, int mode, boolean hasAttributes, String description,
-                    @Nullable String attachedImagesString, @Nullable URI audioURI, @NonNull String reminderString) {
+                    @Nullable String attachedImagesString, @Nullable Uri audioUri, @NonNull String reminderString) {
 
         super(title, mode, reminderString);
         this.description = description;
         this.attachedImagesString = attachedImagesString;
-        this.audioURI = audioURI;
+        this.audioUri = audioUri;
         type = Constants.TYPE_NOTE;
         this.hasAttributes = hasAttributes;
     }
@@ -75,8 +76,7 @@ public class NoteData extends ContentBase {
     }
 
     public void displayAttachedImages(LinearLayout imagesContainer) {
-        //SimpleDraweeView draweeView = new SimpleDraweeView(MyApplication.getAppContext());
-
+        //TODO: implement (PHOTO)
     }
 
     public void displayAudioRecord(ImageView voiceImageView) {
@@ -93,7 +93,7 @@ public class NoteData extends ContentBase {
     }
 
     public boolean hasAttachedAudio() {
-        return audioURI != null;
+        return audioUri != null;
     }
 
     public String getAttachedImagesString() {
@@ -104,12 +104,12 @@ public class NoteData extends ContentBase {
         this.attachedImagesString = attachedImagesString;
     }
 
-    public URI getAudioURI() {
-        return audioURI;
+    public Uri getAudioUri() {
+        return audioUri;
     }
 
-    public void setAudioURI(URI audioURI) {
-        this.audioURI = audioURI;
+    public void setAudioUri(Uri audioUri) {
+        this.audioUri = audioUri;
     }
 
     public String getDescription() {

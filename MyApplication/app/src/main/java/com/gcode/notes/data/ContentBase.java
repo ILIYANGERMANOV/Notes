@@ -1,6 +1,7 @@
 package com.gcode.notes.data;
 
 
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
@@ -21,6 +22,9 @@ public class ContentBase {
 
     ContentDetails contentDetails;
 
+    public ContentBase() {
+        //empty default constructor
+    }
 
     public ContentBase(int id, int orderId, int targetId, String title, int mode, boolean hasAttributes,
                        String reminder, String creationDate, String lastModifiedDate, String expirationDate) {

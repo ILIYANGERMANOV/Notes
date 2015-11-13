@@ -204,9 +204,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //TODO: handle take photo result & choose photo result
-        if (resultCode == Activity.RESULT_OK && data != null) {
-            MainActivityResultHandler.handleResult(requestCode, data);
-        }
+        MainActivityResultHandler.handleResult(this, requestCode, resultCode, data);
     }
 }

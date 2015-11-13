@@ -1,13 +1,17 @@
 package com.gcode.notes.extras.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +26,7 @@ public class PhotoUtils {
             // Create the File where the photo should go
             File photoFile = null;
             try {
-                photoFile = createImageFile();
+                photoFile = FileUtils.createImageFile();
             } catch (IOException ex) {
                 // Error occurred while creating the File
                 MyDebugger.log("Creating imageFile IOException", ex.getMessage());
@@ -39,27 +43,23 @@ public class PhotoUtils {
         }
     }
 
+    public static void choosePhotoFromGallery(Activity activity) {
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        activity.startActivityForResult(intent, Constants.REQUEST_OPEN_GALLERY);
+    }
 
-    private static File createImageFile() throws IOException {
-        // Create an image file name
-        String imageFileName = "JPEG_" + DateUtils.getCurrentTimeSQLiteFormatted() + "_";
+    public static void addPhotoToGallery(Context context, Uri pathToPicture) {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        mediaScanIntent.setData(pathToPicture);
+        context.sendBroadcast(mediaScanIntent);
+    }
 
-        //Creates folder in Pictures
-        File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                Constants.PHOTOS_FOLDER_NAME);
-
-        if (!storageDir.exists()) {
-            //storageDir does not exists, create it
-            if (!storageDir.mkdirs()) {
-                //failed to create storageDir return nnull
-                return null;
-            }
-        }
-
-        return File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
+    public static void addPhotoToContainer(Context context, LinearLayout imagesContainer, Uri photoUri) {
+        //TODO: scale down picture in order to not skip frames
+        ImageView imageView = new ImageView(context);
+        imageView.setMaxHeight(Utils.convertDpInPixels(300));
+        imageView.setAdjustViewBounds(true);
+        imagesContainer.addView(imageView);
+        Picasso.with(context).load(photoUri).into(imageView);
     }
 }

@@ -2,6 +2,7 @@ package com.gcode.notes.database.extras;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.data.ListData;
@@ -15,8 +16,6 @@ import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
-
-import java.net.URI;
 
 public class InsertHelper {
 
@@ -82,7 +81,7 @@ public class InsertHelper {
                 insertPicture(mDatabase, noteData.getAttachedImagesString());
             }
             if (noteData.hasAttachedAudio()) {
-                insertAudio(mDatabase, noteData.getAudioURI());
+                insertAudio(mDatabase, noteData.getAudioUri());
             }
         } else {
             contentBase.setAttributes(false);
@@ -99,7 +98,7 @@ public class InsertHelper {
         mDatabase.insert(PictureEntry.TABLE_NAME, null, contentValues);
     }
 
-    private static void insertAudio(SQLiteDatabase mDatabase, URI audioURI) {
+    private static void insertAudio(SQLiteDatabase mDatabase, Uri audioURI) {
         //TODO: insert audio
         ContentValues contentValues = new ContentValues();
         contentValues.put(SoundEntry.COLUMN_NAME_PATH, audioURI.toString());

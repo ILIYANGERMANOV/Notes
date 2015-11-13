@@ -8,7 +8,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.simplelist.MaterialSimpleListAdapter;
 import com.afollestad.materialdialogs.simplelist.MaterialSimpleListItem;
 import com.gcode.notes.R;
-import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.PhotoUtils;
 
 public class AddPictureListCallback implements MaterialDialog.ListCallback {
@@ -29,7 +28,7 @@ public class AddPictureListCallback implements MaterialDialog.ListCallback {
             PhotoUtils.dispatchTakePictureIntent(mActivity);
         } else {
             //choose image selected, start image choosing intent
-            MyDebugger.log("Choose image");
+            PhotoUtils.choosePhotoFromGallery(mActivity);
         }
         //item selected cancel dialog
         dialog.cancel();

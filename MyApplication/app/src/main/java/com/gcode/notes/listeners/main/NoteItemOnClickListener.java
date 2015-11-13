@@ -42,7 +42,7 @@ public class NoteItemOnClickListener implements View.OnClickListener {
         }
         if (intent != null) {
             intent.putExtra(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(mNoteData));
-            mActivity.startActivityForResult(intent, Constants.NOTE_FROM_DISPLAY_RES_CODE);
+            mActivity.startActivityForResult(intent, Constants.NOTE_FROM_DISPLAY_REQUEST_CODE);
         } else {
             MyDebugger.log("NoteItemOnClickListener", "intent is null");
         }

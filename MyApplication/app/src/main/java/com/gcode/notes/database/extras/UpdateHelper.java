@@ -110,7 +110,7 @@ public class UpdateHelper {
 
     private static void updateNoteAttachedAudio(SQLiteDatabase database, NoteData noteData) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(SoundEntry.COLUMN_NAME_PATH, noteData.getAudioURI().toString());
+        contentValues.put(SoundEntry.COLUMN_NAME_PATH, noteData.getAudioUri().toString());
         String whereClause = SoundEntry.COLUMN_NAME_NOTE_ID + SelectQueries.EQUALS_TO;
         database.update(SoundEntry.TABLE_NAME, contentValues, whereClause, getContentBaseId(noteData));
     }

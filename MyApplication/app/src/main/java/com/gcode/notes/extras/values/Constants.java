@@ -10,8 +10,10 @@ public class Constants {
     public static final int GRID_COLUMNS_COUNT = 2;
 
     public static final int COMPOSE_NOTE_REQUEST_CODE = 1;
-    public static final int LIST_FROM_DISPLAY_RES_CODE = 3;
-    public static final int NOTE_FROM_DISPLAY_RES_CODE = 4;
+    public static final int LIST_FROM_DISPLAY_REQUEST_CODE = 2;
+    public static final int NOTE_FROM_DISPLAY_REQUEST_CODE = 3;
+    public static final int REQUEST_TAKE_PHOTO = 4;
+    public static final int REQUEST_OPEN_GALLERY = 5;
 
     public static final int ERROR = 7833;
 
@@ -49,7 +51,8 @@ public class Constants {
 
     public static final String EXTRA_LIST_DATA = "list_data_extra";
     public static final String EXTRA_NOTE_DATA = "note_data_extra";
-    //TODO: add picture, sound extra
+    //TODO: add sound extra
+    public static final String EXTRA_PHOTO_URI = "photo_uri_extra";
     public static final String EXTRA_LIST_DATA_ITEMS = "list_data_items_extra";
     public static final String EXTRA_TICKED_LIST_DATA_ITEMS = "ticked_list_data_items_extra";
     public static final String EXTRA_LAST_FOCUSED = "last_focused_extra";
@@ -65,6 +68,4 @@ public class Constants {
     public static final int MAX_LIST_INPUT_ITEM_LINES = 10;
 
     public static final String PHOTOS_FOLDER_NAME = "Notes";
-
-    public static final int REQUEST_TAKE_PHOTO = 1;
 }
