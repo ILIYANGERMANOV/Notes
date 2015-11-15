@@ -3,7 +3,6 @@ package com.gcode.notes.notes;
 import android.app.Application;
 import android.content.Context;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.gcode.notes.database.DatabaseController;
 
 public class MyApplication extends Application {
@@ -31,6 +30,5 @@ public class MyApplication extends Application {
         super.onCreate();
         mInstance = this;
         mDatabase = new DatabaseController(this);
-        Fresco.initialize(getApplicationContext());
     }
 }

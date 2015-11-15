@@ -6,7 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.ui.VisibilityHelper;
+import com.gcode.notes.ui.helpers.VisibilityHelper;
 import com.gcode.notes.ui.snackbar.SnackbarHelper;
 import com.gcode.notes.ui.snackbar.SnackbarMessages;
 
@@ -29,7 +29,7 @@ public class ListComposeContainerAdapter extends BaseComposeContainerAdapter {
 
     @Override
     protected View createView() {
-        return mInflater.inflate(R.layout.list_input_item, mContainer, false);
+        return mInflater.inflate(R.layout.list_compose_item, mContainer, false);
     }
 
     @Override

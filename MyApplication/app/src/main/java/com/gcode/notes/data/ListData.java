@@ -2,7 +2,6 @@ package com.gcode.notes.data;
 
 
 import android.app.Activity;
-import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,7 @@ import android.widget.LinearLayout;
 import com.gcode.notes.R;
 import com.gcode.notes.adapters.viewholders.main.ListItemViewHolder;
 import com.gcode.notes.extras.values.Constants;
+import com.gcode.notes.ui.helpers.CheckedTextViewHelper;
 
 import java.util.ArrayList;
 
@@ -69,15 +69,13 @@ public class ListData extends ContentBase {
 
     private View createViewForItem(ListDataItem item, LayoutInflater inflater, LinearLayout containerLayout) {
         //create view
-        View itemView = inflater.inflate(R.layout.list_data_item_row, containerLayout, false);
+        View itemView = inflater.inflate(R.layout.list_display_item, containerLayout, false);
         //bind view
         CheckedTextView checkedTextView = (CheckedTextView) itemView.findViewById(R.id.list_data_item_row_checked_text_view);
         if (item.isChecked()) {
-            checkedTextView.setChecked(true);
-            checkedTextView.setPaintFlags(checkedTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            CheckedTextViewHelper.setChecked(checkedTextView);
         } else {
-            checkedTextView.setChecked(false);
-            checkedTextView.setPaintFlags(checkedTextView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            CheckedTextViewHelper.setUnchecked(checkedTextView);
         }
         checkedTextView.setText(item.getContent());
         return itemView;

@@ -16,7 +16,7 @@ import com.gcode.notes.animations.MyAnimator;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.extras.values.Tags;
-import com.gcode.notes.ui.DialogHelper;
+import com.gcode.notes.ui.helpers.DialogHelper;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 

@@ -10,12 +10,12 @@ import com.gcode.notes.adapters.list.compose.BaseComposeContainerAdapter;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.listeners.list.ListItemDeletedUndoOnClickListener;
 import com.gcode.notes.listeners.main.NoteDeletedUndoOnClickListener;
-import com.gcode.notes.ui.callbacks.AddPictureListCallback;
 import com.gcode.notes.ui.callbacks.DeleteNoteFromBinCallback;
 import com.gcode.notes.ui.callbacks.DeleteNoteFromDisplayCallback;
 import com.gcode.notes.ui.callbacks.EmptyRecyclerBinCallback;
 import com.gcode.notes.ui.callbacks.NoteDeletedSnackbarCallback;
 import com.gcode.notes.ui.callbacks.RestoreNoteFromDisplayCallback;
+import com.gcode.notes.ui.helpers.DialogHelper;
 import com.gcode.notes.ui.snackbar.SnackbarHelper;
 
 public class ActionExecutor {

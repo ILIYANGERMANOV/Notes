@@ -8,7 +8,6 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.extras.MyDebugger;
 
 public class TickedListComposeContainerAdapter extends BaseComposeContainerAdapter {
     public TickedListComposeContainerAdapter(LinearLayout container, ScrollView scrollView) {
@@ -17,7 +16,7 @@ public class TickedListComposeContainerAdapter extends BaseComposeContainerAdapt
 
     @Override
     protected View createView() {
-        return mInflater.inflate(R.layout.list_input_item_ticked, mContainer, false);
+        return mInflater.inflate(R.layout.list_compose_item_ticked, mContainer, false);
     }
 
     @Override

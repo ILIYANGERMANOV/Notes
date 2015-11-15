@@ -1,4 +1,4 @@
-package com.gcode.notes.ui;
+package com.gcode.notes.ui.helpers;
 
 import android.graphics.Rect;
 import android.view.View;

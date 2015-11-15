@@ -1,4 +1,4 @@
-package com.gcode.notes.ui;
+package com.gcode.notes.ui.helpers;
 
 
 import android.support.v4.view.GravityCompat;

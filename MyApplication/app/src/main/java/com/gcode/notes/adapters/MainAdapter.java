@@ -49,7 +49,7 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
         if (viewType == Constants.TYPE_NOTE) {
             return new NoteItemViewHolder(mActivity, mInflater.inflate(R.layout.note_item, parent, false), mData);
         } else {
-            return new ListItemViewHolder(mActivity, mInflater.inflate(R.layout.list_item, parent, false), mData);
+            return new ListItemViewHolder(mActivity, mInflater.inflate(R.layout.list_note_item, parent, false), mData);
         }
     }
 

@@ -29,6 +29,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class DisplayListBaseActivity extends AppCompatActivity {
+    //TODO: REFACTOR AND OPTIMIZE
     @Bind(R.id.display_list_scroll_view)
     ScrollView mRootScrollView;
 

@@ -7,7 +7,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.gcode.notes.data.ListDataItem;
-import com.gcode.notes.ui.VisibilityHelper;
+import com.gcode.notes.ui.helpers.VisibilityHelper;
 import com.gcode.notes.ui.snackbar.SnackbarHelper;
 import com.gcode.notes.ui.snackbar.SnackbarMessages;
 import com.linearlistview.LinearListView;
@@ -30,10 +30,6 @@ public class ListDisplayTickedAdapter extends ListDisplayBaseAdapter {
         mRootScrollView = rootScrollView;
         mDatesTextView = datesTextView;
         mLinearListView = linearListView;
-    }
-
-    public boolean isDoneHidden() {
-        return mIsDoneHidden;
     }
 
     public void setDoneHidden(boolean isDoneHidden) {

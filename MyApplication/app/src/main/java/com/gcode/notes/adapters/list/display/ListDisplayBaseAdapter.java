@@ -1,7 +1,6 @@
 package com.gcode.notes.adapters.list.display;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +9,11 @@ import android.widget.CheckedTextView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.data.ListDataItem;
+import com.gcode.notes.ui.helpers.CheckedTextViewHelper;
 
 import java.util.ArrayList;
 
 public abstract class ListDisplayBaseAdapter extends ArrayAdapter<ListDataItem> {
-    //TODO: REFACTOR AND OPTIMIZE (implement viewHolder pattern)
-    ListDisplayBaseAdapter mOtherAdapter;
     boolean mIsDeactivated;
 
     public ListDisplayBaseAdapter(Context context, ArrayList<ListDataItem> data, boolean isDeactivated) {
@@ -23,41 +21,39 @@ public abstract class ListDisplayBaseAdapter extends ArrayAdapter<ListDataItem> 
         mIsDeactivated = isDeactivated;
     }
 
-    public ListDisplayBaseAdapter getOtherAdapter() {
-        return mOtherAdapter;
-    }
-
-    public void setOtherAdapter(ListDisplayBaseAdapter otherAdapter) {
-        this.mOtherAdapter = otherAdapter;
-    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ListDataItem item = getItem(position);
+        ListItemHolder holder;
 
         //create view
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_data_item_row, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_display_item, parent, false);
+            holder = new ListItemHolder();
+            holder.checkedTextView =
+                    (CheckedTextView) convertView.findViewById(R.id.list_data_item_row_checked_text_view);
+            convertView.setTag(holder);
+        } else {
+            holder = (ListItemHolder) convertView.getTag();
         }
 
         //bind view
-        CheckedTextView checkedTextView =
-                (CheckedTextView) convertView.findViewById(R.id.list_data_item_row_checked_text_view);
-
         if (areItemsChecked()) {
-            checkedTextView.setChecked(true);
-            checkedTextView.setPaintFlags(checkedTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            CheckedTextViewHelper.setChecked(holder.checkedTextView);
         } else {
-            checkedTextView.setChecked(false);
-            checkedTextView.setPaintFlags(checkedTextView.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            CheckedTextViewHelper.setUnchecked(holder.checkedTextView);
         }
         if (mIsDeactivated) {
             convertView.setEnabled(false);
-            checkedTextView.setEnabled(false);
+            holder.checkedTextView.setEnabled(false);
         }
-        checkedTextView.setText(item.getContent());
+        holder.checkedTextView.setText(item.getContent());
 
         return convertView;
+    }
+
+    static class ListItemHolder {
+        CheckedTextView checkedTextView;
     }
 
     abstract protected boolean areItemsChecked();

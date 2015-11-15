@@ -51,14 +51,19 @@
                 android:layout_marginLeft="45dp"
                 android:layout_marginStart="4dp"
                 android:drawableLeft="@drawable/ic_add_black_24dp"
-                android:drawableStart="@drawable/ic_add_black_24dp"
                 android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_add_black_24dp"
                 android:gravity="center_vertical"
                 android:text="@string/compose_lise_add_text_view_text" />
 
             <View style="@style/Divider" />
 
-            <include layout="@layout/list_done_text_view" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:text="@string/compose_list_done_tasks_caption" />
 
             <LinearLayout
                 android:id="@+id/compose_list_container_ticked_layout"

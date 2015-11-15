@@ -10,35 +10,37 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.activities.helpers.compose.ComposeToolbarHelper;
+import com.gcode.notes.adapters.note.ComposeNoteAdapter;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.ContentDetails;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.DateUtils;
-import com.gcode.notes.extras.utils.PhotoUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
+import com.linearlistview.LinearListView;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ComposeNoteActivity extends AppCompatActivity {
+    //TODO: REFACTOR AND OPTIMIZE
     @Bind(R.id.compose_note_toolbar)
     Toolbar mToolbar;
 
     @Bind(R.id.compose_note_title_edit_text)
     EditText mTitleEditText;
 
-    @Bind(R.id.compose_note_images_container)
-    LinearLayout mImagesContainer;
+    @Bind(R.id.compose_note_linear_list_view)
+    LinearListView mLinearListView;
 
     @Bind(R.id.compose_note_description_edit_text)
     EditText mDescriptionEditText;
@@ -55,6 +57,10 @@ public class ComposeNoteActivity extends AppCompatActivity {
     boolean mIsStarred;
     boolean mNoteModeChanged;
     ContentDetails mContentDetails;
+
+    ComposeNoteAdapter mAdapter;
+
+    ArrayList<Uri> mAttachedImagesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +93,10 @@ public class ComposeNoteActivity extends AppCompatActivity {
     }
 
     private void setupFromPhoto(String photoUriString) {
-        Uri photoUri = Uri.parse(photoUriString);
-        PhotoUtils.addPhotoToContainer(this, mImagesContainer, photoUri);
+        mAttachedImagesList = new ArrayList<>();
+        mAttachedImagesList.add(Uri.parse(photoUriString));
+        mAdapter = new ComposeNoteAdapter(this, mAttachedImagesList);
+        mLinearListView.setAdapter(mAdapter);
     }
 
     private void setupLayout() {

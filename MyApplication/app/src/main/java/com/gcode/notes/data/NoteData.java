@@ -9,13 +9,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.gcode.notes.adapters.viewholders.main.NoteItemViewHolder;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
-import com.gcode.notes.notes.MyApplication;
-
-import java.net.URI;
 
 public class NoteData extends ContentBase {
     String description;

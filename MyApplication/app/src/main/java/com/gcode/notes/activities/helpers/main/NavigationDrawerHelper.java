@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
-import com.gcode.notes.ui.NavDrawerHelper;
+import com.gcode.notes.ui.helpers.NavDrawerHelper;
 
 public class NavigationDrawerHelper implements NavigationView.OnNavigationItemSelectedListener {
     MainActivity mMainActivity;
