@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -32,7 +31,7 @@ public class PhotoUtils {
                 MyDebugger.log("Creating imageFile IOException", ex.getMessage());
             }
 
-            // Continue only if the File was successfully created
+            // Continue only if the photoFile was successfully created
             if (photoFile != null) {
                 pathToPhoto = Uri.fromFile(photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
@@ -52,6 +51,13 @@ public class PhotoUtils {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         mediaScanIntent.setData(pathToPicture);
         context.sendBroadcast(mediaScanIntent);
+    }
+
+    public static void openPhotoInGallery(Activity activity, String pathToPhoto) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.parse(pathToPhoto), "image/*");
+        activity.startActivity(intent);
     }
 
     public static void addPhotoToContainer(Context context, LinearLayout imagesContainer, Uri photoUri) {

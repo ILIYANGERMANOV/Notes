@@ -53,6 +53,7 @@ public class Constants {
     public static final String EXTRA_NOTE_DATA = "note_data_extra";
     //TODO: add sound extra
     public static final String EXTRA_PHOTO_URI = "photo_uri_extra";
+    public static final String EXTRA_ATTACHED_IMAGES_LIST = "attached_images_list_extra";
     public static final String EXTRA_LIST_DATA_ITEMS = "list_data_items_extra";
     public static final String EXTRA_TICKED_LIST_DATA_ITEMS = "ticked_list_data_items_extra";
     public static final String EXTRA_LAST_FOCUSED = "last_focused_extra";

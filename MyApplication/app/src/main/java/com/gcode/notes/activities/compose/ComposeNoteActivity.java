@@ -2,17 +2,18 @@ package com.gcode.notes.activities.compose;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.activities.helpers.compose.ComposeNoteResultHandler;
 import com.gcode.notes.activities.helpers.compose.ComposeToolbarHelper;
 import com.gcode.notes.adapters.note.ComposeNoteAdapter;
 import com.gcode.notes.controllers.BaseController;
@@ -23,6 +24,7 @@ import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
+import com.gcode.notes.ui.ActionExecutor;
 import com.linearlistview.LinearListView;
 
 import java.util.ArrayList;
@@ -60,7 +62,11 @@ public class ComposeNoteActivity extends AppCompatActivity {
 
     ComposeNoteAdapter mAdapter;
 
-    ArrayList<Uri> mAttachedImagesList;
+    public ComposeNoteAdapter getAdapter() {
+        return mAdapter;
+    }
+
+    ArrayList<String> mAttachedImagesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,15 +99,17 @@ public class ComposeNoteActivity extends AppCompatActivity {
     }
 
     private void setupFromPhoto(String photoUriString) {
-        mAttachedImagesList = new ArrayList<>();
-        mAttachedImagesList.add(Uri.parse(photoUriString));
-        mAdapter = new ComposeNoteAdapter(this, mAttachedImagesList);
-        mLinearListView.setAdapter(mAdapter);
+        mAdapter.add(photoUriString);
     }
 
     private void setupLayout() {
         mTitleEditText.setHorizontallyScrolling(false);
         mTitleEditText.setMaxLines(3);
+
+        mAttachedImagesList = new ArrayList<>();
+        mAdapter = new ComposeNoteAdapter(this, mAttachedImagesList, mLinearListView);
+        mLinearListView.setAdapter(mAdapter);
+        mLinearListView.setVisibility(View.GONE);
     }
 
     private void setupFromZero() {
@@ -138,7 +146,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
     }
 
     private void handlerScreenRotation(Bundle savedInstanceState) {
-        //TODO: handle screen rotation (picture and audio)
+        //TODO: handle screen rotation for audio
         mIsOpenedInEditMode = savedInstanceState.getBoolean(Constants.EXTRA_IS_OPENED_IN_EDIT_MODE);
         if (mIsOpenedInEditMode) {
             mEditNoteId = savedInstanceState.getInt(Constants.EXTRA_EDIT_NOTE_ID);
@@ -148,12 +156,18 @@ public class ComposeNoteActivity extends AppCompatActivity {
         }
         mNoteModeChanged = savedInstanceState.getBoolean(Constants.EXTRA_NOTE_MODE_CHANGED);
         mContentDetails = Serializer.parseContentDetails(savedInstanceState.getString(Constants.EXTRA_CONTENT_DETAILS));
+        mAttachedImagesList = Serializer.parseAttachedImagesList(
+                savedInstanceState.getString(Constants.EXTRA_ATTACHED_IMAGES_LIST));
+        if (mAttachedImagesList != null) {
+            mAdapter.clear();
+            mAdapter.addAll(mAttachedImagesList);
+        }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //TODO: add picture and audio
+        //TODO: add audio
         outState.putBoolean(Constants.EXTRA_IS_OPENED_IN_EDIT_MODE, mIsOpenedInEditMode);
         if (mIsOpenedInEditMode) {
             outState.putInt(Constants.EXTRA_EDIT_NOTE_ID, mEditNoteId);
@@ -161,6 +175,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
         outState.putBoolean(Constants.EXTRA_IS_STARRED, mIsStarred);
         outState.putBoolean(Constants.EXTRA_NOTE_MODE_CHANGED, mNoteModeChanged);
         outState.putString(Constants.EXTRA_CONTENT_DETAILS, Serializer.serializeContentDetails(mContentDetails));
+        outState.putString(Constants.EXTRA_ATTACHED_IMAGES_LIST, Serializer.serializeAttachedImagesList(mAdapter.getData()));
     }
 
     @OnClick(R.id.compose_star_image_button)
@@ -225,6 +240,8 @@ public class ComposeNoteActivity extends AppCompatActivity {
                     MyDebugger.log("Failed to update note.");
                 }
             }
+        } else {
+            MyDebugger.toast(this, "Cannot save empty notes.");
         }
         setResult(Activity.RESULT_OK, resultIntent);
     }
@@ -234,8 +251,8 @@ public class ComposeNoteActivity extends AppCompatActivity {
     }
 
     private boolean isValidNote(String title, String description) {
-        //TODO: add image and sound in the validation
-        return title.trim().length() > 0 || description.trim().length() > 0;
+        //TODO: add sound in the validation
+        return title.trim().length() > 0 || description.trim().length() > 0 || mAttachedImagesList.size() > 0;
     }
 
     @Override
@@ -258,9 +275,17 @@ public class ComposeNoteActivity extends AppCompatActivity {
             case android.R.id.home:
                 saveNote();
                 finish();
+                break;
+            case R.id.action_add_image:
+                ActionExecutor.addPhotoToNote(this);
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ComposeNoteResultHandler.handleResult(this, requestCode, resultCode, data);
+    }
 }

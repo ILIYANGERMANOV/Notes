@@ -23,6 +23,7 @@ import com.gcode.notes.serialization.Serializer;
 import java.io.File;
 
 public class MainActivityResultHandler {
+    //TODO: remove redundancy with ComposeNoteResultHandler
     public static void handleResult(Activity activity, int requestCode, int resultCode, Intent data) {
         if (resultCode == MainActivity.RESULT_OK) {
             if (data != null) {

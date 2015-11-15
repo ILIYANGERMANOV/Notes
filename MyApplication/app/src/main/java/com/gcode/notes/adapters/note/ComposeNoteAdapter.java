@@ -1,7 +1,6 @@
 package com.gcode.notes.adapters.note;
 
-import android.content.Context;
-import android.net.Uri;
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,20 +9,41 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.utils.PhotoUtils;
+import com.gcode.notes.ui.ActionExecutor;
+import com.linearlistview.LinearListView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class ComposeNoteAdapter extends ArrayAdapter<Uri> {
+public class ComposeNoteAdapter extends ArrayAdapter<String> {
+    //TODO: optimize mData and data and REFACTOR
+    ArrayList<String> mData;
+    Activity mActivity;
+    LinearListView mLinearListView;
 
-    public ComposeNoteAdapter(Context context, ArrayList<Uri> data) {
-        super(context, 0, data);
+    public ComposeNoteAdapter(Activity activity, ArrayList<String> data, LinearListView linearListView) {
+        super(activity, 0, data);
+        mData = data;
+        mActivity = activity;
+        mLinearListView = linearListView;
+    }
+
+    public ArrayList<String> getData() {
+        return mData;
+    }
+
+    public void showListView() {
+        mLinearListView.setVisibility(View.VISIBLE);
+    }
+
+    public void hideListView() {
+        mLinearListView.setVisibility(View.GONE);
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        Uri photoUri = getItem(position);
+        final String photoPath = getItem(position);
         NoteImageItemHolder holder;
 
         //create view
@@ -36,29 +56,37 @@ public class ComposeNoteAdapter extends ArrayAdapter<Uri> {
         } else {
             holder = (NoteImageItemHolder) convertView.getTag();
         }
-
         //bind view
-        Picasso.with(getContext()).
-                load(photoUri)
+        Picasso.with(mActivity).
+                load(photoPath)
+                .placeholder(R.drawable.ic_loop_black_48dp)
+                .error(R.drawable.ic_error_black_48dp)
                 .fit().centerCrop()
                 .into(holder.imageView);
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyDebugger.log(getItem(position).toString() + " clicked");
-                //TODO: open image with gallery app
+                PhotoUtils.openPhotoInGallery(mActivity, photoPath);
             }
         });
         holder.deleteImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyDebugger.log("Delete image", Integer.toString(position));
-                //TODO: pop delete image dialog
+                ActionExecutor.removePhotoFromNote(mActivity, ComposeNoteAdapter.this, photoPath);
             }
         });
 
         return convertView;
+    }
+
+    @Override
+    public void add(String object) {
+        super.add(object);
+        if (getCount() == 1) {
+            //first item added show list view
+            showListView();
+        }
     }
 
     static class NoteImageItemHolder {

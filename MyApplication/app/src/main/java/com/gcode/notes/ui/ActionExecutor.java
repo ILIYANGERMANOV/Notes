@@ -7,6 +7,7 @@ import android.view.View;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.adapters.list.compose.BaseComposeContainerAdapter;
+import com.gcode.notes.adapters.note.ComposeNoteAdapter;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.listeners.list.ListItemDeletedUndoOnClickListener;
 import com.gcode.notes.listeners.main.NoteDeletedUndoOnClickListener;
@@ -14,6 +15,7 @@ import com.gcode.notes.ui.callbacks.DeleteNoteFromBinCallback;
 import com.gcode.notes.ui.callbacks.DeleteNoteFromDisplayCallback;
 import com.gcode.notes.ui.callbacks.EmptyRecyclerBinCallback;
 import com.gcode.notes.ui.callbacks.NoteDeletedSnackbarCallback;
+import com.gcode.notes.ui.callbacks.RemovePhotoCallback;
 import com.gcode.notes.ui.callbacks.RestoreNoteFromDisplayCallback;
 import com.gcode.notes.ui.helpers.DialogHelper;
 import com.gcode.notes.ui.snackbar.SnackbarHelper;
@@ -51,5 +53,14 @@ public class ActionExecutor {
     public static void deleteNoteFromBin(Activity activity, MainAdapter adapter, ContentBase note, int position) {
         MaterialDialog.ButtonCallback deleteNoteFromBinCallback = new DeleteNoteFromBinCallback(adapter, position, note);
         DialogHelper.buildDeleteNoteFromBinDialog(activity, deleteNoteFromBinCallback, false);
+    }
+
+    public static void addPhotoToNote(Activity activity) {
+        DialogHelper.buildAddPictureDialog(activity);
+    }
+
+    public static void removePhotoFromNote(Activity activity, ComposeNoteAdapter adapter, String item) {
+        RemovePhotoCallback removePhotoCallback = new RemovePhotoCallback(adapter, item);
+        DialogHelper.buildRemovePhotoFromNoteDialog(activity, removePhotoCallback);
     }
 }

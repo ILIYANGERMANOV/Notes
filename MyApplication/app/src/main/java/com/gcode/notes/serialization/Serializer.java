@@ -1,6 +1,8 @@
 package com.gcode.notes.serialization;
 
 
+import android.net.Uri;
+
 import com.gcode.notes.data.ContentDetails;
 import com.gcode.notes.data.ListData;
 import com.gcode.notes.data.ListDataItem;
@@ -11,6 +13,7 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 
 public class Serializer {
+    //TODO: REFACTOR AND OPTIMIZE
     public static String serializeListData(ListData listData) {
         Gson gson = new Gson();
         return gson.toJson(listData);
@@ -52,6 +55,17 @@ public class Serializer {
     public static ContentDetails parseContentDetails(String serializedObject) {
         return new Gson().fromJson(serializedObject,
                 new TypeToken<ContentDetails>() {
+                }.getType());
+    }
+
+    public static String serializeAttachedImagesList(ArrayList<String> attachedImagesList) {
+        Gson gson = new Gson();
+        return gson.toJson(attachedImagesList);
+    }
+
+    public static ArrayList<String> parseAttachedImagesList(String serializedObject) {
+        return new Gson().fromJson(serializedObject,
+                new TypeToken<ArrayList<String>>() {
                 }.getType());
     }
 

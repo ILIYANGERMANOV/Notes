@@ -56,5 +56,9 @@
     <string name="add_picture_dialog_choose_image">Choose image</string>
     <string name="note_attached_image_desc">Note attached image</string>
     <string name="delete_image_button_desc">Delete image icon</string>
+    <string name="remove_photo_dialog_title">Remove image?</string>
+    <string name="remove_photo_dialog_positive_text">Remove</string>
+    <string name="remove_photo_dialog_negative_text">Cancel</string>
+    <string name="action_add_image">Add image</string>
 
 </resources>

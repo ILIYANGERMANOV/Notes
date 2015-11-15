@@ -16,14 +16,13 @@ public class FileUtils {
             //file exists, try to delete it
             if (!createdTempFile.delete()) {
                 //deletion has failed
-                return false;
-            } else {
                 MyDebugger.log("deleteFile()", "failed to delete file");
+                return false;
             }
         } else {
-            MyDebugger.log("deleteFile()","file doesn't exists");
+            MyDebugger.log("deleteFile()", "file doesn't exists");
+            return false;
         }
-        //
         return true;
     }
 

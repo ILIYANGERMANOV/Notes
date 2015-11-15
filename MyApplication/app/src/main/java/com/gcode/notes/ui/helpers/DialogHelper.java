@@ -1,13 +1,11 @@
 package com.gcode.notes.ui.helpers;
 
 import android.app.Activity;
-import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.simplelist.MaterialSimpleListAdapter;
 import com.afollestad.materialdialogs.simplelist.MaterialSimpleListItem;
 import com.gcode.notes.R;
-import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.ui.callbacks.AddPictureListCallback;
 
 public class DialogHelper {
@@ -58,6 +56,15 @@ public class DialogHelper {
                 .title(R.string.add_picture_dialog_title)
                 .items(R.array.add_picture_dialog_options)
                 .adapter(adapter, new AddPictureListCallback(activity, adapter))
+                .show();
+    }
+
+    public static void buildRemovePhotoFromNoteDialog(Activity activity, MaterialDialog.ButtonCallback buttonCallback) {
+        new MaterialDialog.Builder(activity)
+                .title(R.string.remove_photo_dialog_title)
+                .positiveText(R.string.remove_photo_dialog_positive_text)
+                .negativeText(R.string.remove_photo_dialog_negative_text)
+                .callback(buttonCallback)
                 .show();
     }
 }
