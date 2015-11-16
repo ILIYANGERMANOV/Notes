@@ -9,7 +9,7 @@ import com.gcode.notes.database.extras.queries.DropQueries;
 
 public class NotesDbHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "Notes.db";
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 1;
 
     public NotesDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -20,16 +20,12 @@ public class NotesDbHelper extends SQLiteOpenHelper {
         db.execSQL(CreateQueries.SQL_CREATE_TABLE_CONTENT);
         db.execSQL(CreateQueries.SQL_CREATE_TABLE_NOTES);
         db.execSQL(CreateQueries.SQL_CREATE_TABLE_LISTS);
-        db.execSQL(CreateQueries.SQL_CREATE_TABLE_PICTURES);
-        db.execSQL(CreateQueries.SQL_CREATE_TABLE_SOUNDS);
     }
 
     public void dropDatabase(SQLiteDatabase db) {
         db.execSQL(DropQueries.SQL_DELETE_TABLE_CONTENT);
         db.execSQL(DropQueries.SQL_DELETE_TABLE_NOTES);
         db.execSQL(DropQueries.SQL_DELETE_TABLE_LISTS);
-        db.execSQL(DropQueries.SQL_DELETE_TABLE_PICTURES);
-        db.execSQL(DropQueries.SQL_DELETE_TABLE_SOUNDS);
     }
 
     @Override

@@ -160,7 +160,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
         }
         mNoteModeChanged = savedInstanceState.getBoolean(Constants.EXTRA_NOTE_MODE_CHANGED);
         mContentDetails = Serializer.parseContentDetails(savedInstanceState.getString(Constants.EXTRA_CONTENT_DETAILS));
-        ArrayList<String> attachedImagesList = Serializer.parseAttachedImagesList(
+        ArrayList<String> attachedImagesList = Serializer.parseStringPathsList(
                 savedInstanceState.getString(Constants.EXTRA_ATTACHED_IMAGES_LIST));
         if (attachedImagesList != null) {
             //adapter's list is still empty, no need to clear
@@ -180,7 +180,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
         outState.putBoolean(Constants.EXTRA_IS_STARRED, mIsStarred);
         outState.putBoolean(Constants.EXTRA_NOTE_MODE_CHANGED, mNoteModeChanged);
         outState.putString(Constants.EXTRA_CONTENT_DETAILS, Serializer.serializeContentDetails(mContentDetails));
-        outState.putString(Constants.EXTRA_ATTACHED_IMAGES_LIST, Serializer.serializeAttachedImagesList(mImagesAdapter.getData()));
+        outState.putString(Constants.EXTRA_ATTACHED_IMAGES_LIST, Serializer.serializePathsList(mImagesAdapter.getData()));
     }
 
     @OnClick(R.id.compose_star_image_button)
@@ -208,17 +208,19 @@ public class ComposeNoteActivity extends AppCompatActivity {
 
         String title = mTitleEditText.getText().toString();
         String description = mDescriptionEditText.getText().toString();
-        if (isValidNote(title, description, mImagesAdapter.getData())) {
+        ArrayList<String> attachedImagesList = mImagesAdapter.getData();
+        if (isValidNote(title, description, attachedImagesList)) {
             int mode = mIsStarred ? Constants.MODE_IMPORTANT : Constants.MODE_NORMAL;
             String reminderString = mReminderTextView.getText().toString();
             if (reminderString.equals(getResources().getString(R.string.compose_note_set_reminder_text))) {
                 reminderString = Constants.NO_REMINDER;
             }
 
-
+            //TODO: optmize passing empty array lists
             NoteData noteData = new NoteData(title, mode,
-                    hasAttributes(description),
-                    description, mImagesAdapter.getData(), null, reminderString);
+                    hasAttributes(description, attachedImagesList),
+                    description, attachedImagesList,
+                    new ArrayList<String>(), reminderString);
 
             if (!mIsOpenedInEditMode) {
                 //new note
@@ -252,8 +254,8 @@ public class ComposeNoteActivity extends AppCompatActivity {
         setResult(Activity.RESULT_OK, resultIntent);
     }
 
-    private boolean hasAttributes(String description) {
-        return description.trim().length() > 0 || mImagesAdapter.getData().size() > 0;
+    private boolean hasAttributes(String description, ArrayList<String> attachedImagesList) {
+        return description.trim().length() > 0 || attachedImagesList.size() > 0;
     }
 
     private boolean isValidNote(String title, String description, ArrayList<String> attachedImagesList) {

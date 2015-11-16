@@ -5,8 +5,6 @@ import android.provider.BaseColumns;
 import com.gcode.notes.database.NotesContract.ContentEntry;
 import com.gcode.notes.database.NotesContract.ListEntry;
 import com.gcode.notes.database.NotesContract.NoteEntry;
-import com.gcode.notes.database.NotesContract.PictureEntry;
-import com.gcode.notes.database.NotesContract.SoundEntry;
 import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
 
@@ -24,15 +22,6 @@ public class SelectQueries {
     public static final String SELECT_ALL_FROM_NOTES_FOR_ID =
             SELECT_ALL_FROM + NoteEntry.TABLE_NAME + WHERE +
                     NoteEntry._ID + EQUALS_TO;
-
-    public static final String SELECT_PATH_FROM_PICTURES_FOR_NOTE_ID =
-            "SELECT " + PictureEntry.COLUMN_NAME_PATHS_LIST + " FROM " + PictureEntry.TABLE_NAME +
-                    WHERE + PictureEntry.COLUMN_NAME_NOTE_ID + EQUALS_TO;
-
-    public static final String SELECT_PATH_FROM_SOUNDS_FOR_NOTE_ID =
-
-            "SELECT " + SoundEntry.COLUMN_NAME_PATH + " FROM " + SoundEntry.TABLE_NAME +
-                    WHERE + SoundEntry.COLUMN_NAME_NOTE_ID + EQUALS_TO;
 
     public static final String SELECT_ALL_FROM_LISTS_FOR_ID =
             SELECT_ALL_FROM + ListEntry.TABLE_NAME + WHERE +

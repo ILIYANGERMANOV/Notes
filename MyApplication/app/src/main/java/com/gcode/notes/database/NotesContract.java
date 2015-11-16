@@ -26,8 +26,8 @@ public final class NotesContract {
     public static abstract class NoteEntry implements BaseColumns {
         public static final String TABLE_NAME = "notes";
         public static final String COLUMN_NAME_DESCRIPTION = "description";
-        public static final String COLUMN_NAME_HAS_SOUND = "has_sound";
-        public static final String COLUMN_NAME_HAS_PICTURE = "has_picture";
+        public static final String COLUMN_NAME_PHOTOS_PATHS = "photos_paths";
+        public static final String COLUMN_NAME_SOUNDS_PATHS = "sounds_paths";
     }
 
     public static abstract class PictureEntry implements BaseColumns {

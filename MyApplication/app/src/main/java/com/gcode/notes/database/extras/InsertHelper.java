@@ -2,8 +2,6 @@ package com.gcode.notes.database.extras;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
-import android.support.annotation.Nullable;
 
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.data.ListData;
@@ -11,21 +9,17 @@ import com.gcode.notes.data.NoteData;
 import com.gcode.notes.database.NotesContract.ContentEntry;
 import com.gcode.notes.database.NotesContract.ListEntry;
 import com.gcode.notes.database.NotesContract.NoteEntry;
-import com.gcode.notes.database.NotesContract.PictureEntry;
-import com.gcode.notes.database.NotesContract.SoundEntry;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
-
-import java.util.ArrayList;
 
 public class InsertHelper {
 
     public static long insertNote(SQLiteDatabase mDatabase, ContentBase contentBase) {
         if (contentBase.hasAttributes()) {
             if (contentBase.getType() == Constants.TYPE_NOTE) {
-                insertAttributesInNotes(mDatabase, contentBase, null);
+                insertAttributesInNotes(mDatabase, contentBase);
             } else {
                 insertAttributesInLists(mDatabase, contentBase);
             }
@@ -63,7 +57,6 @@ public class InsertHelper {
     }
 
     public static void insertAttributesInLists(SQLiteDatabase mDatabase, ContentBase contentBase) {
-        MyDebugger.log("Inserting list attributes");
         ListData listData = (ListData) contentBase;
         ContentValues contentValues = new ContentValues();
 
@@ -75,43 +68,18 @@ public class InsertHelper {
         }
     }
 
-    public static void insertAttributesInNotes(SQLiteDatabase mDatabase, ContentBase contentBase, @Nullable Integer noteId) {
-        MyDebugger.log("Inserting notes attributes with", noteId != null);
+    public static void insertAttributesInNotes(SQLiteDatabase mDatabase, ContentBase contentBase) {
         NoteData noteData = (NoteData) contentBase;
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(NoteEntry.COLUMN_NAME_DESCRIPTION, noteData.getDescription());
-        contentValues.put(NoteEntry.COLUMN_NAME_HAS_PICTURE, noteData.hasAttachedImage());
-        contentValues.put(NoteEntry.COLUMN_NAME_HAS_SOUND, noteData.hasAttachedAudio());
+        contentValues.put(NoteEntry.COLUMN_NAME_PHOTOS_PATHS, Serializer.serializePathsList(noteData.getAttachedImagesPaths()));
+        contentValues.put(NoteEntry.COLUMN_NAME_SOUNDS_PATHS, Serializer.serializePathsList(noteData.getAttachedAudioPaths()));
 
-        if (mDatabase.insert(NoteEntry.TABLE_NAME, null, contentValues) != Constants.DATABASE_ERROR) {
-            if (noteData.hasAttachedImage()) {
-                insertPicture(mDatabase, noteData.getAttachedImagesPaths(), noteId);
-            }
-            if (noteData.hasAttachedAudio()) {
-                insertAudio(mDatabase, noteData.getAudioUri());
-            }
-        } else {
+        if (mDatabase.insert(NoteEntry.TABLE_NAME, null, contentValues) == Constants.DATABASE_ERROR) {
+            //inserting note attributes failed, handle error
             contentBase.setAttributes(false);
             MyDebugger.log("ERROR INSERTING NOTE ATTRIBUTES!");
         }
-    }
-
-    private static void insertPicture(SQLiteDatabase mDatabase, ArrayList<String> attachedImagesPaths,
-                                      @Nullable Integer noteId) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(PictureEntry.COLUMN_NAME_PATHS_LIST, Serializer.serializeAttachedImagesList(attachedImagesPaths));
-        contentValues.put(PictureEntry.COLUMN_NAME_NOTE_ID, Selector.getFirstOrNextIdFromContent(mDatabase));
-        MyDebugger.log("insert picture NOTE_ID", noteId == null ? Selector.getFirstOrNextIdFromContent(mDatabase) : noteId);
-        mDatabase.insert(PictureEntry.TABLE_NAME, null, contentValues);
-    }
-
-    private static void insertAudio(SQLiteDatabase mDatabase, Uri audioURI) {
-        //TODO: insert audio
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(SoundEntry.COLUMN_NAME_PATH, audioURI.toString());
-        contentValues.put(SoundEntry.COLUMN_NAME_NOTE_ID, Selector.getFirstOrNextIdFromContent(mDatabase));
-
-        mDatabase.insert(SoundEntry.TABLE_NAME, null, contentValues);
     }
 }

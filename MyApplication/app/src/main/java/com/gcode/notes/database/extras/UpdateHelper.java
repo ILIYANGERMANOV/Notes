@@ -9,8 +9,6 @@ import com.gcode.notes.data.NoteData;
 import com.gcode.notes.database.NotesContract.ContentEntry;
 import com.gcode.notes.database.NotesContract.ListEntry;
 import com.gcode.notes.database.NotesContract.NoteEntry;
-import com.gcode.notes.database.NotesContract.PictureEntry;
-import com.gcode.notes.database.NotesContract.SoundEntry;
 import com.gcode.notes.database.extras.queries.SelectQueries;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.DateUtils;
@@ -70,7 +68,7 @@ public class UpdateHelper {
             MyDebugger.log("6nur");
             //targetId isn't set so, there is now row for attributes; insert it now
             if (contentBase.getType() == Constants.TYPE_NOTE) {
-                InsertHelper.insertAttributesInNotes(database, contentBase, contentBase.getId());
+                InsertHelper.insertAttributesInNotes(database, contentBase);
             } else {
                 InsertHelper.insertAttributesInLists(database, contentBase);
             }
@@ -90,33 +88,11 @@ public class UpdateHelper {
     private static int updateNoteAttributes(SQLiteDatabase database, NoteData noteData) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(NoteEntry.COLUMN_NAME_DESCRIPTION, noteData.getDescription());
-        contentValues.put(NoteEntry.COLUMN_NAME_HAS_PICTURE, noteData.hasAttachedImage());
-        contentValues.put(NoteEntry.COLUMN_NAME_HAS_SOUND, noteData.hasAttachedAudio());
-        if (noteData.hasAttachedImage()) {
-            updateNoteAttachedPicture(database, noteData);
-        }
-        if (noteData.hasAttachedAudio()) {
-            updateNoteAttachedAudio(database, noteData);
-        }
+        contentValues.put(NoteEntry.COLUMN_NAME_PHOTOS_PATHS, Serializer.serializePathsList(noteData.getAttachedImagesPaths()));
+        contentValues.put(NoteEntry.COLUMN_NAME_SOUNDS_PATHS, Serializer.serializePathsList(noteData.getAttachedAudioPaths()));
 
         return database.update(NoteEntry.TABLE_NAME, contentValues,
                 SelectQueries.whereClauseNoteId, getContentBaseTargetId(noteData));
-    }
-
-    private static void updateNoteAttachedPicture(SQLiteDatabase database, NoteData noteData) {
-        ContentValues contentValues = new ContentValues();
-        MyDebugger.log("picture updated");
-        contentValues.put(PictureEntry.COLUMN_NAME_PATHS_LIST, Serializer.serializeAttachedImagesList(noteData.getAttachedImagesPaths()));
-        String whereClause = PictureEntry.COLUMN_NAME_NOTE_ID + SelectQueries.EQUALS_TO;
-        database.update(PictureEntry.TABLE_NAME, contentValues, whereClause, getContentBaseIdStringArray(noteData));
-    }
-
-    private static void updateNoteAttachedAudio(SQLiteDatabase database, NoteData noteData) {
-        ContentValues contentValues = new ContentValues();
-        //TODO: update audio
-        contentValues.put(SoundEntry.COLUMN_NAME_PATH, noteData.getAudioUri().toString());
-        String whereClause = SoundEntry.COLUMN_NAME_NOTE_ID + SelectQueries.EQUALS_TO;
-        database.update(SoundEntry.TABLE_NAME, contentValues, whereClause, getContentBaseIdStringArray(noteData));
     }
 
     public static int updateListAttributes(SQLiteDatabase database, ListData listData) {

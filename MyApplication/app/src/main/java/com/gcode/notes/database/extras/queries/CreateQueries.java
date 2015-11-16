@@ -32,26 +32,13 @@ public class CreateQueries {
             "CREATE TABLE " + NoteEntry.TABLE_NAME + " (" +
                     NoteEntry._ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP +
                     NoteEntry.COLUMN_NAME_DESCRIPTION + TEXT_TYPE + COMMA_SEP +
-                    NoteEntry.COLUMN_NAME_HAS_PICTURE + INT_TYPE + COMMA_SEP +
-                    NoteEntry.COLUMN_NAME_HAS_SOUND + INT_TYPE +
+                    NoteEntry.COLUMN_NAME_PHOTOS_PATHS + TEXT_TYPE + COMMA_SEP +
+                    NoteEntry.COLUMN_NAME_SOUNDS_PATHS + TEXT_TYPE +
                     " )";
 
     public static final String SQL_CREATE_TABLE_LISTS =
             "CREATE TABLE " + ListEntry.TABLE_NAME + " (" +
                     ListEntry._ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP +
                     ListEntry.COLUMN_NAME_TASKS_SERIALIZED + TEXT_TYPE +
-                    " )";
-
-    public static final String SQL_CREATE_TABLE_PICTURES =
-            "CREATE TABLE " + PictureEntry.TABLE_NAME + " (" +
-                    PictureEntry._ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP +
-                    PictureEntry.COLUMN_NAME_PATHS_LIST + TEXT_TYPE + COMMA_SEP +
-                    PictureEntry.COLUMN_NAME_NOTE_ID + INT_TYPE +
-                    " )";
-    public static final String SQL_CREATE_TABLE_SOUNDS =
-            "CREATE TABLE " + SoundEntry.TABLE_NAME + " (" +
-                    SoundEntry._ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP +
-                    SoundEntry.COLUMN_NAME_PATH + TEXT_TYPE + COMMA_SEP +
-                    SoundEntry.COLUMN_NAME_NOTE_ID + INT_TYPE +
                     " )";
 }

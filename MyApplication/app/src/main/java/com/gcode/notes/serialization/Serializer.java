@@ -58,12 +58,12 @@ public class Serializer {
                 }.getType());
     }
 
-    public static String serializeAttachedImagesList(ArrayList<String> attachedImagesList) {
+    public static String serializePathsList(ArrayList<String> attachedImagesList) {
         Gson gson = new Gson();
         return gson.toJson(attachedImagesList);
     }
 
-    public static ArrayList<String> parseAttachedImagesList(String serializedObject) {
+    public static ArrayList<String> parseStringPathsList(String serializedObject) {
         return new Gson().fromJson(serializedObject,
                 new TypeToken<ArrayList<String>>() {
                 }.getType());

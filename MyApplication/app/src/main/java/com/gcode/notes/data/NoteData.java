@@ -1,9 +1,7 @@
 package com.gcode.notes.data;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -19,10 +17,10 @@ import com.gcode.notes.extras.values.Constants;
 import java.util.ArrayList;
 
 public class NoteData extends ContentBase {
-    //TODO: REFACTOR AND OPTIMIZE
+    //TODO: REFACTOR AND OPTIMIZE, remove useless null checks
     String description;
     ArrayList<String> attachedImagesPaths;
-    Uri audioUri;
+    ArrayList<String> attachedAudioPaths;
 
     public NoteData(int id, int orderId, int targetId, String title, int mode, boolean hasAttributes,
                     String reminderString, String creationDate, String lastModifiedDate, String expirationDateString) {
@@ -30,13 +28,14 @@ public class NoteData extends ContentBase {
         super(id, orderId, targetId, title, mode, hasAttributes, reminderString, creationDate, lastModifiedDate, expirationDateString);
     }
 
-    public NoteData(String title, int mode, boolean hasAttributes, String description,
-                    ArrayList<String> attachedImagesPaths, @Nullable Uri audioUri, String reminderString) {
+    public NoteData(String title, int mode, boolean hasAttributes,
+                    String description, ArrayList<String> attachedImagesPaths,
+                    ArrayList<String> attachedAudioPaths, String reminderString) {
 
         super(title, mode, reminderString);
         this.description = description;
         this.attachedImagesPaths = attachedImagesPaths;
-        this.audioUri = audioUri;
+        this.attachedAudioPaths = attachedAudioPaths;
         type = Constants.TYPE_NOTE;
         this.hasAttributes = hasAttributes;
     }
@@ -61,7 +60,7 @@ public class NoteData extends ContentBase {
             }
         }, 50);
         if (hasAttachedImage()) {
-            displayAttachedImages(holder.getImagesContainer());
+            //displayAttachedImages(holder.getImagesContainer());
         }
         displayAudioRecord(holder.getVoiceImageView());
         displayDivider(holder.getAttributesDivider());
@@ -70,6 +69,9 @@ public class NoteData extends ContentBase {
     public void displayNote(TextView titleTextView, TextView descriptionTextView, LinearLayout imagesContainer) {
         displayBase(titleTextView);
         descriptionTextView.setText(description);
+        if (hasAttachedImage()) {
+            displayAttachedImages(imagesContainer);
+        }
     }
 
     private void displayDivider(View attributesDividerView) {
@@ -82,8 +84,6 @@ public class NoteData extends ContentBase {
         Context context = imagesContainer.getContext();
         for (String photoPath : attachedImagesPaths) {
             //TODO: implement proper display
-            /*
-            MyDebugger.log("displaying picture");
             //create image view
             ImageView imageView = new ImageView(context);
             ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -96,7 +96,6 @@ public class NoteData extends ContentBase {
 
             //display image
             PhotoUtils.loadPhoto(context, photoPath, imageView);
-            */
         }
     }
 
@@ -115,7 +114,7 @@ public class NoteData extends ContentBase {
     }
 
     public boolean hasAttachedAudio() {
-        return audioUri != null;
+        return attachedAudioPaths != null && attachedAudioPaths.size() > 0;
     }
 
     public ArrayList<String> getAttachedImagesPaths() {
@@ -126,12 +125,12 @@ public class NoteData extends ContentBase {
         this.attachedImagesPaths = attachedImagesPaths;
     }
 
-    public Uri getAudioUri() {
-        return audioUri;
+    public ArrayList<String> getAttachedAudioPaths() {
+        return attachedAudioPaths;
     }
 
-    public void setAudioUri(Uri audioUri) {
-        this.audioUri = audioUri;
+    public void setAttachedAudioPaths(ArrayList<String> attachedAudioPaths) {
+        this.attachedAudioPaths = attachedAudioPaths;
     }
 
     public String getDescription() {

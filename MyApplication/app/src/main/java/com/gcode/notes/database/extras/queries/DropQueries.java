@@ -9,8 +9,4 @@ public class DropQueries {
             "DROP TABLE IF EXISTS " + NotesContract.NoteEntry.TABLE_NAME;
     public static final String SQL_DELETE_TABLE_LISTS =
             "DROP TABLE IF EXISTS " + NotesContract.ListEntry.TABLE_NAME;
-    public static final String SQL_DELETE_TABLE_PICTURES =
-            "DROP TABLE IF EXISTS " + NotesContract.PictureEntry.TABLE_NAME;
-    public static final String SQL_DELETE_TABLE_SOUNDS =
-            "DROP TABLE IF EXISTS " + NotesContract.SoundEntry.TABLE_NAME;
 }
