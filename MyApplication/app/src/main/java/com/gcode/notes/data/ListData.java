@@ -53,6 +53,7 @@ public class ListData extends ContentBase {
         containerLayout.removeAllViews();
 
         //add list items to container
+        if (list == null) return; //abort and prevent null pointer exception
         LayoutInflater inflater = LayoutInflater.from(activity);
         for (int i = 0; i < list.size(); ++i) {
             if (i < Constants.MAX_LIST_ITEMS_TO_DISPLAY) {

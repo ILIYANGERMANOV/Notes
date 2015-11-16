@@ -26,19 +26,19 @@ public class UpdateHelper {
         contentValues.put(ContentEntry.COLUMN_NAME_MODE, newMode);
         String expirationDate = hasExpirationDate ? DateUtils.getExpirationDate() : Constants.NO_DATE;
         contentValues.put(ContentEntry.COLUMN_NAME_EXPIRATION_DATE, expirationDate);
-        return database.update(ContentEntry.TABLE_NAME, contentValues, SelectQueries.whereClauseContentId, getContentBaseId(contentBase));
+        return database.update(ContentEntry.TABLE_NAME, contentValues, SelectQueries.whereClauseContentId, getContentBaseIdStringArray(contentBase));
     }
 
     public static int updateNoteMode(SQLiteDatabase database, ContentBase contentBase, int newMode) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(ContentEntry.COLUMN_NAME_MODE, newMode);
-        return database.update(ContentEntry.TABLE_NAME, contentValues, SelectQueries.whereClauseContentId, getContentBaseId(contentBase));
+        return database.update(ContentEntry.TABLE_NAME, contentValues, SelectQueries.whereClauseContentId, getContentBaseIdStringArray(contentBase));
     }
 
     public static int updateNoteOrderId(SQLiteDatabase mDatabase, ContentBase contentBase, int newId) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(ContentEntry.COLUMN_NAME_ORDER_ID, newId);
-        return mDatabase.update(ContentEntry.TABLE_NAME, contentValues, SelectQueries.whereClauseContentId, getContentBaseId(contentBase));
+        return mDatabase.update(ContentEntry.TABLE_NAME, contentValues, SelectQueries.whereClauseContentId, getContentBaseIdStringArray(contentBase));
     }
 
     public static int updateNote(SQLiteDatabase database, ContentBase contentBase) {
@@ -67,8 +67,10 @@ public class UpdateHelper {
         contentValues.put(ContentEntry.COLUMN_NAME_LAST_MODIFIED_DATE, contentBase.getLastModifiedDate());
         contentValues.put(ContentEntry.COLUMN_NAME_REMINDER, contentBase.getReminder());
         if (contentBase.getTargetId() == Constants.ERROR) {
+            MyDebugger.log("6nur");
+            //targetId isn't set so, there is now row for attributes; insert it now
             if (contentBase.getType() == Constants.TYPE_NOTE) {
-                InsertHelper.insertAttributesInNotes(database, contentBase);
+                InsertHelper.insertAttributesInNotes(database, contentBase, contentBase.getId());
             } else {
                 InsertHelper.insertAttributesInLists(database, contentBase);
             }
@@ -82,7 +84,7 @@ public class UpdateHelper {
         }
 
         return database.update(ContentEntry.TABLE_NAME, contentValues,
-                SelectQueries.whereClauseContentId, getContentBaseId(contentBase));
+                SelectQueries.whereClauseContentId, getContentBaseIdStringArray(contentBase));
     }
 
     private static int updateNoteAttributes(SQLiteDatabase database, NoteData noteData) {
@@ -103,16 +105,18 @@ public class UpdateHelper {
 
     private static void updateNoteAttachedPicture(SQLiteDatabase database, NoteData noteData) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(PictureEntry.COLUMN_NAME_PATH, noteData.getAttachedImagesString().toString());
+        MyDebugger.log("picture updated");
+        contentValues.put(PictureEntry.COLUMN_NAME_PATHS_LIST, Serializer.serializeAttachedImagesList(noteData.getAttachedImagesPaths()));
         String whereClause = PictureEntry.COLUMN_NAME_NOTE_ID + SelectQueries.EQUALS_TO;
-        database.update(PictureEntry.TABLE_NAME, contentValues, whereClause, getContentBaseId(noteData));
+        database.update(PictureEntry.TABLE_NAME, contentValues, whereClause, getContentBaseIdStringArray(noteData));
     }
 
     private static void updateNoteAttachedAudio(SQLiteDatabase database, NoteData noteData) {
         ContentValues contentValues = new ContentValues();
+        //TODO: update audio
         contentValues.put(SoundEntry.COLUMN_NAME_PATH, noteData.getAudioUri().toString());
         String whereClause = SoundEntry.COLUMN_NAME_NOTE_ID + SelectQueries.EQUALS_TO;
-        database.update(SoundEntry.TABLE_NAME, contentValues, whereClause, getContentBaseId(noteData));
+        database.update(SoundEntry.TABLE_NAME, contentValues, whereClause, getContentBaseIdStringArray(noteData));
     }
 
     public static int updateListAttributes(SQLiteDatabase database, ListData listData) {
@@ -123,7 +127,7 @@ public class UpdateHelper {
                 SelectQueries.whereClauseListId, getContentBaseTargetId(listData));
     }
 
-    private static String[] getContentBaseId(ContentBase contentBase) {
+    private static String[] getContentBaseIdStringArray(ContentBase contentBase) {
         return new String[]{
                 Integer.toString(contentBase.getId())
         };

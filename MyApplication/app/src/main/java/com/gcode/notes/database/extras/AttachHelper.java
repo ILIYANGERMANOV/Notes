@@ -19,10 +19,11 @@ import com.gcode.notes.serialization.Serializer;
 import java.util.ArrayList;
 
 public class AttachHelper {
-    public static void attachNoteDataAttributes(SQLiteDatabase mDatabase, Cursor cursor, NoteData noteData) {
+    public static void attachNoteDataAttributes(SQLiteDatabase mDatabase, NoteData noteData) {
+        MyDebugger.log("attaching note attributes");
         Cursor notesCursor = mDatabase.rawQuery(SelectQueries.SELECT_ALL_FROM_NOTES_FOR_ID,
                 new String[]{
-                        Integer.toString(cursor.getInt(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_TARGET_ID)))
+                        Integer.toString(noteData.getTargetId())
                 }
         );
 
@@ -30,12 +31,10 @@ public class AttachHelper {
             String description = notesCursor.getString(notesCursor.getColumnIndex(NoteEntry.COLUMN_NAME_DESCRIPTION));
             noteData.setDescription(description);
             if (noteHasAttachedPicture(notesCursor)) {
-                //TODO: get picture path
-                attachPictureToNote(mDatabase, cursor, noteData);
+                attachPictureToNote(mDatabase, noteData);
             }
             if (noteHasAttachedSound(notesCursor)) {
-                //TODO: get audio path
-                attachSoundToNote(mDatabase, cursor, noteData);
+                attachSoundToNote(mDatabase, noteData);
             }
         } else {
             MyDebugger.log("notesCursor.moveToFirst() with title", noteData.getTitle());
@@ -71,10 +70,11 @@ public class AttachHelper {
         return notesCursor.getInt(notesCursor.getColumnIndex(NoteEntry.COLUMN_NAME_HAS_SOUND)) != 0;
     }
 
-    private static void attachSoundToNote(SQLiteDatabase mDatabase, Cursor cursor, NoteData noteData) {
+    private static void attachSoundToNote(SQLiteDatabase mDatabase, NoteData noteData) {
+        //TODO: get audio path
         Cursor soundCursor = mDatabase.rawQuery(SelectQueries.SELECT_PATH_FROM_SOUNDS_FOR_NOTE_ID,
                 new String[]{
-                        Integer.toString(cursor.getInt(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_TARGET_ID)))
+                        Integer.toString(noteData.getId())
                 }
         );
 
@@ -88,18 +88,21 @@ public class AttachHelper {
         soundCursor.close();
     }
 
-    private static void attachPictureToNote(SQLiteDatabase mDatabase, Cursor cursor, NoteData noteData) {
+    private static void attachPictureToNote(SQLiteDatabase mDatabase, NoteData noteData) {
+        MyDebugger.log("attach note picture ID", noteData.getId());
         Cursor pictureCursor = mDatabase.rawQuery(SelectQueries.SELECT_PATH_FROM_PICTURES_FOR_NOTE_ID,
                 new String[]{
-                        Integer.toString(cursor.getInt(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_TARGET_ID)))
+                        Integer.toString(noteData.getId())
                 }
         );
 
         if (pictureCursor.moveToFirst()) {
-            noteData.setAttachedImagesString(
-                    pictureCursor.getString(pictureCursor.getColumnIndex(PictureEntry.COLUMN_NAME_PATH))
-            );
+            String serializedPathsList = pictureCursor.getString(pictureCursor.getColumnIndex(PictureEntry.COLUMN_NAME_PATHS_LIST));
+            ArrayList<String> attachedImagesPaths = Serializer.parseAttachedImagesList(serializedPathsList);
+            noteData.setAttachedImagesPaths(attachedImagesPaths);
             MyDebugger.log("picture set");
+        } else {
+            MyDebugger.log("pictureCursor is empty");
         }
         pictureCursor.close();
     }

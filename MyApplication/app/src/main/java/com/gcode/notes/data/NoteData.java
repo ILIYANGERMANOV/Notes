@@ -1,21 +1,27 @@
 package com.gcode.notes.data;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gcode.notes.adapters.viewholders.main.NoteItemViewHolder;
 import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.utils.PhotoUtils;
+import com.gcode.notes.extras.utils.Utils;
 import com.gcode.notes.extras.values.Constants;
 
+import java.util.ArrayList;
+
 public class NoteData extends ContentBase {
+    //TODO: REFACTOR AND OPTIMIZE
     String description;
-    String attachedImagesString;
+    ArrayList<String> attachedImagesPaths;
     Uri audioUri;
 
     public NoteData(int id, int orderId, int targetId, String title, int mode, boolean hasAttributes,
@@ -25,11 +31,11 @@ public class NoteData extends ContentBase {
     }
 
     public NoteData(String title, int mode, boolean hasAttributes, String description,
-                    @Nullable String attachedImagesString, @Nullable Uri audioUri, @NonNull String reminderString) {
+                    ArrayList<String> attachedImagesPaths, @Nullable Uri audioUri, String reminderString) {
 
         super(title, mode, reminderString);
         this.description = description;
-        this.attachedImagesString = attachedImagesString;
+        this.attachedImagesPaths = attachedImagesPaths;
         this.audioUri = audioUri;
         type = Constants.TYPE_NOTE;
         this.hasAttributes = hasAttributes;
@@ -54,7 +60,9 @@ public class NoteData extends ContentBase {
                 }
             }
         }, 50);
-        displayAttachedImages(holder.getImagesContainer());
+        if (hasAttachedImage()) {
+            displayAttachedImages(holder.getImagesContainer());
+        }
         displayAudioRecord(holder.getVoiceImageView());
         displayDivider(holder.getAttributesDivider());
     }
@@ -62,7 +70,6 @@ public class NoteData extends ContentBase {
     public void displayNote(TextView titleTextView, TextView descriptionTextView, LinearLayout imagesContainer) {
         displayBase(titleTextView);
         descriptionTextView.setText(description);
-        displayAttachedImages(imagesContainer);
     }
 
     private void displayDivider(View attributesDividerView) {
@@ -72,7 +79,25 @@ public class NoteData extends ContentBase {
     }
 
     public void displayAttachedImages(LinearLayout imagesContainer) {
-        //TODO: implement (PHOTO)
+        Context context = imagesContainer.getContext();
+        for (String photoPath : attachedImagesPaths) {
+            //TODO: implement proper display
+            /*
+            MyDebugger.log("displaying picture");
+            //create image view
+            ImageView imageView = new ImageView(context);
+            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    Utils.convertDpInPixels(150));
+
+            imageView.setLayoutParams(lp);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
+            imagesContainer.addView(imageView);
+
+            //display image
+            PhotoUtils.loadPhoto(context, photoPath, imageView);
+            */
+        }
     }
 
     public void displayAudioRecord(ImageView voiceImageView) {
@@ -85,19 +110,20 @@ public class NoteData extends ContentBase {
 
 
     public boolean hasAttachedImage() {
-        return attachedImagesString != null;
+        //null check in order not to drop old database
+        return attachedImagesPaths != null && attachedImagesPaths.size() > 0;
     }
 
     public boolean hasAttachedAudio() {
         return audioUri != null;
     }
 
-    public String getAttachedImagesString() {
-        return attachedImagesString;
+    public ArrayList<String> getAttachedImagesPaths() {
+        return attachedImagesPaths;
     }
 
-    public void setAttachedImagesString(String attachedImagesString) {
-        this.attachedImagesString = attachedImagesString;
+    public void setAttachedImagesPaths(ArrayList<String> attachedImagesPaths) {
+        this.attachedImagesPaths = attachedImagesPaths;
     }
 
     public Uri getAudioUri() {

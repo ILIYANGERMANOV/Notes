@@ -62,6 +62,7 @@ public class Constants {
     public static final String EXTRA_NOTE_MODE_CHANGED = "note_mode_changed_extra";
     public static final String EXTRA_CONTENT_DETAILS = "content_details_extra";
     public static final String EXTRA_EDIT_NOTE_ID = "edit_note_id_extra";
+    public static final String EXTRA_EDIT_NOTE_TARGET_ID = "edit_note_target_id_extra";
     public static final String EXTRA_IS_DONE_HIDDEN = "is_done_hidden_extra";
 
     public static final int MAX_LIST_ITEMS_TO_DISPLAY = 5;

@@ -26,7 +26,7 @@ public class SelectQueries {
                     NoteEntry._ID + EQUALS_TO;
 
     public static final String SELECT_PATH_FROM_PICTURES_FOR_NOTE_ID =
-            "SELECT " + PictureEntry.COLUMN_NAME_PATH + " FROM " + PictureEntry.TABLE_NAME +
+            "SELECT " + PictureEntry.COLUMN_NAME_PATHS_LIST + " FROM " + PictureEntry.TABLE_NAME +
                     WHERE + PictureEntry.COLUMN_NAME_NOTE_ID + EQUALS_TO;
 
     public static final String SELECT_PATH_FROM_SOUNDS_FOR_NOTE_ID =

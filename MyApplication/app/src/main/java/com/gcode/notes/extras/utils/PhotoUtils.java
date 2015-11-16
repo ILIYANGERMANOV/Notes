@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
+import com.gcode.notes.R;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.squareup.picasso.Picasso;
@@ -60,12 +60,12 @@ public class PhotoUtils {
         activity.startActivity(intent);
     }
 
-    public static void addPhotoToContainer(Context context, LinearLayout imagesContainer, Uri photoUri) {
-        //TODO: scale down picture in order to not skip frames
-        ImageView imageView = new ImageView(context);
-        imageView.setMaxHeight(Utils.convertDpInPixels(300));
-        imageView.setAdjustViewBounds(true);
-        imagesContainer.addView(imageView);
-        Picasso.with(context).load(photoUri).into(imageView);
+    public static void loadPhoto(Context context, String photoPath, ImageView imageView) {
+        Picasso.with(context).
+                load(photoPath)
+                .placeholder(R.drawable.ic_loop_black_48dp)
+                .error(R.drawable.ic_error_black_48dp)
+                .fit().centerCrop()
+                .into(imageView);
     }
 }

@@ -11,7 +11,7 @@ import com.gcode.notes.database.extras.queries.SelectQueries;
 public class Selector {
     public static int getFirstOrNextIdFromContent(SQLiteDatabase mDatabase) {
         int lastRowId = getLastRowFromTable(mDatabase, ContentEntry.TABLE_NAME);
-        return lastRowId != 0 ? lastRowId + 1 : 0;
+        return lastRowId + 1;
     }
 
     public static int getLastRowFromTable(SQLiteDatabase mDatabase, String tableName) {

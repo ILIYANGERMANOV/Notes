@@ -59,13 +59,13 @@ public class Builder {
     }
 
 
-    private static ContentBase buildNoteData(SQLiteDatabase mDatabase, Cursor cursor) {
-        NoteData noteData = Extractor.extractNoteDataFromContent(cursor);
+    private static ContentBase buildNoteData(SQLiteDatabase mDatabase, Cursor contentCursor) {
+        NoteData noteData = Extractor.extractNoteDataFromContent(contentCursor);
 
         noteData.setType(Constants.TYPE_NOTE);
 
         if (noteData.hasAttributes()) {
-            AttachHelper.attachNoteDataAttributes(mDatabase, cursor, noteData);
+            AttachHelper.attachNoteDataAttributes(mDatabase, noteData);
         }
         return noteData;
     }

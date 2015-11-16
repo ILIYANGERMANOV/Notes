@@ -12,7 +12,6 @@ import com.gcode.notes.R;
 import com.gcode.notes.extras.utils.PhotoUtils;
 import com.gcode.notes.ui.ActionExecutor;
 import com.linearlistview.LinearListView;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -57,12 +56,7 @@ public class ComposeNoteAdapter extends ArrayAdapter<String> {
             holder = (NoteImageItemHolder) convertView.getTag();
         }
         //bind view
-        Picasso.with(mActivity).
-                load(photoPath)
-                .placeholder(R.drawable.ic_loop_black_48dp)
-                .error(R.drawable.ic_error_black_48dp)
-                .fit().centerCrop()
-                .into(holder.imageView);
+        PhotoUtils.loadPhoto(mActivity, photoPath, holder.imageView);
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override

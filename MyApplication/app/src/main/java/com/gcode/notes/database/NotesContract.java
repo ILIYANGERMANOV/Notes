@@ -32,7 +32,7 @@ public final class NotesContract {
 
     public static abstract class PictureEntry implements BaseColumns {
         public static final String TABLE_NAME = "pictures";
-        public static final String COLUMN_NAME_PATH = "picture_path";
+        public static final String COLUMN_NAME_PATHS_LIST = "picture_path";
         public static final String COLUMN_NAME_NOTE_ID = "note_id";
     }
 

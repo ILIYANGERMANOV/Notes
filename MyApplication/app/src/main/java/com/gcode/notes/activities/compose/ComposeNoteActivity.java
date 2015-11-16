@@ -55,18 +55,17 @@ public class ComposeNoteActivity extends AppCompatActivity {
 
     boolean mIsOpenedInEditMode;
     int mEditNoteId;
+    int mEditNoteTargetId;
 
     boolean mIsStarred;
     boolean mNoteModeChanged;
     ContentDetails mContentDetails;
 
-    ComposeNoteAdapter mAdapter;
+    ComposeNoteAdapter mImagesAdapter;
 
     public ComposeNoteAdapter getAdapter() {
-        return mAdapter;
+        return mImagesAdapter;
     }
-
-    ArrayList<String> mAttachedImagesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,16 +98,15 @@ public class ComposeNoteActivity extends AppCompatActivity {
     }
 
     private void setupFromPhoto(String photoUriString) {
-        mAdapter.add(photoUriString);
+        mImagesAdapter.add(photoUriString);
     }
 
     private void setupLayout() {
         mTitleEditText.setHorizontallyScrolling(false);
         mTitleEditText.setMaxLines(3);
 
-        mAttachedImagesList = new ArrayList<>();
-        mAdapter = new ComposeNoteAdapter(this, mAttachedImagesList, mLinearListView);
-        mLinearListView.setAdapter(mAdapter);
+        mImagesAdapter = new ComposeNoteAdapter(this, new ArrayList<String>(), mLinearListView);
+        mLinearListView.setAdapter(mImagesAdapter);
         mLinearListView.setVisibility(View.GONE);
     }
 
@@ -132,6 +130,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
         NoteData noteData = Serializer.parseNoteData(serializedNoteData);
         if (noteData != null) {
             mEditNoteId = noteData.getId();
+            mEditNoteTargetId = noteData.getTargetId();
             mTitleEditText.setText(noteData.getTitle());
             if (noteData.isImportant()) {
                 setStarredState();
@@ -140,7 +139,11 @@ public class ComposeNoteActivity extends AppCompatActivity {
                 mReminderTextView.setText(noteData.getReminder());
             }
             mContentDetails = noteData.getContentDetails();
-            //TODO: set picture and audio
+            //TODO: set audio
+            if (noteData.hasAttachedImage()) {
+                //adapter's list is still empty, no need to clear
+                mImagesAdapter.addAll(noteData.getAttachedImagesPaths());
+            }
             mDescriptionEditText.setText(noteData.getDescription());
         }
     }
@@ -150,17 +153,18 @@ public class ComposeNoteActivity extends AppCompatActivity {
         mIsOpenedInEditMode = savedInstanceState.getBoolean(Constants.EXTRA_IS_OPENED_IN_EDIT_MODE);
         if (mIsOpenedInEditMode) {
             mEditNoteId = savedInstanceState.getInt(Constants.EXTRA_EDIT_NOTE_ID);
+            mEditNoteTargetId = savedInstanceState.getInt(Constants.EXTRA_EDIT_NOTE_TARGET_ID);
         }
         if (savedInstanceState.getBoolean(Constants.EXTRA_IS_STARRED)) {
             setStarredState();
         }
         mNoteModeChanged = savedInstanceState.getBoolean(Constants.EXTRA_NOTE_MODE_CHANGED);
         mContentDetails = Serializer.parseContentDetails(savedInstanceState.getString(Constants.EXTRA_CONTENT_DETAILS));
-        mAttachedImagesList = Serializer.parseAttachedImagesList(
+        ArrayList<String> attachedImagesList = Serializer.parseAttachedImagesList(
                 savedInstanceState.getString(Constants.EXTRA_ATTACHED_IMAGES_LIST));
-        if (mAttachedImagesList != null) {
-            mAdapter.clear();
-            mAdapter.addAll(mAttachedImagesList);
+        if (attachedImagesList != null) {
+            //adapter's list is still empty, no need to clear
+            mImagesAdapter.addAll(attachedImagesList);
         }
     }
 
@@ -171,11 +175,12 @@ public class ComposeNoteActivity extends AppCompatActivity {
         outState.putBoolean(Constants.EXTRA_IS_OPENED_IN_EDIT_MODE, mIsOpenedInEditMode);
         if (mIsOpenedInEditMode) {
             outState.putInt(Constants.EXTRA_EDIT_NOTE_ID, mEditNoteId);
+            outState.putInt(Constants.EXTRA_EDIT_NOTE_TARGET_ID, mEditNoteTargetId);
         }
         outState.putBoolean(Constants.EXTRA_IS_STARRED, mIsStarred);
         outState.putBoolean(Constants.EXTRA_NOTE_MODE_CHANGED, mNoteModeChanged);
         outState.putString(Constants.EXTRA_CONTENT_DETAILS, Serializer.serializeContentDetails(mContentDetails));
-        outState.putString(Constants.EXTRA_ATTACHED_IMAGES_LIST, Serializer.serializeAttachedImagesList(mAdapter.getData()));
+        outState.putString(Constants.EXTRA_ATTACHED_IMAGES_LIST, Serializer.serializeAttachedImagesList(mImagesAdapter.getData()));
     }
 
     @OnClick(R.id.compose_star_image_button)
@@ -203,7 +208,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
 
         String title = mTitleEditText.getText().toString();
         String description = mDescriptionEditText.getText().toString();
-        if (isValidNote(title, description)) {
+        if (isValidNote(title, description, mImagesAdapter.getData())) {
             int mode = mIsStarred ? Constants.MODE_IMPORTANT : Constants.MODE_NORMAL;
             String reminderString = mReminderTextView.getText().toString();
             if (reminderString.equals(getResources().getString(R.string.compose_note_set_reminder_text))) {
@@ -213,7 +218,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
 
             NoteData noteData = new NoteData(title, mode,
                     hasAttributes(description),
-                    description, null, null, reminderString);
+                    description, mImagesAdapter.getData(), null, reminderString);
 
             if (!mIsOpenedInEditMode) {
                 //new note
@@ -226,6 +231,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
             } else {
                 //update existing note
                 noteData.setId(mEditNoteId);
+                noteData.setTargetId(mEditNoteTargetId);
                 if (mContentDetails != null) {
                     mContentDetails.setLastModifiedDate(DateUtils.getCurrentTimeSQLiteFormatted());
                     noteData.setContentDetails(mContentDetails);
@@ -247,12 +253,12 @@ public class ComposeNoteActivity extends AppCompatActivity {
     }
 
     private boolean hasAttributes(String description) {
-        return description.trim().length() > 0;
+        return description.trim().length() > 0 || mImagesAdapter.getData().size() > 0;
     }
 
-    private boolean isValidNote(String title, String description) {
+    private boolean isValidNote(String title, String description, ArrayList<String> attachedImagesList) {
         //TODO: add sound in the validation
-        return title.trim().length() > 0 || description.trim().length() > 0 || mAttachedImagesList.size() > 0;
+        return title.trim().length() > 0 || description.trim().length() > 0 || attachedImagesList.size() > 0;
     }
 
     @Override

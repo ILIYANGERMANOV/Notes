@@ -45,7 +45,7 @@ public class CreateQueries {
     public static final String SQL_CREATE_TABLE_PICTURES =
             "CREATE TABLE " + PictureEntry.TABLE_NAME + " (" +
                     PictureEntry._ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP +
-                    PictureEntry.COLUMN_NAME_PATH + TEXT_TYPE + COMMA_SEP +
+                    PictureEntry.COLUMN_NAME_PATHS_LIST + TEXT_TYPE + COMMA_SEP +
                     PictureEntry.COLUMN_NAME_NOTE_ID + INT_TYPE +
                     " )";
     public static final String SQL_CREATE_TABLE_SOUNDS =

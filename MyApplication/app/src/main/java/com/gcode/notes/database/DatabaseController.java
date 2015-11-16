@@ -18,6 +18,7 @@ import com.gcode.notes.extras.values.Constants;
 import java.util.ArrayList;
 
 public class DatabaseController {
+    //TODO: fix possible bugs (inserting attributes to empty notes/lists)
     private SQLiteDatabase mDatabase;
 
     public DatabaseController(Context context) {

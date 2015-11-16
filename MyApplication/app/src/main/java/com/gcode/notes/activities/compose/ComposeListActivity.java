@@ -70,6 +70,7 @@ public class ComposeListActivity extends AppCompatActivity {
 
     boolean mIsOpenedInEditMode;
     int mEditNoteId;
+    int mEditNoteTargetId;
 
     boolean mIsStarred;
     boolean mNoteModeChanged;
@@ -128,6 +129,7 @@ public class ComposeListActivity extends AppCompatActivity {
         ListData listData = Serializer.parseListData(extras.getString(Constants.EXTRA_LIST_DATA));
         if (listData != null) {
             mEditNoteId = listData.getId();
+            mEditNoteTargetId = listData.getTargetId();
             mTitleEditText.setText(listData.getTitle());
             if (listData.isImportant()) {
                 setStarredState();
@@ -183,6 +185,7 @@ public class ComposeListActivity extends AppCompatActivity {
         mIsOpenedInEditMode = savedInstanceState.getBoolean(Constants.EXTRA_IS_OPENED_IN_EDIT_MODE);
         if (mIsOpenedInEditMode) {
             mEditNoteId = savedInstanceState.getInt(Constants.EXTRA_EDIT_NOTE_ID);
+            mEditNoteTargetId = savedInstanceState.getInt(Constants.EXTRA_EDIT_NOTE_TARGET_ID);
         }
         if (savedInstanceState.getBoolean(Constants.EXTRA_IS_STARRED)) {
             setStarredState();
@@ -223,6 +226,7 @@ public class ComposeListActivity extends AppCompatActivity {
         outState.putBoolean(Constants.EXTRA_IS_OPENED_IN_EDIT_MODE, mIsOpenedInEditMode);
         if (mIsOpenedInEditMode) {
             outState.putInt(Constants.EXTRA_EDIT_NOTE_ID, mEditNoteId);
+            outState.putInt(Constants.EXTRA_EDIT_NOTE_TARGET_ID, mEditNoteTargetId);
         }
         outState.putBoolean(Constants.EXTRA_IS_STARRED, mIsStarred);
         outState.putBoolean(Constants.EXTRA_NOTE_MODE_CHANGED, mNoteModeChanged);
@@ -335,6 +339,7 @@ public class ComposeListActivity extends AppCompatActivity {
             } else {
                 //update existing list
                 listData.setId(mEditNoteId);
+                listData.setTargetId(mEditNoteTargetId);
                 if (mContentDetails != null) {
                     mContentDetails.setLastModifiedDate(DateUtils.getCurrentTimeSQLiteFormatted());
                     listData.setContentDetails(mContentDetails);
@@ -349,6 +354,8 @@ public class ComposeListActivity extends AppCompatActivity {
                     MyDebugger.log("Failed to update list.");
                 }
             }
+        } else {
+            MyDebugger.toast(this, "Cannot save empty list.");
         }
         setResult(Activity.RESULT_OK, resultIntent);
     }

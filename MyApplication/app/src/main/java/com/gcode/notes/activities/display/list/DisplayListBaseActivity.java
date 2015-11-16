@@ -187,11 +187,14 @@ public class DisplayListBaseActivity extends AppCompatActivity {
     }
 
     private void fillListDataItemLists() {
-        for (ListDataItem listDataItem : mListData.getList()) {
-            if (!listDataItem.isChecked()) {
-                mListDataItems.add(listDataItem);
-            } else {
-                mTickedListDataItems.add(listDataItem);
+        //TODO: optimize empty lists (null pointer exception) handling (should be done in Compose/DATABASE)
+        if (mListData.getList() != null) {
+            for (ListDataItem listDataItem : mListData.getList()) {
+                if (!listDataItem.isChecked()) {
+                    mListDataItems.add(listDataItem);
+                } else {
+                    mTickedListDataItems.add(listDataItem);
+                }
             }
         }
 
@@ -221,6 +224,10 @@ public class DisplayListBaseActivity extends AppCompatActivity {
 
     protected void setResult() {
         //collect data from activity current state
+        if (mListData.getList() == null) {
+            //list is null, create it now to prevent further problems
+            mListData.setList(new ArrayList<ListDataItem>());
+        }
         mListData.getList().clear();
         mListData.getList().addAll(mListDataItems);
         mListData.getList().addAll(mTickedListDataItems);

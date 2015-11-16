@@ -3,6 +3,7 @@ package com.gcode.notes.database.extras;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.data.ListData;
@@ -17,12 +18,14 @@ import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 
+import java.util.ArrayList;
+
 public class InsertHelper {
 
     public static long insertNote(SQLiteDatabase mDatabase, ContentBase contentBase) {
         if (contentBase.hasAttributes()) {
             if (contentBase.getType() == Constants.TYPE_NOTE) {
-                insertAttributesInNotes(mDatabase, contentBase);
+                insertAttributesInNotes(mDatabase, contentBase, null);
             } else {
                 insertAttributesInLists(mDatabase, contentBase);
             }
@@ -39,6 +42,9 @@ public class InsertHelper {
             // which is already inserted successfully for the current item
             String tableName = contentBase.getType() == Constants.TYPE_NOTE ? NoteEntry.TABLE_NAME : ListEntry.TABLE_NAME;
             contentValues.put(ContentEntry.COLUMN_NAME_TARGET_ID, Selector.getLastRowFromTable(mDatabase, tableName));
+        } else {
+            //note hasn't attributes, set TARGET_ID to ERROR (ERROR correspond to no target id)
+            contentValues.put(ContentEntry.COLUMN_NAME_TARGET_ID, Constants.ERROR);
         }
 
         contentValues.put(ContentEntry.COLUMN_NAME_ORDER_ID, Selector.getFirstOrNextIdFromContent(mDatabase));
@@ -57,6 +63,7 @@ public class InsertHelper {
     }
 
     public static void insertAttributesInLists(SQLiteDatabase mDatabase, ContentBase contentBase) {
+        MyDebugger.log("Inserting list attributes");
         ListData listData = (ListData) contentBase;
         ContentValues contentValues = new ContentValues();
 
@@ -68,7 +75,8 @@ public class InsertHelper {
         }
     }
 
-    public static void insertAttributesInNotes(SQLiteDatabase mDatabase, ContentBase contentBase) {
+    public static void insertAttributesInNotes(SQLiteDatabase mDatabase, ContentBase contentBase, @Nullable Integer noteId) {
+        MyDebugger.log("Inserting notes attributes with", noteId != null);
         NoteData noteData = (NoteData) contentBase;
         ContentValues contentValues = new ContentValues();
 
@@ -78,7 +86,7 @@ public class InsertHelper {
 
         if (mDatabase.insert(NoteEntry.TABLE_NAME, null, contentValues) != Constants.DATABASE_ERROR) {
             if (noteData.hasAttachedImage()) {
-                insertPicture(mDatabase, noteData.getAttachedImagesString());
+                insertPicture(mDatabase, noteData.getAttachedImagesPaths(), noteId);
             }
             if (noteData.hasAttachedAudio()) {
                 insertAudio(mDatabase, noteData.getAudioUri());
@@ -89,12 +97,12 @@ public class InsertHelper {
         }
     }
 
-    private static void insertPicture(SQLiteDatabase mDatabase, String imageString) {
-        //TODO: insert picture
+    private static void insertPicture(SQLiteDatabase mDatabase, ArrayList<String> attachedImagesPaths,
+                                      @Nullable Integer noteId) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(PictureEntry.COLUMN_NAME_PATH, imageString);
+        contentValues.put(PictureEntry.COLUMN_NAME_PATHS_LIST, Serializer.serializeAttachedImagesList(attachedImagesPaths));
         contentValues.put(PictureEntry.COLUMN_NAME_NOTE_ID, Selector.getFirstOrNextIdFromContent(mDatabase));
-
+        MyDebugger.log("insert picture NOTE_ID", noteId == null ? Selector.getFirstOrNextIdFromContent(mDatabase) : noteId);
         mDatabase.insert(PictureEntry.TABLE_NAME, null, contentValues);
     }
 
