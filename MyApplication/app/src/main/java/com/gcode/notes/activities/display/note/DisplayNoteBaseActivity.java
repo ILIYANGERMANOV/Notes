@@ -7,20 +7,23 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.adapters.note.DisplayNoteImagesAdapter;
 import com.gcode.notes.data.NoteData;
+import com.gcode.notes.extras.utils.PhotoUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
+import com.linearlistview.LinearListView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class DisplayNoteBaseActivity extends AppCompatActivity {
+    //TODO: REFACTOR
     @Bind(R.id.display_note_toolbar)
     Toolbar mToolbar;
 
@@ -36,11 +39,14 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
     @Bind(R.id.display_note_description_text_view)
     TextView mDescriptionTextView;
 
-    @Bind(R.id.display_note_images_container)
-    LinearLayout mImagesContainer;
+    @Bind(R.id.display_note_images_Linear_list_view)
+    LinearListView mImagesLinearListView;
 
     NoteData mNoteData;
     boolean mNoteModeChanged;
+
+    //used to prevent opening the image in gallery many times on spamming
+    boolean mOpenInGalleryLaunched;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,8 +95,22 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
 
 
     protected void displayNoteData() {
-        mNoteData.displayNote(mTitleTextView, mDescriptionTextView, mImagesContainer);
+        mNoteData.displayNote(mTitleTextView, mDescriptionTextView);
         mDatesTextView.setText(mNoteData.getDateDetails());
+        if (mNoteData.hasAttachedImage()) {
+            final DisplayNoteImagesAdapter adapter = new DisplayNoteImagesAdapter(this, mNoteData.getAttachedImagesPaths());
+            mImagesLinearListView.setAdapter(adapter);
+            mImagesLinearListView.setOnItemClickListener(new LinearListView.OnItemClickListener() {
+                @Override
+                public void onItemClick(LinearListView parent, View view, int position, long id) {
+                    if (!mOpenInGalleryLaunched) {
+                        mOpenInGalleryLaunched = true;
+                        //TODO: add on click effect on image
+                        PhotoUtils.openPhotoInGallery(DisplayNoteBaseActivity.this, adapter.getItem(position));
+                    }
+                }
+            });
+        }
     }
 
     private void setupToolbar() {
@@ -115,6 +135,14 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
         resultIntent.putExtra(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(mNoteData));
         resultIntent.putExtra(Constants.EXTRA_NOTE_MODE_CHANGED, mNoteModeChanged);
         setResult(Activity.RESULT_OK, resultIntent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.OPEN_PHOTO_IN_GALLERY_REQ_CODE) {
+            mOpenInGalleryLaunched = false;
+        }
     }
 
     @Override

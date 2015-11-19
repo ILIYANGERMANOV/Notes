@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.gcode.notes.R;
 import com.gcode.notes.activities.helpers.compose.ComposeNoteResultHandler;
 import com.gcode.notes.activities.helpers.compose.ComposeToolbarHelper;
-import com.gcode.notes.adapters.note.ComposeNoteAdapter;
+import com.gcode.notes.adapters.note.ComposeNoteImagesAdapter;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.ContentDetails;
 import com.gcode.notes.data.NoteData;
@@ -61,9 +61,11 @@ public class ComposeNoteActivity extends AppCompatActivity {
     boolean mNoteModeChanged;
     ContentDetails mContentDetails;
 
-    ComposeNoteAdapter mImagesAdapter;
+    public static boolean mOpenInGalleryLaunched;
 
-    public ComposeNoteAdapter getAdapter() {
+    ComposeNoteImagesAdapter mImagesAdapter;
+
+    public ComposeNoteImagesAdapter getAdapter() {
         return mImagesAdapter;
     }
 
@@ -105,7 +107,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
         mTitleEditText.setHorizontallyScrolling(false);
         mTitleEditText.setMaxLines(3);
 
-        mImagesAdapter = new ComposeNoteAdapter(this, new ArrayList<String>(), mLinearListView);
+        mImagesAdapter = new ComposeNoteImagesAdapter(this, new ArrayList<String>(), mLinearListView);
         mLinearListView.setAdapter(mImagesAdapter);
         mLinearListView.setVisibility(View.GONE);
     }
@@ -295,5 +297,8 @@ public class ComposeNoteActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         ComposeNoteResultHandler.handleResult(this, requestCode, resultCode, data);
+        if(requestCode == Constants.OPEN_PHOTO_IN_GALLERY_REQ_CODE) {
+            mOpenInGalleryLaunched = false;
+        }
     }
 }

@@ -14,6 +14,7 @@ public class Constants {
     public static final int NOTE_FROM_DISPLAY_REQUEST_CODE = 3;
     public static final int REQUEST_TAKE_PHOTO = 4;
     public static final int REQUEST_OPEN_GALLERY = 5;
+    public static final int OPEN_PHOTO_IN_GALLERY_REQ_CODE = 6;
 
     public static final int ERROR = 7833;
 
@@ -68,6 +69,7 @@ public class Constants {
     public static final int MAX_LIST_ITEMS_TO_DISPLAY = 5;
     public static final int MAX_DESCRIPTION_LINES_TO_DISPLAY = 13;
     public static final int MAX_LIST_INPUT_ITEM_LINES = 10;
+    public static final int MAX_IMAGES_TO_DISPLAY = 2;
 
     public static final String PHOTOS_FOLDER_NAME = "Notes";
 }

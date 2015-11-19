@@ -22,7 +22,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            android:paddingEnd="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingStart="5dp"
+            android:paddingTop="5dp" />
 
         <TextView
             android:id="@+id/note_description_text_view"
@@ -30,7 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:description="@string/placeholder_long"
-            android:maxLines="13" />
+            android:maxLines="13"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/note_more_image_view"

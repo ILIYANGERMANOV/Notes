@@ -47,9 +47,9 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
     @Override
     public BaseItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == Constants.TYPE_NOTE) {
-            return new NoteItemViewHolder(mActivity, mInflater.inflate(R.layout.note_item, parent, false), mData);
+            return new NoteItemViewHolder(mActivity, mInflater.inflate(R.layout.note, parent, false), mData);
         } else {
-            return new ListItemViewHolder(mActivity, mInflater.inflate(R.layout.list_note_item, parent, false), mData);
+            return new ListItemViewHolder(mActivity, mInflater.inflate(R.layout.list, parent, false), mData);
         }
     }
 

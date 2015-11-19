@@ -12,7 +12,7 @@ public class ExploreActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.note_item);
+        setContentView(R.layout.note);
     }
 
     @Override

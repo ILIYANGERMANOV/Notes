@@ -55,6 +55,7 @@ public class ListData extends ContentBase {
         //add list items to container
         if (list == null) return; //abort and prevent null pointer exception
         LayoutInflater inflater = LayoutInflater.from(activity);
+        //TODO: display list items based both on MAX_ITEMS_TO_DISPLAY and height
         for (int i = 0; i < list.size(); ++i) {
             if (i < Constants.MAX_LIST_ITEMS_TO_DISPLAY) {
                 //display list data item

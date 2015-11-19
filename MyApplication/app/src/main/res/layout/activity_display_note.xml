@@ -47,10 +47,11 @@
 
                     <include layout="@layout/display_header_layout" />
 
-                    <LinearLayout
-                        android:id="@+id/display_note_images_container"
+                    <com.linearlistview.LinearListView
+                        android:id="@+id/display_note_images_Linear_list_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:padding="15dp"
                         android:gravity="center"
                         android:orientation="vertical" />
 

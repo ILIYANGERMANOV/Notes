@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/note_attached_image_view"
+        android:id="@+id/note_compose_item_image_view"
         android:layout_width="fill_parent"
         android:layout_height="300dp"
         android:layout_centerInParent="true"
@@ -13,13 +13,13 @@
         android:scaleType="centerCrop" />
 
     <ImageButton
-        android:id="@+id/note_delete_image_button"
+        android:id="@+id/note_compose_item_delete_image_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="-50dp"
         android:layout_marginStart="-50dp"
-        android:layout_toEndOf="@+id/note_attached_image_view"
-        android:layout_toRightOf="@+id/note_attached_image_view"
+        android:layout_toEndOf="@+id/note_compose_item_image_view"
+        android:layout_toRightOf="@+id/note_compose_item_image_view"
         android:contentDescription="@string/delete_image_button_desc"
         android:src="@drawable/ic_close_white_24dp" />
 

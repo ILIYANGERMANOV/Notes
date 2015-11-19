@@ -7,7 +7,7 @@ import android.view.View;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.adapters.list.compose.BaseComposeContainerAdapter;
-import com.gcode.notes.adapters.note.ComposeNoteAdapter;
+import com.gcode.notes.adapters.note.ComposeNoteImagesAdapter;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.listeners.list.ListItemDeletedUndoOnClickListener;
 import com.gcode.notes.listeners.main.NoteDeletedUndoOnClickListener;
@@ -59,7 +59,7 @@ public class ActionExecutor {
         DialogHelper.buildAddPictureDialog(activity);
     }
 
-    public static void removePhotoFromNote(Activity activity, ComposeNoteAdapter adapter, String item) {
+    public static void removePhotoFromNote(Activity activity, ComposeNoteImagesAdapter adapter, String item) {
         RemovePhotoCallback removePhotoCallback = new RemovePhotoCallback(adapter, item);
         DialogHelper.buildRemovePhotoFromNoteDialog(activity, removePhotoCallback);
     }

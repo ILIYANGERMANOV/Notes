@@ -43,35 +43,42 @@ public class NoteData extends ContentBase {
     public void displayNoteOnMain(final NoteItemViewHolder holder) {
         displayBase(holder.getTitleTextView(), holder.getReminderTextView());
         final TextView descriptionTextView = holder.getDescriptionTextView();
+        //set description here in order to set holder to default state
         descriptionTextView.setText(description);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                int linesCount = descriptionTextView.getLineCount();
-                if (linesCount != 0) {
-                    if (linesCount <= Constants.MAX_DESCRIPTION_LINES_TO_DISPLAY) {
-                        holder.getMoreImageView().setVisibility(View.GONE);
+        if (hasDescription()) {
+            descriptionTextView.setVisibility(View.VISIBLE);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    int linesCount = descriptionTextView.getLineCount();
+                    if (linesCount != 0) {
+                        if (linesCount <= Constants.MAX_DESCRIPTION_LINES_TO_DISPLAY) {
+                            holder.getMoreImageView().setVisibility(View.GONE);
+                        } else {
+                            holder.getMoreImageView().setVisibility(View.VISIBLE);
+                        }
                     } else {
-                        holder.getMoreImageView().setVisibility(View.VISIBLE);
+                        MyDebugger.log("displayNoteOnMain linesCount not build.");
                     }
-                } else {
-                    MyDebugger.log("displayNoteOnMain linesCount not build.");
                 }
-            }
-        }, 50);
+            }, 50);
+        }
+        //set images container to default state
+        LinearLayout imagesContainer = holder.getImagesContainer();
+        imagesContainer.removeAllViews();
         if (hasAttachedImage()) {
-            //displayAttachedImages(holder.getImagesContainer());
+            displayAttachedImages(imagesContainer);
         }
         displayAudioRecord(holder.getVoiceImageView());
         displayDivider(holder.getAttributesDivider());
     }
 
-    public void displayNote(TextView titleTextView, TextView descriptionTextView, LinearLayout imagesContainer) {
+    public void displayNote(TextView titleTextView, TextView descriptionTextView) {
         displayBase(titleTextView);
-        descriptionTextView.setText(description);
-        if (hasAttachedImage()) {
-            displayAttachedImages(imagesContainer);
+        if (hasDescription()) {
+            descriptionTextView.setVisibility(View.VISIBLE);
         }
+        descriptionTextView.setText(description);
     }
 
     private void displayDivider(View attributesDividerView) {
@@ -82,20 +89,22 @@ public class NoteData extends ContentBase {
 
     public void displayAttachedImages(LinearLayout imagesContainer) {
         Context context = imagesContainer.getContext();
-        for (String photoPath : attachedImagesPaths) {
-            //TODO: implement proper display
+        for (int i = 0; i < attachedImagesPaths.size() && i < Constants.MAX_IMAGES_TO_DISPLAY; ++i) {
+            //TODO: REFACTOR (use layout file)
             //create image view
             ImageView imageView = new ImageView(context);
-            ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     Utils.convertDpInPixels(150));
 
+            lp.topMargin = Utils.convertDpInPixels(2);
+
             imageView.setLayoutParams(lp);
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             imagesContainer.addView(imageView);
 
             //display image
-            PhotoUtils.loadPhoto(context, photoPath, imageView);
+            PhotoUtils.loadPhoto(context, attachedImagesPaths.get(i), imageView);
         }
     }
 
@@ -107,6 +116,10 @@ public class NoteData extends ContentBase {
         }
     }
 
+    public boolean hasDescription() {
+        //description can be null atm
+        return description != null && description.trim().length() > 0;
+    }
 
     public boolean hasAttachedImage() {
         //null check in order not to drop old database

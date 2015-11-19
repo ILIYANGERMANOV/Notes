@@ -57,7 +57,7 @@ public class PhotoUtils {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.parse(pathToPhoto), "image/*");
-        activity.startActivity(intent);
+        activity.startActivityForResult(intent, Constants.OPEN_PHOTO_IN_GALLERY_REQ_CODE);
     }
 
     public static void loadPhoto(Context context, String photoPath, ImageView imageView) {
