@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.gcode.notes.R;
 import com.gcode.notes.activities.helpers.compose.ComposeNoteResultHandler;
 import com.gcode.notes.activities.helpers.compose.ComposeToolbarHelper;
-import com.gcode.notes.adapters.note.ComposeNoteImagesAdapter;
+import com.gcode.notes.adapters.note.compose.ComposeNoteImagesAdapter;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.ContentDetails;
 import com.gcode.notes.data.NoteData;
@@ -41,8 +41,11 @@ public class ComposeNoteActivity extends AppCompatActivity {
     @Bind(R.id.compose_note_title_edit_text)
     EditText mTitleEditText;
 
-    @Bind(R.id.compose_note_linear_list_view)
-    LinearListView mLinearListView;
+    @Bind(R.id.compose_note_images_linear_list_view)
+    LinearListView mImagesLinearListView;
+
+    @Bind(R.id.compose_note_audio_linear_list_view)
+    LinearListView mAudioLinearListView;
 
     @Bind(R.id.compose_note_description_edit_text)
     EditText mDescriptionEditText;
@@ -65,7 +68,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
 
     ComposeNoteImagesAdapter mImagesAdapter;
 
-    public ComposeNoteImagesAdapter getAdapter() {
+    public ComposeNoteImagesAdapter getImagesAdapter() {
         return mImagesAdapter;
     }
 
@@ -81,6 +84,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
     private void setupStartState(Bundle savedInstanceState) {
         Intent intent = getIntent();
         setupLayout();
+        //TODO: consider adding EXTRA_SETUP_FROM
         if (savedInstanceState == null) {
             if (intent.getStringExtra(Constants.EXTRA_NOTE_DATA) != null) {
                 //Note opened in edit mode
@@ -88,6 +92,9 @@ public class ComposeNoteActivity extends AppCompatActivity {
                 setupFromEditMode(intent.getStringExtra(Constants.EXTRA_NOTE_DATA));
             } else if (intent.getStringExtra(Constants.EXTRA_PHOTO_URI) != null) {
                 setupFromPhoto(intent.getStringExtra(Constants.EXTRA_PHOTO_URI));
+            } else if (intent.getStringExtra(Constants.EXTRA_AUDIO_PATH) != null) {
+                setupFromAudio(intent.getStringExtra(Constants.EXTRA_AUDIO_PATH),
+                        intent.getStringExtra(Constants.EXTRA_RECOGNIZED_SPEECH_TEXT));
             } else {
                 //New note
                 mIsOpenedInEditMode = false;
@@ -99,6 +106,10 @@ public class ComposeNoteActivity extends AppCompatActivity {
         }
     }
 
+    private void setupFromAudio(String audioPath, String recognizedSpeechText) {
+        mDescriptionEditText.setText(recognizedSpeechText);
+    }
+
     private void setupFromPhoto(String photoUriString) {
         mImagesAdapter.add(photoUriString);
     }
@@ -107,9 +118,9 @@ public class ComposeNoteActivity extends AppCompatActivity {
         mTitleEditText.setHorizontallyScrolling(false);
         mTitleEditText.setMaxLines(3);
 
-        mImagesAdapter = new ComposeNoteImagesAdapter(this, new ArrayList<String>(), mLinearListView);
-        mLinearListView.setAdapter(mImagesAdapter);
-        mLinearListView.setVisibility(View.GONE);
+        mImagesAdapter = new ComposeNoteImagesAdapter(this, new ArrayList<String>(), mImagesLinearListView);
+        mImagesLinearListView.setAdapter(mImagesAdapter);
+        mImagesLinearListView.setVisibility(View.GONE);
     }
 
     private void setupFromZero() {
@@ -297,7 +308,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         ComposeNoteResultHandler.handleResult(this, requestCode, resultCode, data);
-        if(requestCode == Constants.OPEN_PHOTO_IN_GALLERY_REQ_CODE) {
+        if (requestCode == Constants.OPEN_PHOTO_IN_GALLERY_REQ_CODE) {
             mOpenInGalleryLaunched = false;
         }
     }

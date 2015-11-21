@@ -14,6 +14,7 @@ import com.gcode.notes.activities.compose.ComposeListActivity;
 import com.gcode.notes.activities.compose.ComposeNoteActivity;
 import com.gcode.notes.animations.MyAnimator;
 import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.utils.VoiceUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.extras.values.Tags;
 import com.gcode.notes.ui.helpers.DialogHelper;
@@ -133,7 +134,7 @@ public class FloatingActionButtonHelper implements View.OnClickListener {
                 mMainActivity.startActivityForResult(mIntent, Constants.COMPOSE_NOTE_REQUEST_CODE);
                 break;
             case Tags.TAG_VOICE_NOTE:
-                MyDebugger.toast(mMainActivity, "Voice note");
+                VoiceUtils.promptSpeechInput(mMainActivity);
                 break;
             case Tags.TAG_CAMERA:
                 DialogHelper.buildAddPictureDialog(mMainActivity);

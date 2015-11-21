@@ -1,4 +1,4 @@
-package com.gcode.notes.adapters.note;
+package com.gcode.notes.adapters.note.display;
 
 import android.content.Context;
 import android.view.LayoutInflater;

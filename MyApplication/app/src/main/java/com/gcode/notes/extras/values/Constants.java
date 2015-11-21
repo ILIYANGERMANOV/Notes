@@ -15,6 +15,7 @@ public class Constants {
     public static final int REQUEST_TAKE_PHOTO = 4;
     public static final int REQUEST_OPEN_GALLERY = 5;
     public static final int OPEN_PHOTO_IN_GALLERY_REQ_CODE = 6;
+    public static final int SPEECH_INPUT_REQ_CODE = 7;
 
     public static final int ERROR = 7833;
 
@@ -52,8 +53,9 @@ public class Constants {
 
     public static final String EXTRA_LIST_DATA = "list_data_extra";
     public static final String EXTRA_NOTE_DATA = "note_data_extra";
-    //TODO: add sound extra
     public static final String EXTRA_PHOTO_URI = "photo_uri_extra";
+    public static final String EXTRA_AUDIO_PATH = "audio_path_extra";
+    public static final String EXTRA_RECOGNIZED_SPEECH_TEXT = "recognized_speech_text_extra";
     public static final String EXTRA_ATTACHED_IMAGES_LIST = "attached_images_list_extra";
     public static final String EXTRA_LIST_DATA_ITEMS = "list_data_items_extra";
     public static final String EXTRA_TICKED_LIST_DATA_ITEMS = "ticked_list_data_items_extra";
@@ -71,5 +73,6 @@ public class Constants {
     public static final int MAX_LIST_INPUT_ITEM_LINES = 10;
     public static final int MAX_IMAGES_TO_DISPLAY = 2;
 
-    public static final String PHOTOS_FOLDER_NAME = "Notes";
+    public static final String NOTES_FOLDER_NAME = "Notes";
+    public static final String RECORDS_FOLDER_NAME = "Voice records";
 }

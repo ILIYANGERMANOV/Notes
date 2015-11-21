@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.speech.RecognizerIntent;
 
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.activities.compose.ComposeNoteActivity;
@@ -41,6 +42,8 @@ public class MainActivityResultHandler {
                     case Constants.REQUEST_OPEN_GALLERY:
                         handleSelectedPhotoFromGallery(activity, data);
                         break;
+                    case Constants.SPEECH_INPUT_REQ_CODE:
+                        handleSpeechInput(activity, data);
                 }
             } else {
                 //data is null, check for camera app result
@@ -53,6 +56,20 @@ public class MainActivityResultHandler {
             if (PhotoUtils.pathToPhoto != null) {
                 FileUtils.deleteFile(PhotoUtils.pathToPhoto);
             }
+        }
+    }
+
+    private static void handleSpeechInput(Activity activity, Intent data) {
+        String audioFilePath = FileUtils.createVoiceRecordFile(data.getData());
+        if (audioFilePath != null) {
+            Intent intent = new Intent(activity, ComposeNoteActivity.class);
+            intent.putExtra(Constants.EXTRA_AUDIO_PATH, audioFilePath);
+            intent.putExtra(Constants.EXTRA_RECOGNIZED_SPEECH_TEXT,
+                    data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0));
+
+            activity.startActivityForResult(intent, Constants.COMPOSE_NOTE_REQUEST_CODE);
+        } else {
+            MyDebugger.log("handleSpeechInput()", "audioFilePath is null");
         }
     }
 
@@ -73,7 +90,7 @@ public class MainActivityResultHandler {
             MyDebugger.log("handleSelectedPhotoFromGallery", "Cursor is empty!");
         }
         c.close();
-        if(photoUri != null) {
+        if (photoUri != null) {
             //selected photoUri obtained successfully, start compose note activity with it
             Intent intent = new Intent(activity, ComposeNoteActivity.class);
             intent.putExtra(Constants.EXTRA_PHOTO_URI, photoUri.toString());

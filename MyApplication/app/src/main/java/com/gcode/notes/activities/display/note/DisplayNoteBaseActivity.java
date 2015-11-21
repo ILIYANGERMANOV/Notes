@@ -12,7 +12,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.adapters.note.DisplayNoteImagesAdapter;
+import com.gcode.notes.adapters.note.display.DisplayNoteImagesAdapter;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.utils.PhotoUtils;
 import com.gcode.notes.extras.values.Constants;

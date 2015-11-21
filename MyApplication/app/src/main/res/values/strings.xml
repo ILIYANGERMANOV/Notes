@@ -60,5 +60,7 @@
     <string name="remove_photo_dialog_positive_text">Remove</string>
     <string name="remove_photo_dialog_negative_text">Cancel</string>
     <string name="action_add_image">Add image</string>
+    <string name="speech_prompt">Speak now</string>
+    <string name="speech_not_supported">Speech recognition not supported on your device.</string>
 
 </resources>

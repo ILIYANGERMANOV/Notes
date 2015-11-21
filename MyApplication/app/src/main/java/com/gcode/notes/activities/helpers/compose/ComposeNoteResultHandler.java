@@ -57,7 +57,7 @@ public class ComposeNoteResultHandler {
         c.close();
         if (photoUri != null) {
             //selected photoUri obtained successfully, add it to adapter in order to display
-            composeNoteActivity.getAdapter().add(photoUri.toString());
+            composeNoteActivity.getImagesAdapter().add(photoUri.toString());
         } else {
             MyDebugger.log("handleSelectedPhotoFromGallery", "photoUri is null");
         }
@@ -67,7 +67,7 @@ public class ComposeNoteResultHandler {
         if (PhotoUtils.pathToPhoto != null) {
             //photo is taken successfully, add to gallery and to adapter
             PhotoUtils.addPhotoToGallery(MyApplication.getAppContext(), PhotoUtils.pathToPhoto);
-            composeNoteActivity.getAdapter().add(PhotoUtils.pathToPhoto.toString());
+            composeNoteActivity.getImagesAdapter().add(PhotoUtils.pathToPhoto.toString());
         } else {
             MyDebugger.log("handleTakePhotoResult", "PhotoUtils.photoUri is null");
         }

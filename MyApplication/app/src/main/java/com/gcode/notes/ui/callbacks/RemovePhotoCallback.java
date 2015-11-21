@@ -1,7 +1,7 @@
 package com.gcode.notes.ui.callbacks;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.gcode.notes.adapters.note.ComposeNoteImagesAdapter;
+import com.gcode.notes.adapters.note.compose.ComposeNoteImagesAdapter;
 
 public class RemovePhotoCallback extends MaterialDialog.ButtonCallback {
     ComposeNoteImagesAdapter mAdapter;

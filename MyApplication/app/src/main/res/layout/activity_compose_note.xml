@@ -33,7 +33,7 @@
             <include layout="@layout/compose_header_layout" />
 
             <com.linearlistview.LinearListView
-                android:id="@+id/compose_note_linear_list_view"
+                android:id="@+id/compose_note_images_linear_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -60,6 +60,16 @@
                     android:textSize="17sp" />
 
             </android.support.design.widget.TextInputLayout>
+
+            <com.linearlistview.LinearListView
+                android:id="@+id/compose_note_audio_linear_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="13dp"
+                android:paddingEnd="13dp"
+                android:paddingStart="13dp"
+                android:visibility="gone" />
 
             <include
                 android:id="@+id/compose_note_reminder_text_view"

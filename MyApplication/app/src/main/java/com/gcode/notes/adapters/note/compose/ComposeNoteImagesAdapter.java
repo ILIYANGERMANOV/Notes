@@ -1,4 +1,4 @@
-package com.gcode.notes.adapters.note;
+package com.gcode.notes.adapters.note.compose;
 
 import android.app.Activity;
 import android.view.LayoutInflater;

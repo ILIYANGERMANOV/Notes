@@ -7,7 +7,7 @@ import android.view.View;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.adapters.list.compose.BaseComposeContainerAdapter;
-import com.gcode.notes.adapters.note.ComposeNoteImagesAdapter;
+import com.gcode.notes.adapters.note.compose.ComposeNoteImagesAdapter;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.listeners.list.ListItemDeletedUndoOnClickListener;
 import com.gcode.notes.listeners.main.NoteDeletedUndoOnClickListener;
