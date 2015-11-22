@@ -3,8 +3,6 @@ package com.gcode.notes.database.extras.queries;
 import com.gcode.notes.database.NotesContract.ContentEntry;
 import com.gcode.notes.database.NotesContract.ListEntry;
 import com.gcode.notes.database.NotesContract.NoteEntry;
-import com.gcode.notes.database.NotesContract.PictureEntry;
-import com.gcode.notes.database.NotesContract.SoundEntry;
 
 public class CreateQueries {
     private static final String TEXT_TYPE = " TEXT";
@@ -33,7 +31,7 @@ public class CreateQueries {
                     NoteEntry._ID + INT_TYPE + PRIMARY_KEY + COMMA_SEP +
                     NoteEntry.COLUMN_NAME_DESCRIPTION + TEXT_TYPE + COMMA_SEP +
                     NoteEntry.COLUMN_NAME_PHOTOS_PATHS + TEXT_TYPE + COMMA_SEP +
-                    NoteEntry.COLUMN_NAME_SOUNDS_PATHS + TEXT_TYPE +
+                    NoteEntry.COLUMN_NAME_AUDIO_PATH + TEXT_TYPE +
                     " )";
 
     public static final String SQL_CREATE_TABLE_LISTS =

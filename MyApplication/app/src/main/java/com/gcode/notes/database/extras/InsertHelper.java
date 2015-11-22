@@ -74,7 +74,7 @@ public class InsertHelper {
 
         contentValues.put(NoteEntry.COLUMN_NAME_DESCRIPTION, noteData.getDescription());
         contentValues.put(NoteEntry.COLUMN_NAME_PHOTOS_PATHS, Serializer.serializePathsList(noteData.getAttachedImagesPaths()));
-        contentValues.put(NoteEntry.COLUMN_NAME_SOUNDS_PATHS, Serializer.serializePathsList(noteData.getAttachedAudioPaths()));
+        contentValues.put(NoteEntry.COLUMN_NAME_AUDIO_PATH, noteData.getAttachedAudioPath());
 
         if (mDatabase.insert(NoteEntry.TABLE_NAME, null, contentValues) == Constants.DATABASE_ERROR) {
             //inserting note attributes failed, handle error

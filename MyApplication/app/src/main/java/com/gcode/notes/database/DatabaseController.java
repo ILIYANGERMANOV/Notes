@@ -12,7 +12,6 @@ import com.gcode.notes.database.extras.InsertHelper;
 import com.gcode.notes.database.extras.UpdateHelper;
 import com.gcode.notes.database.extras.Validator;
 import com.gcode.notes.database.extras.queries.SelectQueries;
-import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 
 import java.util.ArrayList;
@@ -131,6 +130,10 @@ public class DatabaseController {
 
     public boolean updateListAttributes(ListData listData) {
         return UpdateHelper.updateListAttributes(mDatabase, listData) > 0;
+    }
+
+    public boolean removeAttachedAudioFromNote(int targetId) {
+        return UpdateHelper.removeAttachedAudioFromNote(mDatabase, targetId) > 0;
     }
     //UPDATES------------------------------------------------------------------------------------------------------
 

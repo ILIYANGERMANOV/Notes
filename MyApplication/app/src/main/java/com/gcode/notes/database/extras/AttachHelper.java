@@ -26,10 +26,10 @@ public class AttachHelper {
         if (notesCursor.moveToFirst()) {
             String description = notesCursor.getString(notesCursor.getColumnIndex(NoteEntry.COLUMN_NAME_DESCRIPTION));
             noteData.setDescription(description);
-            String serializedPaths = notesCursor.getString(notesCursor.getColumnIndex(NoteEntry.COLUMN_NAME_PHOTOS_PATHS));
-            noteData.setAttachedImagesPaths(Serializer.parseStringPathsList(serializedPaths));
-            serializedPaths = notesCursor.getString(notesCursor.getColumnIndex(NoteEntry.COLUMN_NAME_SOUNDS_PATHS));
-            noteData.setAttachedAudioPaths(Serializer.parseStringPathsList(serializedPaths));
+            String stringHolder = notesCursor.getString(notesCursor.getColumnIndex(NoteEntry.COLUMN_NAME_PHOTOS_PATHS));
+            noteData.setAttachedImagesPaths(Serializer.parseStringPathsList(stringHolder));
+            stringHolder = notesCursor.getString(notesCursor.getColumnIndex(NoteEntry.COLUMN_NAME_AUDIO_PATH));
+            noteData.setAttachedAudioPath(stringHolder);
 
         } else {
             MyDebugger.log("notesCursor.moveToFirst() with title", noteData.getTitle());

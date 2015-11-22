@@ -9,11 +9,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.adapters.note.display.DisplayNoteImagesAdapter;
 import com.gcode.notes.data.NoteData;
+import com.gcode.notes.extras.utils.AudioUtils;
 import com.gcode.notes.extras.utils.PhotoUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
@@ -21,6 +24,7 @@ import com.linearlistview.LinearListView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class DisplayNoteBaseActivity extends AppCompatActivity {
     //TODO: REFACTOR
@@ -42,11 +46,25 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
     @Bind(R.id.display_note_images_Linear_list_view)
     LinearListView mImagesLinearListView;
 
+    @Bind(R.id.display_note_audio_layout)
+    LinearLayout mAudioLayout;
+
+    @Bind(R.id.display_audio_play_pause_button)
+    ImageButton mAudioPlayPauseButton;
+
+    @Bind(R.id.display_audio_progress_bar)
+    ProgressBar mAudioProgressBar;
+
+    @Bind(R.id.display_audio_duration_text_view)
+    TextView mAudioDurationTextView;
+
     NoteData mNoteData;
     boolean mNoteModeChanged;
 
     //used to prevent opening the image in gallery many times on spamming
     boolean mOpenInGalleryLaunched;
+
+    AudioUtils mAudioUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +129,12 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
                 }
             });
         }
+        if (mNoteData.hasAttachedAudio()) {
+            mAudioLayout.setVisibility(View.VISIBLE);
+            mAudioUtils = new AudioUtils(this, mNoteData.getAttachedAudioPath(),
+                    mAudioDurationTextView, mAudioProgressBar, mAudioPlayPauseButton);
+            mAudioLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setupToolbar() {
@@ -122,6 +146,33 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
                 mActionBar.setDisplayHomeAsUpEnabled(true);
             }
         }
+    }
+
+    @OnClick(R.id.display_audio_play_pause_button)
+    public void playPauseAudio() {
+        if (!mAudioUtils.isPlaying()) {
+            //audio is not playing, start it and set pause icon
+            mAudioUtils.playAudio();
+        } else {
+            //audio is playing, stop it and set play icon
+            mAudioUtils.pauseAudio();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        if (mAudioUtils != null) {
+            mAudioUtils.pauseAudio();
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mAudioUtils != null) {
+            mAudioUtils.clearResources();
+        }
+        super.onDestroy();
     }
 
     @Override

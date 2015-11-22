@@ -27,19 +27,7 @@ public final class NotesContract {
         public static final String TABLE_NAME = "notes";
         public static final String COLUMN_NAME_DESCRIPTION = "description";
         public static final String COLUMN_NAME_PHOTOS_PATHS = "photos_paths";
-        public static final String COLUMN_NAME_SOUNDS_PATHS = "sounds_paths";
-    }
-
-    public static abstract class PictureEntry implements BaseColumns {
-        public static final String TABLE_NAME = "pictures";
-        public static final String COLUMN_NAME_PATHS_LIST = "picture_path";
-        public static final String COLUMN_NAME_NOTE_ID = "note_id";
-    }
-
-    public static abstract class SoundEntry implements BaseColumns {
-        public static final String TABLE_NAME = "sounds";
-        public static final String COLUMN_NAME_PATH = "sound_path";
-        public static final String COLUMN_NAME_NOTE_ID = "note_id";
+        public static final String COLUMN_NAME_AUDIO_PATH = "audio_path";
     }
 
     public static abstract class ListEntry implements BaseColumns {

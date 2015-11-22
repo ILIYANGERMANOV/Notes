@@ -3,14 +3,17 @@ package com.gcode.notes.ui;
 import android.app.Activity;
 import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.gcode.notes.activities.compose.ComposeNoteActivity;
 import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.adapters.list.compose.BaseComposeContainerAdapter;
 import com.gcode.notes.adapters.note.compose.ComposeNoteImagesAdapter;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.listeners.list.ListItemDeletedUndoOnClickListener;
 import com.gcode.notes.listeners.main.NoteDeletedUndoOnClickListener;
+import com.gcode.notes.ui.callbacks.DeleteAudioCallback;
 import com.gcode.notes.ui.callbacks.DeleteNoteFromBinCallback;
 import com.gcode.notes.ui.callbacks.DeleteNoteFromDisplayCallback;
 import com.gcode.notes.ui.callbacks.EmptyRecyclerBinCallback;
@@ -62,5 +65,10 @@ public class ActionExecutor {
     public static void removePhotoFromNote(Activity activity, ComposeNoteImagesAdapter adapter, String item) {
         RemovePhotoCallback removePhotoCallback = new RemovePhotoCallback(adapter, item);
         DialogHelper.buildRemovePhotoFromNoteDialog(activity, removePhotoCallback);
+    }
+
+    public static void deleteAudioFromNote(ComposeNoteActivity composeNoteActivity, String audioPath) {
+        DeleteAudioCallback deleteAudioCallback = new DeleteAudioCallback(composeNoteActivity, audioPath);
+        DialogHelper.buildDeleteAudioFromNoteDialog(composeNoteActivity, deleteAudioCallback);
     }
 }

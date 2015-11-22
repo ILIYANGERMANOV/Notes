@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
@@ -20,6 +22,7 @@ import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.ContentDetails;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.utils.AudioUtils;
 import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
@@ -35,6 +38,7 @@ import butterknife.OnClick;
 
 public class ComposeNoteActivity extends AppCompatActivity {
     //TODO: REFACTOR AND OPTIMIZE
+    //TODO: delete audio on not saving note
     @Bind(R.id.compose_note_toolbar)
     Toolbar mToolbar;
 
@@ -44,8 +48,17 @@ public class ComposeNoteActivity extends AppCompatActivity {
     @Bind(R.id.compose_note_images_linear_list_view)
     LinearListView mImagesLinearListView;
 
-    @Bind(R.id.compose_note_audio_linear_list_view)
-    LinearListView mAudioLinearListView;
+    @Bind(R.id.compose_note_audio_layout)
+    LinearLayout mAudioLayout;
+
+    @Bind(R.id.compose_audio_progress_bar)
+    ProgressBar mAudioProgressBar;
+
+    @Bind(R.id.compose_audio_play_pause_button)
+    ImageButton mAudioPlayPauseButton;
+
+    @Bind(R.id.compose_audio_duration_text_view)
+    TextView mAudioDurationTextView;
 
     @Bind(R.id.compose_note_description_edit_text)
     EditText mDescriptionEditText;
@@ -58,7 +71,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
 
     boolean mIsOpenedInEditMode;
     int mEditNoteId;
-    int mEditNoteTargetId;
+    int mEditNoteTargetId = Constants.ERROR;
 
     boolean mIsStarred;
     boolean mNoteModeChanged;
@@ -67,9 +80,29 @@ public class ComposeNoteActivity extends AppCompatActivity {
     public static boolean mOpenInGalleryLaunched;
 
     ComposeNoteImagesAdapter mImagesAdapter;
+    String mAudioPath = Constants.NO_AUDIO;
+
+    AudioUtils mAudioUtils;
+
 
     public ComposeNoteImagesAdapter getImagesAdapter() {
         return mImagesAdapter;
+    }
+
+    public LinearLayout getAudioLayout() {
+        return mAudioLayout;
+    }
+
+    public AudioUtils getAudioUtils() {
+        return mAudioUtils;
+    }
+
+    public void setAudioPath(String audioPath) {
+        this.mAudioPath = audioPath;
+    }
+
+    public int getEditNoteTargetId() {
+        return mEditNoteTargetId;
     }
 
     @Override
@@ -108,6 +141,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
 
     private void setupFromAudio(String audioPath, String recognizedSpeechText) {
         mDescriptionEditText.setText(recognizedSpeechText);
+        setupAudio(audioPath);
     }
 
     private void setupFromPhoto(String photoUriString) {
@@ -120,7 +154,6 @@ public class ComposeNoteActivity extends AppCompatActivity {
 
         mImagesAdapter = new ComposeNoteImagesAdapter(this, new ArrayList<String>(), mImagesLinearListView);
         mImagesLinearListView.setAdapter(mImagesAdapter);
-        mImagesLinearListView.setVisibility(View.GONE);
     }
 
     private void setupFromZero() {
@@ -152,7 +185,9 @@ public class ComposeNoteActivity extends AppCompatActivity {
                 mReminderTextView.setText(noteData.getReminder());
             }
             mContentDetails = noteData.getContentDetails();
-            //TODO: set audio
+            if (noteData.hasAttachedAudio()) {
+                setupAudio(noteData.getAttachedAudioPath());
+            }
             if (noteData.hasAttachedImage()) {
                 //adapter's list is still empty, no need to clear
                 mImagesAdapter.addAll(noteData.getAttachedImagesPaths());
@@ -162,7 +197,6 @@ public class ComposeNoteActivity extends AppCompatActivity {
     }
 
     private void handlerScreenRotation(Bundle savedInstanceState) {
-        //TODO: handle screen rotation for audio
         mIsOpenedInEditMode = savedInstanceState.getBoolean(Constants.EXTRA_IS_OPENED_IN_EDIT_MODE);
         if (mIsOpenedInEditMode) {
             mEditNoteId = savedInstanceState.getInt(Constants.EXTRA_EDIT_NOTE_ID);
@@ -173,18 +207,22 @@ public class ComposeNoteActivity extends AppCompatActivity {
         }
         mNoteModeChanged = savedInstanceState.getBoolean(Constants.EXTRA_NOTE_MODE_CHANGED);
         mContentDetails = Serializer.parseContentDetails(savedInstanceState.getString(Constants.EXTRA_CONTENT_DETAILS));
-        ArrayList<String> attachedImagesList = Serializer.parseStringPathsList(
+        ArrayList<String> pathsList = Serializer.parseStringPathsList(
                 savedInstanceState.getString(Constants.EXTRA_ATTACHED_IMAGES_LIST));
-        if (attachedImagesList != null) {
+
+        if (pathsList != null) {
             //adapter's list is still empty, no need to clear
-            mImagesAdapter.addAll(attachedImagesList);
+            mImagesAdapter.addAll(pathsList);
+        }
+        String audioPath = savedInstanceState.getString(Constants.EXTRA_ATTACHED_AUDIO_PATH);
+        if (audioPath != null && !audioPath.equals(Constants.NO_AUDIO)) {
+            setupAudio(audioPath);
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //TODO: add audio
         outState.putBoolean(Constants.EXTRA_IS_OPENED_IN_EDIT_MODE, mIsOpenedInEditMode);
         if (mIsOpenedInEditMode) {
             outState.putInt(Constants.EXTRA_EDIT_NOTE_ID, mEditNoteId);
@@ -193,7 +231,15 @@ public class ComposeNoteActivity extends AppCompatActivity {
         outState.putBoolean(Constants.EXTRA_IS_STARRED, mIsStarred);
         outState.putBoolean(Constants.EXTRA_NOTE_MODE_CHANGED, mNoteModeChanged);
         outState.putString(Constants.EXTRA_CONTENT_DETAILS, Serializer.serializeContentDetails(mContentDetails));
+        //TODO: optimize always passing images list
         outState.putString(Constants.EXTRA_ATTACHED_IMAGES_LIST, Serializer.serializePathsList(mImagesAdapter.getData()));
+        outState.putString(Constants.EXTRA_ATTACHED_AUDIO_PATH, mAudioPath);
+    }
+
+    private void setupAudio(String audioPath) {
+        mAudioUtils = new AudioUtils(this, audioPath, mAudioDurationTextView, mAudioProgressBar, mAudioPlayPauseButton);
+        mAudioPath = audioPath;
+        mAudioLayout.setVisibility(View.VISIBLE);
     }
 
     @OnClick(R.id.compose_star_image_button)
@@ -204,6 +250,38 @@ public class ComposeNoteActivity extends AppCompatActivity {
             setStarredState();
         }
         mNoteModeChanged = !mNoteModeChanged;
+    }
+
+    @Override
+    protected void onPause() {
+        if (mAudioUtils != null) {
+            mAudioUtils.pauseAudio();
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mAudioUtils != null) {
+            mAudioUtils.clearResources();
+        }
+        super.onDestroy();
+    }
+
+    @OnClick(R.id.compose_audio_play_pause_button)
+    public void playPauseAudio() {
+        if (!mAudioUtils.isPlaying()) {
+            //audio is not playing, start it and set pause icon
+            mAudioUtils.playAudio();
+        } else {
+            //audio is playing, stop it and set play icon
+            mAudioUtils.pauseAudio();
+        }
+    }
+
+    @OnClick(R.id.compose_audio_delete_button)
+    public void deleteAudio() {
+        ActionExecutor.deleteAudioFromNote(this, mAudioPath);
     }
 
     private void setStarredState() {
@@ -229,11 +307,10 @@ public class ComposeNoteActivity extends AppCompatActivity {
                 reminderString = Constants.NO_REMINDER;
             }
 
-            //TODO: optmize passing empty array lists
+            //TODO: optimize passing by not passing empty array lists
             NoteData noteData = new NoteData(title, mode,
                     hasAttributes(description, attachedImagesList),
-                    description, attachedImagesList,
-                    new ArrayList<String>(), reminderString);
+                    description, attachedImagesList, mAudioPath, reminderString);
 
             if (!mIsOpenedInEditMode) {
                 //new note
@@ -272,8 +349,8 @@ public class ComposeNoteActivity extends AppCompatActivity {
     }
 
     private boolean isValidNote(String title, String description, ArrayList<String> attachedImagesList) {
-        //TODO: add sound in the validation
-        return title.trim().length() > 0 || description.trim().length() > 0 || attachedImagesList.size() > 0;
+        return title.trim().length() > 0 || description.trim().length() > 0 ||
+                attachedImagesList.size() > 0 || !mAudioPath.equals(Constants.NO_AUDIO);
     }
 
     @Override

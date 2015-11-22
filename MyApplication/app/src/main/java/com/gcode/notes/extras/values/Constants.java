@@ -17,6 +17,7 @@ public class Constants {
     public static final int OPEN_PHOTO_IN_GALLERY_REQ_CODE = 6;
     public static final int SPEECH_INPUT_REQ_CODE = 7;
 
+    //TODO: fix bug on note with id 7833
     public static final int ERROR = 7833;
 
     //must be positive and greater than max list items + 1
@@ -57,6 +58,8 @@ public class Constants {
     public static final String EXTRA_AUDIO_PATH = "audio_path_extra";
     public static final String EXTRA_RECOGNIZED_SPEECH_TEXT = "recognized_speech_text_extra";
     public static final String EXTRA_ATTACHED_IMAGES_LIST = "attached_images_list_extra";
+    public static final String EXTRA_ATTACHED_AUDIO_PATH = "attached_audio_path_extra";
+    public static final String EXTRA_DELETED_AUDIO = "deleted_audio_extra";
     public static final String EXTRA_LIST_DATA_ITEMS = "list_data_items_extra";
     public static final String EXTRA_TICKED_LIST_DATA_ITEMS = "ticked_list_data_items_extra";
     public static final String EXTRA_LAST_FOCUSED = "last_focused_extra";

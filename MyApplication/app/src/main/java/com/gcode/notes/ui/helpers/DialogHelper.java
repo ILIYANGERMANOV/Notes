@@ -67,4 +67,14 @@ public class DialogHelper {
                 .callback(buttonCallback)
                 .show();
     }
+
+    public static void buildDeleteAudioFromNoteDialog(Activity activity, MaterialDialog.ButtonCallback buttonCallback) {
+        new MaterialDialog.Builder(activity)
+                .title("Delete audio?")
+                .content("Voice record will be deleted permanently.")
+                .positiveText("Delete permanently")
+                .negativeText("Cancel")
+                .callback(buttonCallback)
+                .show();
+    }
 }

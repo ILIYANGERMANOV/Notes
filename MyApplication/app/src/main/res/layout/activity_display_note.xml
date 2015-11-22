@@ -51,9 +51,9 @@
                         android:id="@+id/display_note_images_Linear_list_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="15dp"
                         android:gravity="center"
-                        android:orientation="vertical" />
+                        android:orientation="vertical"
+                        android:padding="15dp" />
 
                     <TextView
                         android:id="@+id/display_note_description_text_view"
@@ -64,12 +64,16 @@
                         android:text="@string/placeholder_short"
                         android:textSize="14sp" />
 
+                    <include
+                        android:id="@+id/display_note_audio_layout"
+                        layout="@layout/note_display_audio_layout" />
+
                     <TextView
                         android:id="@+id/display_note_dates_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:layout_marginTop="23dp"
+                        android:layout_marginTop="13dp"
                         android:gravity="bottom|end"
                         android:textSize="14sp" />
 

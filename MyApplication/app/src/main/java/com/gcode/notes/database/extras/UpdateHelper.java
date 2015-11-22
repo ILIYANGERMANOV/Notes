@@ -33,10 +33,10 @@ public class UpdateHelper {
         return database.update(ContentEntry.TABLE_NAME, contentValues, SelectQueries.whereClauseContentId, getContentBaseIdStringArray(contentBase));
     }
 
-    public static int updateNoteOrderId(SQLiteDatabase mDatabase, ContentBase contentBase, int newId) {
+    public static int updateNoteOrderId(SQLiteDatabase database, ContentBase contentBase, int newId) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(ContentEntry.COLUMN_NAME_ORDER_ID, newId);
-        return mDatabase.update(ContentEntry.TABLE_NAME, contentValues, SelectQueries.whereClauseContentId, getContentBaseIdStringArray(contentBase));
+        return database.update(ContentEntry.TABLE_NAME, contentValues, SelectQueries.whereClauseContentId, getContentBaseIdStringArray(contentBase));
     }
 
     public static int updateNote(SQLiteDatabase database, ContentBase contentBase) {
@@ -55,6 +55,16 @@ public class UpdateHelper {
             }
         }
         return affectedRows;
+    }
+
+    public static int removeAttachedAudioFromNote(SQLiteDatabase database, int targetId) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(NoteEntry.COLUMN_NAME_AUDIO_PATH, Constants.NO_AUDIO);
+        return database.update(NoteEntry.TABLE_NAME, contentValues, SelectQueries.whereClauseNoteId,
+                new String[]{
+                        Integer.toString(targetId)
+                }
+        );
     }
 
     private static int updateBaseContent(SQLiteDatabase database, ContentBase contentBase) {
@@ -88,7 +98,7 @@ public class UpdateHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(NoteEntry.COLUMN_NAME_DESCRIPTION, noteData.getDescription());
         contentValues.put(NoteEntry.COLUMN_NAME_PHOTOS_PATHS, Serializer.serializePathsList(noteData.getAttachedImagesPaths()));
-        contentValues.put(NoteEntry.COLUMN_NAME_SOUNDS_PATHS, Serializer.serializePathsList(noteData.getAttachedAudioPaths()));
+        contentValues.put(NoteEntry.COLUMN_NAME_AUDIO_PATH, noteData.getAttachedAudioPath());
 
         return database.update(NoteEntry.TABLE_NAME, contentValues,
                 SelectQueries.whereClauseNoteId, getContentBaseTargetId(noteData));

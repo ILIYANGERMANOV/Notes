@@ -67,6 +67,10 @@ public class DisplayNoteNormalActivity extends DisplayNoteBaseActivity {
                             }
                         }
                     }
+                    if (data.getBooleanExtra(Constants.EXTRA_DELETED_AUDIO, false)) {
+                        //TODO: remove audio from view
+                        mNoteData.setAttachedAudioPath(Constants.NO_AUDIO);
+                    }
                 }
                 break;
         }

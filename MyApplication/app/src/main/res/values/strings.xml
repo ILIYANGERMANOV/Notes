@@ -62,5 +62,7 @@
     <string name="action_add_image">Add image</string>
     <string name="speech_prompt">Speak now</string>
     <string name="speech_not_supported">Speech recognition not supported on your device.</string>
+    <string name="play_pause_image_button_desc">Play/pause record button</string>
+    <string name="delete_audio_image_button_desc">Delete audio button</string>
 
 </resources>

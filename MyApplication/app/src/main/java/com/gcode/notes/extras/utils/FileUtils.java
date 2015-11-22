@@ -16,11 +16,18 @@ import java.io.OutputStream;
 
 public class FileUtils {
     //TODO: REFACTOR AND OPTIMIZE
+    public static boolean deleteFile(String filePath) {
+        return deleteFile(new File(filePath));
+    }
+
     public static boolean deleteFile(Uri pathToFile) {
-        File createdTempFile = new File(pathToFile.getPath());
-        if (createdTempFile.exists()) {
+        return deleteFile(new File(pathToFile.getPath()));
+    }
+
+    public static boolean deleteFile(File fileToDelete) {
+        if (fileToDelete.exists()) {
             //file exists, try to delete it
-            if (!createdTempFile.delete()) {
+            if (!fileToDelete.delete()) {
                 //deletion has failed
                 MyDebugger.log("deleteFile()", "failed to delete file");
                 return false;

@@ -20,7 +20,7 @@ public class NoteData extends ContentBase {
     //TODO: REFACTOR AND OPTIMIZE, remove useless null checks
     String description;
     ArrayList<String> attachedImagesPaths;
-    ArrayList<String> attachedAudioPaths;
+    String attachedAudioPath;
 
     public NoteData(int id, int orderId, int targetId, String title, int mode, boolean hasAttributes,
                     String reminderString, String creationDate, String lastModifiedDate, String expirationDateString) {
@@ -30,12 +30,12 @@ public class NoteData extends ContentBase {
 
     public NoteData(String title, int mode, boolean hasAttributes,
                     String description, ArrayList<String> attachedImagesPaths,
-                    ArrayList<String> attachedAudioPaths, String reminderString) {
+                    String attachedAudioPath, String reminderString) {
 
         super(title, mode, reminderString);
         this.description = description;
         this.attachedImagesPaths = attachedImagesPaths;
-        this.attachedAudioPaths = attachedAudioPaths;
+        this.attachedAudioPath = attachedAudioPath;
         type = Constants.TYPE_NOTE;
         this.hasAttributes = hasAttributes;
     }
@@ -127,7 +127,7 @@ public class NoteData extends ContentBase {
     }
 
     public boolean hasAttachedAudio() {
-        return attachedAudioPaths != null && attachedAudioPaths.size() > 0;
+        return attachedAudioPath != null && !attachedAudioPath.equals(Constants.NO_AUDIO);
     }
 
     public ArrayList<String> getAttachedImagesPaths() {
@@ -138,12 +138,12 @@ public class NoteData extends ContentBase {
         this.attachedImagesPaths = attachedImagesPaths;
     }
 
-    public ArrayList<String> getAttachedAudioPaths() {
-        return attachedAudioPaths;
+    public String getAttachedAudioPath() {
+        return attachedAudioPath;
     }
 
-    public void setAttachedAudioPaths(ArrayList<String> attachedAudioPaths) {
-        this.attachedAudioPaths = attachedAudioPaths;
+    public void setAttachedAudioPath(String attachedAudioPath) {
+        this.attachedAudioPath = attachedAudioPath;
     }
 
     public String getDescription() {
