@@ -1,6 +1,5 @@
 package com.gcode.notes.adapters.note.compose;
 
-import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +18,15 @@ import java.util.ArrayList;
 public class ComposeNoteImagesAdapter extends ArrayAdapter<String> {
     //TODO: optimize mData and data and REFACTOR
     ArrayList<String> mData;
-    Activity mActivity;
+    ComposeNoteActivity mComposeNoteActivity;
     LinearListView mLinearListView;
 
-    public ComposeNoteImagesAdapter(Activity activity, ArrayList<String> data, LinearListView linearListView) {
-        super(activity, 0, data);
+    public ComposeNoteImagesAdapter(ComposeNoteActivity composeNoteActivity, ArrayList<String> data,
+                                    LinearListView linearListView) {
+
+        super(composeNoteActivity, 0, data);
         mData = data;
-        mActivity = activity;
+        mComposeNoteActivity = composeNoteActivity;
         mLinearListView = linearListView;
     }
 
@@ -57,21 +58,19 @@ public class ComposeNoteImagesAdapter extends ArrayAdapter<String> {
             holder = (NoteImageItemHolder) convertView.getTag();
         }
         //bind view
-        PhotoUtils.loadPhoto(mActivity, photoPath, holder.imageView);
+        PhotoUtils.loadPhoto(mComposeNoteActivity, photoPath, holder.imageView);
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!ComposeNoteActivity.mOpenInGalleryLaunched) {
-                    ComposeNoteActivity.mOpenInGalleryLaunched = true;
-                    PhotoUtils.openPhotoInGallery(mActivity, photoPath);
-                }
+                mComposeNoteActivity.showAndInitOpenImageProgressDialog();
+                PhotoUtils.openPhotoInGallery(mComposeNoteActivity, photoPath);
             }
         });
         holder.deleteImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActionExecutor.removePhotoFromNote(mActivity, ComposeNoteImagesAdapter.this, photoPath);
+                ActionExecutor.removePhotoFromNote(mComposeNoteActivity, ComposeNoteImagesAdapter.this, photoPath);
             }
         });
 

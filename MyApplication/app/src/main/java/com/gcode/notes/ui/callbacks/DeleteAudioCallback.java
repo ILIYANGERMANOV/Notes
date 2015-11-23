@@ -2,32 +2,32 @@ package com.gcode.notes.ui.callbacks;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.activities.compose.ComposeNoteActivity;
+import com.gcode.notes.extras.utils.AudioUtils;
 import com.gcode.notes.extras.values.Constants;
-import com.gcode.notes.tasks.DeleteFileTask;
-import com.gcode.notes.tasks.RemoveAttachedAudioTask;
+import com.gcode.notes.tasks.async.DeleteFileTask;
+import com.gcode.notes.tasks.async.RemoveAttachedAudioTask;
 
 public class DeleteAudioCallback extends MaterialDialog.ButtonCallback {
-    //TODO: test and fix possible bugs, refactor (care setting to NO_AUDIO, then using audioPath)
     ComposeNoteActivity mComposeNoteActivity;
-    String mAudioPath;
 
-    public DeleteAudioCallback(ComposeNoteActivity composeNoteActivity, String audioPath) {
+    public DeleteAudioCallback(ComposeNoteActivity composeNoteActivity) {
         mComposeNoteActivity = composeNoteActivity;
-        mAudioPath = audioPath;
     }
 
     @Override
     public void onPositive(MaterialDialog dialog) {
-        new DeleteFileTask().execute(mAudioPath);
-        mComposeNoteActivity.getAudioLayout().setVisibility(View.GONE);
-        mComposeNoteActivity.setAudioPath(Constants.NO_AUDIO);
-        mComposeNoteActivity.getAudioUtils().stopAudio();
+        AudioUtils audioUtils = mComposeNoteActivity.getAudioUtils();
+        audioUtils.stopAudio();
+        audioUtils.hideAudioLayout();
+        new DeleteFileTask().execute(mComposeNoteActivity.getAudioPath()); //launch it before, setAudioPath()
+        mComposeNoteActivity.setAudioPath(Constants.NO_AUDIO); //remove audio from compose activity, so saveNote() will work correctly
         int editNoteTargetId = mComposeNoteActivity.getEditNoteTargetId();
         if (editNoteTargetId != Constants.ERROR) {
+            //note opened in edit mode, so remove audio from db and set result for display activity
+            //to secure if saveNote() isn't called
             new RemoveAttachedAudioTask().execute(editNoteTargetId);
             Intent resultIntent = new Intent();
             resultIntent.putExtra(Constants.EXTRA_DELETED_AUDIO, true);

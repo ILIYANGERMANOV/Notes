@@ -1,4 +1,4 @@
-package com.gcode.notes.tasks;
+package com.gcode.notes.tasks.async;
 
 
 import android.os.AsyncTask;

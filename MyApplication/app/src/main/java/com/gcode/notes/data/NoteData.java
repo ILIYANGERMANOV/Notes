@@ -43,8 +43,7 @@ public class NoteData extends ContentBase {
     public void displayNoteOnMain(final NoteItemViewHolder holder) {
         displayBase(holder.getTitleTextView(), holder.getReminderTextView());
         final TextView descriptionTextView = holder.getDescriptionTextView();
-        //set description here in order to set holder to default state
-        descriptionTextView.setText(description);
+        setHolderInDefaultState(holder);
         if (hasDescription()) {
             descriptionTextView.setVisibility(View.VISIBLE);
             new Handler().postDelayed(new Runnable() {
@@ -71,6 +70,11 @@ public class NoteData extends ContentBase {
         }
         displayAudioRecord(holder.getVoiceImageView());
         displayDivider(holder.getAttributesDivider());
+    }
+
+    private void setHolderInDefaultState(NoteItemViewHolder holder) {
+        holder.getDescriptionTextView().setText(description);
+        holder.getAttributesDivider().setVisibility(View.GONE);
     }
 
     public void displayNote(TextView titleTextView, TextView descriptionTextView) {

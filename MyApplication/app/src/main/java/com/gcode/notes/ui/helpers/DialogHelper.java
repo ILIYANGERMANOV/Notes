@@ -70,11 +70,19 @@ public class DialogHelper {
 
     public static void buildDeleteAudioFromNoteDialog(Activity activity, MaterialDialog.ButtonCallback buttonCallback) {
         new MaterialDialog.Builder(activity)
-                .title("Delete audio?")
-                .content("Voice record will be deleted permanently.")
-                .positiveText("Delete permanently")
-                .negativeText("Cancel")
+                .title(R.string.delete_audio_from_note_dialog_title)
+                .content(R.string.delete_audio_from_note_dialog_content)
+                .positiveText(R.string.delete_audio_from_note_dialog_positive_text)
+                .negativeText(R.string.delete_audio_from_note_negative_text)
                 .callback(buttonCallback)
+                .show();
+    }
+
+    public static MaterialDialog buildOpenImageProgressDialog(Activity activity) {
+        return new MaterialDialog.Builder(activity)
+                .title(R.string.open_image_progress_dialog_title)
+                .content(R.string.open_image_progress_dialog_content)
+                .progress(true, 100)
                 .show();
     }
 }

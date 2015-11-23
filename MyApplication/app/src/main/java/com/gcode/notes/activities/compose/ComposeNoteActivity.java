@@ -7,13 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.R;
 import com.gcode.notes.activities.helpers.compose.ComposeNoteResultHandler;
 import com.gcode.notes.activities.helpers.compose.ComposeToolbarHelper;
@@ -28,6 +28,7 @@ import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
 import com.gcode.notes.ui.ActionExecutor;
+import com.gcode.notes.ui.helpers.DialogHelper;
 import com.linearlistview.LinearListView;
 
 import java.util.ArrayList;
@@ -77,13 +78,17 @@ public class ComposeNoteActivity extends AppCompatActivity {
     boolean mNoteModeChanged;
     ContentDetails mContentDetails;
 
-    public static boolean mOpenInGalleryLaunched;
 
     ComposeNoteImagesAdapter mImagesAdapter;
     String mAudioPath = Constants.NO_AUDIO;
 
     AudioUtils mAudioUtils;
 
+    MaterialDialog mOpenImageInGalleryProgressDialog;
+
+    public void showAndInitOpenImageProgressDialog() {
+        mOpenImageInGalleryProgressDialog = DialogHelper.buildOpenImageProgressDialog(this);
+    }
 
     public ComposeNoteImagesAdapter getImagesAdapter() {
         return mImagesAdapter;
@@ -95,6 +100,10 @@ public class ComposeNoteActivity extends AppCompatActivity {
 
     public AudioUtils getAudioUtils() {
         return mAudioUtils;
+    }
+
+    public String getAudioPath() {
+        return mAudioPath;
     }
 
     public void setAudioPath(String audioPath) {
@@ -237,9 +246,9 @@ public class ComposeNoteActivity extends AppCompatActivity {
     }
 
     private void setupAudio(String audioPath) {
-        mAudioUtils = new AudioUtils(this, audioPath, mAudioDurationTextView, mAudioProgressBar, mAudioPlayPauseButton);
+        mAudioUtils = new AudioUtils(this, audioPath, mAudioDurationTextView,
+                mAudioProgressBar, mAudioPlayPauseButton, mAudioLayout);
         mAudioPath = audioPath;
-        mAudioLayout.setVisibility(View.VISIBLE);
     }
 
     @OnClick(R.id.compose_star_image_button)
@@ -281,7 +290,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
 
     @OnClick(R.id.compose_audio_delete_button)
     public void deleteAudio() {
-        ActionExecutor.deleteAudioFromNote(this, mAudioPath);
+        ActionExecutor.deleteAudioFromNote(this);
     }
 
     private void setStarredState() {
@@ -386,7 +395,9 @@ public class ComposeNoteActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         ComposeNoteResultHandler.handleResult(this, requestCode, resultCode, data);
         if (requestCode == Constants.OPEN_PHOTO_IN_GALLERY_REQ_CODE) {
-            mOpenInGalleryLaunched = false;
+            if (mOpenImageInGalleryProgressDialog != null) {
+                mOpenImageInGalleryProgressDialog.dismiss();
+            }
         }
     }
 }

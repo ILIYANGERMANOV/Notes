@@ -9,7 +9,7 @@ import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.listeners.main.NoteDeletedUndoOnClickListener;
 import com.gcode.notes.notes.MyApplication;
-import com.gcode.notes.tasks.RemoveItemFromMainTask;
+import com.gcode.notes.tasks.async.RemoveItemFromMainTask;
 
 public class NoteDeletedSnackbarCallback extends Snackbar.Callback {
     MainAdapter mAdapter;

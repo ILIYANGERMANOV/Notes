@@ -67,8 +67,8 @@ public class ActionExecutor {
         DialogHelper.buildRemovePhotoFromNoteDialog(activity, removePhotoCallback);
     }
 
-    public static void deleteAudioFromNote(ComposeNoteActivity composeNoteActivity, String audioPath) {
-        DeleteAudioCallback deleteAudioCallback = new DeleteAudioCallback(composeNoteActivity, audioPath);
+    public static void deleteAudioFromNote(ComposeNoteActivity composeNoteActivity) {
+        DeleteAudioCallback deleteAudioCallback = new DeleteAudioCallback(composeNoteActivity);
         DialogHelper.buildDeleteAudioFromNoteDialog(composeNoteActivity, deleteAudioCallback);
     }
 }

@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.gcode.notes.R;
 import com.gcode.notes.activities.compose.ComposeNoteActivity;
 import com.gcode.notes.data.NoteData;
+import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
@@ -68,7 +70,7 @@ public class DisplayNoteNormalActivity extends DisplayNoteBaseActivity {
                         }
                     }
                     if (data.getBooleanExtra(Constants.EXTRA_DELETED_AUDIO, false)) {
-                        //TODO: remove audio from view
+                        mAudioLayout.setVisibility(View.GONE);
                         mNoteData.setAttachedAudioPath(Constants.NO_AUDIO);
                     }
                 }

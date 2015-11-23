@@ -6,7 +6,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.notes.MyApplication;
-import com.gcode.notes.tasks.RemoveItemFromMainTask;
+import com.gcode.notes.tasks.async.RemoveItemFromMainTask;
 
 public class RestoreNoteFromDisplayCallback extends MaterialDialog.ButtonCallback {
     Activity mActivity;

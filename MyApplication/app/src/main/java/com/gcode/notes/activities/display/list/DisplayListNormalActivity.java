@@ -11,7 +11,7 @@ import com.gcode.notes.data.ListData;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
-import com.gcode.notes.tasks.UpdateListAttributesTask;
+import com.gcode.notes.tasks.async.UpdateListAttributesTask;
 
 import butterknife.OnClick;
 

@@ -78,4 +78,9 @@ public class Constants {
 
     public static final String NOTES_FOLDER_NAME = "Notes";
     public static final String RECORDS_FOLDER_NAME = "Voice records";
+
+    public static final int MAX_TRIES_TO_RESOLVE = 3;
+    public static final int MINIMUM_DELAY = 50;
+    public static final int MEDIUM_DELAY = 150;
+    public static final int LONG_DELAY = 250;
 }

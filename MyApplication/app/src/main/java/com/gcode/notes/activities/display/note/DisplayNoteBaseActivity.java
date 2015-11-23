@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.R;
 import com.gcode.notes.adapters.note.display.DisplayNoteImagesAdapter;
 import com.gcode.notes.data.NoteData;
@@ -20,6 +21,7 @@ import com.gcode.notes.extras.utils.AudioUtils;
 import com.gcode.notes.extras.utils.PhotoUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
+import com.gcode.notes.ui.helpers.DialogHelper;
 import com.linearlistview.LinearListView;
 
 import butterknife.Bind;
@@ -61,8 +63,8 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
     NoteData mNoteData;
     boolean mNoteModeChanged;
 
-    //used to prevent opening the image in gallery many times on spamming
-    boolean mOpenInGalleryLaunched;
+    MaterialDialog mOpenInGalleryProgressDialog;
+
 
     AudioUtils mAudioUtils;
 
@@ -121,19 +123,15 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
             mImagesLinearListView.setOnItemClickListener(new LinearListView.OnItemClickListener() {
                 @Override
                 public void onItemClick(LinearListView parent, View view, int position, long id) {
-                    if (!mOpenInGalleryLaunched) {
-                        mOpenInGalleryLaunched = true;
-                        //TODO: add on click effect on image
-                        PhotoUtils.openPhotoInGallery(DisplayNoteBaseActivity.this, adapter.getItem(position));
-                    }
+                    mOpenInGalleryProgressDialog = DialogHelper.buildOpenImageProgressDialog(DisplayNoteBaseActivity.this);
+                    //TODO: add on click effect on image
+                    PhotoUtils.openPhotoInGallery(DisplayNoteBaseActivity.this, adapter.getItem(position));
                 }
             });
         }
         if (mNoteData.hasAttachedAudio()) {
-            mAudioLayout.setVisibility(View.VISIBLE);
-            mAudioUtils = new AudioUtils(this, mNoteData.getAttachedAudioPath(),
-                    mAudioDurationTextView, mAudioProgressBar, mAudioPlayPauseButton);
-            mAudioLayout.setVisibility(View.VISIBLE);
+            mAudioUtils = new AudioUtils(this, mNoteData.getAttachedAudioPath(), mAudioDurationTextView,
+                    mAudioProgressBar, mAudioPlayPauseButton, mAudioLayout);
         }
     }
 
@@ -192,7 +190,9 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.OPEN_PHOTO_IN_GALLERY_REQ_CODE) {
-            mOpenInGalleryLaunched = false;
+            if (mOpenInGalleryProgressDialog != null) {
+                mOpenInGalleryProgressDialog.dismiss();
+            }
         }
     }
 

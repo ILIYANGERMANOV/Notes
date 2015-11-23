@@ -10,11 +10,10 @@ import android.view.View;
 
 import com.gcode.notes.R;
 import com.gcode.notes.animations.MyAnimator;
-import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
-import com.gcode.notes.tasks.AddItemFromDbToMainTask;
-import com.gcode.notes.tasks.LoadContentTask;
+import com.gcode.notes.tasks.async.AddItemFromDbToMainTask;
+import com.gcode.notes.tasks.async.LoadContentTask;
 
 public class BinController extends BaseController {
 

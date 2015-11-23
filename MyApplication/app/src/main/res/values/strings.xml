@@ -64,5 +64,11 @@
     <string name="speech_not_supported">Speech recognition not supported on your device.</string>
     <string name="play_pause_image_button_desc">Play/pause record button</string>
     <string name="delete_audio_image_button_desc">Delete audio button</string>
+    <string name="delete_audio_from_note_dialog_title">Delete audio?</string>
+    <string name="delete_audio_from_note_dialog_content">Voice record will be deleted permanently.</string>
+    <string name="delete_audio_from_note_dialog_positive_text">Delete permanently</string>
+    <string name="delete_audio_from_note_negative_text">Cancel</string>
+    <string name="open_image_progress_dialog_title">Opening image</string>
+    <string name="open_image_progress_dialog_content">Opening image with default gallery app.</string>
 
 </resources>

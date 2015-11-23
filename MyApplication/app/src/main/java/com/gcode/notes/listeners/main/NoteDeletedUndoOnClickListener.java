@@ -6,7 +6,7 @@ import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.extras.MyDebugger;
-import com.gcode.notes.tasks.UndoNoteDeletionTask;
+import com.gcode.notes.tasks.async.UndoNoteDeletionTask;
 
 
 public class NoteDeletedUndoOnClickListener implements View.OnClickListener {

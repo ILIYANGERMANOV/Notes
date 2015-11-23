@@ -13,8 +13,8 @@ import com.gcode.notes.animations.MyAnimator;
 import com.gcode.notes.data.ContentBase;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
-import com.gcode.notes.tasks.AddItemFromDbToMainTask;
-import com.gcode.notes.tasks.LoadContentTask;
+import com.gcode.notes.tasks.async.AddItemFromDbToMainTask;
+import com.gcode.notes.tasks.async.LoadContentTask;
 
 public class PrivateController extends BaseController {
 

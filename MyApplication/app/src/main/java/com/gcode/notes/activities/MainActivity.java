@@ -1,6 +1,5 @@
 package com.gcode.notes.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -29,7 +28,7 @@ import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.extras.values.Keys;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
-import com.gcode.notes.tasks.DeleteExpiredNotesTask;
+import com.gcode.notes.tasks.async.DeleteExpiredNotesTask;
 import com.gcode.notes.ui.ActionExecutor;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 

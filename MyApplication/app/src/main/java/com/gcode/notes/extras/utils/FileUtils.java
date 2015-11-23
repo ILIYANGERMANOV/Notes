@@ -16,6 +16,10 @@ import java.io.OutputStream;
 
 public class FileUtils {
     //TODO: REFACTOR AND OPTIMIZE
+    public static boolean fileExists(String filePath) {
+        return new File(filePath).exists();
+    }
+
     public static boolean deleteFile(String filePath) {
         return deleteFile(new File(filePath));
     }
