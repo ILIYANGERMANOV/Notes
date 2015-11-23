@@ -22,7 +22,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class AudioUtils {
-    //class members passed from outside
+    //class members initialized with values from outside
     private Activity mActivity;
     private LinearLayout mAudioLayout;
     private ProgressBar mProgressBar;
@@ -30,7 +30,7 @@ public class AudioUtils {
     private TextView mAudioDurationTextView;
     private String mAudioPath;
 
-    //variables, not passed from outside
+    //members initialized in AudioUtils
     private MediaPlayer mMediaPlayer;
     private Timer mTimer;
     private boolean mIsReady = false;
@@ -56,12 +56,17 @@ public class AudioUtils {
 
     public void playAudio() {
         if (mIsReady && mMediaPlayer != null) {
-            if (!mMediaPlayer.isPlaying()) {
-                setPlayPauseButtonImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
-                mMediaPlayer.start();
-                //update audio progress
+            try {
+                if (!mMediaPlayer.isPlaying()) {
+                    setPlayPauseButtonImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
+                    mMediaPlayer.start();
+                    //update audio progress
 
-                mTimer.scheduleAtFixedRate(new UpdateAudioProgressTask(this, getDuration()), 0, Constants.MINIMUM_DELAY);
+                    mTimer.scheduleAtFixedRate(new UpdateAudioProgressTask(this, getDuration()), 0, Constants.MINIMUM_DELAY);
+                }
+            } catch (IllegalStateException e) {
+                //this exception is almost impossible to be thrown, just to secure from app crash
+                MyDebugger.log("pauseAudio() IllegalStateException caught", e.getMessage());
             }
         } else {
             //player not ready or null, try to rebuild it
@@ -71,10 +76,15 @@ public class AudioUtils {
 
     public void pauseAudio() {
         if (mIsReady && mMediaPlayer != null) {
-            if (mMediaPlayer.isPlaying()) {
-                setPlayPauseButtonImageResource(R.drawable.ic_play_circle_filled_black_24dp);
-                mMediaPlayer.pause();
-                mTimer.purge();
+            try {
+                if (mMediaPlayer.isPlaying()) {
+                    setPlayPauseButtonImageResource(R.drawable.ic_play_circle_filled_black_24dp);
+                    mMediaPlayer.pause();
+                    mTimer.purge();
+                }
+            } catch (IllegalStateException e) {
+                //this exception is almost impossible to be thrown, just to secure from app crash
+                MyDebugger.log("pauseAudio() IllegalStateException caught", e.getMessage());
             }
         } else {
             //player not ready or null, try to rebuild it
@@ -84,11 +94,16 @@ public class AudioUtils {
 
     public void stopAudio() {
         if (mIsReady && mMediaPlayer != null) {
-            if (mMediaPlayer.isPlaying()) {
-                //stop player if it is playing
-                setPlayPauseButtonImageResource(R.drawable.ic_play_circle_filled_black_24dp);
-                mMediaPlayer.stop();
-                mTimer.purge();
+            try {
+                if (mMediaPlayer.isPlaying()) {
+                    //stop player if it is playing
+                    setPlayPauseButtonImageResource(R.drawable.ic_play_circle_filled_black_24dp);
+                    mMediaPlayer.stop();
+                    mTimer.purge();
+                }
+            } catch (IllegalStateException e) {
+                //this exception is almost impossible to be thrown, just to secure from app crash
+                MyDebugger.log("pauseAudio() IllegalStateException caught", e.getMessage());
             }
         } else {
             //player not ready or null, it won't be used more so no need to rebuild
