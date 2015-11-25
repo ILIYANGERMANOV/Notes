@@ -1,7 +1,8 @@
-package com.gcode.notes.data;
+package com.gcode.notes.data.main;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -9,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gcode.notes.adapters.viewholders.main.NoteItemViewHolder;
+import com.gcode.notes.data.extras.ContentDetails;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.PhotoUtils;
 import com.gcode.notes.extras.utils.Utils;
@@ -25,7 +27,8 @@ public class NoteData extends ContentBase {
     public NoteData(int id, int orderId, int targetId, String title, int mode, boolean hasAttributes,
                     String reminderString, String creationDate, String lastModifiedDate, String expirationDateString) {
 
-        super(id, orderId, targetId, title, mode, hasAttributes, reminderString, creationDate, lastModifiedDate, expirationDateString);
+        super(id, orderId, targetId, title, mode, hasAttributes,
+                reminderString, creationDate, lastModifiedDate, expirationDateString);
     }
 
     public NoteData(String title, int mode, boolean hasAttributes,

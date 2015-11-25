@@ -1,4 +1,4 @@
-package com.gcode.notes.activities.helpers.compose;
+package com.gcode.notes.activities.helpers.compose.note;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -34,6 +34,12 @@ public class ComposeNoteResultHandler {
             //taking photo canceled, try to delete temp file
             if (PhotoUtils.pathToPhoto != null) {
                 FileUtils.deleteFile(PhotoUtils.pathToPhoto);
+            }
+        }
+
+        if (requestCode == Constants.OPEN_PHOTO_IN_GALLERY_REQ_CODE) {
+            if (composeNoteActivity.mOpenImageInGalleryProgressDialog != null) {
+                composeNoteActivity.mOpenImageInGalleryProgressDialog.dismiss();
             }
         }
     }

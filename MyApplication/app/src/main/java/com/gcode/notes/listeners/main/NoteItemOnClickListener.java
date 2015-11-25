@@ -8,7 +8,7 @@ import android.view.View;
 import com.gcode.notes.activities.display.note.DisplayNoteBinActivity;
 import com.gcode.notes.activities.display.note.DisplayNoteNormalActivity;
 import com.gcode.notes.controllers.BaseController;
-import com.gcode.notes.data.NoteData;
+import com.gcode.notes.data.main.NoteData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;

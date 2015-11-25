@@ -1,4 +1,4 @@
-package com.gcode.notes.data;
+package com.gcode.notes.data.main;
 
 
 import android.app.Activity;
@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.gcode.notes.R;
 import com.gcode.notes.adapters.viewholders.main.ListItemViewHolder;
+import com.gcode.notes.data.extras.ListDataItem;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.ui.helpers.CheckedTextViewHelper;
 
@@ -29,7 +30,8 @@ public class ListData extends ContentBase {
     public ListData(int id, int orderId, int targetId, String title, int mode, boolean hasAttributes,
                     String reminderString, String creationDate, String lastModified, String expirationDateString) {
 
-        super(id, orderId, targetId, title, mode, hasAttributes, reminderString, creationDate, lastModified, expirationDateString);
+        super(id, orderId, targetId, title, mode, hasAttributes,
+                reminderString, creationDate, lastModified, expirationDateString);
     }
 
     public ArrayList<ListDataItem> getList() {

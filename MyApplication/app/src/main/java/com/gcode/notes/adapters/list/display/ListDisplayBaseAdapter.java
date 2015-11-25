@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.data.ListDataItem;
+import com.gcode.notes.data.extras.ListDataItem;
 import com.gcode.notes.ui.helpers.CheckedTextViewHelper;
 
 import java.util.ArrayList;

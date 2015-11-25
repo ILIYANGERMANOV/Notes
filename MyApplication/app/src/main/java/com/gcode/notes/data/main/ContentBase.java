@@ -1,15 +1,16 @@
-package com.gcode.notes.data;
+package com.gcode.notes.data.main;
 
 
-import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
+import com.gcode.notes.data.extras.ContentDetails;
 import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
 
 public class ContentBase {
+    //TODO: REFACTOR AND OPTIMIZE
     int id;
     int orderId;
     int targetId;
@@ -26,6 +27,7 @@ public class ContentBase {
         //empty default constructor
     }
 
+    //this constructor is used by Extractor when collecting info from database
     public ContentBase(int id, int orderId, int targetId, String title, int mode, boolean hasAttributes,
                        String reminder, String creationDate, String lastModifiedDate, String expirationDate) {
 

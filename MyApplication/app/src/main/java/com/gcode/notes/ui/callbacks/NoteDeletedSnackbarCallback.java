@@ -4,7 +4,7 @@ import android.support.design.widget.Snackbar;
 
 import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.controllers.BaseController;
-import com.gcode.notes.data.ContentBase;
+import com.gcode.notes.data.main.ContentBase;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.listeners.main.NoteDeletedUndoOnClickListener;

@@ -3,7 +3,7 @@ package com.gcode.notes.listeners.main;
 import android.view.View;
 
 import com.gcode.notes.controllers.BaseController;
-import com.gcode.notes.data.ContentBase;
+import com.gcode.notes.data.main.ContentBase;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.tasks.async.UndoNoteDeletionTask;

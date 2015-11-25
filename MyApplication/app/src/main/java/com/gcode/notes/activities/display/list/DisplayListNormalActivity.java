@@ -7,7 +7,7 @@ import android.view.MenuItem;
 
 import com.gcode.notes.R;
 import com.gcode.notes.activities.compose.ComposeListActivity;
-import com.gcode.notes.data.ListData;
+import com.gcode.notes.data.main.ListData;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;

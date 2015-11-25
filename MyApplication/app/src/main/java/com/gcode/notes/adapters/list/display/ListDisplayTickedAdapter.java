@@ -6,7 +6,7 @@ import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.gcode.notes.data.ListDataItem;
+import com.gcode.notes.data.extras.ListDataItem;
 import com.gcode.notes.ui.helpers.VisibilityHelper;
 import com.gcode.notes.ui.snackbar.SnackbarHelper;
 import com.gcode.notes.ui.snackbar.SnackbarMessages;

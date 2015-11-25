@@ -5,8 +5,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.controllers.BaseController;
-import com.gcode.notes.data.ContentBase;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.data.main.ContentBase;
 
 public class UndoNoteDeletionTask extends AsyncTask<ContentBase, Void, ContentBase> {
     MainAdapter mAdapter;

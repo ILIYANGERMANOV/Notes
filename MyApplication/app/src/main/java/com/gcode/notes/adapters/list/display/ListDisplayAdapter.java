@@ -2,7 +2,7 @@ package com.gcode.notes.adapters.list.display;
 
 import android.content.Context;
 
-import com.gcode.notes.data.ListDataItem;
+import com.gcode.notes.data.extras.ListDataItem;
 
 import java.util.ArrayList;
 

@@ -8,7 +8,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.adapters.MainAdapter;
-import com.gcode.notes.data.ContentBase;
+import com.gcode.notes.data.main.ContentBase;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
 

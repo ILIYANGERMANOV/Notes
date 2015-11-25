@@ -10,8 +10,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.gcode.notes.R;
-import com.gcode.notes.data.ContentBase;
-import com.gcode.notes.data.ListData;
+import com.gcode.notes.data.main.ContentBase;
+import com.gcode.notes.data.main.ListData;
 import com.gcode.notes.listeners.main.ListItemOnClickListener;
 
 import java.util.ArrayList;

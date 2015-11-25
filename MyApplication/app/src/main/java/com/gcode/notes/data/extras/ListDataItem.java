@@ -1,4 +1,4 @@
-package com.gcode.notes.data;
+package com.gcode.notes.data.extras;
 
 
 public class ListDataItem {

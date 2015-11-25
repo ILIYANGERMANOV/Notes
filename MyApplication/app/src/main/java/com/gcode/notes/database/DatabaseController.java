@@ -4,8 +4,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.gcode.notes.data.ContentBase;
-import com.gcode.notes.data.ListData;
+import com.gcode.notes.data.main.ContentBase;
+import com.gcode.notes.data.main.ListData;
 import com.gcode.notes.database.extras.Builder;
 import com.gcode.notes.database.extras.DeleteHelper;
 import com.gcode.notes.database.extras.InsertHelper;

@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.data.ListDataItem;
+import com.gcode.notes.data.extras.ListDataItem;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.listeners.list.ListInputOnEditorActionListener;

@@ -5,10 +5,9 @@ import android.widget.Toast;
 
 import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.controllers.BaseController;
-import com.gcode.notes.data.ContentBase;
+import com.gcode.notes.data.main.ContentBase;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.notes.MyApplication;
-import com.gcode.notes.ui.snackbar.SnackbarHelper;
 
 public class RemoveItemFromMainTask extends AsyncTask<ContentBase, Void, Boolean> {
     MainAdapter mAdapter;

@@ -1,12 +1,10 @@
 package com.gcode.notes.serialization;
 
 
-import android.net.Uri;
-
-import com.gcode.notes.data.ContentDetails;
-import com.gcode.notes.data.ListData;
-import com.gcode.notes.data.ListDataItem;
-import com.gcode.notes.data.NoteData;
+import com.gcode.notes.data.extras.ContentDetails;
+import com.gcode.notes.data.main.ListData;
+import com.gcode.notes.data.extras.ListDataItem;
+import com.gcode.notes.data.main.NoteData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
