@@ -20,6 +20,8 @@ public class Constants {
     //TODO: fix bug on note with id 7833
     public static final int ERROR = 7833;
 
+    public static final int NO_VALUE = 1;
+
     //must be positive and greater than max list items + 1
     public static final int NO_FOCUS = 512;
 

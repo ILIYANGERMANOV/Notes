@@ -74,7 +74,7 @@ public class UpdateHelper {
         contentValues.put(ContentEntry.COLUMN_NAME_ATTRIBUTES, contentBase.hasAttributes());
         contentValues.put(ContentEntry.COLUMN_NAME_LAST_MODIFIED_DATE, contentBase.getLastModifiedDate());
         contentValues.put(ContentEntry.COLUMN_NAME_REMINDER, contentBase.getReminder());
-        if (contentBase.getTargetId() == Constants.ERROR) {
+        if (contentBase.getTargetId() == Constants.NO_VALUE) {
             //targetId isn't set so, there is now row for attributes; insert it now
             if (contentBase.getType() == Constants.TYPE_NOTE) {
                 InsertHelper.insertAttributesInNotes(database, contentBase);

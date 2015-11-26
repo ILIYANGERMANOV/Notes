@@ -25,7 +25,7 @@ public class DeleteAudioCallback extends MaterialDialog.ButtonCallback {
         new DeleteFileTask().execute(mComposeNoteActivity.getAudioPath()); //launch it before, setAudioPath()
         mComposeNoteActivity.setAudioPath(Constants.NO_AUDIO); //remove audio from compose activity, so saveNote() will work correctly
         int editNoteTargetId = mComposeNoteActivity.getEditNoteTargetId();
-        if (editNoteTargetId != Constants.ERROR) {
+        if (editNoteTargetId != Constants.NO_VALUE) {
             //note opened in edit mode, so remove audio from db and set result for display activity
             //to secure if saveNote() isn't called
             new RemoveAttachedAudioTask().execute(editNoteTargetId);

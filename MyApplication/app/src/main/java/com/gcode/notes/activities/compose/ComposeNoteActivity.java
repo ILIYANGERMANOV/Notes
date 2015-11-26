@@ -83,7 +83,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
 
     public boolean mIsOpenedInEditMode;
     public int mEditNoteId;
-    public int mEditNoteTargetId = Constants.ERROR;
+    public int mEditNoteTargetId = Constants.NO_VALUE;
 
     public boolean mIsStarred;
     public boolean mNoteModeChanged;

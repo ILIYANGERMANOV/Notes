@@ -37,8 +37,8 @@ public class InsertHelper {
             String tableName = contentBase.getType() == Constants.TYPE_NOTE ? NoteEntry.TABLE_NAME : ListEntry.TABLE_NAME;
             contentValues.put(ContentEntry.COLUMN_NAME_TARGET_ID, Selector.getLastRowFromTable(mDatabase, tableName));
         } else {
-            //note hasn't attributes, set TARGET_ID to ERROR (ERROR correspond to no target id)
-            contentValues.put(ContentEntry.COLUMN_NAME_TARGET_ID, Constants.ERROR);
+            //note hasn't attributes, set TARGET_ID to NO_VALUE
+            contentValues.put(ContentEntry.COLUMN_NAME_TARGET_ID, Constants.NO_VALUE);
         }
 
         contentValues.put(ContentEntry.COLUMN_NAME_ORDER_ID, Selector.getFirstOrNextIdFromContent(mDatabase));

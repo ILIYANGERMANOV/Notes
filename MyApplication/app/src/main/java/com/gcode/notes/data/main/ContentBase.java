@@ -46,7 +46,7 @@ public class ContentBase {
         this.title = title;
         this.mode = mode;
         this.reminder = reminder;
-        this.targetId = Constants.ERROR;
+        this.targetId = Constants.NO_VALUE;
     }
 
     public int getId() {
