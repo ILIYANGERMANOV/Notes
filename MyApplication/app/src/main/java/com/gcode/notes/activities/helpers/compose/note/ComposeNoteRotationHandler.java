@@ -14,7 +14,6 @@ public class ComposeNoteRotationHandler {
         outState.putBoolean(Constants.EXTRA_IS_OPENED_IN_EDIT_MODE, composeNoteActivity.mIsOpenedInEditMode);
         outState.putBoolean(Constants.EXTRA_IS_STARRED, composeNoteActivity.mIsStarred);
         outState.putBoolean(Constants.EXTRA_NOTE_MODE_CHANGED, composeNoteActivity.mNoteModeChanged);
-        composeNoteActivity.mNoteData.setAttachedImagesPaths(composeNoteActivity.mImagesAdapter.getData()); //preserves added/removed images before screen rotation
         outState.putString(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(composeNoteActivity.mNoteData));
     }
 
@@ -29,8 +28,8 @@ public class ComposeNoteRotationHandler {
         if (noteData != null) {
             composeNoteActivity.mNoteData = noteData;
             if (noteData.hasAttachedImage()) {
-                //adapter's list is still empty, no need to clear
-                composeNoteActivity.mImagesAdapter.addAll(noteData.getAttachedImagesPaths());
+                //images adapter uses the same list as mNoteData so no need to addAll(), cuz items will duplicate
+                ComposeNotePhotoHelper.setupImagesAdapter(composeNoteActivity);
             }
 
             if (noteData.hasAttachedAudio()) {

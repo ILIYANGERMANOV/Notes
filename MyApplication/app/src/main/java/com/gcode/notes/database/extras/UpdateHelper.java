@@ -97,7 +97,7 @@ public class UpdateHelper {
     private static int updateNoteAttributes(SQLiteDatabase database, NoteData noteData) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(NoteEntry.COLUMN_NAME_DESCRIPTION, noteData.getDescription());
-        contentValues.put(NoteEntry.COLUMN_NAME_PHOTOS_PATHS, Serializer.serializePathsList(noteData.getAttachedImagesPaths()));
+        contentValues.put(NoteEntry.COLUMN_NAME_PHOTOS_PATHS, Serializer.serializeImagesPathsList(noteData.getAttachedImagesPaths()));
         contentValues.put(NoteEntry.COLUMN_NAME_AUDIO_PATH, noteData.getAttachedAudioPath());
 
         return database.update(NoteEntry.TABLE_NAME, contentValues,

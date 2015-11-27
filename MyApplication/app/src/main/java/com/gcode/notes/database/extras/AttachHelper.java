@@ -27,7 +27,7 @@ public class AttachHelper {
             String description = notesCursor.getString(notesCursor.getColumnIndex(NoteEntry.COLUMN_NAME_DESCRIPTION));
             noteData.setDescription(description);
             String stringHolder = notesCursor.getString(notesCursor.getColumnIndex(NoteEntry.COLUMN_NAME_PHOTOS_PATHS));
-            noteData.setAttachedImagesPaths(Serializer.parseStringPathsList(stringHolder));
+            noteData.setAttachedImagesPaths(Serializer.parseImagesPathsList(stringHolder));
             stringHolder = notesCursor.getString(notesCursor.getColumnIndex(NoteEntry.COLUMN_NAME_AUDIO_PATH));
             noteData.setAttachedAudioPath(stringHolder);
 

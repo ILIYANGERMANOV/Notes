@@ -78,6 +78,10 @@ public class ComposeNoteActivity extends AppCompatActivity {
         return mDescriptionEditText;
     }
 
+    public LinearListView getImagesLinearListView() {
+        return mImagesLinearListView;
+    }
+
     public LinearLayout getAudioLayout() {
         return mAudioLayout;
     }
@@ -122,9 +126,6 @@ public class ComposeNoteActivity extends AppCompatActivity {
     private void setup(Bundle savedInstanceState) {
         mTitleEditText.setHorizontallyScrolling(false);
         mTitleEditText.setMaxLines(3);
-
-        mImagesAdapter = new ComposeNoteImagesAdapter(this, new ArrayList<String>(), mImagesLinearListView);
-        mImagesLinearListView.setAdapter(mImagesAdapter);
 
         ComposeNoteStartStateHelper composeNoteStartStateHelper = new ComposeNoteStartStateHelper(this);
 

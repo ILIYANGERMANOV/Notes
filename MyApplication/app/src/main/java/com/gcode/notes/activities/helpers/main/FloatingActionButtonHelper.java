@@ -32,6 +32,7 @@ public class FloatingActionButtonHelper implements View.OnClickListener {
         //TODO: Refactor and optimize, fix onClick() spam problems (prelolipop click events isn't handled, lolipop random option is selected)
         SubActionButton.Builder itemBuilder = new SubActionButton.Builder(mMainActivity);
 
+        //TODO: make subActionButtons bigger so can be clicked easily
         if (Build.VERSION.SDK_INT >= 21) {
             itemBuilder.setBackgroundDrawable(mMainActivity.getFab().getBackground());
         } else {

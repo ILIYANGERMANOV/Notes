@@ -36,7 +36,7 @@ public class ComposeNoteStartStateHelper {
                 break;
             case Constants.SETUP_FROM_PHOTO:
                 //Creating note from attached image
-                setupFromPhoto(intent.getStringExtra(Constants.EXTRA_PHOTO_URI));
+                ComposeNotePhotoHelper.setupFromPhoto(mComposeNoteActivity, intent.getStringExtra(Constants.EXTRA_PHOTO_URI));
                 break;
             case Constants.SETUP_FROM_AUDIO:
                 //Creating audio note (from voice recognition)
@@ -81,19 +81,13 @@ public class ComposeNoteStartStateHelper {
                 ComposeNoteAudioHelper.setupAudio(mComposeNoteActivity, noteData.getAttachedAudioPath());
             }
             if (noteData.hasAttachedImage()) {
-                //adapter's list is still empty, no need to clear
-                mComposeNoteActivity.mImagesAdapter.addAll(noteData.getAttachedImagesPaths());
+                //images adapter uses the same list as mNoteData so no need to addAll(), cuz items will duplicate
+                ComposeNotePhotoHelper.setupImagesAdapter(mComposeNoteActivity);
             }
             mComposeNoteActivity.getDescriptionEditText().setText(noteData.getDescription());
         } else {
             MyDebugger.log("EditMode launched with null note, finish activity in order to prevent errors");
             mComposeNoteActivity.finish();
         }
-    }
-
-    private void setupFromPhoto(String photoUriString) {
-        mComposeNoteActivity.mImagesAdapter.add(photoUriString);
-        mComposeNoteActivity.mNoteData = new NoteData();
-        mComposeNoteActivity.mNoteData.addAttachedImagePath(photoUriString);
     }
 }

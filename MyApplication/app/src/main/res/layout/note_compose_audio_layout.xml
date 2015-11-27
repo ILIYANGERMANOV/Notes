@@ -11,8 +11,8 @@
 
     <ImageButton
         android:id="@+id/compose_audio_play_pause_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="36dp"
         android:background="?android:attr/selectableItemBackground"
         android:contentDescription="@string/play_pause_image_button_desc"
         android:src="@drawable/ic_play_circle_filled_black_24dp" />
@@ -22,10 +22,8 @@
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
         android:layout_weight="1"
         android:max="100"
         android:progress="0" />
@@ -41,6 +39,8 @@
         android:id="@+id/compose_audio_delete_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="7dp"
+        android:layout_marginRight="7dp"
         android:background="?android:attr/selectableItemBackground"
         android:contentDescription="@string/delete_audio_image_button_desc"
         android:src="@drawable/ic_remove_circle_black_24dp" />

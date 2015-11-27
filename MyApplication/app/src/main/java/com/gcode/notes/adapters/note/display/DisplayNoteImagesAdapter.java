@@ -10,11 +10,11 @@ import android.widget.ImageView;
 import com.gcode.notes.R;
 import com.gcode.notes.extras.utils.PhotoUtils;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class DisplayNoteImagesAdapter extends ArrayAdapter<String> {
 
-    public DisplayNoteImagesAdapter(Context context, ArrayList<String> data) {
+    public DisplayNoteImagesAdapter(Context context, List<String> data) {
         super(context, 0, data);
     }
 

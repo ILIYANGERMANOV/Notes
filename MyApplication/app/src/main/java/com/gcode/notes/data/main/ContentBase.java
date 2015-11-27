@@ -83,6 +83,10 @@ public class ContentBase {
         this.targetId = targetId;
     }
 
+    public void setLastModifiedDate(String lastModifiedDate) {
+        contentDetails.setLastModifiedDate(lastModifiedDate);
+    }
+
     public void setContentDetails(ContentDetails contentDetails) {
         this.contentDetails = contentDetails;
     }

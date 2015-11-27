@@ -73,7 +73,7 @@ public class InsertHelper {
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(NoteEntry.COLUMN_NAME_DESCRIPTION, noteData.getDescription());
-        contentValues.put(NoteEntry.COLUMN_NAME_PHOTOS_PATHS, Serializer.serializePathsList(noteData.getAttachedImagesPaths()));
+        contentValues.put(NoteEntry.COLUMN_NAME_PHOTOS_PATHS, Serializer.serializeImagesPathsList(noteData.getAttachedImagesPaths()));
         contentValues.put(NoteEntry.COLUMN_NAME_AUDIO_PATH, noteData.getAttachedAudioPath());
 
         if (mDatabase.insert(NoteEntry.TABLE_NAME, null, contentValues) == Constants.DATABASE_ERROR) {

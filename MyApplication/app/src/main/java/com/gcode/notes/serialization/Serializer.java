@@ -2,13 +2,14 @@ package com.gcode.notes.serialization;
 
 
 import com.gcode.notes.data.extras.ContentDetails;
-import com.gcode.notes.data.main.ListData;
 import com.gcode.notes.data.extras.ListDataItem;
+import com.gcode.notes.data.main.ListData;
 import com.gcode.notes.data.main.NoteData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Serializer {
     //TODO: REFACTOR AND OPTIMIZE
@@ -56,14 +57,14 @@ public class Serializer {
                 }.getType());
     }
 
-    public static String serializePathsList(ArrayList<String> attachedImagesList) {
+    public static String serializeImagesPathsList(List<String> attachedImagesList) {
         Gson gson = new Gson();
         return gson.toJson(attachedImagesList);
     }
 
-    public static ArrayList<String> parseStringPathsList(String serializedObject) {
+    public static List<String> parseImagesPathsList(String serializedObject) {
         return new Gson().fromJson(serializedObject,
-                new TypeToken<ArrayList<String>>() {
+                new TypeToken<List<String>>() {
                 }.getType());
     }
 

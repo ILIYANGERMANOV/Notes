@@ -14,25 +14,19 @@ import com.gcode.notes.ui.ActionExecutor;
 import com.gcode.notes.ui.helpers.DialogHelper;
 import com.linearlistview.LinearListView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ComposeNoteImagesAdapter extends ArrayAdapter<String> {
-    //TODO: optimize mData and data and REFACTOR
-    ArrayList<String> mData;
+    //TODO: REFACTOR
     ComposeNoteActivity mComposeNoteActivity;
     LinearListView mLinearListView;
 
-    public ComposeNoteImagesAdapter(ComposeNoteActivity composeNoteActivity, ArrayList<String> data,
+    public ComposeNoteImagesAdapter(ComposeNoteActivity composeNoteActivity, List<String> data,
                                     LinearListView linearListView) {
 
         super(composeNoteActivity, 0, data);
-        mData = data;
         mComposeNoteActivity = composeNoteActivity;
         mLinearListView = linearListView;
-    }
-
-    public ArrayList<String> getData() {
-        return mData;
     }
 
     public void showListView() {
@@ -66,7 +60,6 @@ public class ComposeNoteImagesAdapter extends ArrayAdapter<String> {
             public void onClick(View v) {
                 //show opening image in gallery progress dialog
                 mComposeNoteActivity.mOpenImageInGalleryProgressDialog = DialogHelper.buildOpenImageProgressDialog(mComposeNoteActivity);
-
                 PhotoUtils.openPhotoInGallery(mComposeNoteActivity, photoPath);
             }
         });

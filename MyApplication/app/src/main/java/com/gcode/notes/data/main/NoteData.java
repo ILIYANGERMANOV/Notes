@@ -15,11 +15,12 @@ import com.gcode.notes.extras.utils.Utils;
 import com.gcode.notes.extras.values.Constants;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NoteData extends ContentBase {
     //TODO: REFACTOR AND OPTIMIZE, remove useless null checks
     String description;
-    ArrayList<String> attachedImagesPaths;
+    List<String> attachedImagesPaths;
     String attachedAudioPath;
 
     public NoteData() {
@@ -148,12 +149,12 @@ public class NoteData extends ContentBase {
         return hasValidTitle() || hasAttributes();
     }
 
-    public ArrayList<String> getAttachedImagesPaths() {
+    public List<String> getAttachedImagesPaths() {
         secureAttachedImagesPathsList();
         return attachedImagesPaths;
     }
 
-    public void setAttachedImagesPaths(ArrayList<String> attachedImagesPaths) {
+    public void setAttachedImagesPaths(List<String> attachedImagesPaths) {
         if (this.attachedImagesPaths != null) {
             if (!this.attachedImagesPaths.isEmpty()) {
                 this.attachedImagesPaths.clear();

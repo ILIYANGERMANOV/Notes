@@ -7,11 +7,10 @@ import com.gcode.notes.R;
 import com.gcode.notes.activities.compose.ComposeNoteActivity;
 import com.gcode.notes.data.main.NoteData;
 import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
-
-import java.util.ArrayList;
 
 public class ComposeNoteSaveHelper {
     public static void saveNote(ComposeNoteActivity composeNoteActivity) {
@@ -19,11 +18,10 @@ public class ComposeNoteSaveHelper {
 
         String title = composeNoteActivity.getTitleEditText().getText().toString();
         String description = composeNoteActivity.getDescriptionEditText().getText().toString();
-        ArrayList<String> attachedImagesPathsList = composeNoteActivity.mImagesAdapter.getData();
 
         mNoteData.setTitle(title);
         mNoteData.setDescription(description);
-        mNoteData.setAttachedImagesPaths(attachedImagesPathsList);
+        //images are already added (adapter uses same list as adapter, so removing/adding will result mNoteData, too)
         //if has audio is already set in setupFromAudio or delete in DeleteAudioCallback
 
         if (mNoteData.isValidNote()) {
@@ -51,6 +49,7 @@ public class ComposeNoteSaveHelper {
                 }
             } else {
                 //update existing note
+                mNoteData.setLastModifiedDate(DateUtils.getCurrentTimeSQLiteFormatted());
                 if (MyApplication.getWritableDatabase().updateNote(mNoteData)) {
                     resultIntent.putExtra(Constants.NOTE_UPDATED_SUCCESSFULLY, true);
                     resultIntent.putExtra(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(mNoteData));
