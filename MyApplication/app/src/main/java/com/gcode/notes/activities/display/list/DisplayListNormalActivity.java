@@ -71,7 +71,7 @@ public class DisplayListNormalActivity extends DisplayListBaseActivity {
 
     @Override
     protected void onStop() {
-        if (mListData.hasAttributes()) {
+        if (mListData.getHasAttributesFlag()) {
             //save done/undone changes to database
             new UpdateListAttributesTask().execute(mListData);
         }

@@ -121,17 +121,19 @@ public class FloatingActionButtonHelper implements View.OnClickListener {
     public void onClick(View v) {
         if (v.getTag() == null) return;
 
-        Intent mIntent;
+        Intent intent;
 
         String tag = (String) v.getTag();
         switch (tag) {
             case Tags.TAG_TEXT_NOTE:
-                mIntent = new Intent(mMainActivity, ComposeNoteActivity.class);
-                mMainActivity.startActivityForResult(mIntent, Constants.COMPOSE_NOTE_REQUEST_CODE);
+                intent = new Intent(mMainActivity, ComposeNoteActivity.class);
+                intent.putExtra(Constants.EXTRA_SETUP_FROM, Constants.SETUP_FROM_ZERO);
+                mMainActivity.startActivityForResult(intent, Constants.COMPOSE_NOTE_REQUEST_CODE);
                 break;
             case Tags.TAG_LIST:
-                mIntent = new Intent(mMainActivity, ComposeListActivity.class);
-                mMainActivity.startActivityForResult(mIntent, Constants.COMPOSE_NOTE_REQUEST_CODE);
+                intent = new Intent(mMainActivity, ComposeListActivity.class);
+                //TODO: add EXTRA_SETUP_FROM if works well
+                mMainActivity.startActivityForResult(intent, Constants.COMPOSE_NOTE_REQUEST_CODE);
                 break;
             case Tags.TAG_VOICE_NOTE:
                 VoiceUtils.promptSpeechInput(mMainActivity);

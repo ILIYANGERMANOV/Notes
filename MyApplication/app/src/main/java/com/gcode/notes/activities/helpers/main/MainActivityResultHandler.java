@@ -6,15 +6,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.speech.RecognizerIntent;
 
 import com.gcode.notes.activities.MainActivity;
-import com.gcode.notes.activities.compose.ComposeNoteActivity;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.main.ContentBase;
 import com.gcode.notes.data.main.ListData;
 import com.gcode.notes.data.main.NoteData;
 import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.builders.IntentBuilder;
 import com.gcode.notes.extras.utils.FileUtils;
 import com.gcode.notes.extras.utils.PhotoUtils;
 import com.gcode.notes.extras.values.Constants;
@@ -62,11 +61,7 @@ public class MainActivityResultHandler {
     private static void handleSpeechInput(Activity activity, Intent data) {
         String audioFilePath = FileUtils.createVoiceRecordFile(data.getData());
         if (audioFilePath != null) {
-            Intent intent = new Intent(activity, ComposeNoteActivity.class);
-            intent.putExtra(Constants.EXTRA_AUDIO_PATH, audioFilePath);
-            intent.putExtra(Constants.EXTRA_RECOGNIZED_SPEECH_TEXT,
-                    data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0));
-
+            Intent intent = IntentBuilder.buildStartComposeFromAudioIntent(activity, data, audioFilePath);
             activity.startActivityForResult(intent, Constants.COMPOSE_NOTE_REQUEST_CODE);
         } else {
             MyDebugger.log("handleSpeechInput()", "audioFilePath is null");
@@ -92,8 +87,7 @@ public class MainActivityResultHandler {
         c.close();
         if (photoUri != null) {
             //selected photoUri obtained successfully, start compose note activity with it
-            Intent intent = new Intent(activity, ComposeNoteActivity.class);
-            intent.putExtra(Constants.EXTRA_PHOTO_URI, photoUri.toString());
+            Intent intent = IntentBuilder.buildStartComposeFromPhotoIntent(activity, photoUri);
             activity.startActivityForResult(intent, Constants.COMPOSE_NOTE_REQUEST_CODE);
         } else {
             MyDebugger.log("handleSelectedPhotoFromGallery", "photoUri is null");
@@ -104,8 +98,7 @@ public class MainActivityResultHandler {
         if (PhotoUtils.pathToPhoto != null) {
             //photo is taken successfully, add to gallery and launch compose activity with it
             PhotoUtils.addPhotoToGallery(MyApplication.getAppContext(), PhotoUtils.pathToPhoto);
-            Intent intent = new Intent(activity, ComposeNoteActivity.class);
-            intent.putExtra(Constants.EXTRA_PHOTO_URI, PhotoUtils.pathToPhoto.toString());
+            Intent intent = IntentBuilder.buildStartComposeFromPhotoIntent(activity, PhotoUtils.pathToPhoto);
             activity.startActivityForResult(intent, Constants.COMPOSE_NOTE_REQUEST_CODE);
         } else {
             MyDebugger.log("handleTakePhotoResult", "PhotoUtils.photoUri is null");

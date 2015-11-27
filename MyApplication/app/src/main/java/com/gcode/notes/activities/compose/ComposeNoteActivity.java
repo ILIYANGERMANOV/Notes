@@ -15,18 +15,18 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.R;
 import com.gcode.notes.activities.helpers.compose.ComposeToolbarHelper;
+import com.gcode.notes.activities.helpers.compose.note.ComposeNoteImportanceHelper;
 import com.gcode.notes.activities.helpers.compose.note.ComposeNoteResultHandler;
 import com.gcode.notes.activities.helpers.compose.note.ComposeNoteRotationHandler;
 import com.gcode.notes.activities.helpers.compose.note.ComposeNoteSaveHelper;
-import com.gcode.notes.activities.helpers.compose.note.ComposeNoteImportanceHelper;
 import com.gcode.notes.activities.helpers.compose.note.ComposeNoteStartStateHelper;
 import com.gcode.notes.adapters.note.compose.ComposeNoteImagesAdapter;
-import com.gcode.notes.data.extras.ContentDetails;
+import com.gcode.notes.data.main.NoteData;
 import com.gcode.notes.extras.utils.AudioUtils;
-import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.ui.ActionExecutor;
-import com.gcode.notes.ui.helpers.DialogHelper;
 import com.linearlistview.LinearListView;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,8 +38,14 @@ public class ComposeNoteActivity extends AppCompatActivity {
     @Bind(R.id.compose_note_toolbar)
     Toolbar mToolbar;
 
+    @Bind(R.id.compose_star_image_button)
+    ImageButton mStarImageButton;
+
     @Bind(R.id.compose_note_title_edit_text)
     EditText mTitleEditText;
+
+    @Bind(R.id.compose_note_description_edit_text)
+    EditText mDescriptionEditText;
 
     @Bind(R.id.compose_note_images_linear_list_view)
     LinearListView mImagesLinearListView;
@@ -47,99 +53,63 @@ public class ComposeNoteActivity extends AppCompatActivity {
     @Bind(R.id.compose_note_audio_layout)
     LinearLayout mAudioLayout;
 
-    @Bind(R.id.compose_audio_progress_bar)
-    ProgressBar mAudioProgressBar;
-
     @Bind(R.id.compose_audio_play_pause_button)
     ImageButton mAudioPlayPauseButton;
+
+    @Bind(R.id.compose_audio_progress_bar)
+    ProgressBar mAudioProgressBar;
 
     @Bind(R.id.compose_audio_duration_text_view)
     TextView mAudioDurationTextView;
 
-    @Bind(R.id.compose_note_description_edit_text)
-    EditText mDescriptionEditText;
-
-    @Bind(R.id.compose_star_image_button)
-    ImageButton mStarImageButton;
-
     @Bind(R.id.compose_note_reminder_text_view)
     TextView mReminderTextView;
 
-    public TextView getAudioDurationTextView() {
-        return mAudioDurationTextView;
+    //getters for layout components------------------------------------------------------------------------------------------
+    public ImageButton getStarImageButton() {
+        return mStarImageButton;
     }
 
     public EditText getTitleEditText() {
         return mTitleEditText;
     }
 
-    public LinearListView getImagesLinearListView() {
-        return mImagesLinearListView;
-    }
-
     public EditText getDescriptionEditText() {
         return mDescriptionEditText;
-    }
-
-    public boolean mIsOpenedInEditMode;
-    public int mEditNoteId;
-    public int mEditNoteTargetId = Constants.NO_VALUE;
-
-    public boolean mIsStarred;
-    public boolean mNoteModeChanged;
-    public ContentDetails mContentDetails;
-
-
-    public TextView getReminderTextView() {
-        return mReminderTextView;
-    }
-
-    public ComposeNoteImagesAdapter mImagesAdapter;
-    public String mAudioPath = Constants.NO_AUDIO;
-
-    public AudioUtils mAudioUtils;
-
-    public MaterialDialog mOpenImageInGalleryProgressDialog;
-
-    public void showAndInitOpenImageProgressDialog() {
-        mOpenImageInGalleryProgressDialog = DialogHelper.buildOpenImageProgressDialog(this);
-    }
-
-    public ComposeNoteImagesAdapter getImagesAdapter() {
-        return mImagesAdapter;
-    }
-
-    public ImageButton getStarImageButton() {
-        return mStarImageButton;
     }
 
     public LinearLayout getAudioLayout() {
         return mAudioLayout;
     }
 
-    public ProgressBar getAudioProgressBar() {
-        return mAudioProgressBar;
-    }
-
     public ImageButton getAudioPlayPauseButton() {
         return mAudioPlayPauseButton;
     }
 
-    public AudioUtils getAudioUtils() {
-        return mAudioUtils;
+    public ProgressBar getAudioProgressBar() {
+        return mAudioProgressBar;
     }
 
-    public String getAudioPath() {
-        return mAudioPath;
+    public TextView getAudioDurationTextView() {
+        return mAudioDurationTextView;
     }
 
-    public void setAudioPath(String audioPath) {
-        this.mAudioPath = audioPath;
+    public TextView getReminderTextView() {
+        return mReminderTextView;
     }
+    //getters for layout components------------------------------------------------------------------------------------------
 
-    public int getEditNoteTargetId() {
-        return mEditNoteTargetId;
-    }
+    public NoteData mNoteData;
+
+    public boolean mIsOpenedInEditMode;
+    public boolean mIsStarred;
+    public boolean mNoteModeChanged;
+
+    public AudioUtils mAudioUtils;
+    public ComposeNoteImagesAdapter mImagesAdapter;
+    public MaterialDialog mOpenImageInGalleryProgressDialog;
+
+    public Intent mResultIntent = new Intent();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +120,12 @@ public class ComposeNoteActivity extends AppCompatActivity {
     }
 
     private void setup(Bundle savedInstanceState) {
+        mTitleEditText.setHorizontallyScrolling(false);
+        mTitleEditText.setMaxLines(3);
+
+        mImagesAdapter = new ComposeNoteImagesAdapter(this, new ArrayList<String>(), mImagesLinearListView);
+        mImagesLinearListView.setAdapter(mImagesAdapter);
+
         ComposeNoteStartStateHelper composeNoteStartStateHelper = new ComposeNoteStartStateHelper(this);
 
         ComposeToolbarHelper.setupToolbar(this, mToolbar);

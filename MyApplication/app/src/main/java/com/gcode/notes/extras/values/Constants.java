@@ -54,8 +54,15 @@ public class Constants {
     public static final String NO_REMINDER = "no_reminder";
     public static final String NO_AUDIO = "no_audio_attached";
 
+    public static final int SETUP_FROM_ZERO = 1;
+    public static final int SETUP_FROM_EDIT_MODE = 2;
+    public static final int SETUP_FROM_SCREEN_ROTATION = 3;
+    public static final int SETUP_FROM_PHOTO = 4;
+    public static final int SETUP_FROM_AUDIO = 5;
+
     public static final String EXTRA_LIST_DATA = "list_data_extra";
     public static final String EXTRA_NOTE_DATA = "note_data_extra";
+    public static final String EXTRA_SETUP_FROM = "setup_from_extra";
     public static final String EXTRA_PHOTO_URI = "photo_uri_extra";
     public static final String EXTRA_AUDIO_PATH = "audio_path_extra";
     public static final String EXTRA_RECOGNIZED_SPEECH_TEXT = "recognized_speech_text_extra";

@@ -23,7 +23,7 @@ public class ListData extends ContentBase {
                     ArrayList<ListDataItem> list, @NonNull String reminderString) {
 
         super(title, mode, reminderString);
-        this.hasAttributes = hasAttributes;
+        this.hasAttributesFlag = hasAttributes;
         this.list = list;
     }
 

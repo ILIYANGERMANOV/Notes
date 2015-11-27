@@ -117,18 +117,31 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
     protected void displayNoteData() {
         mNoteData.displayNote(mTitleTextView, mDescriptionTextView);
         mDatesTextView.setText(mNoteData.getDateDetails());
+        //TODO: REFACTOR AND OPTIMIZE called 2x (init and onActivityResult from compose)
         if (mNoteData.hasAttachedImage()) {
-            final DisplayNoteImagesAdapter adapter = new DisplayNoteImagesAdapter(this, mNoteData.getAttachedImagesPaths());
+            DisplayNoteImagesAdapter adapter = (DisplayNoteImagesAdapter) mImagesLinearListView.getAdapter();
+            if (adapter == null) {
+                //activity is created for first time
+                adapter = new DisplayNoteImagesAdapter(this, mNoteData.getAttachedImagesPaths());
+            } else {
+                adapter.clear();
+                adapter.addAll(mNoteData.getAttachedImagesPaths());
+            }
             mImagesLinearListView.setAdapter(adapter);
             mImagesLinearListView.setOnItemClickListener(new LinearListView.OnItemClickListener() {
                 @Override
                 public void onItemClick(LinearListView parent, View view, int position, long id) {
                     mOpenInGalleryProgressDialog = DialogHelper.buildOpenImageProgressDialog(DisplayNoteBaseActivity.this);
                     //TODO: add on click effect on image
-                    PhotoUtils.openPhotoInGallery(DisplayNoteBaseActivity.this, adapter.getItem(position));
+                    PhotoUtils.openPhotoInGallery(DisplayNoteBaseActivity.this, (String) parent.getAdapter().getItem(position));
                 }
             });
+        } else {
+            mImagesLinearListView.setVisibility(View.GONE); //when you come back from compose and all images are deleted
+            //hasAttachedImages() is false so true case doesn't handle image remove
         }
+
+        //TODO: not handle with EXTRA_AUDIO_DELETED from compose (use mNoteData)
         if (mNoteData.hasAttachedAudio()) {
             mAudioUtils = new AudioUtils(this, mNoteData.getAttachedAudioPath(), mAudioDurationTextView,
                     mAudioProgressBar, mAudioPlayPauseButton, mAudioLayout);

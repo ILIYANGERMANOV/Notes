@@ -45,7 +45,7 @@ public class UpdateHelper {
         if (affectedRows == 0) {
             MyDebugger.log("updatingBaseContent failed.");
         }
-        if (contentBase.hasAttributes()) {
+        if (contentBase.getHasAttributesFlag()) {
             if (contentBase.getType() == Constants.TYPE_NOTE) {
                 //onItemAdded note attributes
                 affectedRows += updateNoteAttributes(database, (NoteData) contentBase);
@@ -71,7 +71,7 @@ public class UpdateHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(ContentEntry.COLUMN_NAME_TITLE, contentBase.getTitle());
         contentValues.put(ContentEntry.COLUMN_NAME_MODE, contentBase.getMode());
-        contentValues.put(ContentEntry.COLUMN_NAME_ATTRIBUTES, contentBase.hasAttributes());
+        contentValues.put(ContentEntry.COLUMN_NAME_ATTRIBUTES, contentBase.getHasAttributesFlag());
         contentValues.put(ContentEntry.COLUMN_NAME_LAST_MODIFIED_DATE, contentBase.getLastModifiedDate());
         contentValues.put(ContentEntry.COLUMN_NAME_REMINDER, contentBase.getReminder());
         if (contentBase.getTargetId() == Constants.NO_VALUE) {
@@ -81,7 +81,7 @@ public class UpdateHelper {
             } else {
                 InsertHelper.insertAttributesInLists(database, contentBase);
             }
-            if (contentBase.hasAttributes()) {
+            if (contentBase.getHasAttributesFlag()) {
                 //target id - the id corresponding in the relevant attribute table (Notes/Lists),
                 // which is already inserted successfully for the current item
                 String tableName = contentBase.getType() == Constants.TYPE_NOTE ? NoteEntry.TABLE_NAME : ListEntry.TABLE_NAME;

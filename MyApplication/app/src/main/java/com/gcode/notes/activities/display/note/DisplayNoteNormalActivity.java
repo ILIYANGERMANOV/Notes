@@ -89,6 +89,7 @@ public class DisplayNoteNormalActivity extends DisplayNoteBaseActivity {
         if (item.getItemId() == R.id.action_edit) {
             Intent intent = new Intent(this, ComposeNoteActivity.class);
             intent.putExtra(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(mNoteData));
+            intent.putExtra(Constants.EXTRA_SETUP_FROM, Constants.SETUP_FROM_EDIT_MODE);
             startActivityForResult(intent, Constants.COMPOSE_NOTE_REQUEST_CODE);
             return true;
         }

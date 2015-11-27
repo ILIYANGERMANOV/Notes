@@ -7,7 +7,7 @@ import com.gcode.notes.data.main.ContentBase;
 
 public class Validator {
     public static void validateTitle(SQLiteDatabase mDatabase, ContentBase contentBase) {
-        if (!contentBase.isValidTitle()) {
+        if (!contentBase.hasValidTitle()) {
             contentBase.setTitle(generateItemTitle(mDatabase));
         }
     }

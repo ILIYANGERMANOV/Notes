@@ -3,47 +3,41 @@ package com.gcode.notes.activities.helpers.compose.note;
 import android.os.Bundle;
 
 import com.gcode.notes.activities.compose.ComposeNoteActivity;
+import com.gcode.notes.data.main.NoteData;
+import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 
-import java.util.ArrayList;
-
 public class ComposeNoteRotationHandler {
     public static void saveInstanceState(ComposeNoteActivity composeNoteActivity, Bundle outState) {
+        composeNoteActivity.getIntent().putExtra(Constants.EXTRA_SETUP_FROM, Constants.SETUP_FROM_SCREEN_ROTATION); //put it to int, cuz its extra we are checking in setupStartState()
         outState.putBoolean(Constants.EXTRA_IS_OPENED_IN_EDIT_MODE, composeNoteActivity.mIsOpenedInEditMode);
-        if (composeNoteActivity.mIsOpenedInEditMode) {
-            outState.putInt(Constants.EXTRA_EDIT_NOTE_ID, composeNoteActivity.mEditNoteId);
-            outState.putInt(Constants.EXTRA_EDIT_NOTE_TARGET_ID, composeNoteActivity.mEditNoteTargetId);
-        }
         outState.putBoolean(Constants.EXTRA_IS_STARRED, composeNoteActivity.mIsStarred);
         outState.putBoolean(Constants.EXTRA_NOTE_MODE_CHANGED, composeNoteActivity.mNoteModeChanged);
-        outState.putString(Constants.EXTRA_CONTENT_DETAILS, Serializer.serializeContentDetails(composeNoteActivity.mContentDetails));
-        //TODO: optimize always passing images list
-        outState.putString(Constants.EXTRA_ATTACHED_IMAGES_LIST, Serializer.serializePathsList(composeNoteActivity.mImagesAdapter.getData()));
-        outState.putString(Constants.EXTRA_ATTACHED_AUDIO_PATH, composeNoteActivity.mAudioPath);
+        composeNoteActivity.mNoteData.setAttachedImagesPaths(composeNoteActivity.mImagesAdapter.getData()); //preserves added/removed images before screen rotation
+        outState.putString(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(composeNoteActivity.mNoteData));
     }
 
     public static void handlerScreenRotation(ComposeNoteActivity composeNoteActivity, Bundle savedInstanceState) {
         composeNoteActivity.mIsOpenedInEditMode = savedInstanceState.getBoolean(Constants.EXTRA_IS_OPENED_IN_EDIT_MODE);
-        if (composeNoteActivity.mIsOpenedInEditMode) {
-            composeNoteActivity.mEditNoteId = savedInstanceState.getInt(Constants.EXTRA_EDIT_NOTE_ID);
-            composeNoteActivity.mEditNoteTargetId = savedInstanceState.getInt(Constants.EXTRA_EDIT_NOTE_TARGET_ID);
-        }
         if (savedInstanceState.getBoolean(Constants.EXTRA_IS_STARRED)) {
             ComposeNoteImportanceHelper.setStarredState(composeNoteActivity);
         }
         composeNoteActivity.mNoteModeChanged = savedInstanceState.getBoolean(Constants.EXTRA_NOTE_MODE_CHANGED);
-        composeNoteActivity.mContentDetails = Serializer.parseContentDetails(savedInstanceState.getString(Constants.EXTRA_CONTENT_DETAILS));
-        ArrayList<String> pathsList = Serializer.parseStringPathsList(
-                savedInstanceState.getString(Constants.EXTRA_ATTACHED_IMAGES_LIST));
+        String serializedNoteData = savedInstanceState.getString(Constants.EXTRA_NOTE_DATA);
+        NoteData noteData = Serializer.parseNoteData(serializedNoteData);
+        if (noteData != null) {
+            composeNoteActivity.mNoteData = noteData;
+            if (noteData.hasAttachedImage()) {
+                //adapter's list is still empty, no need to clear
+                composeNoteActivity.mImagesAdapter.addAll(noteData.getAttachedImagesPaths());
+            }
 
-        if (pathsList != null) {
-            //adapter's list is still empty, no need to clear
-            composeNoteActivity.mImagesAdapter.addAll(pathsList);
-        }
-        String audioPath = savedInstanceState.getString(Constants.EXTRA_ATTACHED_AUDIO_PATH);
-        if (audioPath != null && !audioPath.equals(Constants.NO_AUDIO)) {
-            ComposeNoteAudioHelper.setupAudio(composeNoteActivity, audioPath);
+            if (noteData.hasAttachedAudio()) {
+                ComposeNoteAudioHelper.setupAudio(composeNoteActivity, noteData.getAttachedAudioPath());
+            }
+        } else {
+            MyDebugger.log("handleScreenRotation noteData is null.");
         }
     }
 }

@@ -11,24 +11,34 @@ import com.gcode.notes.extras.values.Constants;
 
 public class ContentBase {
     //TODO: REFACTOR AND OPTIMIZE
+
+    //have default value
     int id;
     int orderId;
     int targetId;
+    boolean hasAttributesFlag;
+    String reminder;
+    ContentDetails contentDetails;
 
+
+    //don't have default value
     String title;
     int mode;
     int type;
-    boolean hasAttributes;
-    String reminder;
 
-    ContentDetails contentDetails;
 
     public ContentBase() {
         //empty default constructor
+        id = Constants.NO_VALUE;
+        targetId = Constants.NO_VALUE;
+        orderId = Constants.NO_VALUE;
+        hasAttributesFlag = false;
+        reminder = Constants.NO_REMINDER;
+        contentDetails = new ContentDetails();
     }
 
     //this constructor is used by Extractor when collecting info from database
-    public ContentBase(int id, int orderId, int targetId, String title, int mode, boolean hasAttributes,
+    public ContentBase(int id, int orderId, int targetId, String title, int mode, boolean hasAttributesFlag,
                        String reminder, String creationDate, String lastModifiedDate, String expirationDate) {
 
         this.id = id;
@@ -37,7 +47,7 @@ public class ContentBase {
         this.title = title;
         this.mode = mode;
         this.reminder = reminder;
-        this.hasAttributes = hasAttributes;
+        this.hasAttributesFlag = hasAttributesFlag;
         contentDetails = new ContentDetails(creationDate, lastModifiedDate, expirationDate);
     }
 
@@ -108,12 +118,12 @@ public class ContentBase {
         return dateDetails;
     }
 
-    public void setAttributes(boolean hasAttributes) {
-        this.hasAttributes = hasAttributes;
+    public void setHasAttributesFlag(boolean hasAttributes) {
+        this.hasAttributesFlag = hasAttributes;
     }
 
-    public boolean hasAttributes() {
-        return hasAttributes;
+    public boolean getHasAttributesFlag() {
+        return hasAttributesFlag;
     }
 
     public int getType() {
@@ -152,7 +162,7 @@ public class ContentBase {
         this.title = title;
     }
 
-    public boolean isValidTitle() {
+    public boolean hasValidTitle() {
         return title.trim().length() > 0;
     }
 

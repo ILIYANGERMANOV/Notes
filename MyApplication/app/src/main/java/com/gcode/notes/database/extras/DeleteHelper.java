@@ -23,7 +23,7 @@ public class DeleteHelper {
     }
 
     public static int deleteNote(SQLiteDatabase mDatabase, ContentBase note) {
-        if (note.hasAttributes()) {
+        if (note.getHasAttributesFlag()) {
             if (deleteAttributes(mDatabase, note) == 0) {
                 MyDebugger.log("Failed to delete attributes!");
             }

@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.activities.compose.ComposeNoteActivity;
+import com.gcode.notes.data.main.NoteData;
 import com.gcode.notes.extras.utils.AudioUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.tasks.async.DeleteFileTask;
@@ -19,19 +20,18 @@ public class DeleteAudioCallback extends MaterialDialog.ButtonCallback {
 
     @Override
     public void onPositive(MaterialDialog dialog) {
-        AudioUtils audioUtils = mComposeNoteActivity.getAudioUtils();
+        AudioUtils audioUtils = mComposeNoteActivity.mAudioUtils;
         audioUtils.stopAudio();
         audioUtils.hideAudioLayout();
-        new DeleteFileTask().execute(mComposeNoteActivity.getAudioPath()); //launch it before, setAudioPath()
-        mComposeNoteActivity.setAudioPath(Constants.NO_AUDIO); //remove audio from compose activity, so saveNote() will work correctly
-        int editNoteTargetId = mComposeNoteActivity.getEditNoteTargetId();
+        NoteData mNoteData = mComposeNoteActivity.mNoteData;
+        new DeleteFileTask().execute(mNoteData.getAttachedAudioPath()); //launch it before, setting attached audio path to NO_AUDIO
+        mNoteData.setAttachedAudioPath(Constants.NO_AUDIO); //remove audio from note, so saveNote() will work correctly
+        int editNoteTargetId = mNoteData.getTargetId();
         if (editNoteTargetId != Constants.NO_VALUE) {
             //note opened in edit mode, so remove audio from db and set result for display activity
             //to secure if saveNote() isn't called
             new RemoveAttachedAudioTask().execute(editNoteTargetId);
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra(Constants.EXTRA_DELETED_AUDIO, true);
-            mComposeNoteActivity.setResult(Activity.RESULT_OK, resultIntent);
+            mComposeNoteActivity.mResultIntent.putExtra(Constants.EXTRA_DELETED_AUDIO, true);
         }
         dialog.cancel();
     }

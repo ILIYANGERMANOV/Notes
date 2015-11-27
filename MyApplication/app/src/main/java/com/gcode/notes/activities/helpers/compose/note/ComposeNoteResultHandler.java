@@ -44,6 +44,7 @@ public class ComposeNoteResultHandler {
         }
     }
 
+    //TODO; failing to add second/third on pictures which are saved with 0 photos
     private static void handleSelectedPhotoFromGallery(ComposeNoteActivity composeNoteActivity, Intent data) {
         //photo selected from gallery
         Uri selectedImage = data.getData();
@@ -63,7 +64,7 @@ public class ComposeNoteResultHandler {
         c.close();
         if (photoUri != null) {
             //selected photoUri obtained successfully, add it to adapter in order to display
-            composeNoteActivity.getImagesAdapter().add(photoUri.toString());
+            composeNoteActivity.mImagesAdapter.add(photoUri.toString());
         } else {
             MyDebugger.log("handleSelectedPhotoFromGallery", "photoUri is null");
         }
@@ -73,7 +74,7 @@ public class ComposeNoteResultHandler {
         if (PhotoUtils.pathToPhoto != null) {
             //photo is taken successfully, add to gallery and to adapter
             PhotoUtils.addPhotoToGallery(MyApplication.getAppContext(), PhotoUtils.pathToPhoto);
-            composeNoteActivity.getImagesAdapter().add(PhotoUtils.pathToPhoto.toString());
+            composeNoteActivity.mImagesAdapter.add(PhotoUtils.pathToPhoto.toString());
         } else {
             MyDebugger.log("handleTakePhotoResult", "PhotoUtils.photoUri is null");
         }

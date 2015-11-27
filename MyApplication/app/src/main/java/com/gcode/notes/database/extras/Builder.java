@@ -52,7 +52,7 @@ public class Builder {
 
         listData.setType(Constants.TYPE_LIST);
 
-        if (listData.hasAttributes()) {
+        if (listData.getHasAttributesFlag()) {
             AttachHelper.attachListDataAttributes(mDatabase, cursor, listData);
         }
         return listData;
@@ -64,7 +64,7 @@ public class Builder {
 
         noteData.setType(Constants.TYPE_NOTE);
 
-        if (noteData.hasAttributes()) {
+        if (noteData.getHasAttributesFlag()) {
             AttachHelper.attachNoteDataAttributes(mDatabase, noteData);
         }
         return noteData;

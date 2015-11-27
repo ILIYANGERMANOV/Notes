@@ -11,6 +11,7 @@ import com.gcode.notes.R;
 import com.gcode.notes.activities.compose.ComposeNoteActivity;
 import com.gcode.notes.extras.utils.PhotoUtils;
 import com.gcode.notes.ui.ActionExecutor;
+import com.gcode.notes.ui.helpers.DialogHelper;
 import com.linearlistview.LinearListView;
 
 import java.util.ArrayList;
@@ -63,7 +64,9 @@ public class ComposeNoteImagesAdapter extends ArrayAdapter<String> {
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mComposeNoteActivity.showAndInitOpenImageProgressDialog();
+                //show opening image in gallery progress dialog
+                mComposeNoteActivity.mOpenImageInGalleryProgressDialog = DialogHelper.buildOpenImageProgressDialog(mComposeNoteActivity);
+
                 PhotoUtils.openPhotoInGallery(mComposeNoteActivity, photoPath);
             }
         });

@@ -113,6 +113,7 @@ public class AudioUtils {
 
     public void clearResources() {
         stopAudio();
+        hideAudioLayout();
         mIsReady = false; //set after stopAudio() in order it to work
         if (mMediaPlayer != null) {
             mMediaPlayer.release();

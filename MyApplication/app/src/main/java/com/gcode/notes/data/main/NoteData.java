@@ -2,7 +2,6 @@ package com.gcode.notes.data.main;
 
 import android.content.Context;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gcode.notes.adapters.viewholders.main.NoteItemViewHolder;
-import com.gcode.notes.data.extras.ContentDetails;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.PhotoUtils;
 import com.gcode.notes.extras.utils.Utils;
@@ -23,6 +21,12 @@ public class NoteData extends ContentBase {
     String description;
     ArrayList<String> attachedImagesPaths;
     String attachedAudioPath;
+
+    public NoteData() {
+        super();
+        attachedAudioPath = Constants.NO_AUDIO;
+        description = "";
+    }
 
     public NoteData(int id, int orderId, int targetId, String title, int mode, boolean hasAttributes,
                     String reminderString, String creationDate, String lastModifiedDate, String expirationDateString) {
@@ -40,7 +44,7 @@ public class NoteData extends ContentBase {
         this.attachedImagesPaths = attachedImagesPaths;
         this.attachedAudioPath = attachedAudioPath;
         type = Constants.TYPE_NOTE;
-        this.hasAttributes = hasAttributes;
+        this.hasAttributesFlag = hasAttributes;
     }
 
     public void displayNoteOnMain(final NoteItemViewHolder holder) {
@@ -129,7 +133,6 @@ public class NoteData extends ContentBase {
     }
 
     public boolean hasAttachedImage() {
-        //null check in order not to drop old database
         return attachedImagesPaths != null && attachedImagesPaths.size() > 0;
     }
 
@@ -137,12 +140,33 @@ public class NoteData extends ContentBase {
         return attachedAudioPath != null && !attachedAudioPath.equals(Constants.NO_AUDIO);
     }
 
+    public boolean hasAttributes() {
+        return hasDescription() || hasAttachedImage() || hasAttachedAudio();
+    }
+
+    public boolean isValidNote() {
+        return hasValidTitle() || hasAttributes();
+    }
+
     public ArrayList<String> getAttachedImagesPaths() {
+        secureAttachedImagesPathsList();
         return attachedImagesPaths;
     }
 
     public void setAttachedImagesPaths(ArrayList<String> attachedImagesPaths) {
-        this.attachedImagesPaths = attachedImagesPaths;
+        if (this.attachedImagesPaths != null) {
+            if (!this.attachedImagesPaths.isEmpty()) {
+                this.attachedImagesPaths.clear();
+            }
+            this.attachedImagesPaths.addAll(attachedImagesPaths);
+        } else {
+            this.attachedImagesPaths = attachedImagesPaths;
+        }
+    }
+
+    public void addAttachedImagePath(String attachedImagePath) {
+        secureAttachedImagesPathsList();
+        attachedImagesPaths.add(attachedImagePath);
     }
 
     public String getAttachedAudioPath() {
@@ -159,6 +183,12 @@ public class NoteData extends ContentBase {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    private void secureAttachedImagesPathsList() {
+        if (attachedImagesPaths == null) {
+            attachedImagesPaths = new ArrayList<>();
+        }
     }
 
 }

@@ -1,10 +1,14 @@
 package com.gcode.notes.activities.helpers.compose.note;
 
 import com.gcode.notes.activities.compose.ComposeNoteActivity;
+import com.gcode.notes.data.main.NoteData;
 import com.gcode.notes.extras.utils.AudioUtils;
 
 public class ComposeNoteAudioHelper {
     public static void setupFromAudio(ComposeNoteActivity composeNoteActivity, String audioPath, String recognizedSpeechText) {
+        composeNoteActivity.mNoteData = new NoteData();
+        composeNoteActivity.mNoteData.setAttachedAudioPath(audioPath);
+        //description is not set cuz, it is most likely to change so set in saveNote()
         composeNoteActivity.getDescriptionEditText().setText(recognizedSpeechText);
         setupAudio(composeNoteActivity, audioPath);
     }
@@ -14,6 +18,6 @@ public class ComposeNoteAudioHelper {
                 composeNoteActivity.getAudioDurationTextView(), composeNoteActivity.getAudioProgressBar(),
                 composeNoteActivity.getAudioPlayPauseButton(), composeNoteActivity.getAudioLayout());
 
-        composeNoteActivity.mAudioPath = audioPath;
+        composeNoteActivity.mNoteData.setAttachedAudioPath(audioPath);
     }
 }

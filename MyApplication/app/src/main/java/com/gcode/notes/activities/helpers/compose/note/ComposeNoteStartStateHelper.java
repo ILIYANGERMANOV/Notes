@@ -2,17 +2,13 @@ package com.gcode.notes.activities.helpers.compose.note;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.EditText;
 
 import com.gcode.notes.activities.compose.ComposeNoteActivity;
-import com.gcode.notes.adapters.note.compose.ComposeNoteImagesAdapter;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.main.NoteData;
+import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
-import com.linearlistview.LinearListView;
-
-import java.util.ArrayList;
 
 public class ComposeNoteStartStateHelper {
     ComposeNoteActivity mComposeNoteActivity;
@@ -23,41 +19,38 @@ public class ComposeNoteStartStateHelper {
 
     public void setupStartState(Bundle savedInstanceState) {
         Intent intent = mComposeNoteActivity.getIntent();
-        setupLayout();
-        //TODO: consider adding EXTRA_SETUP_FROM
-        if (savedInstanceState == null) {
-            if (intent.getStringExtra(Constants.EXTRA_NOTE_DATA) != null) {
-                //Note opened in edit mode
-                mComposeNoteActivity.mIsOpenedInEditMode = true;
-                setupFromEditMode(intent.getStringExtra(Constants.EXTRA_NOTE_DATA));
-            } else if (intent.getStringExtra(Constants.EXTRA_PHOTO_URI) != null) {
-                setupFromPhoto(intent.getStringExtra(Constants.EXTRA_PHOTO_URI));
-            } else if (intent.getStringExtra(Constants.EXTRA_AUDIO_PATH) != null) {
-                ComposeNoteAudioHelper.setupFromAudio(mComposeNoteActivity, intent.getStringExtra(Constants.EXTRA_AUDIO_PATH),
-                        intent.getStringExtra(Constants.EXTRA_RECOGNIZED_SPEECH_TEXT));
-            } else {
+        switch (intent.getIntExtra(Constants.EXTRA_SETUP_FROM, Constants.ERROR)) {
+            case Constants.SETUP_FROM_ZERO:
                 //New note
                 mComposeNoteActivity.mIsOpenedInEditMode = false;
                 setupFromZero();
-            }
-        } else {
-            //Saved instance state
-            ComposeNoteRotationHandler.handlerScreenRotation(mComposeNoteActivity, savedInstanceState);
+                break;
+            case Constants.SETUP_FROM_EDIT_MODE:
+                //Note opened in edit mode
+                mComposeNoteActivity.mIsOpenedInEditMode = true;
+                setupFromEditMode(intent.getStringExtra(Constants.EXTRA_NOTE_DATA));
+                break;
+            case Constants.SETUP_FROM_SCREEN_ROTATION:
+                //handling screen rotation
+                ComposeNoteRotationHandler.handlerScreenRotation(mComposeNoteActivity, savedInstanceState);
+                break;
+            case Constants.SETUP_FROM_PHOTO:
+                //Creating note from attached image
+                setupFromPhoto(intent.getStringExtra(Constants.EXTRA_PHOTO_URI));
+                break;
+            case Constants.SETUP_FROM_AUDIO:
+                //Creating audio note (from voice recognition)
+                ComposeNoteAudioHelper.setupFromAudio(mComposeNoteActivity, intent.getStringExtra(Constants.EXTRA_AUDIO_PATH),
+                        intent.getStringExtra(Constants.EXTRA_RECOGNIZED_SPEECH_TEXT));
+                break;
+            default:
+                MyDebugger.log("EXTRA_SETUP_FROM not passed!");
+                break;
         }
     }
 
-    private void setupLayout() {
-        EditText titleEditText = mComposeNoteActivity.getTitleEditText();
-        titleEditText.setHorizontallyScrolling(false);
-        titleEditText.setMaxLines(3);
-
-        LinearListView imagesLinearListView = mComposeNoteActivity.getImagesLinearListView();
-        mComposeNoteActivity.mImagesAdapter = new ComposeNoteImagesAdapter(mComposeNoteActivity,
-                new ArrayList<String>(), imagesLinearListView);
-        imagesLinearListView.setAdapter(mComposeNoteActivity.mImagesAdapter);
-    }
-
     private void setupFromZero() {
+        mComposeNoteActivity.mNoteData = new NoteData();
         switch (BaseController.getInstance().getControllerId()) {
             case Constants.CONTROLLER_ALL_NOTES:
 
@@ -76,8 +69,7 @@ public class ComposeNoteStartStateHelper {
     private void setupFromEditMode(String serializedNoteData) {
         NoteData noteData = Serializer.parseNoteData(serializedNoteData);
         if (noteData != null) {
-            mComposeNoteActivity.mEditNoteId = noteData.getId();
-            mComposeNoteActivity.mEditNoteTargetId = noteData.getTargetId();
+            mComposeNoteActivity.mNoteData = noteData;
             mComposeNoteActivity.getTitleEditText().setText(noteData.getTitle());
             if (noteData.isImportant()) {
                 ComposeNoteImportanceHelper.setStarredState(mComposeNoteActivity);
@@ -85,7 +77,6 @@ public class ComposeNoteStartStateHelper {
             if (noteData.hasReminder()) {
                 mComposeNoteActivity.getReminderTextView().setText(noteData.getReminder());
             }
-            mComposeNoteActivity.mContentDetails = noteData.getContentDetails();
             if (noteData.hasAttachedAudio()) {
                 ComposeNoteAudioHelper.setupAudio(mComposeNoteActivity, noteData.getAttachedAudioPath());
             }
@@ -94,10 +85,14 @@ public class ComposeNoteStartStateHelper {
                 mComposeNoteActivity.mImagesAdapter.addAll(noteData.getAttachedImagesPaths());
             }
             mComposeNoteActivity.getDescriptionEditText().setText(noteData.getDescription());
+        } else {
+            MyDebugger.log("EditMode launched with null note, finish activity in order to prevent errors");
+            mComposeNoteActivity.finish();
         }
     }
 
     private void setupFromPhoto(String photoUriString) {
         mComposeNoteActivity.mImagesAdapter.add(photoUriString);
+        mComposeNoteActivity.mNoteData = new NoteData();
     }
 }

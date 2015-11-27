@@ -17,7 +17,7 @@ import com.gcode.notes.serialization.Serializer;
 public class InsertHelper {
 
     public static long insertNote(SQLiteDatabase mDatabase, ContentBase contentBase) {
-        if (contentBase.hasAttributes()) {
+        if (contentBase.getHasAttributesFlag()) {
             if (contentBase.getType() == Constants.TYPE_NOTE) {
                 insertAttributesInNotes(mDatabase, contentBase);
             } else {
@@ -31,7 +31,7 @@ public class InsertHelper {
     private static long insertMainContent(SQLiteDatabase mDatabase, ContentBase contentBase) {
         ContentValues contentValues = new ContentValues();
 
-        if (contentBase.hasAttributes()) {
+        if (contentBase.getHasAttributesFlag()) {
             //target id - the id corresponding in the relevant attribute table (Notes/Lists),
             // which is already inserted successfully for the current item
             String tableName = contentBase.getType() == Constants.TYPE_NOTE ? NoteEntry.TABLE_NAME : ListEntry.TABLE_NAME;
@@ -45,7 +45,7 @@ public class InsertHelper {
         contentValues.put(ContentEntry.COLUMN_NAME_TITLE, contentBase.getTitle());
         contentValues.put(ContentEntry.COLUMN_NAME_MODE, contentBase.getMode());
         contentValues.put(ContentEntry.COLUMN_NAME_TYPE, contentBase.getType());
-        contentValues.put(ContentEntry.COLUMN_NAME_ATTRIBUTES, contentBase.hasAttributes());
+        contentValues.put(ContentEntry.COLUMN_NAME_ATTRIBUTES, contentBase.getHasAttributesFlag());
         contentValues.put(ContentEntry.COLUMN_NAME_REMINDER, contentBase.getReminder());
         //TODO: add legit location
         contentValues.put(ContentEntry.COLUMN_NAME_LOCATION, Constants.NO_LOCATION);
@@ -63,7 +63,7 @@ public class InsertHelper {
         contentValues.put(ListEntry.COLUMN_NAME_TASKS_SERIALIZED, Serializer.serializeListDataItems(listData.getList()));
 
         if (mDatabase.insert(ListEntry.TABLE_NAME, null, contentValues) == Constants.DATABASE_ERROR) {
-            contentBase.setAttributes(false);
+            contentBase.setHasAttributesFlag(false);
             MyDebugger.log("ERROR INSERTING LIST ATTRIBUTES!");
         }
     }
@@ -78,7 +78,7 @@ public class InsertHelper {
 
         if (mDatabase.insert(NoteEntry.TABLE_NAME, null, contentValues) == Constants.DATABASE_ERROR) {
             //inserting note attributes failed, handle error
-            contentBase.setAttributes(false);
+            contentBase.setHasAttributesFlag(false);
             MyDebugger.log("ERROR INSERTING NOTE ATTRIBUTES!");
         }
     }
