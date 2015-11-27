@@ -94,5 +94,6 @@ public class ComposeNoteStartStateHelper {
     private void setupFromPhoto(String photoUriString) {
         mComposeNoteActivity.mImagesAdapter.add(photoUriString);
         mComposeNoteActivity.mNoteData = new NoteData();
+        mComposeNoteActivity.mNoteData.addAttachedImagePath(photoUriString);
     }
 }

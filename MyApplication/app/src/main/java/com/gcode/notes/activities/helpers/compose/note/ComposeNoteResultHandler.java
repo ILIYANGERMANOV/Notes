@@ -44,7 +44,7 @@ public class ComposeNoteResultHandler {
         }
     }
 
-    //TODO; failing to add second/third on pictures which are saved with 0 photos
+    //TODO: REFACTOR redundancy
     private static void handleSelectedPhotoFromGallery(ComposeNoteActivity composeNoteActivity, Intent data) {
         //photo selected from gallery
         Uri selectedImage = data.getData();
@@ -65,6 +65,7 @@ public class ComposeNoteResultHandler {
         if (photoUri != null) {
             //selected photoUri obtained successfully, add it to adapter in order to display
             composeNoteActivity.mImagesAdapter.add(photoUri.toString());
+            composeNoteActivity.mNoteData.addAttachedImagePath(photoUri.toString());
         } else {
             MyDebugger.log("handleSelectedPhotoFromGallery", "photoUri is null");
         }
@@ -75,6 +76,7 @@ public class ComposeNoteResultHandler {
             //photo is taken successfully, add to gallery and to adapter
             PhotoUtils.addPhotoToGallery(MyApplication.getAppContext(), PhotoUtils.pathToPhoto);
             composeNoteActivity.mImagesAdapter.add(PhotoUtils.pathToPhoto.toString());
+            composeNoteActivity.mNoteData.addAttachedImagePath(PhotoUtils.pathToPhoto.toString());
         } else {
             MyDebugger.log("handleTakePhotoResult", "PhotoUtils.photoUri is null");
         }
