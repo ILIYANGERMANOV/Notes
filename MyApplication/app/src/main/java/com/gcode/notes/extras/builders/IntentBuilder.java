@@ -10,8 +10,12 @@ import com.gcode.notes.extras.values.Constants;
 
 public class IntentBuilder {
     public static Intent buildStartComposeFromPhotoIntent(Activity activity, Uri photoUri) {
+        return buildStartComposeFromPhotoIntent(activity, photoUri.toString());
+    }
+
+    public static Intent buildStartComposeFromPhotoIntent(Activity activity, String photoPath) {
         Intent intent = new Intent(activity, ComposeNoteActivity.class);
-        intent.putExtra(Constants.EXTRA_PHOTO_URI, photoUri.toString());
+        intent.putExtra(Constants.EXTRA_PHOTO_URI, photoPath);
         intent.putExtra(Constants.EXTRA_SETUP_FROM, Constants.SETUP_FROM_PHOTO);
         return intent;
     }

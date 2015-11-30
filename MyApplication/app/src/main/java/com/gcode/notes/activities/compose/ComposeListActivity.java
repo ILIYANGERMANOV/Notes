@@ -21,8 +21,8 @@ import com.gcode.notes.adapters.list.compose.ListComposeContainerAdapter;
 import com.gcode.notes.adapters.list.compose.TickedListComposeContainerAdapter;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.extras.ContentDetails;
-import com.gcode.notes.data.main.ListData;
 import com.gcode.notes.data.extras.ListDataItem;
+import com.gcode.notes.data.main.ListData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
@@ -37,7 +37,6 @@ import butterknife.OnClick;
 
 public class ComposeListActivity extends AppCompatActivity {
     //TODO: REFACTOR AND OPTIMIZE
-
     @Bind(R.id.compose_list_toolbar)
     Toolbar mToolbar;
 

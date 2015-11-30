@@ -3,9 +3,6 @@ package com.gcode.notes.activities.helpers.main;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.MediaStore;
 
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.controllers.BaseController;
@@ -16,14 +13,12 @@ import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.builders.IntentBuilder;
 import com.gcode.notes.extras.utils.FileUtils;
 import com.gcode.notes.extras.utils.PhotoUtils;
+import com.gcode.notes.extras.utils.callbacks.PhotoSelectedCallback;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
 
-import java.io.File;
-
 public class MainActivityResultHandler {
-    //TODO: remove redundancy with ComposeNoteResultHandler
     public static void handleResult(Activity activity, int requestCode, int resultCode, Intent data) {
         if (resultCode == MainActivity.RESULT_OK) {
             if (data != null) {
@@ -68,31 +63,19 @@ public class MainActivityResultHandler {
         }
     }
 
-    private static void handleSelectedPhotoFromGallery(Activity activity, Intent data) {
+    private static void handleSelectedPhotoFromGallery(final Activity activity, Intent data) {
         //photo selected from gallery
-        Uri selectedImage = data.getData();
-        String[] filePath = {MediaStore.Images.Media.DATA};
-        Cursor c = activity.getContentResolver().query(selectedImage, filePath, null, null, null);
-        if (c == null) {
-            MyDebugger.log("handleSelectedPhotoFromGallery", "cursor is null, abort operation");
-            return;
-        }
-        Uri photoUri = null;
-        if (c.moveToFirst()) {
-            int columnIndex = c.getColumnIndex(filePath[0]);
-            photoUri = Uri.fromFile(new File(c.getString(columnIndex)));
-        } else {
-            MyDebugger.log("handleSelectedPhotoFromGallery", "Cursor is empty!");
-        }
-        c.close();
-        if (photoUri != null) {
-            //selected photoUri obtained successfully, start compose note activity with it
-            Intent intent = IntentBuilder.buildStartComposeFromPhotoIntent(activity, photoUri);
-            activity.startActivityForResult(intent, Constants.COMPOSE_NOTE_REQUEST_CODE);
-        } else {
-            MyDebugger.log("handleSelectedPhotoFromGallery", "photoUri is null");
-        }
+        PhotoSelectedCallback photoSelectedCallback = new PhotoSelectedCallback() {
+            @Override
+            public void onPhotoSelected(String photoPath) {
+                //selected photoUri obtained successfully, start compose note activity with it
+                Intent intent = IntentBuilder.buildStartComposeFromPhotoIntent(activity, photoPath);
+                activity.startActivityForResult(intent, Constants.COMPOSE_NOTE_REQUEST_CODE);
+            }
+        };
+        PhotoUtils.handleSelectedPhotoFromGallery(activity, data, photoSelectedCallback);
     }
+
 
     private static void handleTakePhotoResult(Activity activity) {
         if (PhotoUtils.pathToPhoto != null) {

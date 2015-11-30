@@ -16,9 +16,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.R;
 import com.gcode.notes.activities.helpers.compose.ComposeToolbarHelper;
 import com.gcode.notes.activities.helpers.compose.note.ComposeNoteImportanceHelper;
+import com.gcode.notes.activities.helpers.compose.note.ComposeNoteMenuOptionsHelper;
 import com.gcode.notes.activities.helpers.compose.note.ComposeNoteResultHandler;
 import com.gcode.notes.activities.helpers.compose.note.ComposeNoteRotationHandler;
-import com.gcode.notes.activities.helpers.compose.note.ComposeNoteSaveHelper;
 import com.gcode.notes.activities.helpers.compose.note.ComposeNoteStartStateHelper;
 import com.gcode.notes.adapters.note.compose.ComposeNoteImagesAdapter;
 import com.gcode.notes.data.main.NoteData;
@@ -26,14 +26,11 @@ import com.gcode.notes.extras.utils.AudioUtils;
 import com.gcode.notes.ui.ActionExecutor;
 import com.linearlistview.LinearListView;
 
-import java.util.ArrayList;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ComposeNoteActivity extends AppCompatActivity {
-    //TODO: REFACTOR AND OPTIMIZE
     //TODO: delete audio on not saving note
     @Bind(R.id.compose_note_toolbar)
     Toolbar mToolbar;
@@ -128,7 +125,6 @@ public class ComposeNoteActivity extends AppCompatActivity {
         mTitleEditText.setMaxLines(3);
 
         ComposeNoteStartStateHelper composeNoteStartStateHelper = new ComposeNoteStartStateHelper(this);
-
         ComposeToolbarHelper.setupToolbar(this, mToolbar);
         composeNoteStartStateHelper.setupStartState(savedInstanceState);
     }
@@ -185,30 +181,13 @@ public class ComposeNoteActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_compose_note, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.action_settings:
-                return true;
-            case android.R.id.home:
-                ComposeNoteSaveHelper.saveNote(this);
-                finish();
-                break;
-            case R.id.action_add_image:
-                ActionExecutor.addPhotoToNote(this);
-        }
-
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item) || ComposeNoteMenuOptionsHelper.optionsItemSelected(this, item);
     }
 
     @Override

@@ -3,12 +3,16 @@ package com.gcode.notes.extras.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.widget.ImageView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.activities.compose.ComposeNoteActivity;
+import com.gcode.notes.activities.helpers.compose.note.ComposeNotePhotoHelper;
 import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.utils.callbacks.PhotoSelectedCallback;
 import com.gcode.notes.extras.values.Constants;
 import com.squareup.picasso.Picasso;
 
@@ -67,5 +71,30 @@ public class PhotoUtils {
                 .error(R.drawable.ic_error_black_48dp)
                 .fit().centerCrop()
                 .into(imageView);
+    }
+
+    public static void handleSelectedPhotoFromGallery(Activity activity, Intent data, PhotoSelectedCallback callback) {
+        //photo selected from gallery
+        Uri selectedImage = data.getData();
+        String[] filePath = {MediaStore.Images.Media.DATA};
+        Cursor c = activity.getContentResolver().query(selectedImage, filePath, null, null, null);
+        if (c == null) {
+            MyDebugger.log("handleSelectedPhotoFromGallery", "cursor is null, abort operation");
+            return;
+        }
+        Uri photoUri = null;
+        if (c.moveToFirst()) {
+            int columnIndex = c.getColumnIndex(filePath[0]);
+            photoUri = Uri.fromFile(new File(c.getString(columnIndex)));
+        } else {
+            MyDebugger.log("handleSelectedPhotoFromGallery", "Cursor is empty!");
+        }
+        c.close();
+        if (photoUri != null) {
+            //selected photoUri obtained successfully
+            callback.onPhotoSelected(photoUri.toString());
+        } else {
+            MyDebugger.log("handleSelectedPhotoFromGallery", "photoUri is null");
+        }
     }
 }

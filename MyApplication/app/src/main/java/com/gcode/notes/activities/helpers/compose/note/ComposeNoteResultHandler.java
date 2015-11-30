@@ -1,21 +1,16 @@
 package com.gcode.notes.activities.helpers.compose.note;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.MediaStore;
 
 import com.gcode.notes.activities.compose.ComposeNoteActivity;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.FileUtils;
 import com.gcode.notes.extras.utils.PhotoUtils;
+import com.gcode.notes.extras.utils.callbacks.PhotoSelectedCallback;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 
-import java.io.File;
-
 public class ComposeNoteResultHandler {
-    //TODO: Refactor and reduce redundancy with MainActivityResultHandler
     public static void handleResult(ComposeNoteActivity composeNoteActivity, int requestCode, int resultCode, Intent data) {
         if (resultCode == ComposeNoteActivity.RESULT_OK) {
             if (data != null) {
@@ -38,36 +33,22 @@ public class ComposeNoteResultHandler {
         }
 
         if (requestCode == Constants.OPEN_PHOTO_IN_GALLERY_REQ_CODE) {
+            //comeback from image opened in gallery, dismiss openImageInGallery progress dialog
             if (composeNoteActivity.mOpenImageInGalleryProgressDialog != null) {
                 composeNoteActivity.mOpenImageInGalleryProgressDialog.dismiss();
             }
         }
     }
 
-    //TODO: REFACTOR redundancy
-    private static void handleSelectedPhotoFromGallery(ComposeNoteActivity composeNoteActivity, Intent data) {
-        //photo selected from gallery
-        Uri selectedImage = data.getData();
-        String[] filePath = {MediaStore.Images.Media.DATA};
-        Cursor c = composeNoteActivity.getContentResolver().query(selectedImage, filePath, null, null, null);
-        if (c == null) {
-            MyDebugger.log("handleSelectedPhotoFromGallery", "cursor is null, abort operation");
-            return;
-        }
-        Uri photoUri = null;
-        if (c.moveToFirst()) {
-            int columnIndex = c.getColumnIndex(filePath[0]);
-            photoUri = Uri.fromFile(new File(c.getString(columnIndex)));
-        } else {
-            MyDebugger.log("handleSelectedPhotoFromGallery", "Cursor is empty!");
-        }
-        c.close();
-        if (photoUri != null) {
-            //selected photoUri obtained successfully, add it to adapter in order to display
-            ComposeNotePhotoHelper.addPhoto(composeNoteActivity, photoUri.toString());
-        } else {
-            MyDebugger.log("handleSelectedPhotoFromGallery", "photoUri is null");
-        }
+    private static void handleSelectedPhotoFromGallery(final ComposeNoteActivity composeNoteActivity, Intent data) {
+        PhotoSelectedCallback photoSelectedCallback = new PhotoSelectedCallback() {
+            @Override
+            public void onPhotoSelected(String photoPath) {
+                //photo selected successfully, add it
+                ComposeNotePhotoHelper.addPhoto(composeNoteActivity, photoPath);
+            }
+        };
+        PhotoUtils.handleSelectedPhotoFromGallery(composeNoteActivity, data, photoSelectedCallback);
     }
 
     private static void handleTakePhotoResult(ComposeNoteActivity composeNoteActivity) {
