@@ -13,6 +13,8 @@ import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
 
 public class ComposeNoteSaveHelper {
+    //TODO: OPTIMIZE and remove redundancy with ComposeListSaveHelper
+
     public static void saveNote(ComposeNoteActivity composeNoteActivity) {
         NoteData mNoteData = composeNoteActivity.mNoteData;
 

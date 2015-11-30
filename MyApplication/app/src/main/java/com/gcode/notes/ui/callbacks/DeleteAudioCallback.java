@@ -1,8 +1,5 @@
 package com.gcode.notes.ui.callbacks;
 
-import android.app.Activity;
-import android.content.Intent;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.activities.compose.ComposeNoteActivity;
 import com.gcode.notes.data.main.NoteData;

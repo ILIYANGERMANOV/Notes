@@ -2,8 +2,6 @@ package com.gcode.notes.activities.compose;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -14,8 +12,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.R;
-import com.gcode.notes.activities.helpers.compose.ComposeToolbarHelper;
-import com.gcode.notes.activities.helpers.compose.note.ComposeNoteImportanceHelper;
 import com.gcode.notes.activities.helpers.compose.note.ComposeNoteMenuOptionsHelper;
 import com.gcode.notes.activities.helpers.compose.note.ComposeNoteResultHandler;
 import com.gcode.notes.activities.helpers.compose.note.ComposeNoteRotationHandler;
@@ -30,17 +26,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ComposeNoteActivity extends AppCompatActivity {
+public class ComposeNoteActivity extends ComposeBaseActivity {
     //TODO: delete audio on not saving note
-    @Bind(R.id.compose_note_toolbar)
-    Toolbar mToolbar;
-
-    @Bind(R.id.compose_star_image_button)
-    ImageButton mStarImageButton;
-
-    @Bind(R.id.compose_note_title_edit_text)
-    EditText mTitleEditText;
-
     @Bind(R.id.compose_note_description_edit_text)
     EditText mDescriptionEditText;
 
@@ -59,18 +46,7 @@ public class ComposeNoteActivity extends AppCompatActivity {
     @Bind(R.id.compose_audio_duration_text_view)
     TextView mAudioDurationTextView;
 
-    @Bind(R.id.compose_note_reminder_text_view)
-    TextView mReminderTextView;
-
     //getters for layout components------------------------------------------------------------------------------------------
-    public ImageButton getStarImageButton() {
-        return mStarImageButton;
-    }
-
-    public EditText getTitleEditText() {
-        return mTitleEditText;
-    }
-
     public EditText getDescriptionEditText() {
         return mDescriptionEditText;
     }
@@ -94,23 +70,13 @@ public class ComposeNoteActivity extends AppCompatActivity {
     public TextView getAudioDurationTextView() {
         return mAudioDurationTextView;
     }
-
-    public TextView getReminderTextView() {
-        return mReminderTextView;
-    }
     //getters for layout components------------------------------------------------------------------------------------------
 
     public NoteData mNoteData;
 
-    public boolean mIsOpenedInEditMode;
-    public boolean mIsStarred;
-    public boolean mNoteModeChanged;
-
     public AudioUtils mAudioUtils;
     public ComposeNoteImagesAdapter mImagesAdapter;
     public MaterialDialog mOpenImageInGalleryProgressDialog;
-
-    public Intent mResultIntent = new Intent();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,12 +87,8 @@ public class ComposeNoteActivity extends AppCompatActivity {
     }
 
     private void setup(Bundle savedInstanceState) {
-        mTitleEditText.setHorizontallyScrolling(false);
-        mTitleEditText.setMaxLines(3);
-
-        ComposeNoteStartStateHelper composeNoteStartStateHelper = new ComposeNoteStartStateHelper(this);
-        ComposeToolbarHelper.setupToolbar(this, mToolbar);
-        composeNoteStartStateHelper.setupStartState(savedInstanceState);
+        super.setup(); //setups base in ComposeBaseActivity
+        new ComposeNoteStartStateHelper(this).setupStartState(savedInstanceState);
     }
 
 
@@ -150,16 +112,6 @@ public class ComposeNoteActivity extends AppCompatActivity {
             mAudioUtils.clearResources();
         }
         super.onDestroy();
-    }
-
-    @OnClick(R.id.compose_star_image_button)
-    public void starImageButtonClicked() {
-        if (mIsStarred) {
-            ComposeNoteImportanceHelper.setNotStarredState(this);
-        } else {
-            ComposeNoteImportanceHelper.setStarredState(this);
-        }
-        mNoteModeChanged = !mNoteModeChanged;
     }
 
     @OnClick(R.id.compose_audio_play_pause_button)

@@ -27,6 +27,7 @@ public class AttachHelper {
             String description = notesCursor.getString(notesCursor.getColumnIndex(NoteEntry.COLUMN_NAME_DESCRIPTION));
             noteData.setDescription(description);
             String stringHolder = notesCursor.getString(notesCursor.getColumnIndex(NoteEntry.COLUMN_NAME_PHOTOS_PATHS));
+            //TODO: OPTIMIZE BY HANDLING NULL imagesList
             noteData.setAttachedImagesPaths(Serializer.parseImagesPathsList(stringHolder));
             stringHolder = notesCursor.getString(notesCursor.getColumnIndex(NoteEntry.COLUMN_NAME_AUDIO_PATH));
             noteData.setAttachedAudioPath(stringHolder);
@@ -45,6 +46,7 @@ public class AttachHelper {
         );
 
         if (listCursor.moveToFirst()) {
+            //TODO: OPTIMIZE BY HANDLING NULL in column
             ArrayList<ListDataItem> mList = Serializer.parseListDataItems(
                     listCursor.getString(listCursor.getColumnIndex(ListEntry.COLUMN_NAME_TASKS_SERIALIZED))
             );

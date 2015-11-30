@@ -4,13 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.gcode.notes.activities.compose.ComposeNoteActivity;
-import com.gcode.notes.controllers.BaseController;
+import com.gcode.notes.activities.helpers.compose.base.ComposeBaseStartStateHelper;
 import com.gcode.notes.data.main.NoteData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 
-public class ComposeNoteStartStateHelper {
+public class ComposeNoteStartStateHelper extends ComposeBaseStartStateHelper {
     ComposeNoteActivity mComposeNoteActivity;
 
     public ComposeNoteStartStateHelper(ComposeNoteActivity composeNoteActivity) {
@@ -27,7 +27,6 @@ public class ComposeNoteStartStateHelper {
                 break;
             case Constants.SETUP_FROM_EDIT_MODE:
                 //Note opened in edit mode
-                mComposeNoteActivity.mIsOpenedInEditMode = true;
                 setupFromEditMode(intent.getStringExtra(Constants.EXTRA_NOTE_DATA));
                 break;
             case Constants.SETUP_FROM_SCREEN_ROTATION:
@@ -49,34 +48,17 @@ public class ComposeNoteStartStateHelper {
         }
     }
 
-    private void setupFromZero() {
+    protected void setupFromZero() {
+        super.setupFromZero(mComposeNoteActivity);
         mComposeNoteActivity.mNoteData = new NoteData();
-        switch (BaseController.getInstance().getControllerId()) {
-            case Constants.CONTROLLER_ALL_NOTES:
-
-                break;
-            case Constants.CONTROLLER_IMPORTANT:
-                ComposeNoteImportanceHelper.setStarredState(mComposeNoteActivity);
-                break;
-            case Constants.CONTROLLER_PRIVATE:
-                //TODO: PRIVATE: set mStarImageButton to sth
-                break;
-            default:
-                break;
-        }
     }
 
     private void setupFromEditMode(String serializedNoteData) {
         NoteData noteData = Serializer.parseNoteData(serializedNoteData);
         if (noteData != null) {
+            //passed noteData is OK, setup the activity from it
+            super.setupFromEditMode(mComposeNoteActivity, noteData); //setup base (title, importance, reminder, mOpenedInEditMode)
             mComposeNoteActivity.mNoteData = noteData;
-            mComposeNoteActivity.getTitleEditText().setText(noteData.getTitle());
-            if (noteData.isImportant()) {
-                ComposeNoteImportanceHelper.setStarredState(mComposeNoteActivity);
-            }
-            if (noteData.hasReminder()) {
-                mComposeNoteActivity.getReminderTextView().setText(noteData.getReminder());
-            }
             if (noteData.hasAttachedAudio()) {
                 ComposeNoteAudioHelper.setupAudio(mComposeNoteActivity, noteData.getAttachedAudioPath());
             }

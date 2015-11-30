@@ -66,8 +66,6 @@ public class Constants {
     public static final String EXTRA_PHOTO_URI = "photo_uri_extra";
     public static final String EXTRA_AUDIO_PATH = "audio_path_extra";
     public static final String EXTRA_RECOGNIZED_SPEECH_TEXT = "recognized_speech_text_extra";
-    public static final String EXTRA_ATTACHED_IMAGES_LIST = "attached_images_list_extra";
-    public static final String EXTRA_ATTACHED_AUDIO_PATH = "attached_audio_path_extra";
     public static final String EXTRA_DELETED_AUDIO = "deleted_audio_extra";
     public static final String EXTRA_LIST_DATA_ITEMS = "list_data_items_extra";
     public static final String EXTRA_TICKED_LIST_DATA_ITEMS = "ticked_list_data_items_extra";

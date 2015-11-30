@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/compose_reminder_text_view"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:drawableLeft="@drawable/ic_alarm_add_black_24dp"
-    android:drawablePadding="10dp"
-    android:freezesText="true"
-    android:gravity="center_vertical"
-    android:text="@string/compose_note_set_reminder_text"
-    android:textSize="19sp" />
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/compose_reminder_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_alarm_add_black_24dp"
+        android:drawablePadding="10dp"
+        android:drawableStart="@drawable/ic_alarm_add_black_24dp"
+        android:freezesText="true"
+        android:gravity="center_vertical"
+        android:text="@string/compose_note_set_reminder_text"
+        android:textSize="19sp" />
+
+</LinearLayout>
 

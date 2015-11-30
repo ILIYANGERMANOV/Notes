@@ -12,7 +12,7 @@
         android:gravity="center_vertical">
 
         <EditText
-            android:id="@+id/compose_note_title_edit_text"
+            android:id="@+id/compose_title_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:freezesText="true"
@@ -30,8 +30,9 @@
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginTop="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:background="?android:attr/selectableItemBackground"
         android:contentDescription="@string/star_button_content_description"
         android:src="@drawable/ic_star_border_black_36dp" />

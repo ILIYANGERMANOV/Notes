@@ -17,7 +17,13 @@ import com.gcode.notes.ui.helpers.CheckedTextViewHelper;
 import java.util.ArrayList;
 
 public class ListData extends ContentBase {
+    //TODO: REFACTOR AND OPTMIZE
     ArrayList<ListDataItem> list;
+
+    public ListData() {
+        super();
+        list = null;
+    }
 
     public ListData(String title, int mode, boolean hasAttributes,
                     ArrayList<ListDataItem> list, @NonNull String reminderString) {
@@ -34,12 +40,39 @@ public class ListData extends ContentBase {
                 reminderString, creationDate, lastModified, expirationDateString);
     }
 
+    public boolean hasAttributes() {
+        return hasAttachedList();
+    }
+
+    public boolean isValidList() {
+        return hasValidTitle() || hasAttachedList();
+    }
+
+    public boolean hasAttachedList() {
+        return list != null && list.size() > 0;
+    }
+
     public ArrayList<ListDataItem> getList() {
+        secureList(); //prevent returning null list
         return list;
     }
 
     public void setList(ArrayList<ListDataItem> list) {
-        this.list = list;
+        if (this.list != null) {
+            //list is already initialized
+            if (!this.list.isEmpty()) {
+                //list is not empty, clear it
+                this.list.clear();
+            }
+            this.list.addAll(list); //list is existing and empty, add new data
+        } else {
+            this.list = list; //list in not initialized, init it now
+        }
+    }
+
+    public void addToList(ArrayList<ListDataItem> list) {
+        secureList();
+        this.list.addAll(list);
     }
 
     public void displayListOnMain(Activity activity, ListItemViewHolder holder) {
@@ -83,5 +116,11 @@ public class ListData extends ContentBase {
         }
         checkedTextView.setText(item.getContent());
         return itemView;
+    }
+
+    private void secureList() {
+        if (list == null) {
+            list = new ArrayList<>();
+        }
     }
 }

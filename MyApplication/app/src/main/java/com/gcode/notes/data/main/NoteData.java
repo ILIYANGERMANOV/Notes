@@ -25,8 +25,9 @@ public class NoteData extends ContentBase {
 
     public NoteData() {
         super();
-        attachedAudioPath = Constants.NO_AUDIO;
         description = "";
+        attachedImagesPaths = null;
+        attachedAudioPath = Constants.NO_AUDIO;
     }
 
     public NoteData(int id, int orderId, int targetId, String title, int mode, boolean hasAttributes,

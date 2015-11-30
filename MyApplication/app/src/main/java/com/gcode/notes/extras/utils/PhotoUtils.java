@@ -9,8 +9,6 @@ import android.provider.MediaStore;
 import android.widget.ImageView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.activities.compose.ComposeNoteActivity;
-import com.gcode.notes.activities.helpers.compose.note.ComposeNotePhotoHelper;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.callbacks.PhotoSelectedCallback;
 import com.gcode.notes.extras.values.Constants;

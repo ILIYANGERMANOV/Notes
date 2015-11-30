@@ -1,4 +1,4 @@
-package com.gcode.notes.activities.helpers.compose;
+package com.gcode.notes.activities.helpers.compose.base;
 
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -7,7 +7,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.gcode.notes.R;
 
-public class ComposeToolbarHelper {
+public class ComposeBaseToolbarHelper {
 
     public static void setupToolbar(AppCompatActivity appCompatActivity, Toolbar mToolbar) {
         if (mToolbar != null) {

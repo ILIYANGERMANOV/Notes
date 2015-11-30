@@ -1,24 +1,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.gcode.notes.activities.compose.ComposeNoteActivity">
+    tools:context=".activities.compose.ComposeNoteActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <include
         android:id="@+id/compose_note_app_bar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/compose_note_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:theme="@style/MyToolbarTheme"
-            app:popupTheme="@style/Theme.AppCompat.Light" />
-
-    </android.support.design.widget.AppBarLayout>
+        layout="@layout/compose_app_bar_layout" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -66,7 +55,6 @@
                 layout="@layout/note_compose_audio_layout" />
 
             <include
-                android:id="@+id/compose_note_reminder_text_view"
                 layout="@layout/compose_reminder_text_view" />
 
         </LinearLayout>

@@ -60,6 +60,7 @@ public class InsertHelper {
         ListData listData = (ListData) contentBase;
         ContentValues contentValues = new ContentValues();
 
+        //TODO: OPTIMIZE BY PASSING NULL TO COLUMN
         contentValues.put(ListEntry.COLUMN_NAME_TASKS_SERIALIZED, Serializer.serializeListDataItems(listData.getList()));
 
         if (mDatabase.insert(ListEntry.TABLE_NAME, null, contentValues) == Constants.DATABASE_ERROR) {
@@ -73,6 +74,7 @@ public class InsertHelper {
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(NoteEntry.COLUMN_NAME_DESCRIPTION, noteData.getDescription());
+        //TODO: OPTIMIZE BY PASSING NULL TO COLUMN
         contentValues.put(NoteEntry.COLUMN_NAME_PHOTOS_PATHS, Serializer.serializeImagesPathsList(noteData.getAttachedImagesPaths()));
         contentValues.put(NoteEntry.COLUMN_NAME_AUDIO_PATH, noteData.getAttachedAudioPath());
 
