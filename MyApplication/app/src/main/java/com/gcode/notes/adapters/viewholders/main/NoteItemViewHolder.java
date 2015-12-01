@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.gcode.notes.R;
 import com.gcode.notes.data.main.ContentBase;
 import com.gcode.notes.data.main.NoteData;
-import com.gcode.notes.listeners.main.NoteItemOnClickListener;
+import com.gcode.notes.adapters.viewholders.main.listeners.NoteItemOnClickListener;
 
 import java.util.ArrayList;
 
@@ -22,7 +22,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class NoteItemViewHolder extends BaseItemViewHolder {
-
+    //TODO:OPTIMIZE
     @Bind(R.id.note_description_text_view)
     TextView mContentTextView;
 

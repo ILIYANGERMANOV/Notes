@@ -6,10 +6,10 @@ import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.gcode.notes.R;
 import com.gcode.notes.data.extras.ListDataItem;
+import com.gcode.notes.ui.helpers.SnackbarHelper;
 import com.gcode.notes.ui.helpers.VisibilityHelper;
-import com.gcode.notes.ui.snackbar.SnackbarHelper;
-import com.gcode.notes.ui.snackbar.SnackbarMessages;
 import com.linearlistview.LinearListView;
 
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class ListDisplayTickedAdapter extends ListDisplayBaseAdapter {
         }
         if (!VisibilityHelper.isViewVisibleInScrollView(mDatesTextView, mRootScrollView) || mIsDoneHidden) {
             //dates text view is not visible show snackbar for item added
-            SnackbarHelper.showShortSnackbar(mRootScrollView, SnackbarMessages.ITEM_ADDED_TO_DONE_MESSAGE);
+            SnackbarHelper.showShortSnackbar(mRootScrollView, R.string.item_added_to_done_snackbar_message);
             if (mIsDoneHidden) {
                 //hide linear list view (whenever you add item it becomes visible)
                 mLinearListView.setVisibility(View.GONE);

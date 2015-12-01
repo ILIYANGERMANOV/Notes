@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.gcode.notes.activities.compose.ComposeListActivity">
+    tools:context=".activities.compose.list.ComposeListActivity">
 
     <include
         android:id="@+id/compose_list_app_bar_layout"

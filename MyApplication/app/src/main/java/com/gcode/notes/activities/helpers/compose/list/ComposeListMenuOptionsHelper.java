@@ -3,9 +3,7 @@ package com.gcode.notes.activities.helpers.compose.list;
 import android.view.MenuItem;
 
 import com.gcode.notes.R;
-import com.gcode.notes.activities.compose.ComposeListActivity;
-import com.gcode.notes.activities.helpers.compose.note.ComposeNoteSaveHelper;
-import com.gcode.notes.ui.ActionExecutor;
+import com.gcode.notes.activities.compose.list.ComposeListActivity;
 
 public class ComposeListMenuOptionsHelper {
     public static boolean optionsItemSelected(ComposeListActivity composeListActivity, MenuItem item) {

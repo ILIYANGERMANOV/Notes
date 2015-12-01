@@ -10,7 +10,7 @@ import android.widget.ImageView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
-import com.gcode.notes.activities.compose.ComposeListActivity;
+import com.gcode.notes.activities.compose.list.ComposeListActivity;
 import com.gcode.notes.activities.compose.ComposeNoteActivity;
 import com.gcode.notes.animations.MyAnimator;
 import com.gcode.notes.extras.MyDebugger;

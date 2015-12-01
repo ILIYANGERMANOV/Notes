@@ -13,8 +13,8 @@ import android.widget.TextView;
 import com.gcode.notes.R;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
-import com.gcode.notes.listeners.utils.MediaPlayerCompletionListener;
-import com.gcode.notes.listeners.utils.MediaPlayerPreparedListener;
+import com.gcode.notes.extras.utils.listeners.MediaPlayerCompletionListener;
+import com.gcode.notes.extras.utils.listeners.MediaPlayerPreparedListener;
 import com.gcode.notes.tasks.other.UpdateAudioProgressTask;
 
 import java.io.IOException;

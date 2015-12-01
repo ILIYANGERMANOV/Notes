@@ -10,8 +10,8 @@ import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.adapters.list.compose.BaseComposeContainerAdapter;
 import com.gcode.notes.adapters.note.compose.ComposeNoteImagesAdapter;
 import com.gcode.notes.data.main.ContentBase;
-import com.gcode.notes.listeners.list.ListItemDeletedUndoOnClickListener;
-import com.gcode.notes.listeners.main.NoteDeletedUndoOnClickListener;
+import com.gcode.notes.adapters.list.compose.listeners.ListItemDeletedUndoOnClickListener;
+import com.gcode.notes.ui.listeners.NoteDeletedUndoOnClickListener;
 import com.gcode.notes.ui.callbacks.DeleteAudioCallback;
 import com.gcode.notes.ui.callbacks.DeleteNoteFromBinCallback;
 import com.gcode.notes.ui.callbacks.DeleteNoteFromDisplayCallback;
@@ -20,7 +20,7 @@ import com.gcode.notes.ui.callbacks.NoteDeletedSnackbarCallback;
 import com.gcode.notes.ui.callbacks.RemovePhotoCallback;
 import com.gcode.notes.ui.callbacks.RestoreNoteFromDisplayCallback;
 import com.gcode.notes.ui.helpers.DialogHelper;
-import com.gcode.notes.ui.snackbar.SnackbarHelper;
+import com.gcode.notes.ui.helpers.SnackbarHelper;
 
 public class ActionExecutor {
     public static void popNoteDeletedSnackbar(View rootView, MainAdapter adapter,

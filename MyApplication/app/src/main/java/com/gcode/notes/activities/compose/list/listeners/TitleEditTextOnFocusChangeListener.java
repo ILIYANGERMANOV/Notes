@@ -1,8 +1,8 @@
-package com.gcode.notes.listeners.list;
+package com.gcode.notes.activities.compose.list.listeners;
 
 import android.view.View;
 
-import com.gcode.notes.activities.compose.ComposeListActivity;
+import com.gcode.notes.activities.compose.list.ComposeListActivity;
 import com.gcode.notes.extras.values.Constants;
 
 public class TitleEditTextOnFocusChangeListener implements View.OnFocusChangeListener {

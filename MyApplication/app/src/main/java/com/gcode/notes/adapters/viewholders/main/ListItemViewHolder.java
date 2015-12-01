@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import com.gcode.notes.R;
 import com.gcode.notes.data.main.ContentBase;
 import com.gcode.notes.data.main.ListData;
-import com.gcode.notes.listeners.main.ListItemOnClickListener;
+import com.gcode.notes.adapters.viewholders.main.listeners.ListItemOnClickListener;
 
 import java.util.ArrayList;
 
@@ -20,6 +20,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ListItemViewHolder extends BaseItemViewHolder {
+    //TODO: OPTIMIZE
     @Bind(R.id.list_item_container_layout)
     LinearLayout mContainerLayout;
 
@@ -35,7 +36,7 @@ public class ListItemViewHolder extends BaseItemViewHolder {
         startRepeatingTask();
     }
 
-    Runnable mSetOnClickListener = new Runnable() {
+    Runnable mSetOnClickListenerRunnable = new Runnable() {
         @Override
         public void run() {
             int itemPosition = getAdapterPosition();
@@ -45,16 +46,16 @@ public class ListItemViewHolder extends BaseItemViewHolder {
                 stopRepeatingTask();
                 return;
             }
-            mHandler.postDelayed(mSetOnClickListener, 50);
+            mHandler.postDelayed(mSetOnClickListenerRunnable, 50);
         }
     };
 
     void startRepeatingTask() {
-        mSetOnClickListener.run();
+        mSetOnClickListenerRunnable.run();
     }
 
     void stopRepeatingTask() {
-        mHandler.removeCallbacks(mSetOnClickListener);
+        mHandler.removeCallbacks(mSetOnClickListenerRunnable);
     }
 
     @Override

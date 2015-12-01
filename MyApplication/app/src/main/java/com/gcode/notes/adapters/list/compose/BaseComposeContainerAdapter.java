@@ -12,12 +12,12 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.adapters.list.compose.listeners.ListInputOnEditorActionListener;
+import com.gcode.notes.adapters.list.compose.listeners.MyFocusListener;
+import com.gcode.notes.adapters.list.compose.listeners.RemoveListInputOnClickListener;
 import com.gcode.notes.data.extras.ListDataItem;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
-import com.gcode.notes.listeners.list.ListInputOnEditorActionListener;
-import com.gcode.notes.listeners.list.MyFocusListener;
-import com.gcode.notes.listeners.list.RemoveListInputOnClickListener;
 
 import java.util.ArrayList;
 

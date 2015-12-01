@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 
 
 public abstract class BaseItemViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
+    //TODO: OPTIMIZE
     @Bind(R.id.note_title_text_view)
     TextView mTitleTextView;
 

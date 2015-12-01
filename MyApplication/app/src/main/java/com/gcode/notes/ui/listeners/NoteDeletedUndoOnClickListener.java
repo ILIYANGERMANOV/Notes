@@ -1,4 +1,4 @@
-package com.gcode.notes.listeners.main;
+package com.gcode.notes.ui.listeners;
 
 import android.view.View;
 

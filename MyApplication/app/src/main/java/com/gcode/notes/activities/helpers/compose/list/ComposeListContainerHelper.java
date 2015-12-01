@@ -1,6 +1,6 @@
 package com.gcode.notes.activities.helpers.compose.list;
 
-import com.gcode.notes.activities.compose.ComposeListActivity;
+import com.gcode.notes.activities.compose.list.ComposeListActivity;
 import com.gcode.notes.adapters.list.compose.ListComposeContainerAdapter;
 import com.gcode.notes.adapters.list.compose.TickedListComposeContainerAdapter;
 import com.gcode.notes.data.extras.ListDataItem;

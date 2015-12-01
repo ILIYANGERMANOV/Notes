@@ -1,4 +1,4 @@
-package com.gcode.notes.activities.compose;
+package com.gcode.notes.activities.compose.list;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,13 +8,14 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.activities.compose.ComposeBaseActivity;
 import com.gcode.notes.activities.helpers.compose.list.ComposeListMenuOptionsHelper;
 import com.gcode.notes.activities.helpers.compose.list.ComposeListRotationHandler;
 import com.gcode.notes.activities.helpers.compose.list.ComposeListStartStateHelper;
 import com.gcode.notes.adapters.list.compose.ListComposeContainerAdapter;
 import com.gcode.notes.adapters.list.compose.TickedListComposeContainerAdapter;
 import com.gcode.notes.data.main.ListData;
-import com.gcode.notes.listeners.list.TitleEditTextOnFocusChangeListener;
+import com.gcode.notes.activities.compose.list.listeners.TitleEditTextOnFocusChangeListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -64,7 +65,7 @@ public class ComposeListActivity extends ComposeBaseActivity {
 
     private void setup(Bundle savedInstanceState) {
         super.setup();
-        mTitleEditText.setOnFocusChangeListener(new TitleEditTextOnFocusChangeListener(this));
+        getTitleEditText().setOnFocusChangeListener(new TitleEditTextOnFocusChangeListener(this));
         new ComposeListStartStateHelper(this).setupStartState(savedInstanceState);
     }
 

@@ -6,9 +6,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.ui.helpers.SnackbarHelper;
 import com.gcode.notes.ui.helpers.VisibilityHelper;
-import com.gcode.notes.ui.snackbar.SnackbarHelper;
-import com.gcode.notes.ui.snackbar.SnackbarMessages;
 
 public class ListComposeContainerAdapter extends BaseComposeContainerAdapter {
     View mLastDividerView;
@@ -20,7 +19,7 @@ public class ListComposeContainerAdapter extends BaseComposeContainerAdapter {
 
     @Override
     protected void onRemoveItemRequestFocus(View previousItem, boolean wasFocused) {
-        if(previousItem != null) {
+        if (previousItem != null) {
             EditText editText = getEditTextFromView(previousItem);
             smoothScrollToView(previousItem);
             editText.requestFocus();
@@ -39,7 +38,7 @@ public class ListComposeContainerAdapter extends BaseComposeContainerAdapter {
         mOtherContainerAdapter.addInputItem(mEditText.getText().toString(), false);
         if (!VisibilityHelper.isViewVisibleInScrollView(mLastDividerView, mScrollView)) {
             //show snackbar for item added to ticked
-            SnackbarHelper.showShortSnackbar(mScrollView, SnackbarMessages.ITEM_ADDED_TO_DONE_MESSAGE);
+            SnackbarHelper.showShortSnackbar(mScrollView, R.string.item_added_to_done_snackbar_message);
         }
     }
 

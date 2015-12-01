@@ -3,7 +3,7 @@ package com.gcode.notes.activities.helpers.compose.list;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.gcode.notes.activities.compose.ComposeListActivity;
+import com.gcode.notes.activities.compose.list.ComposeListActivity;
 import com.gcode.notes.activities.helpers.compose.base.ComposeBaseRotationHandler;
 import com.gcode.notes.data.main.ListData;
 import com.gcode.notes.extras.MyDebugger;
