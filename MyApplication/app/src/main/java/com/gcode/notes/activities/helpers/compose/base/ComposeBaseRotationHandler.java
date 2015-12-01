@@ -3,7 +3,6 @@ package com.gcode.notes.activities.helpers.compose.base;
 import android.os.Bundle;
 
 import com.gcode.notes.activities.compose.ComposeBaseActivity;
-import com.gcode.notes.activities.compose.ComposeNoteActivity;
 import com.gcode.notes.extras.values.Constants;
 
 public class ComposeBaseRotationHandler {

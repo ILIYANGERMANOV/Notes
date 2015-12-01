@@ -62,7 +62,7 @@ public class AudioUtils {
                     mMediaPlayer.start();
                     //update audio progress
 
-                    mTimer.scheduleAtFixedRate(new UpdateAudioProgressTask(this, getDuration()), 0, Constants.MINIMUM_DELAY);
+                    mTimer.scheduleAtFixedRate(new UpdateAudioProgressTask(this, getDuration()), 0, Constants.SHORT_DELAY);
                 }
             } catch (IllegalStateException e) {
                 //this exception is almost impossible to be thrown, just to secure from app crash

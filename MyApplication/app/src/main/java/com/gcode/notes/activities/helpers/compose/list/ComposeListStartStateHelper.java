@@ -4,16 +4,12 @@ import android.os.Bundle;
 
 import com.gcode.notes.activities.compose.ComposeListActivity;
 import com.gcode.notes.activities.helpers.compose.base.ComposeBaseStartStateHelper;
-import com.gcode.notes.data.extras.ListDataItem;
 import com.gcode.notes.data.main.ListData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 
-import java.util.ArrayList;
-
 public class ComposeListStartStateHelper extends ComposeBaseStartStateHelper {
-    //TODO: REFACTOR
     ComposeListActivity mComposeListActivity;
 
     public ComposeListStartStateHelper(ComposeListActivity composeListActivity) {
@@ -21,7 +17,7 @@ public class ComposeListStartStateHelper extends ComposeBaseStartStateHelper {
     }
 
     public void setupStartState(Bundle savedInstanceState) {
-        mComposeListActivity.setupContainers();
+        ComposeListContainerHelper.setupContainers(mComposeListActivity);
         Bundle extras = mComposeListActivity.getIntent().getExtras();
         if (savedInstanceState == null) {
             if (extras != null) {
@@ -40,6 +36,7 @@ public class ComposeListStartStateHelper extends ComposeBaseStartStateHelper {
     protected void setupFromZero() {
         super.setupFromZero(mComposeListActivity);
         mComposeListActivity.mListData = new ListData();
+        //add empty input item and focus it
         mComposeListActivity.mContainerAdapter.addInputItem((String) null, false);
         mComposeListActivity.mContainerAdapter.setFocusOnChild(0);
     }
@@ -47,25 +44,15 @@ public class ComposeListStartStateHelper extends ComposeBaseStartStateHelper {
     private void setupFromEditMode(String serializedListData) {
         ListData listData = Serializer.parseListData(serializedListData);
         if (listData != null) {
-            //passed noteData is OK, setup the activity from it
+            //passed listData is OK, setup the activity from it
             super.setupFromEditMode(mComposeListActivity, listData); //setup base (title, importance, reminder, mOpenedInEditMode)
             mComposeListActivity.mListData = listData;
             if (listData.hasAttachedList()) {
-                addListDataItems(listData.getList());
+                ComposeListContainerHelper.addListDataItems(mComposeListActivity, listData.getList());
             }
         } else {
             MyDebugger.log("EditMode launched with null list, finish activity in order to prevent errors");
             mComposeListActivity.finish();
-        }
-    }
-
-    private void addListDataItems(ArrayList<ListDataItem> listDataItems) {
-        for (ListDataItem item : listDataItems) {
-            if (!item.isChecked()) {
-                mComposeListActivity.mContainerAdapter.addInputItem(item.getContent(), false);
-            } else {
-                mComposeListActivity.mTickedContainerAdapter.addInputItem(item.getContent(), false);
-            }
         }
     }
 }

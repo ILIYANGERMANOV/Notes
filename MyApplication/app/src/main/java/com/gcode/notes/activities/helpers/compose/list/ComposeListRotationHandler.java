@@ -11,21 +11,13 @@ import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 
 public class ComposeListRotationHandler extends ComposeBaseRotationHandler {
-    //TODO: REFACTOR AND OPTIMIZE
-
     public static void saveInstanceState(ComposeListActivity composeListActivity, Bundle outState) {
         ComposeBaseRotationHandler.saveInstanceState(composeListActivity, outState); //save base
-        ListData listData = composeListActivity.mListData;
-        if (composeListActivity.mListDataItems != null) {
-            listData.setList(composeListActivity.mListDataItems);
-        } else {
-            listData.setList(composeListActivity.mContainerAdapter.getListDataItems(false));
-        }
-        if (composeListActivity.mTickedListDataItems != null) {
-            listData.addToList(composeListActivity.mTickedListDataItems);
-        } else {
-            listData.addToList(composeListActivity.mTickedContainerAdapter.getListDataItems(false));
-        }
+        ListData listData = composeListActivity.mListData; //get listData reference for easier access
+
+        listData.setList(composeListActivity.mContainerAdapter.getListDataItems(false)); //set list to not ticked items
+        listData.addToList(composeListActivity.mTickedContainerAdapter.getListDataItems(false)); //add to list ticked items
+
         outState.putString(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(listData));
 
         int lastFocused = composeListActivity.mContainerAdapter.getLastFocused();
@@ -40,35 +32,34 @@ public class ComposeListRotationHandler extends ComposeBaseRotationHandler {
                 outState.putInt(Constants.EXTRA_LAST_FOCUSED, (lastFocused + 1) * -1);
             }
         }
-
     }
 
     public static void handlerScreenRotation(final ComposeListActivity composeListActivity, final Bundle savedInstanceState) {
         ComposeBaseRotationHandler.handlerScreenRotation(composeListActivity, savedInstanceState); //handle base
         final ListData listData = Serializer.parseListData(savedInstanceState.getString(Constants.EXTRA_LIST_DATA));
         if (listData != null) {
-            composeListActivity.mListData = listData;//postDelayed because layout isn't loaded and leads to crash
+            composeListActivity.mListData = listData;
             new Handler().postDelayed(new Runnable() {
                 @Override
-                public void run() {
-                    composeListActivity.addListDataItems(listData.getList());
+                public void run() { //postDelayed because layout isn't loaded and adding items to it and requesting focus leads to crash
+                    ComposeListContainerHelper.addListDataItems(composeListActivity, listData.getList());
 
                     //WARNING: lastFocused MUST BE lastFocused -= 1
                     int lastFocused = savedInstanceState.getInt(Constants.EXTRA_LAST_FOCUSED, Constants.NO_FOCUS);
-                    if (Math.abs(lastFocused) - 1 != Constants.NO_FOCUS) {
+                    if (Math.abs(lastFocused) != Constants.NO_FOCUS) {
                         if (lastFocused > 0) {
                             //focused from mContainerAdapter
-                            composeListActivity.mContainerAdapter.setFocusOnChild(lastFocused - 1);
+                            composeListActivity.mContainerAdapter.setFocusOnChild(lastFocused - 1); //-1 cuz it was passed by +1 in save instance
                         } else {
                             //focused from mTickedContainerAdapter (lastFocused is passed negated)
-                            composeListActivity.mTickedContainerAdapter.setFocusOnChild(lastFocused * -1 - 1);
+                            composeListActivity.mTickedContainerAdapter.setFocusOnChild(lastFocused * -1 - 1);  //-1 cuz it was passed by +1 in save instance
                         }
                     } else {
-                        //request focus on title
+                        //there was no_focus, request focus on title
                         composeListActivity.getTitleEditText().requestFocus();
                     }
                 }
-            }, 20);
+            }, Constants.MINIMUM_DELAY);
         } else {
             MyDebugger.log("handleScreenRotation", "listData is null");
         }

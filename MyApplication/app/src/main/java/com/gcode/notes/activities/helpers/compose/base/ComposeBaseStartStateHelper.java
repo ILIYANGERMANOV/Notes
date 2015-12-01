@@ -10,7 +10,7 @@ public class ComposeBaseStartStateHelper {
         composeBaseActivity.mIsOpenedInEditMode = false;
         switch (BaseController.getInstance().getControllerId()) {
             case Constants.CONTROLLER_ALL_NOTES:
-
+                composeBaseActivity.setNotStarredState();
                 break;
             case Constants.CONTROLLER_IMPORTANT:
                 composeBaseActivity.setStarredState();

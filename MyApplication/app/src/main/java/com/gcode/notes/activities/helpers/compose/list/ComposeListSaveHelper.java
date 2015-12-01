@@ -22,7 +22,6 @@ public class ComposeListSaveHelper {
         mListData.setList(composeListActivity.mContainerAdapter.getListDataItems(true));
         mListData.addToList(composeListActivity.mTickedContainerAdapter.getListDataItems(true));
 
-
         if (mListData.isValidList()) {
             mListData.setMode(composeListActivity.mIsStarred ? Constants.MODE_IMPORTANT : Constants.MODE_NORMAL);
 
