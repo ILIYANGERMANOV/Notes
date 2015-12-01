@@ -9,15 +9,14 @@ import android.widget.ImageView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.activities.compose.ComposeNoteActivity;
+import com.gcode.notes.adapters.note.compose.listeners.DeleteImageButtonOnClickListener;
+import com.gcode.notes.adapters.note.compose.listeners.ImageOnClickListener;
 import com.gcode.notes.extras.utils.PhotoUtils;
-import com.gcode.notes.ui.ActionExecutor;
-import com.gcode.notes.ui.helpers.DialogHelper;
 import com.linearlistview.LinearListView;
 
 import java.util.List;
 
 public class ComposeNoteImagesAdapter extends ArrayAdapter<String> {
-    //TODO: REFACTOR
     ComposeNoteActivity mComposeNoteActivity;
     LinearListView mLinearListView;
 
@@ -55,20 +54,10 @@ public class ComposeNoteImagesAdapter extends ArrayAdapter<String> {
         //bind view
         PhotoUtils.loadPhoto(mComposeNoteActivity, photoPath, holder.imageView);
 
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //show opening image in gallery progress dialog
-                mComposeNoteActivity.mOpenImageInGalleryProgressDialog = DialogHelper.buildOpenImageProgressDialog(mComposeNoteActivity);
-                PhotoUtils.openPhotoInGallery(mComposeNoteActivity, photoPath);
-            }
-        });
-        holder.deleteImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActionExecutor.removePhotoFromNote(mComposeNoteActivity, ComposeNoteImagesAdapter.this, photoPath);
-            }
-        });
+        //set holder's listeners
+        holder.imageView.setOnClickListener(new ImageOnClickListener(mComposeNoteActivity, photoPath));
+        holder.deleteImageButton.setOnClickListener(new DeleteImageButtonOnClickListener(mComposeNoteActivity,
+                this, photoPath));
 
         return convertView;
     }

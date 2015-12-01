@@ -3,8 +3,8 @@ package com.gcode.notes.activities.helpers.compose.list;
 import android.app.Activity;
 import android.content.Intent;
 
-import com.gcode.notes.R;
 import com.gcode.notes.activities.compose.ComposeListActivity;
+import com.gcode.notes.activities.helpers.compose.base.ComposeBaseSaveHelper;
 import com.gcode.notes.data.main.ListData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.DateUtils;
@@ -13,26 +13,17 @@ import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
 
 public class ComposeListSaveHelper {
-    //TODO: optimize
 
     public static void saveList(ComposeListActivity composeListActivity) {
         ListData mListData = composeListActivity.mListData;
 
-        mListData.setTitle(composeListActivity.getTitleEditText().getText().toString()); //TODO: remove redundancy with ComposeNoteSaveHelper
-        mListData.setList(composeListActivity.mContainerAdapter.getListDataItems(true));
-        mListData.addToList(composeListActivity.mTickedContainerAdapter.getListDataItems(true));
+        //setList here, cuz list is used in isValidList();
+        mListData.setList(composeListActivity.mContainerAdapter.getListDataItems(true)); //add not ticked listDataItems (filtering empty ones)
+        mListData.addToList(composeListActivity.mTickedContainerAdapter.getListDataItems(true)); //add ticked listDataItems (filtering empty ones)
+
+        ComposeBaseSaveHelper.saveBase(composeListActivity, mListData); //call it before isValidList(), cuz title is used in validation
 
         if (mListData.isValidList()) {
-            mListData.setMode(composeListActivity.mIsStarred ? Constants.MODE_IMPORTANT : Constants.MODE_NORMAL);
-
-            //TODO: use real reminder
-            String reminderString = composeListActivity.getReminderTextView().getText().toString();
-            if (!reminderString.equals(composeListActivity.getResources().getString(R.string.compose_note_set_reminder_text))) {
-                mListData.setReminder(reminderString);
-            }
-
-            mListData.setHasAttributesFlag(mListData.hasAttributes());
-
             Intent resultIntent = composeListActivity.mResultIntent;
 
             if (!composeListActivity.mIsOpenedInEditMode) {
@@ -42,6 +33,7 @@ public class ComposeListSaveHelper {
                     resultIntent.putExtra(Constants.COMPOSE_NOTE_MODE, mListData.getMode());
                 } else {
                     MyDebugger.log("Failed to save list.");
+                    return;
                 }
             } else {
                 //update existing list
@@ -52,6 +44,7 @@ public class ComposeListSaveHelper {
                     resultIntent.putExtra(Constants.EXTRA_NOTE_MODE_CHANGED, composeListActivity.mNoteModeChanged);
                 } else {
                     MyDebugger.log("Failed to update list.");
+                    return;
                 }
             }
             composeListActivity.setResult(Activity.RESULT_OK, resultIntent);

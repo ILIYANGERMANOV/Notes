@@ -10,7 +10,7 @@ import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 
-public class ComposeListRotationHandler extends ComposeBaseRotationHandler {
+public class ComposeListRotationHandler {
     public static void saveInstanceState(ComposeListActivity composeListActivity, Bundle outState) {
         ComposeBaseRotationHandler.saveInstanceState(composeListActivity, outState); //save base
         ListData listData = composeListActivity.mListData; //get listData reference for easier access

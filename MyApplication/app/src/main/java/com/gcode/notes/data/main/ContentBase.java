@@ -9,7 +9,7 @@ import com.gcode.notes.data.extras.ContentDetails;
 import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
 
-public class ContentBase {
+public abstract class ContentBase {
     //TODO: REFACTOR AND OPTIMIZE
 
     //have default value
@@ -129,6 +129,8 @@ public class ContentBase {
     public boolean getHasAttributesFlag() {
         return hasAttributesFlag;
     }
+
+    public abstract boolean hasAttributes();
 
     public int getType() {
         return type;

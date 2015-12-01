@@ -9,7 +9,7 @@ import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 
-public class ComposeNoteRotationHandler extends ComposeBaseRotationHandler {
+public class ComposeNoteRotationHandler {
     public static void saveInstanceState(ComposeNoteActivity composeNoteActivity, Bundle outState) {
         ComposeBaseRotationHandler.saveInstanceState(composeNoteActivity, outState); //save base
         composeNoteActivity.getIntent().putExtra(Constants.EXTRA_SETUP_FROM, Constants.SETUP_FROM_SCREEN_ROTATION); //put it to int, cuz its extra we are checking in setupStartState()
