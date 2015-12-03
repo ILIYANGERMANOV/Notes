@@ -1,13 +1,10 @@
 package com.gcode.notes.activities.display.note;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -15,13 +12,14 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.R;
-import com.gcode.notes.adapters.note.display.DisplayNoteImagesAdapter;
+import com.gcode.notes.activities.helpers.display.note.base.DisplayNoteBaseDisplayHelper;
+import com.gcode.notes.activities.helpers.display.note.base.DisplayNoteBaseMenuOptionsHelper;
+import com.gcode.notes.activities.helpers.display.note.base.DisplayNoteBaseResultHandler;
+import com.gcode.notes.activities.helpers.display.note.base.DisplayNoteBaseStartStateHelper;
 import com.gcode.notes.data.main.NoteData;
 import com.gcode.notes.extras.utils.AudioUtils;
-import com.gcode.notes.extras.utils.PhotoUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
-import com.gcode.notes.ui.helpers.DialogHelper;
 import com.linearlistview.LinearListView;
 
 import butterknife.Bind;
@@ -29,7 +27,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class DisplayNoteBaseActivity extends AppCompatActivity {
-    //TODO: REFACTOR
     @Bind(R.id.display_note_toolbar)
     Toolbar mToolbar;
 
@@ -60,38 +57,62 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
     @Bind(R.id.display_audio_duration_text_view)
     TextView mAudioDurationTextView;
 
-    NoteData mNoteData;
-    boolean mNoteModeChanged;
+    //getters for layout components----------------------------------------------------------------------------------------
+    public Toolbar getToolbar() {
+        return mToolbar;
+    }
 
-    MaterialDialog mOpenInGalleryProgressDialog;
+    public TextView getTitleTextView() {
+        return mTitleTextView;
+    }
+
+    public TextView getDatesTextView() {
+        return mDatesTextView;
+    }
+
+    public LinearLayout getAudioLayout() {
+        return mAudioLayout;
+    }
+
+    public TextView getAudioDurationTextView() {
+        return mAudioDurationTextView;
+    }
+
+    public ImageButton getActionImageButton() {
+        return mActionImageButton;
+    }
+
+    public ProgressBar getAudioProgressBar() {
+        return mAudioProgressBar;
+    }
+
+    public ImageButton getAudioPlayPauseButton() {
+        return mAudioPlayPauseButton;
+    }
+
+    public TextView getDescriptionTextView() {
+        return mDescriptionTextView;
+    }
+
+    public LinearListView getImagesLinearListView() {
+        return mImagesLinearListView;
+    }
+    //getters for layout components----------------------------------------------------------------------------------------
+
+    public NoteData mNoteData;
+    public boolean mNoteModeChanged;
+
+    public MaterialDialog mOpenInGalleryProgressDialog;
 
 
-    AudioUtils mAudioUtils;
+    public AudioUtils mAudioUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_note);
         ButterKnife.bind(this);
-        setupToolbar();
-        setupStartState(savedInstanceState);
-    }
-
-    private void setupStartState(Bundle savedInstanceState) {
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-        if (extras != null && savedInstanceState == null) {
-            //first time started
-            setupFromBundle(extras);
-        } else {
-            //from saved instance state
-            setupFromBundle(savedInstanceState);
-            handleScreenRotation(savedInstanceState);
-        }
-    }
-
-    private void handleScreenRotation(Bundle savedInstanceState) {
-        mNoteModeChanged = savedInstanceState.getBoolean(Constants.EXTRA_NOTE_MODE_CHANGED);
+        new DisplayNoteBaseStartStateHelper(this).setupStartState(savedInstanceState);
     }
 
     @Override
@@ -101,73 +122,13 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
         outState.putBoolean(Constants.EXTRA_NOTE_MODE_CHANGED, mNoteModeChanged);
     }
 
-    private void setupFromBundle(Bundle bundle) {
-        if (bundle != null) {
-            String serializedNoteData = bundle.getString(Constants.EXTRA_NOTE_DATA);
-            if (serializedNoteData != null) {
-                mNoteData = Serializer.parseNoteData(serializedNoteData);
-                if (mNoteData != null) {
-                    displayNoteData();
-                }
-            }
-        }
-    }
-
-
     protected void displayNoteData() {
-        mNoteData.displayNote(mTitleTextView, mDescriptionTextView);
-        mDatesTextView.setText(mNoteData.getDateDetails());
-        //TODO: REFACTOR AND OPTIMIZE called 2x (init and onActivityResult from compose)
-        if (mNoteData.hasAttachedImage()) {
-            DisplayNoteImagesAdapter adapter = (DisplayNoteImagesAdapter) mImagesLinearListView.getAdapter();
-            if (adapter == null) {
-                //activity is created for first time
-                adapter = new DisplayNoteImagesAdapter(this, mNoteData.getAttachedImagesPaths());
-            } else {
-                adapter.clear();
-                adapter.addAll(mNoteData.getAttachedImagesPaths());
-            }
-            mImagesLinearListView.setAdapter(adapter);
-            mImagesLinearListView.setOnItemClickListener(new LinearListView.OnItemClickListener() {
-                @Override
-                public void onItemClick(LinearListView parent, View view, int position, long id) {
-                    mOpenInGalleryProgressDialog = DialogHelper.buildOpenImageProgressDialog(DisplayNoteBaseActivity.this);
-                    //TODO: add on click effect on image
-                    PhotoUtils.openPhotoInGallery(DisplayNoteBaseActivity.this, (String) parent.getAdapter().getItem(position));
-                }
-            });
-        } else {
-            mImagesLinearListView.setVisibility(View.GONE); //when you come back from compose and all images are deleted
-            //hasAttachedImages() is false so true case doesn't handle image remove
-        }
-
-        //TODO: not handle with EXTRA_AUDIO_DELETED from compose (use mNoteData)
-        if (mNoteData.hasAttachedAudio()) {
-            mAudioUtils = new AudioUtils(this, mNoteData.getAttachedAudioPath(), mAudioDurationTextView,
-                    mAudioProgressBar, mAudioPlayPauseButton, mAudioLayout);
-        }
-    }
-
-    private void setupToolbar() {
-        if (mToolbar != null) {
-            setSupportActionBar(mToolbar);
-            ActionBar mActionBar = getSupportActionBar();
-            if (mActionBar != null) {
-                mActionBar.setHomeButtonEnabled(true);
-                mActionBar.setDisplayHomeAsUpEnabled(true);
-            }
-        }
+        DisplayNoteBaseDisplayHelper.displayNoteDataBase(this);
     }
 
     @OnClick(R.id.display_audio_play_pause_button)
     public void playPauseAudio() {
-        if (!mAudioUtils.isPlaying()) {
-            //audio is not playing, start it and set pause icon
-            mAudioUtils.playAudio();
-        } else {
-            //audio is playing, stop it and set play icon
-            mAudioUtils.pauseAudio();
-        }
+        mAudioUtils.toggle();
     }
 
     @Override
@@ -188,43 +149,18 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        setResult();
+        DisplayNoteBaseResultHandler.setResult(this); //sets activity result before finish() is called;
         super.onBackPressed();
-    }
-
-    private void setResult() {
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(mNoteData));
-        resultIntent.putExtra(Constants.EXTRA_NOTE_MODE_CHANGED, mNoteModeChanged);
-        setResult(Activity.RESULT_OK, resultIntent);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.OPEN_PHOTO_IN_GALLERY_REQ_CODE) {
-            if (mOpenInGalleryProgressDialog != null) {
-                mOpenInGalleryProgressDialog.dismiss();
-            }
-        }
+        DisplayNoteBaseResultHandler.handleResult(this, requestCode);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.action_settings:
-                return true;
-            case android.R.id.home:
-                setResult();
-                finish();
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item) || DisplayNoteBaseMenuOptionsHelper.optionsItemSelected(this, item);
     }
 }

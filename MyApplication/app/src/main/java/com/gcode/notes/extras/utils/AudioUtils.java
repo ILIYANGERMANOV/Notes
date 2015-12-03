@@ -12,9 +12,9 @@ import android.widget.TextView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.extras.MyDebugger;
-import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.extras.utils.listeners.MediaPlayerCompletionListener;
 import com.gcode.notes.extras.utils.listeners.MediaPlayerPreparedListener;
+import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.tasks.other.UpdateAudioProgressTask;
 
 import java.io.IOException;
@@ -52,6 +52,16 @@ public class AudioUtils {
 
     public boolean isPlaying() {
         return mIsReady && mMediaPlayer != null && mMediaPlayer.isPlaying();
+    }
+
+    public void toggle() {
+        if (!isPlaying()) {
+            //audio is not playing, start it
+            playAudio();
+        } else {
+            //audio is playing, pause it
+            pauseAudio();
+        }
     }
 
     public void playAudio() {

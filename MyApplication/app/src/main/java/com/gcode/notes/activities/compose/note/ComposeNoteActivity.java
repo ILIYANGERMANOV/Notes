@@ -1,4 +1,4 @@
-package com.gcode.notes.activities.compose;
+package com.gcode.notes.activities.compose.note;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.R;
+import com.gcode.notes.activities.compose.ComposeBaseActivity;
 import com.gcode.notes.activities.helpers.compose.note.ComposeNoteMenuOptionsHelper;
 import com.gcode.notes.activities.helpers.compose.note.ComposeNoteResultHandler;
 import com.gcode.notes.activities.helpers.compose.note.ComposeNoteRotationHandler;
@@ -116,13 +117,7 @@ public class ComposeNoteActivity extends ComposeBaseActivity {
 
     @OnClick(R.id.compose_audio_play_pause_button)
     public void playPauseAudio() {
-        if (!mAudioUtils.isPlaying()) {
-            //audio is not playing, start it and set pause icon
-            mAudioUtils.playAudio();
-        } else {
-            //audio is playing, stop it and set play icon
-            mAudioUtils.pauseAudio();
-        }
+        mAudioUtils.toggle();
     }
 
     @OnClick(R.id.compose_audio_delete_button)

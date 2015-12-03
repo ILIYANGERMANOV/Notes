@@ -1,7 +1,9 @@
 package com.gcode.notes.ui.callbacks;
 
+import android.app.Activity;
+
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.gcode.notes.activities.compose.ComposeNoteActivity;
+import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
 import com.gcode.notes.data.main.NoteData;
 import com.gcode.notes.extras.utils.AudioUtils;
 import com.gcode.notes.extras.values.Constants;
@@ -29,6 +31,7 @@ public class DeleteAudioCallback extends MaterialDialog.ButtonCallback {
             //to secure if saveNote() isn't called
             new RemoveAttachedAudioTask().execute(editNoteTargetId);
             mComposeNoteActivity.mResultIntent.putExtra(Constants.EXTRA_DELETED_AUDIO, true);
+            mComposeNoteActivity.setResult(Activity.RESULT_OK, mComposeNoteActivity.mResultIntent); //set result if here not isn't saved so EXTRA_AUDIO_DELETED will be used
         }
         dialog.cancel();
     }

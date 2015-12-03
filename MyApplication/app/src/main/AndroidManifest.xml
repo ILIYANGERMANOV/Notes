@@ -27,7 +27,7 @@
             android:name=".activities.extra.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name=".activities.compose.ComposeNoteActivity"
+            android:name=".activities.compose.note.ComposeNoteActivity"
             android:label="@string/title_activity_compose_note" />
         <activity
             android:name=".activities.compose.list.ComposeListActivity"

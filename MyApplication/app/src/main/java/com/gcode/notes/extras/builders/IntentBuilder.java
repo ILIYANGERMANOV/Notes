@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.speech.RecognizerIntent;
 
-import com.gcode.notes.activities.compose.ComposeNoteActivity;
+import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
 import com.gcode.notes.extras.values.Constants;
 
 public class IntentBuilder {

@@ -3,7 +3,7 @@ package com.gcode.notes.activities.helpers.compose.note;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.gcode.notes.activities.compose.ComposeNoteActivity;
+import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
 import com.gcode.notes.activities.helpers.compose.base.ComposeBaseStartStateHelper;
 import com.gcode.notes.data.main.NoteData;
 import com.gcode.notes.extras.MyDebugger;

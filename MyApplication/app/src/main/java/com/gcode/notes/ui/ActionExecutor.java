@@ -5,7 +5,7 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.gcode.notes.activities.compose.ComposeNoteActivity;
+import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
 import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.adapters.list.compose.BaseComposeContainerAdapter;
 import com.gcode.notes.adapters.note.compose.ComposeNoteImagesAdapter;

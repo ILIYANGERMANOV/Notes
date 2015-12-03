@@ -3,7 +3,7 @@ package com.gcode.notes.activities.helpers.compose.note;
 import android.view.MenuItem;
 
 import com.gcode.notes.R;
-import com.gcode.notes.activities.compose.ComposeNoteActivity;
+import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
 import com.gcode.notes.ui.ActionExecutor;
 
 public class ComposeNoteMenuOptionsHelper {

@@ -3,7 +3,7 @@ package com.gcode.notes.adapters.note.compose.listeners;
 
 import android.view.View;
 
-import com.gcode.notes.activities.compose.ComposeNoteActivity;
+import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
 import com.gcode.notes.extras.utils.PhotoUtils;
 import com.gcode.notes.ui.helpers.DialogHelper;
 

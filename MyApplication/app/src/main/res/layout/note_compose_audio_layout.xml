@@ -31,16 +31,12 @@
     <TextView
         android:id="@+id/compose_audio_duration_text_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp" />
+        android:layout_height="wrap_content" />
 
     <ImageButton
         android:id="@+id/compose_audio_delete_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="7dp"
-        android:layout_marginRight="7dp"
+        android:layout_width="48dp"
+        android:layout_height="36dp"
         android:background="?android:attr/selectableItemBackground"
         android:contentDescription="@string/delete_audio_image_button_desc"
         android:src="@drawable/ic_remove_circle_black_24dp" />

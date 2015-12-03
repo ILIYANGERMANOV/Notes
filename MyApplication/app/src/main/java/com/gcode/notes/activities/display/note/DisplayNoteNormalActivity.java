@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.gcode.notes.R;
-import com.gcode.notes.activities.compose.ComposeNoteActivity;
+import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
 import com.gcode.notes.data.main.NoteData;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;

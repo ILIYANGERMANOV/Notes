@@ -8,7 +8,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.activities.compose.ComposeNoteActivity;
+import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
 import com.gcode.notes.adapters.note.compose.listeners.DeleteImageButtonOnClickListener;
 import com.gcode.notes.adapters.note.compose.listeners.ImageOnClickListener;
 import com.gcode.notes.extras.utils.PhotoUtils;
