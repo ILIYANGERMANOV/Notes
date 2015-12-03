@@ -4,6 +4,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.gcode.notes.R;
+import com.gcode.notes.activities.helpers.display.note.bin.DisplayNoteBinMenuOptionsHelper;
 import com.gcode.notes.ui.ActionExecutor;
 
 import butterknife.OnClick;
@@ -11,7 +12,7 @@ import butterknife.OnClick;
 public class DisplayNoteBinActivity extends DisplayNoteBaseActivity {
 
     @Override
-    protected void displayNoteData() {
+    public void displayNoteData() {
         super.displayNoteData();
         mActionImageButton.setImageResource(R.drawable.ic_restore_deleted_24dp);
     }
@@ -23,21 +24,12 @@ public class DisplayNoteBinActivity extends DisplayNoteBaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_display_note_bin, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_delete_forever:
-                ActionExecutor.deleteNoteFromDisplayBin(this, mNoteData);
-                return true;
-            case R.id.action_restore_deleted:
-                ActionExecutor.restoreDeletedNote(this, mNoteData);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item) || DisplayNoteBinMenuOptionsHelper.optionItemSelected(this, item);
     }
 }

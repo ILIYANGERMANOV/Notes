@@ -27,33 +27,28 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class DisplayNoteBaseActivity extends AppCompatActivity {
+    public NoteData mNoteData;
+    public boolean mNoteModeChanged;
+    public MaterialDialog mOpenInGalleryProgressDialog;
+    public AudioUtils mAudioUtils;
     @Bind(R.id.display_note_toolbar)
     Toolbar mToolbar;
-
     @Bind(R.id.display_title_text_view)
     TextView mTitleTextView;
-
     @Bind(R.id.display_note_dates_text_view)
     TextView mDatesTextView;
-
     @Bind(R.id.display_action_image_button)
     ImageButton mActionImageButton;
-
     @Bind(R.id.display_note_description_text_view)
     TextView mDescriptionTextView;
-
     @Bind(R.id.display_note_images_Linear_list_view)
     LinearListView mImagesLinearListView;
-
     @Bind(R.id.display_note_audio_layout)
     LinearLayout mAudioLayout;
-
     @Bind(R.id.display_audio_play_pause_button)
     ImageButton mAudioPlayPauseButton;
-
     @Bind(R.id.display_audio_progress_bar)
     ProgressBar mAudioProgressBar;
-
     @Bind(R.id.display_audio_duration_text_view)
     TextView mAudioDurationTextView;
 
@@ -77,10 +72,7 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
     public TextView getAudioDurationTextView() {
         return mAudioDurationTextView;
     }
-
-    public ImageButton getActionImageButton() {
-        return mActionImageButton;
-    }
+    //getters for layout components----------------------------------------------------------------------------------------
 
     public ProgressBar getAudioProgressBar() {
         return mAudioProgressBar;
@@ -97,15 +89,6 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
     public LinearListView getImagesLinearListView() {
         return mImagesLinearListView;
     }
-    //getters for layout components----------------------------------------------------------------------------------------
-
-    public NoteData mNoteData;
-    public boolean mNoteModeChanged;
-
-    public MaterialDialog mOpenInGalleryProgressDialog;
-
-
-    public AudioUtils mAudioUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +105,7 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
         outState.putBoolean(Constants.EXTRA_NOTE_MODE_CHANGED, mNoteModeChanged);
     }
 
-    protected void displayNoteData() {
+    public void displayNoteData() {
         DisplayNoteBaseDisplayHelper.displayNoteDataBase(this);
     }
 
@@ -161,6 +144,6 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item) || DisplayNoteBaseMenuOptionsHelper.optionsItemSelected(this, item);
+        return super.onOptionsItemSelected(item) || DisplayNoteBaseMenuOptionsHelper.optionItemSelected(this, item);
     }
 }

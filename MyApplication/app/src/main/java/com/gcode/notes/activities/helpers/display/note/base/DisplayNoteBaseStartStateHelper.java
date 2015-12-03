@@ -35,7 +35,7 @@ public class DisplayNoteBaseStartStateHelper {
             if (serializedNoteData != null) {
                 mDisplayNoteActivity.mNoteData = Serializer.parseNoteData(serializedNoteData);
                 if (mDisplayNoteActivity.mNoteData != null) {
-                    DisplayNoteBaseDisplayHelper.displayNoteDataBase(mDisplayNoteActivity);
+                    mDisplayNoteActivity.displayNoteData();
                 }
             }
         }

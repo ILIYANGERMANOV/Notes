@@ -6,7 +6,7 @@ import com.gcode.notes.R;
 import com.gcode.notes.activities.display.note.DisplayNoteBaseActivity;
 
 public class DisplayNoteBaseMenuOptionsHelper {
-    public static boolean optionsItemSelected(DisplayNoteBaseActivity displayNoteBaseActivity, MenuItem item) {
+    public static boolean optionItemSelected(DisplayNoteBaseActivity displayNoteBaseActivity, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
                 return true;
