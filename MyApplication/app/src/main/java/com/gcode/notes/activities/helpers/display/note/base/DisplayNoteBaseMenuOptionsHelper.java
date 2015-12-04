@@ -11,7 +11,6 @@ public class DisplayNoteBaseMenuOptionsHelper {
             case R.id.action_settings:
                 return true;
             case android.R.id.home:
-                DisplayNoteBaseResultHandler.setResult(displayNoteBaseActivity);
                 displayNoteBaseActivity.finish();
                 return true;
         }

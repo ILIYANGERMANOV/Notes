@@ -30,10 +30,6 @@ public class ComposeBaseActivity extends AppCompatActivity {
         return mTitleEditText;
     }
 
-    public ImageButton getStarImageButton() {
-        return mStarImageButton;
-    }
-
     public TextView getReminderTextView() {
         return mReminderTextView;
     }

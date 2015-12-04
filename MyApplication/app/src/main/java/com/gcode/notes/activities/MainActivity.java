@@ -18,12 +18,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.gcode.notes.R;
+import com.gcode.notes.activities.helpers.main.DrawerOptionExecutor;
 import com.gcode.notes.activities.helpers.main.FloatingActionButtonHelper;
-import com.gcode.notes.activities.helpers.main.MainRecyclerViewHelper;
 import com.gcode.notes.activities.helpers.main.MainActivityResultHandler;
+import com.gcode.notes.activities.helpers.main.MainRecyclerViewHelper;
 import com.gcode.notes.activities.helpers.main.MainToolbarHelper;
 import com.gcode.notes.activities.helpers.main.NavigationDrawerHelper;
-import com.gcode.notes.activities.helpers.main.DrawerOptionExecutor;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.extras.values.Keys;
@@ -36,6 +36,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
+    //TODO: REFACTOR AND OPTIMIZE
     public static FloatingActionMenu mActionMenu;
 
     @Bind(R.id.main_toolbar)
@@ -86,8 +87,6 @@ public class MainActivity extends AppCompatActivity {
     public int mSelectedId = R.id.navigation_item_all_notes;
     public boolean mSubMenuOpened;
     public Menu mMenu;
-
-    //TODO: fix list items aren't updated in very rare cases
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

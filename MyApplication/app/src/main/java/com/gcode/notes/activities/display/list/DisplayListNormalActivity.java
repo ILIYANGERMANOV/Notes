@@ -1,16 +1,14 @@
 package com.gcode.notes.activities.display.list;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.gcode.notes.R;
-import com.gcode.notes.activities.compose.list.ComposeListActivity;
-import com.gcode.notes.data.main.ListData;
-import com.gcode.notes.extras.values.Constants;
+import com.gcode.notes.activities.helpers.display.list.base.DisplayListBaseResultHandler;
+import com.gcode.notes.activities.helpers.display.list.normal.DisplayListNormalMenuOptionsHelper;
+import com.gcode.notes.activities.helpers.display.list.normal.DisplayListNormalResultHandler;
 import com.gcode.notes.notes.MyApplication;
-import com.gcode.notes.serialization.Serializer;
 import com.gcode.notes.tasks.async.UpdateListAttributesTask;
 
 import butterknife.OnClick;
@@ -18,8 +16,10 @@ import butterknife.OnClick;
 public class DisplayListNormalActivity extends DisplayListBaseActivity {
     boolean mIsStarred;
 
+    boolean mFinishCalled;
+
     @Override
-    protected void displayListData() {
+    public void displayListData() {
         super.displayListData();
         if (mListData.isImportant()) {
             setStarredState();
@@ -52,47 +52,41 @@ public class DisplayListNormalActivity extends DisplayListBaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //TODO: REFACTOR
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK && data != null && requestCode == Constants.COMPOSE_NOTE_REQUEST_CODE) {
-            if (data.getBooleanExtra(Constants.NOTE_UPDATED_SUCCESSFULLY, false)) {
-                String serializedListData = data.getStringExtra(Constants.EXTRA_LIST_DATA);
-                if (serializedListData != null) {
-                    ListData listData = Serializer.parseListData(serializedListData);
-                    if (listData != null) {
-                        mNoteModeChanged = data.getBooleanExtra(Constants.EXTRA_NOTE_MODE_CHANGED, false);
-                        mListData = listData;
-                        displayListData();
-                    }
-                }
-            }
-        }
+        DisplayListNormalResultHandler.handleResult(this, requestCode, resultCode, data);
     }
 
     @Override
     protected void onStop() {
         if (mListData.getHasAttributesFlag()) {
-            //save done/undone changes to database
+            //list has attributes, save tasks changes (ticked/unticked) to database
+            if (!mFinishCalled) {
+                mListData.setList(mListDataItems);
+                mListData.addToList(mTickedListDataItems);
+            }
             new UpdateListAttributesTask().execute(mListData);
         }
         super.onStop();
     }
 
     @Override
+    public void finish() {
+        mFinishCalled = true;
+        //set mListData list according activity's current state
+        mListData.setList(mListDataItems);
+        mListData.addToList(mTickedListDataItems);
+        DisplayListBaseResultHandler.setResult(this);
+        super.finish();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_display_list_normal, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_edit) {
-            Intent intent = new Intent(this, ComposeListActivity.class);
-            intent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(mListData));
-            startActivityForResult(intent, Constants.COMPOSE_NOTE_REQUEST_CODE);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item) || DisplayListNormalMenuOptionsHelper.optionItemSelected(this, item);
     }
 }

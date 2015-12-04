@@ -131,9 +131,9 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        DisplayNoteBaseResultHandler.setResult(this); //sets activity result before finish() is called;
-        super.onBackPressed();
+    public void finish() {
+        DisplayNoteBaseResultHandler.setResult(this); //set activity's result before closing
+        super.finish();
     }
 
     @Override
