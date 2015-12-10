@@ -19,9 +19,9 @@ public class InsertHelper {
     public static long insertNote(SQLiteDatabase mDatabase, ContentBase contentBase) {
         if (contentBase.getHasAttributesFlag()) {
             if (contentBase.getType() == Constants.TYPE_NOTE) {
-                insertAttributesInNotes(mDatabase, contentBase);
+                insertAttributesInNote(mDatabase, contentBase);
             } else {
-                insertAttributesInLists(mDatabase, contentBase);
+                insertAttributesInList(mDatabase, contentBase);
             }
         }
 
@@ -56,32 +56,36 @@ public class InsertHelper {
         return mDatabase.insert(ContentEntry.TABLE_NAME, null, contentValues);
     }
 
-    public static void insertAttributesInLists(SQLiteDatabase mDatabase, ContentBase contentBase) {
-        ListData listData = (ListData) contentBase;
-        ContentValues contentValues = new ContentValues();
-
-        //TODO: OPTIMIZE BY PASSING NULL TO COLUMN
-        contentValues.put(ListEntry.COLUMN_NAME_TASKS_SERIALIZED, Serializer.serializeListDataItems(listData.getList()));
-
-        if (mDatabase.insert(ListEntry.TABLE_NAME, null, contentValues) == Constants.DATABASE_ERROR) {
-            contentBase.setHasAttributesFlag(false);
-            MyDebugger.log("ERROR INSERTING LIST ATTRIBUTES!");
-        }
-    }
-
-    public static void insertAttributesInNotes(SQLiteDatabase mDatabase, ContentBase contentBase) {
+    public static void insertAttributesInNote(SQLiteDatabase database, ContentBase contentBase) {
         NoteData noteData = (NoteData) contentBase;
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(NoteEntry.COLUMN_NAME_DESCRIPTION, noteData.getDescription());
-        //TODO: OPTIMIZE BY PASSING NULL TO COLUMN
-        contentValues.put(NoteEntry.COLUMN_NAME_PHOTOS_PATHS, Serializer.serializeImagesPathsList(noteData.getAttachedImagesPaths()));
+        if (noteData.hasAttachedImage()) {
+            //note has attached image, insert it
+            contentValues.put(NoteEntry.COLUMN_NAME_PHOTOS_PATHS,
+                    Serializer.serializeImagesPathsList(noteData.getAttachedImagesPaths()));
+        }
         contentValues.put(NoteEntry.COLUMN_NAME_AUDIO_PATH, noteData.getAttachedAudioPath());
 
-        if (mDatabase.insert(NoteEntry.TABLE_NAME, null, contentValues) == Constants.DATABASE_ERROR) {
+        if (database.insert(NoteEntry.TABLE_NAME,
+                NoteEntry.COLUMN_NAME_PHOTOS_PATHS, contentValues) == Constants.DATABASE_ERROR) {
             //inserting note attributes failed, handle error
             contentBase.setHasAttributesFlag(false);
             MyDebugger.log("ERROR INSERTING NOTE ATTRIBUTES!");
+        }
+    }
+
+    public static void insertAttributesInList(SQLiteDatabase database, ContentBase contentBase) {
+        ListData listData = (ListData) contentBase;
+        ContentValues contentValues = new ContentValues();
+
+        //!NOTE: insertListAttributesInList() is only called when there is attached list with items
+        contentValues.put(ListEntry.COLUMN_NAME_TASKS_SERIALIZED, Serializer.serializeListDataItems(listData.getList()));
+
+        if (database.insert(ListEntry.TABLE_NAME, ListEntry.COLUMN_NAME_TASKS_SERIALIZED, contentValues) == Constants.DATABASE_ERROR) {
+            contentBase.setHasAttributesFlag(false);
+            MyDebugger.log("ERROR INSERTING LIST ATTRIBUTES!");
         }
     }
 }

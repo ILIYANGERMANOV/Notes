@@ -35,6 +35,8 @@ public class NoteData extends ContentBase {
 
         super(id, orderId, targetId, title, mode, hasAttributes,
                 reminderString, creationDate, lastModifiedDate, expirationDateString);
+
+        attachedImagesPaths = null;
     }
 
     public NoteData(String title, int mode, boolean hasAttributes,

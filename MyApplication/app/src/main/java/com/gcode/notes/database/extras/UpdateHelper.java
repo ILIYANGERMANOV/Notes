@@ -45,14 +45,13 @@ public class UpdateHelper {
         if (affectedRows == 0) {
             MyDebugger.log("updatingBaseContent failed.");
         }
-        if (contentBase.getHasAttributesFlag()) {
-            if (contentBase.getType() == Constants.TYPE_NOTE) {
-                //onItemAdded note attributes
-                affectedRows += updateNoteAttributes(database, (NoteData) contentBase);
-            } else {
-                //onItemAdded list attributes
-                affectedRows += updateListAttributes(database, (ListData) contentBase);
-            }
+
+        if (contentBase.getType() == Constants.TYPE_NOTE) {
+            //update note attributes
+            affectedRows += updateNoteAttributes(database, (NoteData) contentBase);
+        } else {
+            //update list attributes
+            affectedRows += updateListAttributes(database, (ListData) contentBase);
         }
         return affectedRows;
     }
@@ -75,13 +74,14 @@ public class UpdateHelper {
         contentValues.put(ContentEntry.COLUMN_NAME_LAST_MODIFIED_DATE, contentBase.getLastModifiedDate());
         contentValues.put(ContentEntry.COLUMN_NAME_REMINDER, contentBase.getReminder());
         if (contentBase.getTargetId() == Constants.NO_VALUE) {
-            //targetId isn't set so, there is now row for attributes; insert it now
-            if (contentBase.getType() == Constants.TYPE_NOTE) {
-                InsertHelper.insertAttributesInNotes(database, contentBase);
-            } else {
-                InsertHelper.insertAttributesInLists(database, contentBase);
-            }
             if (contentBase.getHasAttributesFlag()) {
+                //targetId isn't set so, there is now row for attributes; insert it now
+                if (contentBase.getType() == Constants.TYPE_NOTE) {
+                    InsertHelper.insertAttributesInNote(database, contentBase);
+                } else {
+                    InsertHelper.insertAttributesInList(database, contentBase);
+                }
+
                 //target id - the id corresponding in the relevant attribute table (Notes/Lists),
                 // which is already inserted successfully for the current item
                 String tableName = contentBase.getType() == Constants.TYPE_NOTE ? NoteEntry.TABLE_NAME : ListEntry.TABLE_NAME;
@@ -97,7 +97,14 @@ public class UpdateHelper {
     private static int updateNoteAttributes(SQLiteDatabase database, NoteData noteData) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(NoteEntry.COLUMN_NAME_DESCRIPTION, noteData.getDescription());
-        contentValues.put(NoteEntry.COLUMN_NAME_PHOTOS_PATHS, Serializer.serializeImagesPathsList(noteData.getAttachedImagesPaths()));
+        if (noteData.hasAttachedImage()) {
+            //note has attached image, serialize list and update row
+            contentValues.put(NoteEntry.COLUMN_NAME_PHOTOS_PATHS,
+                    Serializer.serializeImagesPathsList(noteData.getAttachedImagesPaths()));
+        } else {
+            //note has no attached images, put null for the column
+            contentValues.putNull(NoteEntry.COLUMN_NAME_PHOTOS_PATHS);
+        }
         contentValues.put(NoteEntry.COLUMN_NAME_AUDIO_PATH, noteData.getAttachedAudioPath());
 
         return database.update(NoteEntry.TABLE_NAME, contentValues,
@@ -106,7 +113,14 @@ public class UpdateHelper {
 
     public static int updateListAttributes(SQLiteDatabase database, ListData listData) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(ListEntry.COLUMN_NAME_TASKS_SERIALIZED, Serializer.serializeListDataItems(listData.getList()));
+
+        if (listData.hasAttachedList()) {
+            //list has attached items, update them
+            contentValues.put(ListEntry.COLUMN_NAME_TASKS_SERIALIZED, Serializer.serializeListDataItems(listData.getList()));
+        } else {
+            //list hasn't attached items, put null for optimization
+            contentValues.putNull(ListEntry.COLUMN_NAME_TASKS_SERIALIZED);
+        }
 
         return database.update(ListEntry.TABLE_NAME, contentValues,
                 SelectQueries.whereClauseListId, getContentBaseTargetId(listData));

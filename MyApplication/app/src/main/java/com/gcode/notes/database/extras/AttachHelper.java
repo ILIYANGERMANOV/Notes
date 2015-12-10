@@ -4,7 +4,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.gcode.notes.data.main.ListData;
-import com.gcode.notes.data.extras.ListDataItem;
 import com.gcode.notes.data.main.NoteData;
 import com.gcode.notes.database.NotesContract.ContentEntry;
 import com.gcode.notes.database.NotesContract.ListEntry;
@@ -13,11 +12,9 @@ import com.gcode.notes.database.extras.queries.SelectQueries;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.serialization.Serializer;
 
-import java.util.ArrayList;
-
 public class AttachHelper {
-    public static void attachNoteDataAttributes(SQLiteDatabase mDatabase, NoteData noteData) {
-        Cursor notesCursor = mDatabase.rawQuery(SelectQueries.SELECT_ALL_FROM_NOTES_FOR_ID,
+    public static void attachNoteDataAttributes(SQLiteDatabase database, NoteData noteData) {
+        Cursor notesCursor = database.rawQuery(SelectQueries.SELECT_ALL_FROM_NOTES_FOR_ID,
                 new String[]{
                         Integer.toString(noteData.getTargetId())
                 }
@@ -26,11 +23,13 @@ public class AttachHelper {
         if (notesCursor.moveToFirst()) {
             String description = notesCursor.getString(notesCursor.getColumnIndex(NoteEntry.COLUMN_NAME_DESCRIPTION));
             noteData.setDescription(description);
-            String stringHolder = notesCursor.getString(notesCursor.getColumnIndex(NoteEntry.COLUMN_NAME_PHOTOS_PATHS));
-            //TODO: OPTIMIZE BY HANDLING NULL imagesList
-            noteData.setAttachedImagesPaths(Serializer.parseImagesPathsList(stringHolder));
-            stringHolder = notesCursor.getString(notesCursor.getColumnIndex(NoteEntry.COLUMN_NAME_AUDIO_PATH));
-            noteData.setAttachedAudioPath(stringHolder);
+            String columnValueHolder = notesCursor.getString(notesCursor.getColumnIndex(NoteEntry.COLUMN_NAME_PHOTOS_PATHS));
+            if (columnValueHolder != null) {
+                //there are attached images, set them to note
+                noteData.setAttachedImagesPaths(Serializer.parseImagesPathsList(columnValueHolder));
+            }
+            columnValueHolder = notesCursor.getString(notesCursor.getColumnIndex(NoteEntry.COLUMN_NAME_AUDIO_PATH));
+            noteData.setAttachedAudioPath(columnValueHolder);
 
         } else {
             MyDebugger.log("notesCursor.moveToFirst() with title", noteData.getTitle());
@@ -46,12 +45,11 @@ public class AttachHelper {
         );
 
         if (listCursor.moveToFirst()) {
-            //TODO: OPTIMIZE BY HANDLING NULL in column
-            ArrayList<ListDataItem> mList = Serializer.parseListDataItems(
-                    listCursor.getString(listCursor.getColumnIndex(ListEntry.COLUMN_NAME_TASKS_SERIALIZED))
-            );
-
-            listData.setList(mList);
+            String tasksSerializedString = listCursor.getString(listCursor.getColumnIndex(ListEntry.COLUMN_NAME_TASKS_SERIALIZED));
+            if (tasksSerializedString != null) {
+                //list has serialized tasks, parse and attach them
+                listData.setList(Serializer.parseListDataItems(tasksSerializedString));
+            }
         } else {
             MyDebugger.log("listCursor.moveToFirst() with title", listData.getTitle());
         }
