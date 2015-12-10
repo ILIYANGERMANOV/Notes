@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="2dp"
     android:layout_marginBottom="2dp"
+    android:layout_marginTop="2dp"
     android:orientation="horizontal">
 
     <ImageButton
@@ -11,8 +11,8 @@
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:contentDescription="@string/list_input_item_move_image_desc"
         android:layout_gravity="center_vertical"
+        android:contentDescription="@string/list_input_item_move_image_desc"
         android:src="@drawable/ic_reorder_black_24dp" />
 
     <CheckBox

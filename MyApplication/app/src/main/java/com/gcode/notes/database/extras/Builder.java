@@ -32,40 +32,40 @@ public class Builder {
         return mNotesList;
     }
 
-    public static ContentBase buildSingleItem(SQLiteDatabase mDatabase, Cursor cursor) {
-        ContentBase mNote = null;
+    public static ContentBase buildSingleItem(SQLiteDatabase database, Cursor cursor) {
+        ContentBase contentBase = null;
         if (cursor.moveToFirst()) {
             if (Extractor.getItemType(cursor) == Constants.TYPE_NOTE) {
-                mNote = Builder.buildNoteData(mDatabase, cursor);
+                contentBase = Builder.buildNoteData(database, cursor);
             } else {
-                mNote = Builder.buildListData(mDatabase, cursor);
+                contentBase = Builder.buildListData(database, cursor);
             }
         }
 
         cursor.close();
 
-        return mNote;
+        return contentBase;
     }
 
-    private static ContentBase buildListData(SQLiteDatabase mDatabase, Cursor cursor) {
+    private static ContentBase buildListData(SQLiteDatabase database, Cursor cursor) {
         ListData listData = Extractor.extractListDataFromContent(cursor);
 
         listData.setType(Constants.TYPE_LIST);
 
         if (listData.getHasAttributesFlag()) {
-            AttachHelper.attachListDataAttributes(mDatabase, cursor, listData);
+            AttachHelper.attachListDataAttributes(database, cursor, listData);
         }
         return listData;
     }
 
 
-    private static ContentBase buildNoteData(SQLiteDatabase mDatabase, Cursor contentCursor) {
+    private static ContentBase buildNoteData(SQLiteDatabase database, Cursor contentCursor) {
         NoteData noteData = Extractor.extractNoteDataFromContent(contentCursor);
 
         noteData.setType(Constants.TYPE_NOTE);
 
         if (noteData.getHasAttributesFlag()) {
-            AttachHelper.attachNoteDataAttributes(mDatabase, noteData);
+            AttachHelper.attachNoteDataAttributes(database, noteData);
         }
         return noteData;
     }

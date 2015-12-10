@@ -65,7 +65,7 @@ public class PhotoUtils {
     public static void loadPhoto(Context context, String photoPath, ImageView imageView) {
         Picasso.with(context).
                 load(photoPath)
-                .placeholder(R.drawable.ic_loop_black_48dp)
+                .placeholder(R.color.image_placeholder_color)
                 .error(R.drawable.ic_error_black_48dp)
                 .fit().centerCrop()
                 .into(imageView);

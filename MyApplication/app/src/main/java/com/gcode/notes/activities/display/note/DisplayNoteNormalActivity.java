@@ -31,7 +31,7 @@ public class DisplayNoteNormalActivity extends DisplayNoteBaseActivity {
         } else {
             setStarredState();
         }
-        mNoteData.setImportant(mIsStarred);
+        mNoteData.setModeImportant(mIsStarred);
         mNoteModeChanged = !mNoteModeChanged;
         MyApplication.getWritableDatabase().updateNoteMode(mNoteData);
     }

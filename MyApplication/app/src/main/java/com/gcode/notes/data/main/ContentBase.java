@@ -1,17 +1,15 @@
 package com.gcode.notes.data.main;
 
 
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
 import com.gcode.notes.data.extras.ContentDetails;
+import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
 
 public abstract class ContentBase {
-    //TODO: REFACTOR AND OPTIMIZE
-
     //have default value
     int id;
     int orderId;
@@ -19,7 +17,6 @@ public abstract class ContentBase {
     boolean hasAttributesFlag;
     String reminder;
     ContentDetails contentDetails;
-
 
     //don't have default value
     String title;
@@ -51,13 +48,7 @@ public abstract class ContentBase {
         contentDetails = new ContentDetails(creationDate, lastModifiedDate, expirationDate);
     }
 
-
-    public ContentBase(String title, int mode, @Nullable String reminder) {
-        this.title = title;
-        this.mode = mode;
-        this.reminder = reminder;
-        this.targetId = Constants.NO_VALUE;
-    }
+    public abstract boolean hasAttributes();
 
     public int getId() {
         return id;
@@ -83,20 +74,12 @@ public abstract class ContentBase {
         this.targetId = targetId;
     }
 
-    public void setLastModifiedDate(String lastModifiedDate) {
-        contentDetails.setLastModifiedDate(lastModifiedDate);
-    }
-
-    public void setContentDetails(ContentDetails contentDetails) {
-        this.contentDetails = contentDetails;
-    }
-
-    public ContentDetails getContentDetails() {
-        return contentDetails != null ? contentDetails : new ContentDetails();
-    }
-
     public String getLastModifiedDate() {
         return contentDetails.getLastModifiedDate();
+    }
+
+    public void setLastModifiedDate(String lastModifiedDate) {
+        contentDetails.setLastModifiedDate(lastModifiedDate);
     }
 
     public boolean hasExpirationDate() {
@@ -107,6 +90,7 @@ public abstract class ContentBase {
         String dateDetails = "";
         if (contentDetails == null) {
             //contentDetails are null, create dummy details to display
+            MyDebugger.log("contentDetails are null, dummy details are created!");
             contentDetails = new ContentDetails();
         }
 
@@ -122,15 +106,13 @@ public abstract class ContentBase {
         return dateDetails;
     }
 
-    public void setHasAttributesFlag(boolean hasAttributes) {
-        this.hasAttributesFlag = hasAttributes;
-    }
-
     public boolean getHasAttributesFlag() {
         return hasAttributesFlag;
     }
 
-    public abstract boolean hasAttributes();
+    public void setHasAttributesFlag(boolean hasAttributes) {
+        this.hasAttributesFlag = hasAttributes;
+    }
 
     public int getType() {
         return type;
@@ -144,12 +126,12 @@ public abstract class ContentBase {
         return reminder;
     }
 
-    public boolean hasReminder() {
-        return !reminder.equals(Constants.NO_REMINDER);
-    }
-
     public void setReminder(String reminder) {
         this.reminder = reminder;
+    }
+
+    public boolean hasReminder() {
+        return !reminder.equals(Constants.NO_REMINDER);
     }
 
     public int getMode() {
@@ -176,12 +158,15 @@ public abstract class ContentBase {
         return mode == Constants.MODE_IMPORTANT;
     }
 
-    public void setImportant(boolean isImportant) {
-        if (mode == Constants.MODE_NORMAL || mode == Constants.MODE_IMPORTANT) {
-            mode = isImportant ? Constants.MODE_IMPORTANT : Constants.MODE_NORMAL;
-        }
+    public void setModeImportant(boolean isImportant) {
+        mode = isImportant ? Constants.MODE_IMPORTANT : Constants.MODE_NORMAL;
     }
 
+    /**
+     * Sets note's mode to MODE_DELETED_NORMAL / MODE_DELETED_IMPORTANT according its current mode.
+     *
+     * @return the mode of the note (MODE_DELETED_NORMAL / MODE_DELETED_IMPORTANT)
+     */
     public int setAndReturnDeletedMode() {
         switch (mode) {
             case Constants.MODE_NORMAL:
@@ -190,22 +175,31 @@ public abstract class ContentBase {
             case Constants.MODE_IMPORTANT:
                 mode = Constants.MODE_DELETED_IMPORTANT;
                 return mode;
-            default:
-                break;
         }
         return Constants.ERROR;
     }
 
+    /**
+     * Displays content base's title.
+     *
+     * @param titleTextView - text view on which to display title
+     */
     public void displayBase(TextView titleTextView) {
         titleTextView.setText(title);
     }
 
+    /**
+     * Displays content base's title and reminder
+     *
+     * @param titleTextView    - text view in which to display title
+     * @param reminderTextView - text view in which to display reminder
+     */
     public void displayBase(TextView titleTextView, TextView reminderTextView) {
         titleTextView.setText(title);
         displayReminder(reminderTextView);
     }
 
-    public void displayReminder(TextView reminderTextView) {
+    private void displayReminder(TextView reminderTextView) {
         if (hasReminder()) {
             reminderTextView.setText(reminder);
         } else {

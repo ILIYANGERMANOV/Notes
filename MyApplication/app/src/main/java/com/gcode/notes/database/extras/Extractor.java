@@ -8,8 +8,7 @@ import com.gcode.notes.database.NotesContract.ContentEntry;
 import com.gcode.notes.extras.utils.DateUtils;
 
 public class Extractor {
-    //TODO: location
-
+    //TODO: add location
     public static NoteData extractNoteDataFromContent(Cursor cursor) {
         return new NoteData(
                 cursor.getInt(cursor.getColumnIndex(ContentEntry._ID)),
@@ -17,7 +16,7 @@ public class Extractor {
                 cursor.getInt(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_TARGET_ID)),
                 cursor.getString(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_TITLE)),
                 cursor.getInt(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_MODE)),
-                cursor.getInt(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_ATTRIBUTES)) != 0,
+                cursor.getInt(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_HAS_ATTRIBUTES)) != 0,
                 cursor.getString(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_REMINDER)),
                 DateUtils.formatDateForDisplay(cursor.getString(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_CREATION_DATE))),
                 cursor.getString(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_LAST_MODIFIED_DATE)),
@@ -32,7 +31,7 @@ public class Extractor {
                 cursor.getInt(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_TARGET_ID)),
                 cursor.getString(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_TITLE)),
                 cursor.getInt(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_MODE)),
-                cursor.getInt(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_ATTRIBUTES)) != 0,
+                cursor.getInt(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_HAS_ATTRIBUTES)) != 0,
                 cursor.getString(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_REMINDER)),
                 DateUtils.formatDateForDisplay(cursor.getString(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_CREATION_DATE))),
                 cursor.getString(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_LAST_MODIFIED_DATE)),

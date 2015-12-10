@@ -54,8 +54,7 @@
                 android:id="@+id/compose_note_audio_layout"
                 layout="@layout/note_compose_audio_layout" />
 
-            <include
-                layout="@layout/compose_reminder_text_view" />
+            <include layout="@layout/compose_reminder_text_view" />
 
         </LinearLayout>
     </ScrollView>

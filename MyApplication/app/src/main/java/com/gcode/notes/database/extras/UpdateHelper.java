@@ -70,7 +70,7 @@ public class UpdateHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(ContentEntry.COLUMN_NAME_TITLE, contentBase.getTitle());
         contentValues.put(ContentEntry.COLUMN_NAME_MODE, contentBase.getMode());
-        contentValues.put(ContentEntry.COLUMN_NAME_ATTRIBUTES, contentBase.getHasAttributesFlag());
+        contentValues.put(ContentEntry.COLUMN_NAME_HAS_ATTRIBUTES, contentBase.getHasAttributesFlag());
         contentValues.put(ContentEntry.COLUMN_NAME_LAST_MODIFIED_DATE, contentBase.getLastModifiedDate());
         contentValues.put(ContentEntry.COLUMN_NAME_REMINDER, contentBase.getReminder());
         if (contentBase.getTargetId() == Constants.NO_VALUE) {

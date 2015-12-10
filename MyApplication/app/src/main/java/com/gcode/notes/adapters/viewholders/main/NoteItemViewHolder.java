@@ -12,9 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.adapters.viewholders.main.listeners.NoteItemOnClickListener;
 import com.gcode.notes.data.main.ContentBase;
 import com.gcode.notes.data.main.NoteData;
-import com.gcode.notes.adapters.viewholders.main.listeners.NoteItemOnClickListener;
 
 import java.util.ArrayList;
 
@@ -22,7 +22,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class NoteItemViewHolder extends BaseItemViewHolder {
-    //TODO:OPTIMIZE
     @Bind(R.id.note_description_text_view)
     TextView mContentTextView;
 
@@ -31,9 +30,6 @@ public class NoteItemViewHolder extends BaseItemViewHolder {
 
     @Bind(R.id.voice_image_view)
     ImageView mVoiceImageView;
-
-    @Bind(R.id.note_item_card_view)
-    CardView mCardView;
 
     Handler mHandler;
 
@@ -68,7 +64,6 @@ public class NoteItemViewHolder extends BaseItemViewHolder {
 
     @Override
     public void setStartState() {
-        mCardView.setCardBackgroundColor(Color.WHITE);
         startRepeatingTask();
     }
 

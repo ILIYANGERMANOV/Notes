@@ -45,7 +45,7 @@ public class InsertHelper {
         contentValues.put(ContentEntry.COLUMN_NAME_TITLE, contentBase.getTitle());
         contentValues.put(ContentEntry.COLUMN_NAME_MODE, contentBase.getMode());
         contentValues.put(ContentEntry.COLUMN_NAME_TYPE, contentBase.getType());
-        contentValues.put(ContentEntry.COLUMN_NAME_ATTRIBUTES, contentBase.getHasAttributesFlag());
+        contentValues.put(ContentEntry.COLUMN_NAME_HAS_ATTRIBUTES, contentBase.getHasAttributesFlag());
         contentValues.put(ContentEntry.COLUMN_NAME_REMINDER, contentBase.getReminder());
         //TODO: add legit location
         contentValues.put(ContentEntry.COLUMN_NAME_LOCATION, Constants.NO_LOCATION);

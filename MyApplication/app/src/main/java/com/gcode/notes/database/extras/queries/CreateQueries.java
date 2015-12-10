@@ -18,7 +18,7 @@ public class CreateQueries {
                     ContentEntry.COLUMN_NAME_TYPE + INT_TYPE + COMMA_SEP +
                     ContentEntry.COLUMN_NAME_TARGET_ID + INT_TYPE + COMMA_SEP +
                     ContentEntry.COLUMN_NAME_MODE + INT_TYPE + COMMA_SEP +
-                    ContentEntry.COLUMN_NAME_ATTRIBUTES + INT_TYPE + COMMA_SEP +
+                    ContentEntry.COLUMN_NAME_HAS_ATTRIBUTES + INT_TYPE + COMMA_SEP +
                     ContentEntry.COLUMN_NAME_REMINDER + TEXT_TYPE + COMMA_SEP +
                     ContentEntry.COLUMN_NAME_LOCATION + TEXT_TYPE + COMMA_SEP +
                     ContentEntry.COLUMN_NAME_CREATION_DATE + TEXT_TYPE + COMMA_SEP +

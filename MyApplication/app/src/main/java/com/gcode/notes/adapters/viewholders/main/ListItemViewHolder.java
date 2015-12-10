@@ -20,12 +20,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ListItemViewHolder extends BaseItemViewHolder {
-    //TODO: OPTIMIZE
     @Bind(R.id.list_item_container_layout)
     LinearLayout mContainerLayout;
-
-    @Bind(R.id.list_item_card_view)
-    CardView mCardView;
 
     Handler mHandler;
 
@@ -60,7 +56,6 @@ public class ListItemViewHolder extends BaseItemViewHolder {
 
     @Override
     public void setStartState() {
-        mCardView.setCardBackgroundColor(Color.WHITE);
         startRepeatingTask();
     }
 

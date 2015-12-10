@@ -17,20 +17,12 @@ import com.gcode.notes.ui.helpers.CheckedTextViewHelper;
 import java.util.ArrayList;
 
 public class ListData extends ContentBase {
-    //TODO: REFACTOR AND OPTMIZE
+    //TODO: REFACTOR AND OPTIMIZE
     ArrayList<ListDataItem> list;
 
     public ListData() {
         super();
         list = null;
-    }
-
-    public ListData(String title, int mode, boolean hasAttributes,
-                    ArrayList<ListDataItem> list, @NonNull String reminderString) {
-
-        super(title, mode, reminderString);
-        this.hasAttributesFlag = hasAttributes;
-        this.list = list;
     }
 
     public ListData(int id, int orderId, int targetId, String title, int mode, boolean hasAttributes,
