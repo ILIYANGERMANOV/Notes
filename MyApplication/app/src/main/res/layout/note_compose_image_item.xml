@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp">
@@ -8,7 +8,6 @@
         android:id="@+id/note_compose_item_image_view"
         android:layout_width="fill_parent"
         android:layout_height="300dp"
-        android:layout_centerInParent="true"
         android:contentDescription="@string/note_attached_image_desc"
         android:scaleType="centerCrop" />
 
@@ -16,11 +15,11 @@
         android:id="@+id/note_compose_item_delete_image_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="-50dp"
-        android:layout_marginStart="-50dp"
-        android:layout_toEndOf="@+id/note_compose_item_image_view"
-        android:layout_toRightOf="@+id/note_compose_item_image_view"
+        android:layout_gravity="top|end"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
         android:contentDescription="@string/delete_image_button_desc"
         android:src="@drawable/ic_close_white_24dp" />
 
-</RelativeLayout>
+</FrameLayout>
