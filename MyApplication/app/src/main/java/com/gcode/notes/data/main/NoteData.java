@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NoteData extends ContentBase {
-    //TODO: OPTIMIZE
     String description;
     List<String> attachedImagesPaths;
     String attachedAudioPath;
@@ -99,13 +98,10 @@ public class NoteData extends ContentBase {
     }
 
     public void displayNoteOnMain(final NoteItemViewHolder holder) {
-        displayBase(holder.getTitleTextView(), holder.getReminderTextView()); //display title and reminder
-
         //recycler view uses already created holders for optimization, so clear holder
         setHolderInDefaultState(holder); //sets view holder in default state
-
+        displayBase(holder.getTitleTextView(), holder.getReminderTextView()); //display title and reminder
         displayDescription(holder.getDescriptionTextView(), holder.getMoreImageView());
-
         if (hasAttachedImage()) {
             displayAttachedImages(holder.getImagesContainer());
         }

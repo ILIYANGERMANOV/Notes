@@ -2,10 +2,10 @@ package com.gcode.notes.data.main;
 
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckedTextView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.gcode.notes.R;
@@ -17,7 +17,7 @@ import com.gcode.notes.ui.helpers.CheckedTextViewHelper;
 import java.util.ArrayList;
 
 public class ListData extends ContentBase {
-    //TODO: REFACTOR AND OPTIMIZE
+    //TODO: OPTIMIZE
     ArrayList<ListDataItem> list;
 
     public ListData() {
@@ -32,12 +32,17 @@ public class ListData extends ContentBase {
                 reminderString, creationDate, lastModified, expirationDateString);
     }
 
-    public boolean hasAttributes() {
-        return hasAttachedList();
-    }
-
     public boolean isValidList() {
         return hasValidTitle() || hasAttachedList();
+    }
+
+    /**
+     * This method is created just for better readability.
+     *
+     * @return if the list data has attached attributes (hasAttachedList())
+     */
+    public boolean hasAttributes() {
+        return hasAttachedList();
     }
 
     public boolean hasAttachedList() {
@@ -68,17 +73,21 @@ public class ListData extends ContentBase {
     }
 
     public void displayListOnMain(Activity activity, ListItemViewHolder holder) {
-        displayBase(holder.getTitleTextView(), holder.getReminderTextView());
-        if (hasReminder()) {
-            //display divider
-            holder.getAttributesDivider().setVisibility(View.VISIBLE);
-        }
         LinearLayout containerLayout = holder.getContainerLayout();
+        ImageView moreImageView = holder.getMoreImageView();
 
-        //set holder to default state
-        holder.getMoreImageView().setVisibility(View.GONE);
+        setHolderInDefaultState(containerLayout, moreImageView); //removeAllViews from container and hides moreImageView
+        displayBase(holder.getTitleTextView(), holder.getReminderTextView());
+        displayListItems(activity, containerLayout, moreImageView);
+        displayDivider(holder);
+    }
+
+    private void setHolderInDefaultState(LinearLayout containerLayout, ImageView moreImageView) {
         containerLayout.removeAllViews();
+        moreImageView.setVisibility(View.GONE);
+    }
 
+    private void displayListItems(Activity activity, LinearLayout containerLayout, ImageView moreImageView) {
         //add list items to container
         if (list == null) return; //abort and prevent null pointer exception
         LayoutInflater inflater = LayoutInflater.from(activity);
@@ -89,16 +98,16 @@ public class ListData extends ContentBase {
                 containerLayout.addView(createViewForItem(list.get(i), inflater, containerLayout));
             } else {
                 //max items to display is reached, show more image view
-                holder.getMoreImageView().setVisibility(View.VISIBLE);
+                moreImageView.setVisibility(View.VISIBLE);
                 break;
             }
         }
-        containerLayout.invalidate();
     }
 
     private View createViewForItem(ListDataItem item, LayoutInflater inflater, LinearLayout containerLayout) {
         //create view
         View itemView = inflater.inflate(R.layout.list_display_item, containerLayout, false);
+
         //bind view
         CheckedTextView checkedTextView = (CheckedTextView) itemView.findViewById(R.id.list_data_item_row_checked_text_view);
         if (item.isChecked()) {
@@ -108,6 +117,12 @@ public class ListData extends ContentBase {
         }
         checkedTextView.setText(item.getContent());
         return itemView;
+    }
+
+    private void displayDivider(ListItemViewHolder holder) {
+        if (hasReminder()) {
+            holder.getAttributesDivider().setVisibility(View.VISIBLE); //makes divider visible
+        }
     }
 
     private void secureList() {
