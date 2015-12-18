@@ -74,5 +74,7 @@
     <string name="delete_audio_from_note_negative_text">Cancel</string>
     <string name="open_image_progress_dialog_title">Opening image</string>
     <string name="open_image_progress_dialog_content">Opening image with default gallery app.</string>
+    
+    <string name="main_to_display_transition_name">main_to_display</string>
 
 </resources>

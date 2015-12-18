@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.R;
+import com.gcode.notes.activities.helpers.display.DisplayBaseMenuOptionsHelper;
 import com.gcode.notes.activities.helpers.display.note.base.DisplayNoteBaseDisplayHelper;
-import com.gcode.notes.activities.helpers.display.note.base.DisplayNoteBaseMenuOptionsHelper;
 import com.gcode.notes.activities.helpers.display.note.base.DisplayNoteBaseResultHandler;
 import com.gcode.notes.activities.helpers.display.note.base.DisplayNoteBaseStartStateHelper;
 import com.gcode.notes.data.main.NoteData;
@@ -63,6 +63,10 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
 
     public TextView getDatesTextView() {
         return mDatesTextView;
+    }
+
+    public ImageButton getActionImageButton() {
+        return mActionImageButton;
     }
 
     public LinearLayout getAudioLayout() {
@@ -144,6 +148,6 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item) || DisplayNoteBaseMenuOptionsHelper.optionItemSelected(this, item);
+        return super.onOptionsItemSelected(item) || DisplayBaseMenuOptionsHelper.optionItemSelected(this, item);
     }
 }

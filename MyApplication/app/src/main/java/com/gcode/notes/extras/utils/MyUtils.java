@@ -3,13 +3,14 @@ package com.gcode.notes.extras.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.util.DisplayMetrics;
 
 import com.gcode.notes.R;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 
-public class Utils {
+public class MyUtils {
     public static int convertDpInPixels(int dp) {
         DisplayMetrics displayMetrics = MyApplication.getAppContext().getResources().getDisplayMetrics();
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
@@ -34,5 +35,9 @@ public class Utils {
     public static String readFromPreferences(String preferenceName, String defaultValue) {
         SharedPreferences sharedPref = MyApplication.getAppContext().getSharedPreferences(Constants.PREFERENCES_FILE, Context.MODE_PRIVATE);
         return sharedPref.getString(preferenceName, defaultValue);
+    }
+
+    public static boolean isLollipop() {
+        return Build.VERSION.SDK_INT >= 21;
     }
 }

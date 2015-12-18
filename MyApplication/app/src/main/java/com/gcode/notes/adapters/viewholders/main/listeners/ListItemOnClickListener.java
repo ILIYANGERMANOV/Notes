@@ -11,6 +11,7 @@ import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.main.ListData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
+import com.gcode.notes.motions.MyTransitionHelper;
 import com.gcode.notes.serialization.Serializer;
 
 public class ListItemOnClickListener implements View.OnClickListener {
@@ -43,7 +44,7 @@ public class ListItemOnClickListener implements View.OnClickListener {
 
         if (intent != null) {
             intent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(mListData));
-            mActivity.startActivityForResult(intent, Constants.LIST_FROM_DISPLAY_REQUEST_CODE);
+            MyTransitionHelper.startSharedElementTransitionForResult(mActivity, v, intent, Constants.LIST_FROM_DISPLAY_REQUEST_CODE);
         } else {
             MyDebugger.log("ListItemOnClickListener", "intent is null");
         }

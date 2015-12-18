@@ -3,14 +3,18 @@ package com.gcode.notes.adapters.viewholders.main.listeners;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
 
+import com.gcode.notes.R;
 import com.gcode.notes.activities.display.note.DisplayNoteBinActivity;
 import com.gcode.notes.activities.display.note.DisplayNoteNormalActivity;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.main.NoteData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
+import com.gcode.notes.motions.MyTransitionHelper;
 import com.gcode.notes.serialization.Serializer;
 
 public class NoteItemOnClickListener implements View.OnClickListener {
@@ -42,7 +46,7 @@ public class NoteItemOnClickListener implements View.OnClickListener {
         }
         if (intent != null) {
             intent.putExtra(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(mNoteData));
-            mActivity.startActivityForResult(intent, Constants.NOTE_FROM_DISPLAY_REQUEST_CODE);
+            MyTransitionHelper.startSharedElementTransitionForResult(mActivity, v, intent, Constants.NOTE_FROM_DISPLAY_REQUEST_CODE);
         } else {
             MyDebugger.log("NoteItemOnClickListener", "intent is null");
         }

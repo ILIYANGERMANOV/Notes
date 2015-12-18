@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.gcode.notes.R;
-import com.gcode.notes.animations.MyAnimator;
+import com.gcode.notes.motions.MyAnimator;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
 import com.gcode.notes.tasks.async.AddItemFromDbToMainTask;
@@ -37,7 +37,7 @@ public class BinController extends BaseController {
         super.onSetContentAnimation();
         mFab.setVisibility(View.GONE);
         if (mPreviousControllerId != Constants.CONTROLLER_BIN) {
-            MyAnimator.startAnimation(mContext, mFab, R.anim.collapse_anim);
+            MyAnimator.startAnimationOnView(mContext, mFab, R.anim.collapse_anim);
         }
     }
 

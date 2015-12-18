@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.gcode.notes.R;
-import com.gcode.notes.animations.MyAnimator;
+import com.gcode.notes.motions.MyAnimator;
 import com.gcode.notes.data.main.ContentBase;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
@@ -39,7 +39,7 @@ public class AllNotesController extends BaseController {
         switch (mPreviousControllerId) {
             case Constants.ERROR:
             case Constants.CONTROLLER_BIN:
-                MyAnimator.startAnimation(mContext, mFab, R.anim.expand_anim);
+                MyAnimator.startAnimationOnView(mContext, mFab, R.anim.expand_anim);
                 mFab.setVisibility(View.VISIBLE);
                 break;
         }

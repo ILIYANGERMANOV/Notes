@@ -12,7 +12,8 @@ import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.activities.compose.list.ComposeListActivity;
 import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
-import com.gcode.notes.animations.MyAnimator;
+import com.gcode.notes.extras.utils.MyUtils;
+import com.gcode.notes.motions.MyAnimator;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.VoiceUtils;
 import com.gcode.notes.extras.values.Constants;
@@ -33,7 +34,7 @@ public class FloatingActionButtonHelper implements View.OnClickListener {
         SubActionButton.Builder itemBuilder = new SubActionButton.Builder(mMainActivity);
 
         //TODO: make subActionButtons bigger so can be clicked easily
-        if (Build.VERSION.SDK_INT >= 21) {
+        if (MyUtils.isLollipop()) {
             itemBuilder.setBackgroundDrawable(mMainActivity.getFab().getBackground());
         } else {
             itemBuilder.setBackgroundDrawable(ContextCompat.getDrawable(mMainActivity,
@@ -73,14 +74,14 @@ public class FloatingActionButtonHelper implements View.OnClickListener {
             @Override
             public void onMenuOpened(FloatingActionMenu floatingActionMenu) {
                 mMainActivity.getFab().setImageResource(R.drawable.ic_close_white_24dp);
-                MyAnimator.startAnimation(mMainActivity, mMainActivity.getFab(), R.anim.open_rotate_anim);
+                MyAnimator.startAnimationOnView(mMainActivity, mMainActivity.getFab(), R.anim.open_rotate_anim);
                 mMainActivity.mSubMenuOpened = true;
             }
 
             @Override
             public void onMenuClosed(FloatingActionMenu floatingActionMenu) {
                 mMainActivity.getFab().setImageResource(R.drawable.ic_open_white_24dp);
-                MyAnimator.startAnimation(mMainActivity, mMainActivity.getFab(), R.anim.close_rotate_anim);
+                MyAnimator.startAnimationOnView(mMainActivity, mMainActivity.getFab(), R.anim.close_rotate_anim);
                 mMainActivity.mSubMenuOpened = false;
             }
         });

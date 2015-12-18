@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.activities.helpers.main.DrawerOptionExecutor;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     AppBarLayout mAppBarLayout;
     @Bind(R.id.main_drawer_layout)
     DrawerLayout mDrawerLayout;
-    @Bind(R.id.main_root_coordinator)
+    @Bind(R.id.main_coordinator)
     CoordinatorLayout mCoordinatorLayout;
     @Bind(R.id.main_navigation_drawer)
     NavigationView mDrawer;
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton mFab;
     @Bind(R.id.main_content_recycler_view)
     RecyclerView mRecyclerView;
+    @Bind(R.id.main_notes_recycler_view_empty_text_view)
+    TextView mRecyclerViewEmptyView;
 
     public AppBarLayout getAppBarLayout() {
         return mAppBarLayout;
@@ -80,6 +83,10 @@ public class MainActivity extends AppCompatActivity {
 
     public FloatingActionButton getFab() {
         return mFab;
+    }
+
+    public TextView getRecyclerViewEmptyView() {
+        return mRecyclerViewEmptyView;
     }
 
     public SimpleItemTouchHelperCallback mSimpleItemTouchHelperCallback = null;

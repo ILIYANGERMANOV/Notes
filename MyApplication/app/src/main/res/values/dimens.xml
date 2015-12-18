@@ -3,5 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="floating_action_button_margin">20dp</dimen>
+    <dimen name="main_horizontal_key_line_1">10dp</dimen>
+    <dimen name="main_card_side_margin">6dp</dimen>
+
+    <dimen name="fab_border_width">0dp</dimen>
 </resources>

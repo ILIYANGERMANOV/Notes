@@ -11,10 +11,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.activities.helpers.display.DisplayBaseMenuOptionsHelper;
 import com.gcode.notes.activities.helpers.display.DisplayToolbarHelper;
 import com.gcode.notes.activities.helpers.display.list.base.DisplayListBaseContainersHelper;
 import com.gcode.notes.activities.helpers.display.list.base.DisplayListBaseDisplayHelper;
-import com.gcode.notes.activities.helpers.display.list.base.DisplayListBaseMenuOptionsHelper;
 import com.gcode.notes.activities.helpers.display.list.base.DisplayListBaseRotationHandler;
 import com.gcode.notes.activities.helpers.display.list.base.DisplayListBaseStartStateHelper;
 import com.gcode.notes.activities.helpers.display.list.base.DisplayListBaseTasksHelper;
@@ -142,6 +142,6 @@ public class DisplayListBaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item) || DisplayListBaseMenuOptionsHelper.optionItemSelected(this, item);
+        return super.onOptionsItemSelected(item) || DisplayBaseMenuOptionsHelper.optionItemSelected(this, item);
     }
 }

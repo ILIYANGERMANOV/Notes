@@ -7,7 +7,7 @@
     tools:context="com.gcode.notes.activities.MainActivity">
 
     <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/main_root_coordinator"
+        android:id="@+id/main_coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -30,20 +30,36 @@
             android:id="@+id/main_content_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="@dimen/main_horizontal_key_line_1"
+            android:layout_marginLeft="@dimen/main_horizontal_key_line_1"
+            android:layout_marginRight="@dimen/main_horizontal_key_line_1"
+            android:layout_marginStart="@dimen/main_horizontal_key_line_1"
             android:scrollbars="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <TextView
+            android:id="@+id/main_notes_recycler_view_empty_text_view"
+            style="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="There are no notes :/"
+            android:visibility="gone" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/main_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/floating_action_button_margin"
+            android:layout_margin="@dimen/activity_horizontal_margin"
             android:src="@drawable/ic_open_white_24dp"
-            app:borderWidth="0dp"
-            app:fabSize="normal"
-            app:layout_behavior="com.gcode.notes.behaviours.ScrollingFABBehavior" />
+            app:borderWidth="@dimen/fab_border_width"
+            app:elevation="6dp"
+            app:layout_behavior="com.gcode.notes.behaviours.ScrollingFABBehavior"
+            app:pressedTranslationZ="12dp" />
+
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView

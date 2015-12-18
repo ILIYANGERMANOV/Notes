@@ -30,13 +30,21 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
     RecyclerView mRecyclerView;
     LayoutInflater mInflater;
 
-    public MainAdapter(Activity activity, RecyclerView recyclerView, ArrayList<ContentBase> data, View rooView) {
+    View mEmptyView;
+
+    private boolean mEmptyViewVisible;
+
+    public MainAdapter(Activity activity, RecyclerView recyclerView,
+                       ArrayList<ContentBase> data, View rooView, View emptyView) {
 
         mRecyclerView = recyclerView;
         mActivity = activity;
         mData = data;
         mRootView = rooView;
+        mEmptyView = emptyView;
+
         mInflater = LayoutInflater.from(activity);
+        mEmptyViewVisible = false;
     }
 
     @Override
@@ -114,15 +122,14 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
         }
     }
 
-    public void removeItem(int position) {
-        mData.remove(position);
-        notifyItemRemoved(position);
-    }
 
     public boolean addItem(int position, ContentBase item) {
         try {
             mData.add(position, item);
             notifyItemInserted(position);
+            if (mEmptyViewVisible) {
+                hideEmptyView();
+            }
             return true;
         } catch (IndexOutOfBoundsException exception) {
             MyDebugger.log("MainAdapter(): indexOutOfBoundsException caught.");
@@ -132,21 +139,22 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
         }
     }
 
+    public void removeItem(int position) {
+        mData.remove(position);
+        notifyItemRemoved(position);
+        checkForEmptyState();
+    }
+
     @Override
     public void onItemDismissFromBin(int position) {
         ActionExecutor.deleteNoteFromBin(mActivity, this, mData.get(position), position);
-        dismissItem(position);
+        removeItem(position);
     }
 
     @Override
     public void onItemDismiss(int position) {
         ActionExecutor.popNoteDeletedSnackbar(mRootView, this, position, mData.get(position));
-        dismissItem(position);
-    }
-
-    public void dismissItem(int position) {
-        mData.remove(position);
-        notifyItemRemoved(position);
+        removeItem(position);
     }
 
     @Override
@@ -171,6 +179,24 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
         mData.clear();
         mData.addAll(newData);
         notifyDataSetChanged();
+        checkForEmptyState();
     }
 
+    private void checkForEmptyState() {
+        if (getItemCount() == 0) {
+            showEmptyView();
+        } else {
+            hideEmptyView();
+        }
+    }
+
+    private void showEmptyView() {
+        mEmptyView.setVisibility(View.VISIBLE);
+        mEmptyViewVisible = true;
+    }
+
+    private void hideEmptyView() {
+        mEmptyView.setVisibility(View.GONE);
+        mEmptyViewVisible = false;
+    }
 }
