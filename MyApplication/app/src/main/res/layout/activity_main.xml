@@ -62,11 +62,12 @@
 
     </android.support.design.widget.CoordinatorLayout>
 
+    <!-- use right cuz 3rd party circular menu doesn't support RTL -->
     <android.support.design.widget.NavigationView
         android:id="@+id/main_navigation_drawer"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
+        android:layout_gravity="right"
         app:headerLayout="@layout/nav_drawer_header"
         app:menu="@menu/menu_drawer" />
 </android.support.v4.widget.DrawerLayout>

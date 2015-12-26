@@ -2,9 +2,7 @@ package com.gcode.notes.adapters.viewholders.main;
 
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Handler;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,8 +11,8 @@ import android.widget.TextView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.adapters.viewholders.main.listeners.NoteItemOnClickListener;
-import com.gcode.notes.data.main.ContentBase;
-import com.gcode.notes.data.main.NoteData;
+import com.gcode.notes.data.note.base.ContentBase;
+import com.gcode.notes.data.note.NoteData;
 
 import java.util.ArrayList;
 

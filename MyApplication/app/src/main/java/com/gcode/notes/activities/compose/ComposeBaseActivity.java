@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.activities.helpers.compose.base.ComposeBaseToolbarHelper;
@@ -23,15 +22,8 @@ public class ComposeBaseActivity extends AppCompatActivity {
     @Bind(R.id.compose_star_image_button)
     ImageButton mStarImageButton;
 
-    @Bind(R.id.compose_reminder_text_view)
-    TextView mReminderTextView;
-
     public EditText getTitleEditText() {
         return mTitleEditText;
-    }
-
-    public TextView getReminderTextView() {
-        return mReminderTextView;
     }
 
     public boolean mIsOpenedInEditMode;

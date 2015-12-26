@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import com.gcode.notes.activities.display.list.DisplayListNormalActivity;
 import com.gcode.notes.activities.helpers.display.list.base.DisplayListBaseTasksHelper;
-import com.gcode.notes.data.main.ListData;
+import com.gcode.notes.data.note.list.ListData;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 

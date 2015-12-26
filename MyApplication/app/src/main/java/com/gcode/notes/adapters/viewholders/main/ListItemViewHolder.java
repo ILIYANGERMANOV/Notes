@@ -2,16 +2,14 @@ package com.gcode.notes.adapters.viewholders.main;
 
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Handler;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.gcode.notes.R;
-import com.gcode.notes.data.main.ContentBase;
-import com.gcode.notes.data.main.ListData;
+import com.gcode.notes.data.note.base.ContentBase;
+import com.gcode.notes.data.note.list.ListData;
 import com.gcode.notes.adapters.viewholders.main.listeners.ListItemOnClickListener;
 
 import java.util.ArrayList;

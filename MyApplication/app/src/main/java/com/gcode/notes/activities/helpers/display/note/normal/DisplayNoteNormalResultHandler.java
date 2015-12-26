@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.gcode.notes.activities.display.note.DisplayNoteNormalActivity;
-import com.gcode.notes.data.main.NoteData;
+import com.gcode.notes.data.note.NoteData;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 

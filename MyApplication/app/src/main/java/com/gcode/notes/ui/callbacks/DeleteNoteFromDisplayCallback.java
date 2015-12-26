@@ -5,7 +5,7 @@ import android.app.Activity;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.controllers.BaseController;
-import com.gcode.notes.data.main.ContentBase;
+import com.gcode.notes.data.note.base.ContentBase;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.notes.MyApplication;
 

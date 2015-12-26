@@ -3,9 +3,9 @@ package com.gcode.notes.database.extras;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.gcode.notes.data.main.ContentBase;
-import com.gcode.notes.data.main.ListData;
-import com.gcode.notes.data.main.NoteData;
+import com.gcode.notes.data.note.base.ContentBase;
+import com.gcode.notes.data.note.list.ListData;
+import com.gcode.notes.data.note.NoteData;
 import com.gcode.notes.database.NotesContract.ContentEntry;
 import com.gcode.notes.database.NotesContract.ListEntry;
 import com.gcode.notes.database.NotesContract.NoteEntry;

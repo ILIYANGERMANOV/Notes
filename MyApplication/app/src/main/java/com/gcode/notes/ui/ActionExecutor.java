@@ -9,7 +9,7 @@ import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
 import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.adapters.list.compose.BaseComposeContainerAdapter;
 import com.gcode.notes.adapters.note.compose.ComposeNoteImagesAdapter;
-import com.gcode.notes.data.main.ContentBase;
+import com.gcode.notes.data.note.base.ContentBase;
 import com.gcode.notes.adapters.list.compose.listeners.ListItemDeletedUndoOnClickListener;
 import com.gcode.notes.ui.listeners.NoteDeletedUndoOnClickListener;
 import com.gcode.notes.ui.callbacks.DeleteAudioCallback;

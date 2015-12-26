@@ -16,7 +16,7 @@ import com.gcode.notes.activities.helpers.display.DisplayBaseMenuOptionsHelper;
 import com.gcode.notes.activities.helpers.display.note.base.DisplayNoteBaseDisplayHelper;
 import com.gcode.notes.activities.helpers.display.note.base.DisplayNoteBaseResultHandler;
 import com.gcode.notes.activities.helpers.display.note.base.DisplayNoteBaseStartStateHelper;
-import com.gcode.notes.data.main.NoteData;
+import com.gcode.notes.data.note.NoteData;
 import com.gcode.notes.extras.utils.AudioUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
@@ -63,10 +63,6 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
 
     public TextView getDatesTextView() {
         return mDatesTextView;
-    }
-
-    public ImageButton getActionImageButton() {
-        return mActionImageButton;
     }
 
     public LinearLayout getAudioLayout() {

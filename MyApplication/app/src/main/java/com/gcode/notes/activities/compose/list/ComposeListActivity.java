@@ -14,7 +14,7 @@ import com.gcode.notes.activities.helpers.compose.list.ComposeListRotationHandle
 import com.gcode.notes.activities.helpers.compose.list.ComposeListStartStateHelper;
 import com.gcode.notes.adapters.list.compose.ListComposeContainerAdapter;
 import com.gcode.notes.adapters.list.compose.TickedListComposeContainerAdapter;
-import com.gcode.notes.data.main.ListData;
+import com.gcode.notes.data.note.list.ListData;
 import com.gcode.notes.activities.compose.list.listeners.TitleEditTextOnFocusChangeListener;
 
 import butterknife.Bind;

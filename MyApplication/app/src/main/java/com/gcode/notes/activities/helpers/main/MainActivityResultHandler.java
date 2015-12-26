@@ -6,9 +6,9 @@ import android.content.Intent;
 
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.controllers.BaseController;
-import com.gcode.notes.data.main.ContentBase;
-import com.gcode.notes.data.main.ListData;
-import com.gcode.notes.data.main.NoteData;
+import com.gcode.notes.data.note.base.ContentBase;
+import com.gcode.notes.data.note.list.ListData;
+import com.gcode.notes.data.note.NoteData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.builders.IntentBuilder;
 import com.gcode.notes.extras.utils.FileUtils;

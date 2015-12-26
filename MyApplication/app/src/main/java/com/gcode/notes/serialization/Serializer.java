@@ -1,10 +1,10 @@
 package com.gcode.notes.serialization;
 
 
-import com.gcode.notes.data.extras.ContentDetails;
-import com.gcode.notes.data.extras.ListDataItem;
-import com.gcode.notes.data.main.ListData;
-import com.gcode.notes.data.main.NoteData;
+import com.gcode.notes.data.note.base.ContentDetails;
+import com.gcode.notes.data.note.list.ListDataItem;
+import com.gcode.notes.data.note.list.ListData;
+import com.gcode.notes.data.note.NoteData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

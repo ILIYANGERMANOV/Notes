@@ -2,7 +2,7 @@ package com.gcode.notes.activities.helpers.compose.base;
 
 import com.gcode.notes.activities.compose.ComposeBaseActivity;
 import com.gcode.notes.controllers.BaseController;
-import com.gcode.notes.data.main.ContentBase;
+import com.gcode.notes.data.note.base.ContentBase;
 import com.gcode.notes.extras.values.Constants;
 
 public class ComposeBaseStartStateHelper {
@@ -31,7 +31,7 @@ public class ComposeBaseStartStateHelper {
         }
         if (contentBase.hasReminder()) {
             //TODO: implement real reminder
-            composeBaseActivity.getReminderTextView().setText(contentBase.getReminder());
+            //composeBaseActivity.getReminderTextView().setText(contentBase.getReminder());
         }
     }
 }

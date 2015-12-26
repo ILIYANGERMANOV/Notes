@@ -7,7 +7,6 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
 
 import com.gcode.notes.R;
-import com.gcode.notes.extras.values.Constants;
 
 public class MyTransitionHelper {
     public static void startSharedElementTransitionForResult(Activity activity, View sharedElementView,

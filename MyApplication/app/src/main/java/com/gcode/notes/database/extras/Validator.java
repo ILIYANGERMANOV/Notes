@@ -3,7 +3,7 @@ package com.gcode.notes.database.extras;
 
 import android.database.sqlite.SQLiteDatabase;
 
-import com.gcode.notes.data.main.ContentBase;
+import com.gcode.notes.data.note.base.ContentBase;
 
 public class Validator {
     public static void validateTitle(SQLiteDatabase mDatabase, ContentBase contentBase) {

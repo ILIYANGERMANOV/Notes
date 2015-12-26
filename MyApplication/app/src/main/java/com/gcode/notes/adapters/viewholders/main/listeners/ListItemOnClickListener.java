@@ -8,7 +8,7 @@ import android.view.View;
 import com.gcode.notes.activities.display.list.DisplayListBinActivity;
 import com.gcode.notes.activities.display.list.DisplayListNormalActivity;
 import com.gcode.notes.controllers.BaseController;
-import com.gcode.notes.data.main.ListData;
+import com.gcode.notes.data.note.list.ListData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.motions.MyTransitionHelper;
@@ -44,7 +44,8 @@ public class ListItemOnClickListener implements View.OnClickListener {
 
         if (intent != null) {
             intent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(mListData));
-            MyTransitionHelper.startSharedElementTransitionForResult(mActivity, v, intent, Constants.LIST_FROM_DISPLAY_REQUEST_CODE);
+            //MyTransitionHelper.startSharedElementTransitionForResult(mActivity, v, intent, Constants.LIST_FROM_DISPLAY_REQUEST_CODE); transitions disabled due to bug
+            mActivity.startActivityForResult(intent, Constants.LIST_FROM_DISPLAY_REQUEST_CODE);
         } else {
             MyDebugger.log("ListItemOnClickListener", "intent is null");
         }

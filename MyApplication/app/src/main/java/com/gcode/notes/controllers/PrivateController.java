@@ -10,7 +10,7 @@ import android.view.View;
 
 import com.gcode.notes.R;
 import com.gcode.notes.motions.MyAnimator;
-import com.gcode.notes.data.main.ContentBase;
+import com.gcode.notes.data.note.base.ContentBase;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
 import com.gcode.notes.tasks.async.AddItemFromDbToMainTask;

@@ -70,7 +70,11 @@
                 android:id="@+id/compose_list_last_divider_view"
                 style="@style/Divider" />
 
-            <include layout="@layout/compose_reminder_text_view" />
+            <fragment
+                android:id="@+id/compose_note_reminder_fragment"
+                android:name="com.gcode.notes.fragments.ComposeReminderFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

@@ -1,4 +1,4 @@
-package com.gcode.notes.data.extras;
+package com.gcode.notes.data.note.base;
 
 import com.gcode.notes.extras.values.Constants;
 

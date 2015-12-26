@@ -54,7 +54,11 @@
                 android:id="@+id/compose_note_audio_layout"
                 layout="@layout/note_compose_audio_layout" />
 
-            <include layout="@layout/compose_reminder_text_view" />
+            <fragment
+                android:id="@+id/compose_note_reminder_fragment"
+                android:name="com.gcode.notes.fragments.ComposeReminderFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </ScrollView>

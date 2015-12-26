@@ -1,4 +1,4 @@
-package com.gcode.notes.data.main;
+package com.gcode.notes.data.note;
 
 import android.content.Context;
 import android.os.Handler;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.adapters.viewholders.main.NoteItemViewHolder;
+import com.gcode.notes.data.note.base.ContentBase;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.PhotoUtils;
 import com.gcode.notes.extras.values.Constants;

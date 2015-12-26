@@ -10,6 +10,8 @@ import com.gcode.notes.R;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 
+import java.util.Locale;
+
 public class MyUtils {
     public static int convertDpInPixels(int dp) {
         DisplayMetrics displayMetrics = MyApplication.getAppContext().getResources().getDisplayMetrics();
@@ -39,5 +41,11 @@ public class MyUtils {
 
     public static boolean isLollipop() {
         return Build.VERSION.SDK_INT >= 21;
+    }
+
+    public static boolean isRTL() {
+        final int directionality = Character.getDirectionality(Locale.getDefault().getDisplayName().charAt(0));
+        return directionality == Character.DIRECTIONALITY_RIGHT_TO_LEFT ||
+                directionality == Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC;
     }
 }

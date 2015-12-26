@@ -1,12 +1,21 @@
 package com.gcode.notes.ui.helpers;
 
 import android.app.Activity;
+import android.text.format.DateFormat;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.simplelist.MaterialSimpleListAdapter;
 import com.afollestad.materialdialogs.simplelist.MaterialSimpleListItem;
 import com.gcode.notes.R;
+import com.gcode.notes.extras.values.Tags;
+import com.gcode.notes.fragments.ComposeReminderFragment;
 import com.gcode.notes.ui.callbacks.AddPictureListCallback;
+import com.gcode.notes.fragments.listeners.pickers.DatePickerOnDateSetListener;
+import com.gcode.notes.fragments.listeners.pickers.TimePickerOnTimeSetListener;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+
+import java.util.Calendar;
 
 public class DialogHelper {
     public static void buildEmptyBinDialog(Activity activity, MaterialDialog.ButtonCallback buttonCallback) {
@@ -84,5 +93,25 @@ public class DialogHelper {
                 .content(R.string.open_image_progress_dialog_content)
                 .progress(true, 100)
                 .show();
+    }
+
+    public static void buildDatePickerDialog(ComposeReminderFragment composeReminderFragment) {
+        DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
+                composeReminderFragment.mDatePickerOnDateSetListener,
+                composeReminderFragment.mYear,
+                composeReminderFragment.mMonthOfYear,
+                composeReminderFragment.mDayOfMonth
+        );
+        datePickerDialog.setMinDate(Calendar.getInstance());
+        datePickerDialog.show(composeReminderFragment.getActivity().getFragmentManager(), Tags.DATE_PICKER_DIALOG_TAG);
+    }
+
+    public static void buildTimePickerDialog(ComposeReminderFragment composeReminderFragment) {
+        TimePickerDialog.newInstance(
+                composeReminderFragment.mTimePickerOnTimeSetListener,
+                composeReminderFragment.mHour,
+                composeReminderFragment.mMinute,
+                DateFormat.is24HourFormat(composeReminderFragment.getContext()) //is24HourMode
+        ).show(composeReminderFragment.getActivity().getFragmentManager(), Tags.TIME_PICKER_DIALOG_TAG);
     }
 }

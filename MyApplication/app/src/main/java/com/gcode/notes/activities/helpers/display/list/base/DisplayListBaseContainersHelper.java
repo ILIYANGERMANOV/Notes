@@ -7,7 +7,7 @@ import com.gcode.notes.activities.helpers.display.list.base.listeners.LinearList
 import com.gcode.notes.activities.helpers.display.list.base.listeners.TickedLinearListViewOnItemClickListener;
 import com.gcode.notes.adapters.list.display.ListDisplayAdapter;
 import com.gcode.notes.adapters.list.display.ListDisplayTickedAdapter;
-import com.gcode.notes.data.extras.ListDataItem;
+import com.gcode.notes.data.note.list.ListDataItem;
 
 import java.util.ArrayList;
 

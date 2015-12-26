@@ -1,4 +1,4 @@
-package com.gcode.notes.data.main;
+package com.gcode.notes.data.note.list;
 
 
 import android.app.Activity;
@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 
 import com.gcode.notes.R;
 import com.gcode.notes.adapters.viewholders.main.ListItemViewHolder;
-import com.gcode.notes.data.extras.ListDataItem;
+import com.gcode.notes.data.note.base.ContentBase;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.ui.helpers.CheckedTextViewHelper;
 

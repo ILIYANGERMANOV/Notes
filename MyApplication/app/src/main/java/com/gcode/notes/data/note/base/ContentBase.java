@@ -1,10 +1,9 @@
-package com.gcode.notes.data.main;
+package com.gcode.notes.data.note.base;
 
 
 import android.view.View;
 import android.widget.TextView;
 
-import com.gcode.notes.data.extras.ContentDetails;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
@@ -96,12 +95,12 @@ public abstract class ContentBase {
 
         final String NEW_LINE = "\n";
         dateDetails += DateUtils.LAST_MODIFIED +
-                DateUtils.formatDateForDisplay(contentDetails.getLastModifiedDate()) + NEW_LINE;
+                DateUtils.formatDateTimeForDisplay(contentDetails.getLastModifiedDate()) + NEW_LINE;
 
-        dateDetails += DateUtils.CREATION_DATE + contentDetails.getCreationDate();
+        dateDetails += DateUtils.CREATION_DATE + DateUtils.formatDateTimeForDisplay(contentDetails.getCreationDate());
         if (hasExpirationDate()) {
             dateDetails += NEW_LINE + DateUtils.EXPIRATION_DATE +
-                    DateUtils.formatDateForDisplay(contentDetails.getExpirationDate());
+                    DateUtils.formatDateTimeForDisplay(contentDetails.getExpirationDate());
         }
         return dateDetails;
     }

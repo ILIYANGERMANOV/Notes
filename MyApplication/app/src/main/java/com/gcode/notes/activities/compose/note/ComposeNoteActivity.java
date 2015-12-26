@@ -18,7 +18,7 @@ import com.gcode.notes.activities.helpers.compose.note.ComposeNoteResultHandler;
 import com.gcode.notes.activities.helpers.compose.note.ComposeNoteRotationHandler;
 import com.gcode.notes.activities.helpers.compose.note.ComposeNoteStartStateHelper;
 import com.gcode.notes.adapters.note.compose.ComposeNoteImagesAdapter;
-import com.gcode.notes.data.main.NoteData;
+import com.gcode.notes.data.note.NoteData;
 import com.gcode.notes.extras.utils.AudioUtils;
 import com.gcode.notes.ui.ActionExecutor;
 import com.linearlistview.LinearListView;

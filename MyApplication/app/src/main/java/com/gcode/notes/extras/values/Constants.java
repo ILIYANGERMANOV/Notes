@@ -60,6 +60,7 @@ public class Constants {
     public static final int SETUP_FROM_PHOTO = 4;
     public static final int SETUP_FROM_AUDIO = 5;
 
+    //extras for activities
     public static final String EXTRA_LIST_DATA = "list_data_extra";
     public static final String EXTRA_NOTE_DATA = "note_data_extra";
     public static final String EXTRA_SETUP_FROM = "setup_from_extra";
@@ -67,16 +68,21 @@ public class Constants {
     public static final String EXTRA_AUDIO_PATH = "audio_path_extra";
     public static final String EXTRA_RECOGNIZED_SPEECH_TEXT = "recognized_speech_text_extra";
     public static final String EXTRA_DELETED_AUDIO = "deleted_audio_extra";
-    public static final String EXTRA_LIST_DATA_ITEMS = "list_data_items_extra";
-    public static final String EXTRA_TICKED_LIST_DATA_ITEMS = "ticked_list_data_items_extra";
     public static final String EXTRA_LAST_FOCUSED = "last_focused_extra";
     public static final String EXTRA_IS_OPENED_IN_EDIT_MODE = "is_opened_in_edit_mode_extra";
     public static final String EXTRA_IS_STARRED = "is_starred_extra";
     public static final String EXTRA_NOTE_MODE_CHANGED = "note_mode_changed_extra";
-    public static final String EXTRA_CONTENT_DETAILS = "content_details_extra";
-    public static final String EXTRA_EDIT_NOTE_ID = "edit_note_id_extra";
-    public static final String EXTRA_EDIT_NOTE_TARGET_ID = "edit_note_target_id_extra";
     public static final String EXTRA_IS_DONE_HIDDEN = "is_done_hidden_extra";
+
+    //extras for fragments
+    public static final String EXTRA_IS_REMINDER_SET = "is_reminder_set_extra";
+    public static final String EXTRA_YEAR = "year_extra";
+    public static final String EXTRA_MONTH = "month_extra";
+    public static final String EXTRA_DAY = "day_extra";
+    public static final String EXTRA_HOUR = "hour_extra";
+    public static final String EXTRA_MINUTE = "minute_extra";
+
+
 
     public static final int MAX_LIST_ITEMS_TO_DISPLAY = 5;
     public static final int MAX_DESCRIPTION_LINES_TO_DISPLAY = 13;

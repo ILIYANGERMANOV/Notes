@@ -20,8 +20,8 @@ import com.gcode.notes.activities.helpers.display.list.base.DisplayListBaseStart
 import com.gcode.notes.activities.helpers.display.list.base.DisplayListBaseTasksHelper;
 import com.gcode.notes.adapters.list.display.ListDisplayAdapter;
 import com.gcode.notes.adapters.list.display.ListDisplayTickedAdapter;
-import com.gcode.notes.data.extras.ListDataItem;
-import com.gcode.notes.data.main.ListData;
+import com.gcode.notes.data.note.list.ListDataItem;
+import com.gcode.notes.data.note.list.ListData;
 import com.linearlistview.LinearListView;
 
 import java.util.ArrayList;
@@ -66,10 +66,6 @@ public class DisplayListBaseActivity extends AppCompatActivity {
 
     public TextView getTitleTextView() {
         return mTitleTextView;
-    }
-
-    public ImageButton getActionImageButton() {
-        return mActionImageButton;
     }
 
     public LinearListView getLinearListView() {
