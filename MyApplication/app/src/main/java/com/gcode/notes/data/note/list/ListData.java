@@ -121,7 +121,11 @@ public class ListData extends ContentBase {
 
     private void displayDivider(ListItemViewHolder holder) {
         if (hasReminder()) {
-            holder.getAttributesDivider().setVisibility(View.VISIBLE); //makes divider visible
+            //they are attributes, show divider
+            holder.getAttributesDivider().setVisibility(View.VISIBLE); //shows attributes divider
+        } else {
+            //there are no attributes, hide divider
+            holder.getAttributesDivider().setVisibility(View.GONE); //hides attributes divider
         }
     }
 

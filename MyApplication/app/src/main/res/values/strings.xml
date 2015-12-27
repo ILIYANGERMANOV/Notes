@@ -77,4 +77,9 @@
     
     <string name="main_to_display_transition_name">main_to_display</string>
 
+    <string name="display_reminder_text_and_date">Reminder: %s</string>
+    <string name="display_creation_date">Created on: %s</string>
+    <string name="display_last_modified_date">Last modified: %s</string>
+    <string name="display_expiration_date">Expires on: %s</string>
+
 </resources>

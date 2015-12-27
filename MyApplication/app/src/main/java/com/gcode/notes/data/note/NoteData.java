@@ -89,15 +89,6 @@ public class NoteData extends ContentBase {
         this.description = description;
     }
 
-
-    public void displayNote(TextView titleTextView, TextView descriptionTextView) {
-        displayBase(titleTextView);
-        if (hasDescription()) {
-            descriptionTextView.setVisibility(View.VISIBLE);
-        }
-        descriptionTextView.setText(description);
-    }
-
     public void displayNoteOnMain(final NoteItemViewHolder holder) {
         //recycler view uses already created holders for optimization, so clear holder
         setHolderInDefaultState(holder); //sets view holder in default state
@@ -149,7 +140,11 @@ public class NoteData extends ContentBase {
 
     private void displayDivider(View attributesDividerView) {
         if (hasAttachedAudio() || hasReminder()) {
-            attributesDividerView.setVisibility(View.VISIBLE);
+            //there are attributes, show divider
+            attributesDividerView.setVisibility(View.VISIBLE); //shows divider
+        } else {
+            //there are no attributes, hide divider
+            attributesDividerView.setVisibility(View.GONE); //hides divider
         }
     }
 

@@ -1,4 +1,4 @@
-package com.gcode.notes.activities.helpers.display.note.base;
+package com.gcode.notes.activities.helpers.display.note;
 
 
 import android.os.Bundle;
@@ -16,8 +16,6 @@ public class DisplayNoteBaseStartStateHelper {
     }
 
     public void setupStartState(Bundle savedInstanceState) {
-        DisplayToolbarHelper.setupToolbar(mDisplayNoteActivity, mDisplayNoteActivity.getToolbar()); //setup activity's toolbar
-
         Bundle extras = mDisplayNoteActivity.getIntent().getExtras();
         if (extras != null && savedInstanceState == null) {
             //first time started
@@ -35,6 +33,7 @@ public class DisplayNoteBaseStartStateHelper {
             if (serializedNoteData != null) {
                 mDisplayNoteActivity.mNoteData = Serializer.parseNoteData(serializedNoteData);
                 if (mDisplayNoteActivity.mNoteData != null) {
+                    //mNoteData parsed successfully, display it
                     mDisplayNoteActivity.displayNoteData();
                 }
             }

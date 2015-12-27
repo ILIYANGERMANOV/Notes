@@ -1,5 +1,6 @@
 package com.gcode.notes.activities.compose;
 
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -7,7 +8,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.gcode.notes.R;
-import com.gcode.notes.activities.helpers.compose.base.ComposeBaseToolbarHelper;
+import com.gcode.notes.activities.helpers.compose.ComposeBaseToolbarHelper;
+import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.fragments.ComposeReminderFragment;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -30,6 +33,18 @@ public class ComposeBaseActivity extends AppCompatActivity {
     public boolean mIsStarred;
     public boolean mNoteModeChanged;
     public Intent mResultIntent = new Intent();
+
+    public ComposeReminderFragment getComposeReminderFragment() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.compose_note_reminder_fragment);
+        if(fragment != null && fragment instanceof ComposeReminderFragment) {
+            //fragment is not null and can be cast to ComposeReminderFragment so return it
+            return ((ComposeReminderFragment) fragment);
+        } else {
+            //fragment is null or cannot be cast, log and return null
+            MyDebugger.log("getComposeReminderFragment(): fragment null or cannot be cast to ComposeReminderFragment.");
+            return null;
+        }
+    }
 
     /**
      * Setups title edit text to not has horizontal scrolling and activity's toolbar

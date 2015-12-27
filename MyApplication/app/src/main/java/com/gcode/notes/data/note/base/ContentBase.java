@@ -1,12 +1,15 @@
 package com.gcode.notes.data.note.base;
 
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
+import com.gcode.notes.R;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
+import com.gcode.notes.notes.MyApplication;
 
 public abstract class ContentBase {
     //have default value
@@ -93,14 +96,17 @@ public abstract class ContentBase {
             contentDetails = new ContentDetails();
         }
 
+        Context context = MyApplication.getAppContext();
         final String NEW_LINE = "\n";
-        dateDetails += DateUtils.LAST_MODIFIED +
-                DateUtils.formatDateTimeForDisplay(contentDetails.getLastModifiedDate()) + NEW_LINE;
 
-        dateDetails += DateUtils.CREATION_DATE + DateUtils.formatDateTimeForDisplay(contentDetails.getCreationDate());
+        dateDetails += context.getString(R.string.display_last_modified_date,
+                DateUtils.formatDateTimeForDisplay(contentDetails.getLastModifiedDate())) + NEW_LINE;
+
+        dateDetails += context.getString(R.string.display_creation_date,
+                DateUtils.formatDateTimeForDisplay(contentDetails.getCreationDate()));
         if (hasExpirationDate()) {
-            dateDetails += NEW_LINE + DateUtils.EXPIRATION_DATE +
-                    DateUtils.formatDateTimeForDisplay(contentDetails.getExpirationDate());
+            dateDetails += NEW_LINE + context.getString(R.string.display_expiration_date,
+                    DateUtils.formatDateTimeForDisplay(contentDetails.getExpirationDate()));
         }
         return dateDetails;
     }
@@ -179,15 +185,6 @@ public abstract class ContentBase {
     }
 
     /**
-     * Displays content base's title.
-     *
-     * @param titleTextView - text view on which to display title
-     */
-    public void displayBase(TextView titleTextView) {
-        titleTextView.setText(title);
-    }
-
-    /**
      * Displays content base's title and reminder
      *
      * @param titleTextView    - text view in which to display title
@@ -200,8 +197,11 @@ public abstract class ContentBase {
 
     private void displayReminder(TextView reminderTextView) {
         if (hasReminder()) {
-            reminderTextView.setText(reminder);
+            //there is reminder, format it for display and show it
+            reminderTextView.setVisibility(View.VISIBLE);
+            reminderTextView.setText(DateUtils.formatDateTimeForDisplay(reminder)); //reminder is in SQLite format
         } else {
+            //there is no reminder, hide reminderTextView
             reminderTextView.setVisibility(View.GONE);
         }
     }

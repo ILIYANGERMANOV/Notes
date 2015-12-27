@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/display_list_root_layout"
     android:layout_width="match_parent"
@@ -7,19 +6,9 @@
     android:orientation="vertical"
     tools:context="com.gcode.notes.activities.display.list.DisplayListBaseActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <include
         android:id="@+id/display_list_app_bar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/display_list_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:theme="@style/MyToolbarTheme"
-            app:popupTheme="@style/Theme.AppCompat.Light" />
-
-    </android.support.design.widget.AppBarLayout>
+        layout="@layout/display_app_bar_layout" />
 
     <ScrollView
         android:id="@+id/display_list_scroll_view"
@@ -85,25 +74,12 @@
                         android:paddingRight="21dp"
                         android:paddingStart="21dp" />
 
-                    <TextView
-                        android:id="@+id/display_list_dates_text_view"
-                        android:layout_width="wrap_content"
+                    <include
+                        android:id="@+id/display_list_details_and_reminder_layout"
+                        layout="@layout/display_details_and_reminder_layout"
+                        android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_gravity="end"
-                        android:layout_marginTop="23dp"
-                        android:layout_weight="1"
-                        android:gravity="bottom|end"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/display_list_location_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:clickable="true"
-                        android:text="Location: Sofia, Bulgaria"
-                        android:textColor="@color/link_color"
-                        android:textSize="14sp" />
+                        android:layout_weight="1" />
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>

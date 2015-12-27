@@ -14,7 +14,7 @@ public class DisplayNoteBinActivity extends DisplayNoteBaseActivity {
     @Override
     public void displayNoteData() {
         super.displayNoteData();
-        mActionImageButton.setImageResource(R.drawable.ic_restore_deleted_24dp);
+        getActionImageButton().setImageResource(R.drawable.ic_restore_deleted_24dp);
     }
 
     @OnClick(R.id.display_action_image_button)

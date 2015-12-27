@@ -4,7 +4,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.gcode.notes.R;
-import com.gcode.notes.activities.helpers.display.list.base.DisplayListBaseResultHandler;
+import com.gcode.notes.activities.helpers.display.list.DisplayListBaseResultHandler;
 import com.gcode.notes.activities.helpers.display.list.bin.DisplayListBinMenuOptionsHelper;
 import com.gcode.notes.ui.ActionExecutor;
 
@@ -14,7 +14,7 @@ public class DisplayListBinActivity extends DisplayListBaseActivity {
     @Override
     public void displayListData() {
         super.displayListData();
-        mActionImageButton.setImageResource(R.drawable.ic_restore_deleted_24dp);
+        getActionImageButton().setImageResource(R.drawable.ic_restore_deleted_24dp);
     }
 
     @Override
@@ -23,6 +23,7 @@ public class DisplayListBinActivity extends DisplayListBaseActivity {
         //TODO: onItemClick show restore note snackbar
     }
 
+    @SuppressWarnings("unused")
     @OnClick(R.id.display_action_image_button)
     public void restoreNote() {
         ActionExecutor.restoreDeletedNote(this, mListData);

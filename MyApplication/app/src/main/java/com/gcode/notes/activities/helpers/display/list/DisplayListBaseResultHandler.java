@@ -1,4 +1,4 @@
-package com.gcode.notes.activities.helpers.display.list.base;
+package com.gcode.notes.activities.helpers.display.list;
 
 import android.app.Activity;
 

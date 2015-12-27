@@ -2,8 +2,6 @@ package com.gcode.notes.activities.display.note;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -12,10 +10,11 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.R;
+import com.gcode.notes.activities.display.DisplayBaseActivity;
 import com.gcode.notes.activities.helpers.display.DisplayBaseMenuOptionsHelper;
-import com.gcode.notes.activities.helpers.display.note.base.DisplayNoteBaseDisplayHelper;
-import com.gcode.notes.activities.helpers.display.note.base.DisplayNoteBaseResultHandler;
-import com.gcode.notes.activities.helpers.display.note.base.DisplayNoteBaseStartStateHelper;
+import com.gcode.notes.activities.helpers.display.note.DisplayNoteBaseDisplayHelper;
+import com.gcode.notes.activities.helpers.display.note.DisplayNoteBaseResultHandler;
+import com.gcode.notes.activities.helpers.display.note.DisplayNoteBaseStartStateHelper;
 import com.gcode.notes.data.note.NoteData;
 import com.gcode.notes.extras.utils.AudioUtils;
 import com.gcode.notes.extras.values.Constants;
@@ -26,19 +25,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class DisplayNoteBaseActivity extends AppCompatActivity {
+public class DisplayNoteBaseActivity extends DisplayBaseActivity {
     public NoteData mNoteData;
-    public boolean mNoteModeChanged;
     public MaterialDialog mOpenInGalleryProgressDialog;
     public AudioUtils mAudioUtils;
-    @Bind(R.id.display_note_toolbar)
-    Toolbar mToolbar;
-    @Bind(R.id.display_title_text_view)
-    TextView mTitleTextView;
-    @Bind(R.id.display_note_dates_text_view)
-    TextView mDatesTextView;
-    @Bind(R.id.display_action_image_button)
-    ImageButton mActionImageButton;
+
     @Bind(R.id.display_note_description_text_view)
     TextView mDescriptionTextView;
     @Bind(R.id.display_note_images_Linear_list_view)
@@ -53,18 +44,6 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
     TextView mAudioDurationTextView;
 
     //getters for layout components----------------------------------------------------------------------------------------
-    public Toolbar getToolbar() {
-        return mToolbar;
-    }
-
-    public TextView getTitleTextView() {
-        return mTitleTextView;
-    }
-
-    public TextView getDatesTextView() {
-        return mDatesTextView;
-    }
-
     public LinearLayout getAudioLayout() {
         return mAudioLayout;
     }
@@ -95,6 +74,11 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_note);
         ButterKnife.bind(this);
+        setup(savedInstanceState);
+    }
+
+    private void setup(Bundle savedInstanceState) {
+        setup(); //setups activity's toolbar in DisplayBaseActivity
         new DisplayNoteBaseStartStateHelper(this).setupStartState(savedInstanceState);
     }
 
@@ -106,9 +90,11 @@ public class DisplayNoteBaseActivity extends AppCompatActivity {
     }
 
     public void displayNoteData() {
-        DisplayNoteBaseDisplayHelper.displayNoteDataBase(this);
+        displayBase(mNoteData);
+        DisplayNoteBaseDisplayHelper.displayNoteData(this);
     }
 
+    @SuppressWarnings("unused")
     @OnClick(R.id.display_audio_play_pause_button)
     public void playPauseAudio() {
         mAudioUtils.toggle();

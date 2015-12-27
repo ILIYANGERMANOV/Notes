@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="13dp"
+    android:gravity="bottom"
+    android:orientation="vertical">
+    <!-- gravity bottom on LinearLayout, so date details can be on the bottom in DisplayList -->
+
+    <TextView
+        android:id="@+id/display_reminder_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/display_dates_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:gravity="bottom|end"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/display_location_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:clickable="true"
+        android:text="Location: Sofia, Bulgaria"
+        android:textColor="@color/link_color"
+        android:textSize="14sp" />
+
+</LinearLayout>

@@ -1,4 +1,4 @@
-package com.gcode.notes.activities.helpers.display.note.base;
+package com.gcode.notes.activities.helpers.display.note;
 
 import android.app.Activity;
 import android.content.Intent;

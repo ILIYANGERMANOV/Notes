@@ -1,25 +1,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.gcode.notes.activities.display.note.DisplayNoteBaseActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <include
         android:id="@+id/display_note_app_bar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/display_note_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:theme="@style/MyToolbarTheme"
-            app:popupTheme="@style/Theme.AppCompat.Light" />
-
-    </android.support.design.widget.AppBarLayout>
-
+        layout="@layout/display_app_bar_layout" />
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -69,24 +57,9 @@
                         android:id="@+id/display_note_audio_layout"
                         layout="@layout/note_display_audio_layout" />
 
-                    <TextView
-                        android:id="@+id/display_note_dates_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_marginTop="13dp"
-                        android:gravity="bottom|end"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/display_note_location_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:clickable="true"
-                        android:text="Location: Sofia, Bulgaria"
-                        android:textColor="@color/link_color"
-                        android:textSize="14sp" />
+                    <include
+                        android:id="@+id/display_note_details_and_reminder_layout"
+                        layout="@layout/display_details_and_reminder_layout" />
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>

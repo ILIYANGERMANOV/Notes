@@ -1,20 +1,22 @@
-package com.gcode.notes.activities.helpers.display.note.base;
+package com.gcode.notes.activities.helpers.display.note;
 
 import android.view.View;
 
 import com.gcode.notes.activities.display.note.DisplayNoteBaseActivity;
-import com.gcode.notes.activities.helpers.display.note.base.listeners.DisplayNoteImageOnItemClickListener;
+import com.gcode.notes.activities.helpers.display.note.listeners.DisplayNoteImageOnItemClickListener;
 import com.gcode.notes.adapters.note.display.DisplayNoteImagesAdapter;
 import com.gcode.notes.data.note.NoteData;
 import com.gcode.notes.extras.utils.AudioUtils;
 import com.linearlistview.LinearListView;
 
 public class DisplayNoteBaseDisplayHelper {
-    public static void displayNoteDataBase(final DisplayNoteBaseActivity displayNoteBaseActivity) {
+    public static void displayNoteData(final DisplayNoteBaseActivity displayNoteBaseActivity) {
         NoteData mNoteData = displayNoteBaseActivity.mNoteData; //create new reference for easier access
-        displayNoteBaseActivity.getDatesTextView().setText(mNoteData.getDateDetails());
-        mNoteData.displayNote(displayNoteBaseActivity.getTitleTextView(), displayNoteBaseActivity.getDescriptionTextView());
+
+        displayNoteBaseActivity.getDescriptionTextView().setText(mNoteData.getDescription()); //display note's description
+
         if (mNoteData.hasAttachedImage()) {
+            //there is attached image, display it
             LinearListView mImagesLinearListView = displayNoteBaseActivity.getImagesLinearListView(); //create new reference for easier access
             DisplayNoteImagesAdapter adapter = (DisplayNoteImagesAdapter) mImagesLinearListView.getAdapter();
             if (adapter == null) {
@@ -28,11 +30,13 @@ public class DisplayNoteBaseDisplayHelper {
                 adapter.addAll(mNoteData.getAttachedImagesPaths());
             }
         } else {
+            //there are no attached images, hide imagesListView
             displayNoteBaseActivity.getImagesLinearListView().setVisibility(View.GONE); //when you come back from compose and all images are deleted
             //hasAttachedImages() is false so true case doesn't handle image remove
         }
 
         if (mNoteData.hasAttachedAudio()) {
+            //there is attached audio, display audio utils
             if (displayNoteBaseActivity.mAudioUtils == null) {
                 //create audio utils if they are not created
                 displayNoteBaseActivity.mAudioUtils = new AudioUtils(displayNoteBaseActivity, mNoteData.getAttachedAudioPath(),

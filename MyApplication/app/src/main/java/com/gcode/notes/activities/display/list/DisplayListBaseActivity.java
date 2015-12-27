@@ -2,26 +2,23 @@ package com.gcode.notes.activities.display.list;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.activities.display.DisplayBaseActivity;
 import com.gcode.notes.activities.helpers.display.DisplayBaseMenuOptionsHelper;
 import com.gcode.notes.activities.helpers.display.DisplayToolbarHelper;
-import com.gcode.notes.activities.helpers.display.list.base.DisplayListBaseContainersHelper;
-import com.gcode.notes.activities.helpers.display.list.base.DisplayListBaseDisplayHelper;
-import com.gcode.notes.activities.helpers.display.list.base.DisplayListBaseRotationHandler;
-import com.gcode.notes.activities.helpers.display.list.base.DisplayListBaseStartStateHelper;
-import com.gcode.notes.activities.helpers.display.list.base.DisplayListBaseTasksHelper;
+import com.gcode.notes.activities.helpers.display.list.DisplayListBaseContainersHelper;
+import com.gcode.notes.activities.helpers.display.list.DisplayListBaseDisplayHelper;
+import com.gcode.notes.activities.helpers.display.list.DisplayListBaseRotationHandler;
+import com.gcode.notes.activities.helpers.display.list.DisplayListBaseStartStateHelper;
+import com.gcode.notes.activities.helpers.display.list.DisplayListBaseTasksHelper;
 import com.gcode.notes.adapters.list.display.ListDisplayAdapter;
 import com.gcode.notes.adapters.list.display.ListDisplayTickedAdapter;
-import com.gcode.notes.data.note.list.ListDataItem;
 import com.gcode.notes.data.note.list.ListData;
+import com.gcode.notes.data.note.list.ListDataItem;
 import com.linearlistview.LinearListView;
 
 import java.util.ArrayList;
@@ -30,42 +27,28 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class DisplayListBaseActivity extends AppCompatActivity {
-    @Bind(R.id.display_list_toolbar)
-    Toolbar mToolbar;
+public class DisplayListBaseActivity extends DisplayBaseActivity {
+    public ListData mListData;
+    public Intent mResultIntent = new Intent();
+    public ListDisplayAdapter mDisplayAdapter;
+    public ListDisplayTickedAdapter mDisplayTickedAdapter;
+    public ArrayList<ListDataItem> mListDataItems;
+    public ArrayList<ListDataItem> mTickedListDataItems;
+    public boolean mIsDoneTasksHidden;
 
     @Bind(R.id.display_list_scroll_view)
     ScrollView mRootScrollView;
-
-    @Bind(R.id.display_title_text_view)
-    TextView mTitleTextView;
-
-    @Bind(R.id.display_action_image_button)
-    ImageButton mActionImageButton;
-
     @Bind(R.id.display_list_linear_list_view)
     LinearListView mLinearListView;
-
     @Bind(R.id.display_list_ticked_linear_list_view)
     LinearListView mTickedLinearListView;
-
-    @Bind(R.id.display_list_dates_text_view)
-    TextView mDatesTextView;
 
     @Bind(R.id.display_list_done_button)
     Button mDoneButton;
 
     //getters for layout components-----------------------------------------------------------------------------------------
-    public Toolbar getToolbar() {
-        return mToolbar;
-    }
-
     public ScrollView getRootScrollView() {
         return mRootScrollView;
-    }
-
-    public TextView getTitleTextView() {
-        return mTitleTextView;
     }
 
     public LinearListView getLinearListView() {
@@ -76,27 +59,10 @@ public class DisplayListBaseActivity extends AppCompatActivity {
         return mTickedLinearListView;
     }
 
-    public TextView getDatesTextView() {
-        return mDatesTextView;
-    }
-
     public Button getDoneButton() {
         return mDoneButton;
     }
     //getters for layout components-----------------------------------------------------------------------------------------
-
-    public ListData mListData;
-
-    public Intent mResultIntent = new Intent();
-
-    public ListDisplayAdapter mDisplayAdapter;
-    public ListDisplayTickedAdapter mDisplayTickedAdapter;
-
-    public ArrayList<ListDataItem> mListDataItems;
-    public ArrayList<ListDataItem> mTickedListDataItems;
-
-    public boolean mIsDoneTasksHidden;
-    public boolean mNoteModeChanged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +73,7 @@ public class DisplayListBaseActivity extends AppCompatActivity {
     }
 
     private void setup(Bundle savedInstanceState) {
-        DisplayToolbarHelper.setupToolbar(this, mToolbar);
+        setup(); //setups activity's toolbar in DisplayBaseActivity
         new DisplayListBaseStartStateHelper(this).setupStartState(savedInstanceState);
     }
 
@@ -117,6 +83,7 @@ public class DisplayListBaseActivity extends AppCompatActivity {
         DisplayListBaseRotationHandler.saveInstanceState(this, outState);
     }
 
+    @SuppressWarnings("unused")
     @OnClick(R.id.display_list_done_button)
     public void doneClicked() {
         if (mIsDoneTasksHidden) {
@@ -129,6 +96,7 @@ public class DisplayListBaseActivity extends AppCompatActivity {
     }
 
     public void displayListData() {
+        displayBase(mListData);
         DisplayListBaseDisplayHelper.displayListData(this);
     }
 

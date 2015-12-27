@@ -18,10 +18,6 @@ public class DateUtils {
     private static final String SQL_LITE_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private static final String DEFAULT_DISPLAY_FORMAT = "dd-MM-yyyy HH:mm";
 
-    public static final String LAST_MODIFIED = "Last modified: ";
-    public static final String CREATION_DATE = "Created on: ";
-    public static final String EXPIRATION_DATE = "Expires on: ";
-
     public static final int EXPIRATION_DAYS = 7;
 
     public static String getExpirationDate() {
@@ -87,7 +83,6 @@ public class DateUtils {
     @SuppressWarnings("deprecation")
     public static String formatDate(int year, int month, int day) {
         String dateFormat = "d MMMM";
-
         Calendar calendar = Calendar.getInstance();
         try {
             //try to get current year, and if reminder is for next year show it the date format
@@ -121,7 +116,7 @@ public class DateUtils {
         return parseDateInSQLiteFormat(getCurrentTime());
     }
 
-    private static String parseDateInSQLiteFormat(Date date) {
+    public static String parseDateInSQLiteFormat(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(SQL_LITE_DATE_FORMAT, Locale.US);
         return dateFormat.format(date);
     }

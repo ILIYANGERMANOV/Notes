@@ -1,4 +1,4 @@
-package com.gcode.notes.activities.helpers.compose.base;
+package com.gcode.notes.activities.helpers.compose;
 
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;

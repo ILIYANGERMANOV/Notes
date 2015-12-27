@@ -48,11 +48,12 @@
             android:text="There are no notes :/"
             android:visibility="gone" />
 
+        <!-- use right cuz 3rd party circular menu doesn't support RTL -->
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/main_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
+            android:layout_gravity="bottom|right"
             android:layout_margin="@dimen/activity_horizontal_margin"
             android:src="@drawable/ic_open_white_24dp"
             app:borderWidth="@dimen/fab_border_width"
@@ -62,12 +63,11 @@
 
     </android.support.design.widget.CoordinatorLayout>
 
-    <!-- use right cuz 3rd party circular menu doesn't support RTL -->
     <android.support.design.widget.NavigationView
         android:id="@+id/main_navigation_drawer"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="right"
+        android:layout_gravity="start"
         app:headerLayout="@layout/nav_drawer_header"
         app:menu="@menu/menu_drawer" />
 </android.support.v4.widget.DrawerLayout>

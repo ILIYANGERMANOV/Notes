@@ -1,11 +1,9 @@
-package com.gcode.notes.activities.helpers.display.list.base;
+package com.gcode.notes.activities.helpers.display.list;
 
 import com.gcode.notes.activities.display.list.DisplayListBaseActivity;
 
 public class DisplayListBaseDisplayHelper {
     public static void displayListData(DisplayListBaseActivity displayListBaseActivity) {
-        displayListBaseActivity.mListData.displayBase(displayListBaseActivity.getTitleTextView());
-        displayListBaseActivity.getDatesTextView().setText(displayListBaseActivity.mListData.getDateDetails());
         if (displayListBaseActivity.mListDataItems == null || displayListBaseActivity.mTickedListDataItems == null) {
             //displayListData for first time
             displayListBaseActivity.setupLinearListViews(false); //creates adapters and fills them with items

@@ -12,7 +12,6 @@ import com.gcode.notes.notes.MyApplication;
 import butterknife.OnClick;
 
 public class DisplayNoteNormalActivity extends DisplayNoteBaseActivity {
-    boolean mIsStarred;
 
     @Override
     public void displayNoteData() {
@@ -24,6 +23,7 @@ public class DisplayNoteNormalActivity extends DisplayNoteBaseActivity {
         }
     }
 
+    @SuppressWarnings("unused")
     @OnClick(R.id.display_action_image_button)
     public void starImageButtonClicked() {
         if (mIsStarred) {
@@ -34,16 +34,6 @@ public class DisplayNoteNormalActivity extends DisplayNoteBaseActivity {
         mNoteData.setModeImportant(mIsStarred);
         mNoteModeChanged = !mNoteModeChanged;
         MyApplication.getWritableDatabase().updateNoteMode(mNoteData);
-    }
-
-    private void setStarredState() {
-        mIsStarred = true;
-        mActionImageButton.setImageResource(R.drawable.ic_star_orange_36dp);
-    }
-
-    private void setNotStarredState() {
-        mIsStarred = false;
-        mActionImageButton.setImageResource(R.drawable.ic_star_border_black_36dp);
     }
 
     @Override

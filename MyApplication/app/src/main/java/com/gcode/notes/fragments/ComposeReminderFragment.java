@@ -54,7 +54,6 @@ public class ComposeReminderFragment extends Fragment {
     }
     //getters for layout components--------------------------------------------------------------------------------------
 
-    Calendar mCalendar = Calendar.getInstance();
     public boolean mIsReminderSet;
 
     public int mYear;
@@ -76,12 +75,13 @@ public class ComposeReminderFragment extends Fragment {
 
         if (savedInstanceState == null) {
             //set default values
+            Calendar calendar = Calendar.getInstance();
             mIsReminderSet = false;
-            mYear = mCalendar.get(Calendar.YEAR);
-            mMonthOfYear = mCalendar.get(Calendar.MONTH);
-            mDayOfMonth = mCalendar.get(Calendar.DAY_OF_MONTH);
-            mHour = mCalendar.get(Calendar.HOUR);
-            mMinute = mCalendar.get(Calendar.MINUTE);
+            mYear = calendar.get(Calendar.YEAR);
+            mMonthOfYear = calendar.get(Calendar.MONTH);
+            mDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+            mHour = calendar.get(Calendar.HOUR);
+            mMinute = calendar.get(Calendar.MINUTE);
         } else {
             //use values from previous state
             mIsReminderSet = savedInstanceState.getBoolean(Constants.EXTRA_IS_REMINDER_SET, false);
@@ -118,6 +118,22 @@ public class ComposeReminderFragment extends Fragment {
         if (timePickerDialog != null) {
             //dialog is created
             timePickerDialog.setOnTimeSetListener(mTimePickerOnTimeSetListener); //reset listener
+        }
+    }
+
+    /**
+     * @return returns reminders' date as String in SQLite format if set else Constants.NO_REMINDER
+     */
+    public String getReminder() {
+        if (mIsReminderSet) {
+            //there is set reminder, return its date
+            Calendar calendar = Calendar.getInstance();
+            calendar.clear();
+            calendar.set(mYear, mMonthOfYear, mDayOfMonth, mHour, mMinute);
+            return DateUtils.parseDateInSQLiteFormat(calendar.getTime()); //return reminder date as string in SQLite format
+        } else {
+            //there is no reminder set, return null
+            return Constants.NO_REMINDER;
         }
     }
 

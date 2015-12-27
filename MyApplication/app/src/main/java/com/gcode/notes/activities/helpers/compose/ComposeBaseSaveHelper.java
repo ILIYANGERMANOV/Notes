@@ -1,8 +1,9 @@
-package com.gcode.notes.activities.helpers.compose.base;
+package com.gcode.notes.activities.helpers.compose;
 
 import com.gcode.notes.activities.compose.ComposeBaseActivity;
 import com.gcode.notes.data.note.base.ContentBase;
 import com.gcode.notes.extras.values.Constants;
+import com.gcode.notes.fragments.ComposeReminderFragment;
 
 public class ComposeBaseSaveHelper {
     /**
@@ -13,13 +14,11 @@ public class ComposeBaseSaveHelper {
      */
     public static void saveBase(ComposeBaseActivity composeBaseActivity, ContentBase contentBase) {
         contentBase.setTitle(composeBaseActivity.getTitleEditText().getText().toString());
-        //TODO: use real reminder
-        /*
-        String reminderString = composeBaseActivity.getReminderTextView().getText().toString();
-        if (!reminderString.equals(composeBaseActivity.getResources().getString(R.string.compose_note_set_reminder_text))) {
-            contentBase.setReminder(reminderString);
+        ComposeReminderFragment composeReminderFragment = composeBaseActivity.getComposeReminderFragment();
+        if(composeReminderFragment != null) {
+            //composeReminderFragment found successfully, set reminder to note
+            contentBase.setReminder(composeReminderFragment.getReminder());
         }
-        */
         contentBase.setMode(composeBaseActivity.mIsStarred ? Constants.MODE_IMPORTANT : Constants.MODE_NORMAL);
         contentBase.setHasAttributesFlag(contentBase.hasAttributes());
     }

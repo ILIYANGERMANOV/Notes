@@ -28,10 +28,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_access_time_black_18dp"
+            android:drawableStart="@drawable/ic_access_time_black_18dp"
             android:drawablePadding="5dp"
             android:gravity="center_vertical"
-            android:paddingTop="2dp"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:paddingTop="2dp" />
 
     </LinearLayout>
 

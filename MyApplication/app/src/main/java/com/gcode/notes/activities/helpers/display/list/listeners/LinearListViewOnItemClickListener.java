@@ -1,4 +1,4 @@
-package com.gcode.notes.activities.helpers.display.list.base.listeners;
+package com.gcode.notes.activities.helpers.display.list.listeners;
 
 
 import android.view.View;

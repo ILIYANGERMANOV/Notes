@@ -5,7 +5,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.gcode.notes.R;
-import com.gcode.notes.activities.helpers.display.list.base.DisplayListBaseResultHandler;
+import com.gcode.notes.activities.helpers.display.list.DisplayListBaseResultHandler;
 import com.gcode.notes.activities.helpers.display.list.normal.DisplayListNormalMenuOptionsHelper;
 import com.gcode.notes.activities.helpers.display.list.normal.DisplayListNormalResultHandler;
 import com.gcode.notes.notes.MyApplication;
@@ -14,8 +14,6 @@ import com.gcode.notes.tasks.async.UpdateListAttributesTask;
 import butterknife.OnClick;
 
 public class DisplayListNormalActivity extends DisplayListBaseActivity {
-    boolean mIsStarred;
-
     boolean mFinishCalled;
 
     @Override
@@ -28,6 +26,7 @@ public class DisplayListNormalActivity extends DisplayListBaseActivity {
         }
     }
 
+    @SuppressWarnings("unused")
     @OnClick(R.id.display_action_image_button)
     public void starImageButtonClicked() {
         if (mIsStarred) {
@@ -38,16 +37,6 @@ public class DisplayListNormalActivity extends DisplayListBaseActivity {
         mListData.setModeImportant(mIsStarred);
         mNoteModeChanged = !mNoteModeChanged;
         MyApplication.getWritableDatabase().updateNoteMode(mListData);
-    }
-
-    private void setStarredState() {
-        mIsStarred = true;
-        mActionImageButton.setImageResource(R.drawable.ic_star_orange_36dp);
-    }
-
-    private void setNotStarredState() {
-        mIsStarred = false;
-        mActionImageButton.setImageResource(R.drawable.ic_star_border_black_36dp);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.gcode.notes.activities.helpers.compose.base;
+package com.gcode.notes.activities.helpers.compose;
 
 import android.os.Bundle;
 

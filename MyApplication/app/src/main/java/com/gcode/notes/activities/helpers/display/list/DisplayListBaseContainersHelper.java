@@ -1,10 +1,10 @@
-package com.gcode.notes.activities.helpers.display.list.base;
+package com.gcode.notes.activities.helpers.display.list;
 
 import android.view.View;
 
 import com.gcode.notes.activities.display.list.DisplayListBaseActivity;
-import com.gcode.notes.activities.helpers.display.list.base.listeners.LinearListViewOnItemClickListener;
-import com.gcode.notes.activities.helpers.display.list.base.listeners.TickedLinearListViewOnItemClickListener;
+import com.gcode.notes.activities.helpers.display.list.listeners.LinearListViewOnItemClickListener;
+import com.gcode.notes.activities.helpers.display.list.listeners.TickedLinearListViewOnItemClickListener;
 import com.gcode.notes.adapters.list.display.ListDisplayAdapter;
 import com.gcode.notes.adapters.list.display.ListDisplayTickedAdapter;
 import com.gcode.notes.data.note.list.ListDataItem;
