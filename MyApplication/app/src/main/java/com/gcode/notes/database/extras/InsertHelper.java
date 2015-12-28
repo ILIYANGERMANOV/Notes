@@ -46,7 +46,7 @@ public class InsertHelper {
         contentValues.put(ContentEntry.COLUMN_NAME_MODE, contentBase.getMode());
         contentValues.put(ContentEntry.COLUMN_NAME_TYPE, contentBase.getType());
         contentValues.put(ContentEntry.COLUMN_NAME_HAS_ATTRIBUTES, contentBase.getHasAttributesFlag());
-        contentValues.put(ContentEntry.COLUMN_NAME_REMINDER, contentBase.getReminder());
+        contentValues.put(ContentEntry.COLUMN_NAME_REMINDER, contentBase.getReminder()); //reminder is already is in SQLite format
         //TODO: add legit location
         contentValues.put(ContentEntry.COLUMN_NAME_LOCATION, Constants.NO_LOCATION);
         contentValues.put(ContentEntry.COLUMN_NAME_CREATION_DATE, DateUtils.getCurrentTimeSQLiteFormatted());

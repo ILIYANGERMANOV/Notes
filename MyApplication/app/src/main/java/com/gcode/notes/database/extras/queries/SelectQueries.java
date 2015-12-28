@@ -33,6 +33,10 @@ public class SelectQueries {
                     AND + ContentEntry.COLUMN_NAME_EXPIRATION_DATE + LESS_THAN +
                     "'" + DateUtils.getCurrentTimeSQLiteFormatted() + "'";
 
+    public static final String SELECT_ALL_NOTES_WITH_REMINDER =
+            SELECT_ALL_FROM + ContentEntry.TABLE_NAME + WHERE +
+                    ContentEntry.COLUMN_NAME_REMINDER + NOT_EQUALS + "'" + Constants.NO_REMINDER + "'";
+
     public static String whereClauseContentId = ContentEntry._ID + EQUALS_TO;
     public static String whereClauseNoteId = NoteEntry._ID + EQUALS_TO;
     public static String whereClauseListId = ListEntry._ID + EQUALS_TO;
@@ -40,6 +44,10 @@ public class SelectQueries {
     public static String selectLastRowIdForTable(String tableName) {
         return "SELECT " + BaseColumns._ID + " FROM " + tableName +
                 " ORDER BY " + BaseColumns._ID + " DESC LIMIT 1";
+    }
+
+    public static String selectLastItemFromContentForModes(int argsCount, boolean orderByOrderId) {
+        return selectAllItemsFromContentForModes(argsCount, orderByOrderId) + " LIMIT 1";
     }
 
     public static String selectAllItemsFromContentForModes(int argsCount, boolean orderByROrderId) {
@@ -54,10 +62,6 @@ public class SelectQueries {
 
         returnQuery += "?) ORDER BY " + orderValue + " DESC";
         return returnQuery;
-    }
-
-    public static String selectLastItemFromContentForModes(int argsCount, boolean orderByOrderId) {
-        return selectAllItemsFromContentForModes(argsCount, orderByOrderId) + " LIMIT 1";
     }
 
     public static String[] buildSelectionArgs(int... modes) {

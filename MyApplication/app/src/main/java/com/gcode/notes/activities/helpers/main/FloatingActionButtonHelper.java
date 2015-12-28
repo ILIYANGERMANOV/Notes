@@ -134,7 +134,6 @@ public class FloatingActionButtonHelper implements View.OnClickListener {
                 break;
             case Tags.TAG_LIST:
                 intent = new Intent(mMainActivity, ComposeListActivity.class);
-                //TODO: add EXTRA_SETUP_FROM if works well
                 mMainActivity.startActivityForResult(intent, Constants.COMPOSE_NOTE_REQUEST_CODE);
                 break;
             case Tags.TAG_VOICE_NOTE:

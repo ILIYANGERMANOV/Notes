@@ -24,7 +24,7 @@ public class DateUtils {
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(Calendar.DAY_OF_YEAR, EXPIRATION_DAYS);
-        return parseDateInSQLiteFormat(calendar.getTime());
+        return formatDateInSQLiteFormat(calendar.getTime());
     }
 
     public static String formatDateTimeForDisplay(String sqliteDateString) {
@@ -43,7 +43,7 @@ public class DateUtils {
             localePattern = new SimpleDateFormat(DEFAULT_DISPLAY_FORMAT, Locale.US).toLocalizedPattern();
         }
 
-        SimpleDateFormat sqliteSimpleDateFormat = new SimpleDateFormat(SQL_LITE_DATE_FORMAT, Locale.UK);
+        SimpleDateFormat sqliteSimpleDateFormat = new SimpleDateFormat(SQL_LITE_DATE_FORMAT, Locale.US);
         Date date;
         try {
             //trying to parse date in database with SQL_LITE_DATE_FORMAT
@@ -113,12 +113,26 @@ public class DateUtils {
     }
 
     public static String getCurrentTimeSQLiteFormatted() {
-        return parseDateInSQLiteFormat(getCurrentTime());
+        return formatDateInSQLiteFormat(getCurrentTime());
     }
 
-    public static String parseDateInSQLiteFormat(Date date) {
+    public static String formatDateInSQLiteFormat(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(SQL_LITE_DATE_FORMAT, Locale.US);
         return dateFormat.format(date);
+    }
+
+    public static Date parseDateFromSQLiteFormat(String dateString) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(SQL_LITE_DATE_FORMAT, Locale.US);
+        Date date = null;
+        try {
+            //trying to parse date from SQLite format
+            date = simpleDateFormat.parse(dateString);
+        } catch (ParseException e) {
+            //exception while parsing date, log it
+            MyDebugger.log("ParseException in parseDateFromSQLiteFormat()", e.getMessage());
+            e.printStackTrace();
+        }
+        return date;
     }
 
     private static Date getCurrentTime() {

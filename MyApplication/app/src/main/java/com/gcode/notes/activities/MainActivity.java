@@ -25,6 +25,7 @@ import com.gcode.notes.activities.helpers.main.MainActivityResultHandler;
 import com.gcode.notes.activities.helpers.main.MainRecyclerViewHelper;
 import com.gcode.notes.activities.helpers.main.MainToolbarHelper;
 import com.gcode.notes.activities.helpers.main.NavigationDrawerHelper;
+import com.gcode.notes.activities.helpers.main.ReminderNotificationStartHelper;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.extras.values.Keys;
@@ -104,15 +105,28 @@ public class MainActivity extends AppCompatActivity {
 
         handleScreenRotation(savedInstanceState);
 
-        setupStartState();
+        setup();
 
         if (savedInstanceState == null) {
             //app is ran for first time delete expired notes
             new DeleteExpiredNotesTask().execute();
         }
+
+        checkIfStartedFromReminderNotification(); //!NOTE: must be before handleScreenRotation(), cuz there getIntent() is set correctly,
+        //else will result in bug (opening always display activity on screen rotation)
     }
 
-    private void setupStartState() {
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        ReminderNotificationStartHelper.handleIntent(this, intent);
+    }
+
+    private void checkIfStartedFromReminderNotification() {
+        ReminderNotificationStartHelper.handleIntent(this, getIntent());
+    }
+
+    private void setup() {
         final DrawerOptionExecutor drawerOptionExecutor = new DrawerOptionExecutor(this);
         MainToolbarHelper mainToolbarHelper = new MainToolbarHelper(this);
         NavigationDrawerHelper navigationDrawerHelper = new NavigationDrawerHelper(this, drawerOptionExecutor);
@@ -134,6 +148,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleScreenRotation(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
+            setIntent(null); //start from notification has been consumed, set intent to null, so getIntent() will be null
+            //and it won't start display activity again
+
             mSelectedId = savedInstanceState.getInt(Keys.STATE_SELECTED_POSITION);
             mSubMenuOpened = savedInstanceState.getBoolean(Keys.STATE_SUB_MENU_OPENED);
         }

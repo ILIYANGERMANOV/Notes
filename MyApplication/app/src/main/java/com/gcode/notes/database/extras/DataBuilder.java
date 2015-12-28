@@ -11,7 +11,7 @@ import com.gcode.notes.extras.values.Constants;
 
 import java.util.ArrayList;
 
-public class Builder {
+public class DataBuilder {
     public static ArrayList<ContentBase> buildItemList(SQLiteDatabase mDatabase, Cursor cursor) {
         ArrayList<ContentBase> mNotesList = new ArrayList<>();
 
@@ -19,10 +19,10 @@ public class Builder {
             ContentBase currentItem;
             if (Extractor.getItemType(cursor) == Constants.TYPE_NOTE) {
                 //NoteData
-                currentItem = Builder.buildNoteData(mDatabase, cursor);
+                currentItem = DataBuilder.buildNoteData(mDatabase, cursor);
             } else {
                 //ListData
-                currentItem = Builder.buildListData(mDatabase, cursor);
+                currentItem = DataBuilder.buildListData(mDatabase, cursor);
             }
             mNotesList.add(currentItem);
         }
@@ -36,9 +36,9 @@ public class Builder {
         ContentBase contentBase = null;
         if (cursor.moveToFirst()) {
             if (Extractor.getItemType(cursor) == Constants.TYPE_NOTE) {
-                contentBase = Builder.buildNoteData(database, cursor);
+                contentBase = DataBuilder.buildNoteData(database, cursor);
             } else {
-                contentBase = Builder.buildListData(database, cursor);
+                contentBase = DataBuilder.buildListData(database, cursor);
             }
         }
 

@@ -27,16 +27,25 @@ public class UpdateHelper {
         return database.update(ContentEntry.TABLE_NAME, contentValues, SelectQueries.whereClauseContentId, getContentBaseIdStringArray(contentBase));
     }
 
-    public static int updateNoteMode(SQLiteDatabase database, ContentBase contentBase, int newMode) {
+    public static int updateNoteReminder(SQLiteDatabase database, ContentBase contentBase) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(ContentEntry.COLUMN_NAME_MODE, newMode);
-        return database.update(ContentEntry.TABLE_NAME, contentValues, SelectQueries.whereClauseContentId, getContentBaseIdStringArray(contentBase));
+        contentValues.put(ContentEntry.COLUMN_NAME_REMINDER, contentBase.getReminder());
+        return database.update(ContentEntry.TABLE_NAME, contentValues,
+                SelectQueries.whereClauseContentId, getContentBaseIdStringArray(contentBase));
+    }
+
+    public static int updateNoteMode(SQLiteDatabase database, ContentBase contentBase) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ContentEntry.COLUMN_NAME_MODE, contentBase.getMode());
+        return database.update(ContentEntry.TABLE_NAME, contentValues,
+                SelectQueries.whereClauseContentId, getContentBaseIdStringArray(contentBase));
     }
 
     public static int updateNoteOrderId(SQLiteDatabase database, ContentBase contentBase, int newId) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(ContentEntry.COLUMN_NAME_ORDER_ID, newId);
-        return database.update(ContentEntry.TABLE_NAME, contentValues, SelectQueries.whereClauseContentId, getContentBaseIdStringArray(contentBase));
+        return database.update(ContentEntry.TABLE_NAME, contentValues,
+                SelectQueries.whereClauseContentId, getContentBaseIdStringArray(contentBase));
     }
 
     public static int updateNote(SQLiteDatabase database, ContentBase contentBase) {

@@ -4,6 +4,10 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
 
     <application
         android:name=".notes.MyApplication"
@@ -45,6 +49,20 @@
         <activity
             android:name=".activities.display.list.DisplayListBinActivity"
             android:label="@string/title_activity_display_list" />
+
+        <service
+            android:name=".services.ReminderService"
+            android:exported="false" />
+
+        <service
+            android:name=".services.ResetAlarmsService"
+            android:exported="false" />
+
+        <receiver android:name=".receiver.BootWakefulBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

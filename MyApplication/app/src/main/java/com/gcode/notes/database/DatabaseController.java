@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.gcode.notes.data.note.base.ContentBase;
 import com.gcode.notes.data.note.list.ListData;
-import com.gcode.notes.database.extras.Builder;
+import com.gcode.notes.database.extras.DataBuilder;
 import com.gcode.notes.database.extras.DeleteHelper;
 import com.gcode.notes.database.extras.InsertHelper;
 import com.gcode.notes.database.extras.UpdateHelper;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class DatabaseController {
     private SQLiteDatabase mDatabase;
 
-    //TODO: optimize memory consumption by replacing NO_REMINDER and NO_EXPIRATION date with null
+    //TODO: optimize memory consumption by replacing NO_REMINDER,NO_EXPIRATION_DATE and NO_LOCATION with null
 
     public DatabaseController(Context context) {
         NotesDbHelper mHelper = new NotesDbHelper(context);
@@ -29,44 +29,49 @@ public class DatabaseController {
     //GETTERS ----------------------------------------------------------------------------------------------------------
     public ArrayList<ContentBase> getAllVisibleNotes() {
         Cursor cursor = getCursorForAllItemsFromContentForModes(Constants.MODE_NORMAL, Constants.MODE_IMPORTANT);
-        return Builder.buildItemList(mDatabase, cursor);
+        return DataBuilder.buildItemList(mDatabase, cursor);
     }
 
     public ContentBase getLastVisibleNote() {
         Cursor cursor = getCursorForLastItemFromContentForMode(Constants.MODE_NORMAL, Constants.MODE_IMPORTANT);
-        return Builder.buildSingleItem(mDatabase, cursor);
+        return DataBuilder.buildSingleItem(mDatabase, cursor);
     }
 
     public ArrayList<ContentBase> getAllImportantNotes() {
         Cursor cursor = getCursorForAllItemsFromContentForModes(Constants.MODE_IMPORTANT);
-        return Builder.buildItemList(mDatabase, cursor);
+        return DataBuilder.buildItemList(mDatabase, cursor);
     }
 
     public ContentBase getLastImportantNote() {
         Cursor cursor = getCursorForLastItemFromContentForMode(Constants.MODE_IMPORTANT);
-        return Builder.buildSingleItem(mDatabase, cursor);
+        return DataBuilder.buildSingleItem(mDatabase, cursor);
     }
 
     public ArrayList<ContentBase> getAllPrivateNotes() {
         Cursor cursor = getCursorForAllItemsFromContentForModes(Constants.MODE_PRIVATE);
-        return Builder.buildItemList(mDatabase, cursor);
+        return DataBuilder.buildItemList(mDatabase, cursor);
+    }
+
+    public ArrayList<ContentBase> getAllNotesWithReminder() {
+        Cursor cursor = getCursorForAllNoteWithReminder();
+        return DataBuilder.buildItemList(mDatabase, cursor);
     }
 
     public ContentBase getLastPrivateNote() {
         Cursor cursor = getCursorForLastItemFromContentForMode(Constants.MODE_PRIVATE);
-        return Builder.buildSingleItem(mDatabase, cursor);
+        return DataBuilder.buildSingleItem(mDatabase, cursor);
     }
 
     public ArrayList<ContentBase> getAllDeletedNotes() {
         Cursor cursor = getCursorForAllItemsFromContentForModes(Constants.MODE_DELETED_NORMAL,
                 Constants.MODE_DELETED_IMPORTANT);
-        return Builder.buildItemList(mDatabase, cursor);
+        return DataBuilder.buildItemList(mDatabase, cursor);
     }
 
     public ContentBase getLastDeletedNote() {
         Cursor cursor = getCursorForLastItemFromContentForMode(Constants.MODE_DELETED_NORMAL,
                 Constants.MODE_DELETED_IMPORTANT);
-        return Builder.buildSingleItem(mDatabase, cursor);
+        return DataBuilder.buildSingleItem(mDatabase, cursor);
     }
     //GETTERS ----------------------------------------------------------------------------------------------------------
 
@@ -82,8 +87,12 @@ public class DatabaseController {
     //INSERTS--------------------------------------------------------------------------------------------------
 
     //UPDATES------------------------------------------------------------------------------------------------------
+    public void updateNoteReminder(ContentBase contentBase) {
+        UpdateHelper.updateNoteReminder(mDatabase, contentBase);
+    }
+
     public void updateNoteMode(ContentBase contentBase) {
-        UpdateHelper.updateNoteMode(mDatabase, contentBase, contentBase.getMode());
+        UpdateHelper.updateNoteMode(mDatabase, contentBase);
     }
 
     public boolean deleteNote(ContentBase contentBase) {
@@ -146,7 +155,7 @@ public class DatabaseController {
 
     public boolean deleteExpiredNotes() {
         Cursor cursor = mDatabase.rawQuery(SelectQueries.SELECT_ALL_EXPIRED_NOTES, null);
-        return DeleteHelper.deleteNotesList(mDatabase, Builder.buildItemList(mDatabase, cursor));
+        return DeleteHelper.deleteNotesList(mDatabase, DataBuilder.buildItemList(mDatabase, cursor));
     }
 
     public boolean deleteNoteFromBin(ContentBase note) {
@@ -175,6 +184,13 @@ public class DatabaseController {
         return mDatabase.rawQuery(
                 SelectQueries.selectLastItemFromContentForModes(modes.length, modes[0] != Constants.MODE_DELETED_NORMAL),
                 SelectQueries.buildSelectionArgs(modes)
+        );
+    }
+
+    private Cursor getCursorForAllNoteWithReminder() {
+        return mDatabase.rawQuery(
+                SelectQueries.SELECT_ALL_NOTES_WITH_REMINDER,
+                null
         );
     }
 }

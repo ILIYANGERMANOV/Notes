@@ -82,6 +82,9 @@ public class Constants {
     public static final String EXTRA_HOUR = "hour_extra";
     public static final String EXTRA_MINUTE = "minute_extra";
 
+    //extras for reminder notification
+    public static final String EXTRA_FROM_REMINDER_NOTIFICATION = "from_reminder_notification_extra";
+    public static final String EXTRA_TYPE = "type_extra";
 
 
     public static final int MAX_LIST_ITEMS_TO_DISPLAY = 5;

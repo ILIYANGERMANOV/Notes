@@ -10,6 +10,8 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.gcode.notes.R;
+import com.gcode.notes.data.note.base.ContentBase;
+import com.gcode.notes.extras.utils.AlarmUtils;
 import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.extras.values.Tags;
@@ -24,6 +26,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -65,6 +68,7 @@ public class ComposeReminderFragment extends Fragment {
     public DatePickerOnDateSetListener mDatePickerOnDateSetListener;
     public TimePickerOnTimeSetListener mTimePickerOnTimeSetListener;
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,16 +78,27 @@ public class ComposeReminderFragment extends Fragment {
         mTimePickerOnTimeSetListener = new TimePickerOnTimeSetListener(this);
 
         if (savedInstanceState == null) {
-            //set default values
-            Calendar calendar = Calendar.getInstance();
+            //set default values, mIsReminderSet to false and year,month and etc to current datetime
             mIsReminderSet = false;
-            mYear = calendar.get(Calendar.YEAR);
-            mMonthOfYear = calendar.get(Calendar.MONTH);
-            mDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-            mHour = calendar.get(Calendar.HOUR);
-            mMinute = calendar.get(Calendar.MINUTE);
+            Calendar calendar = Calendar.getInstance();
+            try {
+                //try to get the current datetime from calendar
+                mYear = calendar.get(Calendar.YEAR);
+                mMonthOfYear = calendar.get(Calendar.MONTH);
+                mDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                mHour = calendar.get(Calendar.HOUR_OF_DAY);
+                mMinute = calendar.get(Calendar.MINUTE);
+            } catch (Exception e) {
+                //exception while getting the current datetime, try to get them through Date
+                Date date = new Date();
+                mYear = date.getYear();
+                mMonthOfYear = date.getMonth();
+                mDayOfMonth = date.getDay();
+                mHour = date.getHours();
+                mMinute = date.getMinutes();
+            }
         } else {
-            //use values from previous state
+            //use values from previous state (fragment after screen rotation)
             mIsReminderSet = savedInstanceState.getBoolean(Constants.EXTRA_IS_REMINDER_SET, false);
             mYear = savedInstanceState.getInt(Constants.EXTRA_YEAR);
             mMonthOfYear = savedInstanceState.getInt(Constants.EXTRA_MONTH);
@@ -97,7 +112,7 @@ public class ComposeReminderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.compose_reminder_layout, container, true);
         ButterKnife.bind(this, view);
-        setup();
+        setup(); //setups button listeners, style and texts; show/hide reminder layout
         return view;
     }
 
@@ -105,18 +120,18 @@ public class ComposeReminderFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        //MaterialPickerDialogs listeners (callbacks) are lost after pause() so reset them if dialogs are created
         DatePickerDialog datePickerDialog =
                 (DatePickerDialog) getActivity().getFragmentManager().findFragmentByTag(Tags.DATE_PICKER_DIALOG_TAG);
         TimePickerDialog timePickerDialog =
                 (TimePickerDialog) getActivity().getFragmentManager().findFragmentByTag(Tags.TIME_PICKER_DIALOG_TAG);
 
+        //MaterialPickerDialogs listeners (callbacks) are lost after pause() so reset them if dialogs are created
         if (datePickerDialog != null) {
-            //dialog is created
+            //dialog is probably showing, reset its listener
             datePickerDialog.setOnDateSetListener(mDatePickerOnDateSetListener); //reset listener
         }
         if (timePickerDialog != null) {
-            //dialog is created
+            //dialog is probably showing, reset its listener
             timePickerDialog.setOnTimeSetListener(mTimePickerOnTimeSetListener); //reset listener
         }
     }
@@ -126,15 +141,24 @@ public class ComposeReminderFragment extends Fragment {
      */
     public String getReminder() {
         if (mIsReminderSet) {
-            //there is set reminder, return its date
-            Calendar calendar = Calendar.getInstance();
-            calendar.clear();
-            calendar.set(mYear, mMonthOfYear, mDayOfMonth, mHour, mMinute);
-            return DateUtils.parseDateInSQLiteFormat(calendar.getTime()); //return reminder date as string in SQLite format
+            //there is set reminder, return its date in SQLite format
+            //!NOTE: reminder should be always in SQLite format cuz its directly inserted in db without reformatting
+            return DateUtils.formatDateInSQLiteFormat(getCalendarForSelectedDateTime().getTime()); //return reminder date as string in SQLite format
         } else {
             //there is no reminder set, return null
             return Constants.NO_REMINDER;
         }
+    }
+
+    public void setAlarmForReminder(ContentBase contentBase) {
+        long when = getCalendarForSelectedDateTime().getTimeInMillis(); // notification time
+        AlarmUtils.setAlarm(getContext(), contentBase, when);
+    }
+
+    public void updateButtonsText() {
+        //sets buttons' text
+        mTimeButton.setText(DateUtils.formatTime(getContext(), mHour, mMinute));
+        mDateButton.setText(DateUtils.formatDate(mYear, mMonthOfYear, mDayOfMonth));
     }
 
     public void showReminder() {
@@ -149,6 +173,13 @@ public class ComposeReminderFragment extends Fragment {
         mSetReminderButton.setVisibility(View.VISIBLE);
     }
 
+    private Calendar getCalendarForSelectedDateTime() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.set(mYear, mMonthOfYear, mDayOfMonth, mHour, mMinute);
+        return calendar;
+    }
+
     private void setup() {
         mSetReminderButton.setOnClickListener(new SetReminderButtonOnClickListener(this));
         mDateButton.setOnClickListener(new DateButtonOnClickListener(this));
@@ -159,9 +190,7 @@ public class ComposeReminderFragment extends Fragment {
         PaintFlagsHelper.setUnderline(mTimeButton);
         PaintFlagsHelper.setUnderline(mDateButton);
 
-        //sets buttons' text
-        mTimeButton.setText(DateUtils.formatTime(getContext(), mHour, mMinute));
-        mDateButton.setText(DateUtils.formatDate(mYear, mMonthOfYear, mDayOfMonth));
+        updateButtonsText();
 
         if (mIsReminderSet) {
             //reminder is set, show it
