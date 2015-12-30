@@ -7,7 +7,6 @@ import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
 import com.gcode.notes.activities.helpers.compose.ComposeBaseSaveHelper;
 import com.gcode.notes.data.note.NoteData;
 import com.gcode.notes.extras.MyDebugger;
-import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
@@ -17,13 +16,22 @@ public class ComposeNoteSaveHelper {
     public static void saveNote(ComposeNoteActivity composeNoteActivity) {
         NoteData mNoteData = composeNoteActivity.mNoteData;
 
+        if (!composeNoteActivity.mIsOpenedInEditMode) {
+            //!NOTE contentBase type must be set before ComposeBaseSaveHelper#saveBase() cuz reminder won't be set correctly
+            //when it is new note
+            mNoteData.setType(Constants.TYPE_NOTE); //sets contentBase type to note
+        }
         mNoteData.setDescription(composeNoteActivity.getDescriptionEditText().getText().toString()); //set description here, before its used in isValidNote()
         //images are already added (adapter uses same list as adapter, so removing/adding will result mNoteData, too)
         //if has audio is already set in setupFromAudio or delete in DeleteAudioCallback
 
-        ComposeBaseSaveHelper.saveBase(composeNoteActivity, mNoteData); //call it before isValidNote(), cuz title is used in validation
+        boolean hadValidTitleBeforeSaveBase = ComposeBaseSaveHelper.saveBase(composeNoteActivity, mNoteData);
+        //!NOTE ComposeBaseSaveHelper#saveBase() returns boolean which indicates whether the title was valid
+        //used cuz in ComposeBaseSaveHelper#saveBase()
+        //if title isn't valid will be generated and this will result in saving not valid notes
+        //cuz noteData#isValidNote will always return true
 
-        if (mNoteData.isValidNote()) {
+        if (mNoteData.isValidNote(hadValidTitleBeforeSaveBase)) {
             Intent resultIntent = composeNoteActivity.mResultIntent;
             if (!composeNoteActivity.mIsOpenedInEditMode) {
                 //new note
@@ -37,7 +45,6 @@ public class ComposeNoteSaveHelper {
                 }
             } else {
                 //update existing note
-                mNoteData.setLastModifiedDate(DateUtils.getCurrentTimeSQLiteFormatted());
                 if (MyApplication.getWritableDatabase().updateNote(mNoteData)) {
                     resultIntent.putExtra(Constants.NOTE_UPDATED_SUCCESSFULLY, true);
                     resultIntent.putExtra(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(mNoteData));

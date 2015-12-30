@@ -9,10 +9,16 @@ import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
 
 public class SelectQueries {
-    private static final String ORDER_BY_EXPIRATION_DATE =
-            "datetime(" + ContentEntry.COLUMN_NAME_EXPIRATION_DATE + ")";
+    //TODO: refactor and optimize
+    private static final String SELECT = "SELECT ";
     private static final String SELECT_ALL_FROM = "SELECT * FROM ";
     private static final String WHERE = " WHERE ";
+    private static final String FROM = " FROM ";
+    private static final String ORDER_BY_EXPIRATION_DATE =
+            "datetime(" + ContentEntry.COLUMN_NAME_EXPIRATION_DATE + ")";
+
+    private static final String ORDER_BY = " ORDER BY ";
+    private static final String DESC_LIMIT_1 = " DESC LIMIT 1";
 
     public static final String EQUALS_TO = " = ?";
     public static final String NOT_EQUALS = " != ";
@@ -42,8 +48,8 @@ public class SelectQueries {
     public static String whereClauseListId = ListEntry._ID + EQUALS_TO;
 
     public static String selectLastRowIdForTable(String tableName) {
-        return "SELECT " + BaseColumns._ID + " FROM " + tableName +
-                " ORDER BY " + BaseColumns._ID + " DESC LIMIT 1";
+        return SELECT + BaseColumns._ID + FROM + tableName +
+                ORDER_BY + BaseColumns._ID + DESC_LIMIT_1;
     }
 
     public static String selectLastItemFromContentForModes(int argsCount, boolean orderByOrderId) {

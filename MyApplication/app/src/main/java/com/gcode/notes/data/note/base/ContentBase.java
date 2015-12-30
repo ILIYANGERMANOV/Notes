@@ -76,6 +76,18 @@ public abstract class ContentBase {
         this.targetId = targetId;
     }
 
+    public boolean hasCreationDate() {
+        return !contentDetails.getCreationDate().equals(Constants.NO_DATE);
+    }
+
+    public String getCreationDate() {
+        return contentDetails.getCreationDate();
+    }
+
+    public void setCreationDate(String creationDate) {
+        contentDetails.setCreationDate(creationDate);
+    }
+
     public String getLastModifiedDate() {
         return contentDetails.getLastModifiedDate();
     }

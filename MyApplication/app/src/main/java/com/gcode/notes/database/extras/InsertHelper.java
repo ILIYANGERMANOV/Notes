@@ -3,45 +3,44 @@ package com.gcode.notes.database.extras;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.gcode.notes.data.note.NoteData;
 import com.gcode.notes.data.note.base.ContentBase;
 import com.gcode.notes.data.note.list.ListData;
-import com.gcode.notes.data.note.NoteData;
 import com.gcode.notes.database.NotesContract.ContentEntry;
 import com.gcode.notes.database.NotesContract.ListEntry;
 import com.gcode.notes.database.NotesContract.NoteEntry;
 import com.gcode.notes.extras.MyDebugger;
-import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 
 public class InsertHelper {
 
-    public static long insertNote(SQLiteDatabase mDatabase, ContentBase contentBase) {
+    public static long insertNote(SQLiteDatabase database, ContentBase contentBase) {
         if (contentBase.getHasAttributesFlag()) {
             if (contentBase.getType() == Constants.TYPE_NOTE) {
-                insertAttributesInNote(mDatabase, contentBase);
+                insertAttributesInNote(database, contentBase);
             } else {
-                insertAttributesInList(mDatabase, contentBase);
+                insertAttributesInList(database, contentBase);
             }
         }
 
-        return insertMainContent(mDatabase, contentBase);
+        return insertMainContent(database, contentBase);
     }
 
-    private static long insertMainContent(SQLiteDatabase mDatabase, ContentBase contentBase) {
+    private static long insertMainContent(SQLiteDatabase database, ContentBase contentBase) {
         ContentValues contentValues = new ContentValues();
 
         if (contentBase.getHasAttributesFlag()) {
             //target id - the id corresponding in the relevant attribute table (Notes/Lists),
             // which is already inserted successfully for the current item
             String tableName = contentBase.getType() == Constants.TYPE_NOTE ? NoteEntry.TABLE_NAME : ListEntry.TABLE_NAME;
-            contentValues.put(ContentEntry.COLUMN_NAME_TARGET_ID, Selector.getLastRowFromTable(mDatabase, tableName));
+            contentValues.put(ContentEntry.COLUMN_NAME_TARGET_ID, Selector.getLastRowIdFromTable(database, tableName));
         } else {
             //note hasn't attributes, set TARGET_ID to NO_VALUE
             contentValues.put(ContentEntry.COLUMN_NAME_TARGET_ID, Constants.NO_VALUE);
         }
 
-        contentValues.put(ContentEntry.COLUMN_NAME_ORDER_ID, Selector.getFirstOrNextIdFromContent(mDatabase));
+        contentValues.put(ContentEntry.COLUMN_NAME_ORDER_ID, Selector.getFirstOrNextIdFromContent(database));
         contentValues.put(ContentEntry.COLUMN_NAME_TITLE, contentBase.getTitle());
         contentValues.put(ContentEntry.COLUMN_NAME_MODE, contentBase.getMode());
         contentValues.put(ContentEntry.COLUMN_NAME_TYPE, contentBase.getType());
@@ -49,11 +48,11 @@ public class InsertHelper {
         contentValues.put(ContentEntry.COLUMN_NAME_REMINDER, contentBase.getReminder()); //reminder is already is in SQLite format
         //TODO: add legit location
         contentValues.put(ContentEntry.COLUMN_NAME_LOCATION, Constants.NO_LOCATION);
-        contentValues.put(ContentEntry.COLUMN_NAME_CREATION_DATE, DateUtils.getCurrentTimeSQLiteFormatted());
-        contentValues.put(ContentEntry.COLUMN_NAME_LAST_MODIFIED_DATE, DateUtils.getCurrentTimeSQLiteFormatted());
+        contentValues.put(ContentEntry.COLUMN_NAME_CREATION_DATE, contentBase.getCreationDate());
+        contentValues.put(ContentEntry.COLUMN_NAME_LAST_MODIFIED_DATE, contentBase.getLastModifiedDate());
         contentValues.put(ContentEntry.COLUMN_NAME_EXPIRATION_DATE, Constants.NO_DATE);
 
-        return mDatabase.insert(ContentEntry.TABLE_NAME, null, contentValues);
+        return database.insert(ContentEntry.TABLE_NAME, null, contentValues);
     }
 
     public static void insertAttributesInNote(SQLiteDatabase database, ContentBase contentBase) {

@@ -8,7 +8,9 @@ import android.content.Intent;
 import com.gcode.notes.data.note.NoteData;
 import com.gcode.notes.data.note.base.ContentBase;
 import com.gcode.notes.data.note.list.ListData;
+import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
+import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
 import com.gcode.notes.services.ReminderService;
 
@@ -17,12 +19,21 @@ public class AlarmUtils {
         Intent intent = new Intent(context, ReminderService.class);
         int type = contentBase.getType();
         intent.putExtra(Constants.EXTRA_TYPE, type);
-        if (type == Constants.TYPE_NOTE) {
-            //serialize and put extra note data
-            intent.putExtra(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(((NoteData) contentBase)));
-        } else {
-            //serialize and put extra list data
-            intent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(((ListData) contentBase)));
+        switch (type) {
+            case Constants.TYPE_NOTE:
+                //serialize and put extra note data
+                intent.putExtra(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(((NoteData) contentBase)));
+                break;
+            case Constants.TYPE_LIST:
+                //serialize and put extra list data
+                intent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(((ListData) contentBase)));
+                break;
+            default:
+                //unknown type, log it, remove reminder and prevent further execution
+                MyDebugger.log("setAlarm() unknown type", type);
+                contentBase.setReminder(Constants.NO_REMINDER);
+                MyApplication.getWritableDatabase().updateNoteReminder(contentBase);
+                return;
         }
 
         PendingIntent pendingIntent = PendingIntent.getService(context, contentBase.getId(), //use contentBase's id, cuz it is unique and it used later for canceling alarms

@@ -1,11 +1,12 @@
 package com.gcode.notes.database.extras;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.gcode.notes.data.note.NoteData;
 import com.gcode.notes.data.note.base.ContentBase;
 import com.gcode.notes.data.note.list.ListData;
-import com.gcode.notes.data.note.NoteData;
 import com.gcode.notes.database.NotesContract.ContentEntry;
 import com.gcode.notes.database.NotesContract.ListEntry;
 import com.gcode.notes.database.NotesContract.NoteEntry;
@@ -18,11 +19,11 @@ import com.gcode.notes.serialization.Serializer;
 public class UpdateHelper {
 
     public static int updateNoteModeAndExpirationDate(SQLiteDatabase database, ContentBase contentBase,
-                                                      int newMode, boolean hasExpirationDate) {
+                                                      int newMode, boolean setExpire) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(ContentEntry.COLUMN_NAME_MODE, newMode);
-        String expirationDate = hasExpirationDate ? DateUtils.getExpirationDate() : Constants.NO_DATE;
+        String expirationDate = setExpire ? DateUtils.getExpirationDate() : Constants.NO_DATE;
         contentValues.put(ContentEntry.COLUMN_NAME_EXPIRATION_DATE, expirationDate);
         return database.update(ContentEntry.TABLE_NAME, contentValues, SelectQueries.whereClauseContentId, getContentBaseIdStringArray(contentBase));
     }
@@ -48,11 +49,14 @@ public class UpdateHelper {
                 SelectQueries.whereClauseContentId, getContentBaseIdStringArray(contentBase));
     }
 
-    public static int updateNote(SQLiteDatabase database, ContentBase contentBase) {
+    public static int updateNote(Context context, SQLiteDatabase database, ContentBase contentBase) {
         int affectedRows = 0;
-        affectedRows += updateBaseContent(database, contentBase);
-        if (affectedRows == 0) {
+        affectedRows += updateBaseContent(database, contentBase); //returns <= 0 on fail
+        if (affectedRows <= 0) {
+            //unrecoverable error happened while updating base content, log it, inform the user and cancel update
             MyDebugger.log("updatingBaseContent failed.");
+            MyDebugger.toast(context, "Fatal error while updating note.");
+            return Constants.DATABASE_ERROR;
         }
 
         if (contentBase.getType() == Constants.TYPE_NOTE) {
@@ -84,18 +88,26 @@ public class UpdateHelper {
         contentValues.put(ContentEntry.COLUMN_NAME_REMINDER, contentBase.getReminder());
         if (contentBase.getTargetId() == Constants.NO_VALUE) {
             if (contentBase.getHasAttributesFlag()) {
-                //targetId isn't set so, there is now row for attributes; insert it now
+                //targetId isn't set so, there is no row for attributes; insert it now
                 if (contentBase.getType() == Constants.TYPE_NOTE) {
-                    InsertHelper.insertAttributesInNote(database, contentBase);
+                    InsertHelper.insertAttributesInNote(database, contentBase); //on fail setHasAttributesFlag to false
                 } else {
-                    InsertHelper.insertAttributesInList(database, contentBase);
+                    InsertHelper.insertAttributesInList(database, contentBase); //on fail setHasAttributesFlag to false
                 }
 
-                //target id - the id corresponding in the relevant attribute table (Notes/Lists),
-                // which is already inserted successfully for the current item
-                String tableName = contentBase.getType() == Constants.TYPE_NOTE ? NoteEntry.TABLE_NAME : ListEntry.TABLE_NAME;
-                contentBase.setTargetId(Selector.getLastRowFromTable(database, tableName));
-                contentValues.put(ContentEntry.COLUMN_NAME_TARGET_ID, contentBase.getTargetId());
+                if (contentBase.getHasAttributesFlag()) {
+                    //Check whether attributes were inserted successfully
+                    //target id - the id corresponding in the relevant attribute table (Notes/Lists),
+                    // which attribute is already inserted successfully into attribute table for the current item,
+                    //so there is no chance to have issues with wrong value from getLastRowIdFromTable() for empty table
+                    String tableName = contentBase.getType() == Constants.TYPE_NOTE ? NoteEntry.TABLE_NAME : ListEntry.TABLE_NAME;
+                    contentBase.setTargetId(Selector.getLastRowIdFromTable(database, tableName));
+                    contentValues.put(ContentEntry.COLUMN_NAME_TARGET_ID, contentBase.getTargetId());
+                } else {
+                    //unrecoverable error, log it and prevent further procedure
+                    MyDebugger.log("updateBaseContent() failed to insert attributes!");
+                    return Constants.DATABASE_ERROR;
+                }
             }
         }
 

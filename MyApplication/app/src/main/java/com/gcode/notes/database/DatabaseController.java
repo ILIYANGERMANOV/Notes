@@ -9,6 +9,7 @@ import com.gcode.notes.data.note.list.ListData;
 import com.gcode.notes.database.extras.DataBuilder;
 import com.gcode.notes.database.extras.DeleteHelper;
 import com.gcode.notes.database.extras.InsertHelper;
+import com.gcode.notes.database.extras.Selector;
 import com.gcode.notes.database.extras.UpdateHelper;
 import com.gcode.notes.database.extras.Validator;
 import com.gcode.notes.database.extras.queries.SelectQueries;
@@ -17,11 +18,13 @@ import com.gcode.notes.extras.values.Constants;
 import java.util.ArrayList;
 
 public class DatabaseController {
+    private Context mContext;
     private SQLiteDatabase mDatabase;
 
     //TODO: optimize memory consumption by replacing NO_REMINDER,NO_EXPIRATION_DATE and NO_LOCATION with null
 
     public DatabaseController(Context context) {
+        mContext = context;
         NotesDbHelper mHelper = new NotesDbHelper(context);
         mDatabase = mHelper.getWritableDatabase();
     }
@@ -77,7 +80,6 @@ public class DatabaseController {
 
     //INSERTS--------------------------------------------------------------------------------------------------
     public long insertNote(ContentBase contentBase) {
-        Validator.validateTitle(mDatabase, contentBase);
         mDatabase.beginTransaction();
         long newlyInsertedRow = InsertHelper.insertNote(mDatabase, contentBase);
         mDatabase.setTransactionSuccessful();
@@ -135,7 +137,7 @@ public class DatabaseController {
     }
 
     public boolean updateNote(ContentBase contentBase) {
-        return UpdateHelper.updateNote(mDatabase, contentBase) > 0;
+        return UpdateHelper.updateNote(mContext, mDatabase, contentBase) > 0;
     }
 
     public boolean updateListAttributes(ListData listData) {
@@ -162,6 +164,29 @@ public class DatabaseController {
         return DeleteHelper.deleteNote(mDatabase, note) != 0;
     }
     //DELETE------------------------------------------------------------------------------------------------------------
+
+
+    //OTHER-------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Validates note's title and if it is not okay, valid one is generate.
+     * For new notes (not existing) id is set accordingly.
+     *
+     * @param contentBase  note which id and title are validated
+     * @param existingNote whether the note already exists (is opened in edit mode)
+     */
+    public void validateNote(ContentBase contentBase, boolean existingNote) {
+        if (!existingNote) {
+            //new note, which is note inserted yet, so if everything runs correctly
+            //its id will be the next, get it and set it to content base so reminder can work correctly
+            contentBase.setId(Selector.getFirstOrNextIdFromContent(mDatabase));
+        }
+
+        //Title must be always validated, cuz even when updating note it can be deleted
+        //and this will result in reminder notification with empty title
+        Validator.validateTitle(mDatabase, contentBase, existingNote);
+    }
+    //OTHER-------------------------------------------------------------------------------------------------------------
 
     //PRIVATE----------------------------------------------------------------------------------------------------
 

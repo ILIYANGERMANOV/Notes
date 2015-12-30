@@ -32,8 +32,8 @@ public class ListData extends ContentBase {
                 reminderString, creationDate, lastModified, expirationDateString);
     }
 
-    public boolean isValidList() {
-        return hasValidTitle() || hasAttachedList();
+    public boolean isValidList(boolean hadValidTitleBeforeSaveBase) {
+        return hadValidTitleBeforeSaveBase || hasAttachedList();
     }
 
     /**

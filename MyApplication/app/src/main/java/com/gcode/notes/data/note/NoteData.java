@@ -53,8 +53,8 @@ public class NoteData extends ContentBase {
         return hasDescription() || hasAttachedImage() || hasAttachedAudio();
     }
 
-    public boolean isValidNote() {
-        return hasValidTitle() || hasAttributes();
+    public boolean isValidNote(boolean hadValidTitleBeforeSaveBase) {
+        return hadValidTitleBeforeSaveBase || hasAttributes();
     }
 
     public List<String> getAttachedImagesPaths() {

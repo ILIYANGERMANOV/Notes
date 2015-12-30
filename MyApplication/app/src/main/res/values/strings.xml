@@ -74,12 +74,15 @@
     <string name="delete_audio_from_note_negative_text">Cancel</string>
     <string name="open_image_progress_dialog_title">Opening image</string>
     <string name="open_image_progress_dialog_content">Opening image with default gallery app.</string>
-    
+
     <string name="main_to_display_transition_name">main_to_display</string>
 
     <string name="display_reminder_text_and_date">Reminder: %s</string>
     <string name="display_creation_date">Created on: %s</string>
     <string name="display_last_modified_date">Last modified: %s</string>
     <string name="display_expiration_date">Expires on: %s</string>
+
+    <string name="note">"Note "</string>
+    <string name="list">"List "</string>
 
 </resources>
