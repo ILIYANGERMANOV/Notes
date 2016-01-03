@@ -17,7 +17,8 @@ public class NoteDeletedSnackbarCallback extends Snackbar.Callback {
     int mPosition;
     NoteDeletedUndoOnClickListener mNoteDeletedUndoOnClickListener;
 
-    boolean mOnDismissedCalled;
+    boolean mOnDismissedCalled; //onDismissed is called multiple times (bug in snackbar),
+    //this flag is used to prevent this
 
     public NoteDeletedSnackbarCallback(MainAdapter adapter, ContentBase note,
                                        int position, NoteDeletedUndoOnClickListener noteDeletedUndoOnClickListener) {

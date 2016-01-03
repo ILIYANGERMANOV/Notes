@@ -1,4 +1,4 @@
-package com.gcode.notes.activities.helpers.main;
+package com.gcode.notes.activities.helpers.main.ui;
 
 import android.animation.ObjectAnimator;
 import android.content.Intent;

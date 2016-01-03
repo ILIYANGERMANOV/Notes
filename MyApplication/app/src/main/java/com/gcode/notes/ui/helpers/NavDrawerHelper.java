@@ -8,6 +8,10 @@ import com.gcode.notes.extras.values.Keys;
 import com.gcode.notes.extras.utils.MyUtils;
 
 public class NavDrawerHelper {
+    public static boolean isDrawerOpen(DrawerLayout drawerLayout) {
+        return drawerLayout.isDrawerOpen(GravityCompat.START);
+    }
+
     public static boolean didUserLearnedDrawer() {
         return MyUtils.readFromPreferences(Keys.PREF_USER_LEARNED_DRAWER, "false").equals("true");
 
@@ -17,11 +21,11 @@ public class NavDrawerHelper {
         MyUtils.saveToPreferences(Keys.PREF_USER_LEARNED_DRAWER, "true");
     }
 
-    public static void showDrawer(DrawerLayout drawerLayout) {
+    public static void openDrawer(DrawerLayout drawerLayout) {
         drawerLayout.openDrawer(GravityCompat.START);
     }
 
-    public static void hideDrawer(DrawerLayout drawerLayout) {
+    public static void closeDrawer(DrawerLayout drawerLayout) {
         drawerLayout.closeDrawer(GravityCompat.START);
     }
 }

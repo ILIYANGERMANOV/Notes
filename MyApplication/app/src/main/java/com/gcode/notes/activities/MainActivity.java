@@ -8,7 +8,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,27 +18,30 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.activities.helpers.main.DrawerOptionExecutor;
-import com.gcode.notes.activities.helpers.main.FloatingActionButtonHelper;
 import com.gcode.notes.activities.helpers.main.MainActivityResultHandler;
-import com.gcode.notes.activities.helpers.main.MainRecyclerViewHelper;
-import com.gcode.notes.activities.helpers.main.MainToolbarHelper;
-import com.gcode.notes.activities.helpers.main.NavigationDrawerHelper;
+import com.gcode.notes.activities.helpers.main.MainActivityRotationHandler;
 import com.gcode.notes.activities.helpers.main.ReminderNotificationStartHelper;
-import com.gcode.notes.controllers.BaseController;
+import com.gcode.notes.activities.helpers.main.actions.DrawerOptionExecutor;
+import com.gcode.notes.activities.helpers.main.actions.MainActivityBackPressHelper;
+import com.gcode.notes.activities.helpers.main.actions.MainActivityMenuOptionsHelper;
+import com.gcode.notes.activities.helpers.main.ui.FloatingActionButtonHelper;
+import com.gcode.notes.activities.helpers.main.ui.MainRecyclerViewHelper;
+import com.gcode.notes.activities.helpers.main.ui.MainToolbarHelper;
+import com.gcode.notes.activities.helpers.main.ui.NavigationDrawerHelper;
 import com.gcode.notes.extras.values.Constants;
-import com.gcode.notes.extras.values.Keys;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
-import com.gcode.notes.tasks.async.DeleteExpiredNotesTask;
-import com.gcode.notes.ui.ActionExecutor;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
-    //TODO: REFACTOR AND OPTIMIZE
     public static FloatingActionMenu mActionMenu;
+    public SimpleItemTouchHelperCallback mSimpleItemTouchHelperCallback = null;
+    public ActionBarDrawerToggle mDrawerToggle;
+    public int mSelectedId = R.id.navigation_item_all_notes;
+    public boolean mSubMenuOpened;
+    public Menu mMenu;
 
     @Bind(R.id.main_toolbar)
     Toolbar mToolbar;
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.main_notes_recycler_view_empty_text_view)
     TextView mRecyclerViewEmptyView;
 
+    //getters for layout components------------------------------------------------------------------------------------------
     public AppBarLayout getAppBarLayout() {
         return mAppBarLayout;
     }
@@ -89,12 +92,7 @@ public class MainActivity extends AppCompatActivity {
     public TextView getRecyclerViewEmptyView() {
         return mRecyclerViewEmptyView;
     }
-
-    public SimpleItemTouchHelperCallback mSimpleItemTouchHelperCallback = null;
-    public ActionBarDrawerToggle mDrawerToggle;
-    public int mSelectedId = R.id.navigation_item_all_notes;
-    public boolean mSubMenuOpened;
-    public Menu mMenu;
+    //getters for layout components------------------------------------------------------------------------------------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,57 +101,37 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        handleScreenRotation(savedInstanceState);
+        MainActivityRotationHandler.handleScreenRotation(this, savedInstanceState); //also deletes expired notes
+        // if app is ran for first time
 
         setup();
 
-        if (savedInstanceState == null) {
-            //app is ran for first time delete expired notes
-            new DeleteExpiredNotesTask().execute();
-        }
-
-        checkIfStartedFromReminderNotification(); //!NOTE: must be before handleScreenRotation(), cuz there getIntent() is set correctly,
+        //!NOTE: must be called after handleScreenRotation(), cuz there getIntent() is set correctly,
         //else will result in bug (opening always display activity on screen rotation)
+        ReminderNotificationStartHelper.handleIfStartedFromReminderNotifcation(this, getIntent());
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        ReminderNotificationStartHelper.handleIntent(this, intent);
-    }
-
-    private void checkIfStartedFromReminderNotification() {
-        ReminderNotificationStartHelper.handleIntent(this, getIntent());
+        ReminderNotificationStartHelper.handleIfStartedFromReminderNotifcation(this, intent);
     }
 
     private void setup() {
         final DrawerOptionExecutor drawerOptionExecutor = new DrawerOptionExecutor(this);
-        MainToolbarHelper mainToolbarHelper = new MainToolbarHelper(this);
-        NavigationDrawerHelper navigationDrawerHelper = new NavigationDrawerHelper(this, drawerOptionExecutor);
-        FloatingActionButtonHelper floatingActionButtonHelper = new FloatingActionButtonHelper(this);
-        MainRecyclerViewHelper mainRecyclerViewHelper = new MainRecyclerViewHelper(this);
 
-        mainToolbarHelper.setupToolbar();
-        navigationDrawerHelper.setupNavigationDrawer();
-        floatingActionButtonHelper.setupFloatingActionButtonMenu();
-        mainRecyclerViewHelper.setupRecyclerView();
+        new MainToolbarHelper(this).setupToolbar();
+        new NavigationDrawerHelper(this, drawerOptionExecutor).setupNavigationDrawer();
+        new FloatingActionButtonHelper(this).setupFloatingActionButtonMenu();
+        new MainRecyclerViewHelper(this).setupRecyclerView();
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                //delay it, cuz otherwise will result in crash (layout is not ready)
                 drawerOptionExecutor.applySelectedOption(mSelectedId, false);
             }
-        }, 10);
-    }
-
-    private void handleScreenRotation(Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            setIntent(null); //start from notification has been consumed, set intent to null, so getIntent() will be null
-            //and it won't start display activity again
-
-            mSelectedId = savedInstanceState.getInt(Keys.STATE_SELECTED_POSITION);
-            mSubMenuOpened = savedInstanceState.getBoolean(Keys.STATE_SUB_MENU_OPENED);
-        }
+        }, Constants.MINIMUM_DELAY);
     }
 
     @Override
@@ -165,62 +143,32 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(Keys.STATE_SELECTED_POSITION, mSelectedId);
-        outState.putBoolean(Keys.STATE_SUB_MENU_OPENED, mSubMenuOpened);
+        MainActivityRotationHandler.saveInstanceState(this, outState);
     }
 
     @Override
     public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(GravityCompat.START) || mActionMenu.isOpen()) {
-            if (mActionMenu.isOpen()) {
-                mActionMenu.close(true);
-            } else {
-                mDrawerLayout.closeDrawer(GravityCompat.START);
-            }
-        } else {
+        if (MainActivityBackPressHelper.handleBackPressedWhenDrawerOrFABMenuOpened(this)) {
+            //returns true, when super.onBackPressed() should be called
             super.onBackPressed();
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        mMenu = menu;
+        MainActivityMenuOptionsHelper.createOptionsMenu(this, menu);
         return true;
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (BaseController.getInstance().getControllerId() == Constants.CONTROLLER_BIN) {
-            if (menu.findItem(Constants.MENU_EMPTY_BIN) == null) {
-                menu.add(0, Constants.MENU_EMPTY_BIN, Menu.NONE, R.string.action_empty_bin).
-                        setIcon(R.drawable.ic_empty_bin_24dp).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-            }
-        } else {
-            menu.removeItem(Constants.MENU_EMPTY_BIN);
-        }
+        MainActivityMenuOptionsHelper.prepareOptionsMenu(menu);
         return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.action_settings:
-                return true;
-            case R.id.action_search:
-                return true;
-            case Constants.MENU_EMPTY_BIN:
-                ActionExecutor.emptyRecyclerBin(this);
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item) || MainActivityMenuOptionsHelper.optionsItemSelected(this, item);
     }
 
     @Override

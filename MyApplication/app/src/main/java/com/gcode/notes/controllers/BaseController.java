@@ -123,7 +123,6 @@ public class BaseController {
     }
 
     protected void onSetContentAnimation() {
-        //TODO: fix bug when deleted snackbar is showing and FAB goes invis and then is upper on main
         mAppBarLayout.setExpanded(true, mFab.getTranslationY() != 0);
     }
 

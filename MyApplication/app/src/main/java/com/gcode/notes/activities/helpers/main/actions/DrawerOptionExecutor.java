@@ -1,4 +1,4 @@
-package com.gcode.notes.activities.helpers.main;
+package com.gcode.notes.activities.helpers.main.actions;
 
 
 import android.content.Intent;
@@ -66,7 +66,7 @@ public class DrawerOptionExecutor {
                 return;
         }
 
-        BaseController.getInstance().setContent(notForFirstTime);
+        BaseController.getInstance().setContent(notForFirstTime); //changes main activity's recycler view, FAB according controller set
         if (mMainActivity.mMenu != null) {
             mMainActivity.onPrepareOptionsMenu(mMainActivity.mMenu);
         }

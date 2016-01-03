@@ -13,7 +13,7 @@ import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
 
 public class ReminderNotificationStartHelper {
-    public static void handleIntent(MainActivity mainActivity, Intent intent) {
+    public static void handleIfStartedFromReminderNotifcation(MainActivity mainActivity, Intent intent) {
         if (intent != null && intent.getBooleanExtra(Constants.EXTRA_FROM_REMINDER_NOTIFICATION, false)) {
             //!NOTE contentBase's reminder, so it wont duplicate
             //activity was started from reminder notification, start display activity according it extra data
