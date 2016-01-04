@@ -24,10 +24,11 @@ import com.gcode.notes.activities.helpers.main.ReminderNotificationStartHelper;
 import com.gcode.notes.activities.helpers.main.actions.DrawerOptionExecutor;
 import com.gcode.notes.activities.helpers.main.actions.MainActivityBackPressHelper;
 import com.gcode.notes.activities.helpers.main.actions.MainActivityMenuOptionsHelper;
-import com.gcode.notes.activities.helpers.main.ui.FloatingActionButtonHelper;
+import com.gcode.notes.activities.helpers.main.ui.fab.FabHelper;
 import com.gcode.notes.activities.helpers.main.ui.MainRecyclerViewHelper;
 import com.gcode.notes.activities.helpers.main.ui.MainToolbarHelper;
 import com.gcode.notes.activities.helpers.main.ui.NavigationDrawerHelper;
+import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
@@ -122,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
         new MainToolbarHelper(this).setupToolbar();
         new NavigationDrawerHelper(this, drawerOptionExecutor).setupNavigationDrawer();
-        new FloatingActionButtonHelper(this).setupFloatingActionButtonMenu();
+        new FabHelper(this).setupFloatingActionButtonMenu();
         new MainRecyclerViewHelper(this).setupRecyclerView();
 
         new Handler().postDelayed(new Runnable() {
@@ -149,8 +150,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (MainActivityBackPressHelper.handleBackPressedWhenDrawerOrFABMenuOpened(this)) {
-            //returns true, when super.onBackPressed() should be called
-            super.onBackPressed();
+            //returns true, when moveTaskToBack() should be called
+            moveTaskToBack(false);
         }
     }
 
