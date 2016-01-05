@@ -48,18 +48,69 @@
             android:text="There are no notes :/"
             android:visibility="gone" />
 
-        <!-- use right cuz 3rd party circular menu doesn't support RTL -->
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/main_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:src="@drawable/ic_open_white_24dp"
-            app:borderWidth="@dimen/fab_border_width"
-            app:elevation="6dp"
-            app:layout_behavior="com.gcode.notes.behaviours.ScrollingFABBehavior"
-            app:pressedTranslationZ="12dp" />
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/fab_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom|end"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            app:menu_backgroundColor="@color/fab_menu_background"
+            app:menu_colorNormal="@color/color_accent_pink"
+            app:menu_colorPressed="@color/color_accent_pink_dark"
+            app:menu_fab_size="normal"
+            app:menu_labels_colorNormal="@color/fab_menu_labels_color_normal"
+            app:menu_labels_colorPressed="@color/fab_menu_labels_color_pressed"
+            app:menu_labels_ellipsize="end"
+            app:menu_labels_position="left"
+            app:menu_labels_singleLine="true"
+            app:menu_labels_textColor="#212121">
+
+            <com.github.clans.fab.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="fabMenuItemClicked"
+                android:src="@drawable/ic_photo_camera_white_24dp"
+                android:tag="@string/fab_label_camera"
+                app:fab_colorNormal="@color/color_accent_pink"
+                app:fab_colorPressed="@color/color_accent_pink_dark"
+                app:fab_label="@string/fab_label_camera"
+                app:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="fabMenuItemClicked"
+                android:src="@drawable/ic_keyboard_voice_white_24dp"
+                android:tag="@string/fab_label_voice"
+                app:fab_colorNormal="@color/color_accent_pink"
+                app:fab_colorPressed="@color/color_accent_pink_dark"
+                app:fab_label="@string/fab_label_voice"
+                app:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="fabMenuItemClicked"
+                android:src="@drawable/ic_list_white_24dp"
+                android:tag="@string/fab_label_list"
+                app:fab_colorNormal="@color/color_accent_pink"
+                app:fab_colorPressed="@color/color_accent_pink_dark"
+                app:fab_label="@string/fab_label_list"
+                app:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="fabMenuItemClicked"
+                android:src="@drawable/ic_note_add_white_24dp"
+                android:tag="@string/fab_label_note"
+                app:fab_colorNormal="@color/color_accent_pink"
+                app:fab_colorPressed="@color/color_accent_pink_dark"
+                app:fab_label="@string/fab_label_note"
+                app:fab_size="mini" />
+        </com.github.clans.fab.FloatingActionMenu>
 
     </android.support.design.widget.CoordinatorLayout>
 

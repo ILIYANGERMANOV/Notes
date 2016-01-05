@@ -85,4 +85,9 @@
     <string name="note">"Note "</string>
     <string name="list">"List "</string>
 
+    <string name="fab_label_note">Text note</string>
+    <string name="fab_label_list">To-do list</string>
+    <string name="fab_label_voice">Speech to text</string>
+    <string name="fab_label_camera">Attach image</string>
+
 </resources>

@@ -27,7 +27,7 @@ public class DrawerOptionExecutor {
             case R.id.navigation_item_all_notes:
                 mMainActivity.mSelectedId = selectedId;
                 AllNotesController allNotesController = new AllNotesController(mMainActivity, mMainActivity.getToolbar(),
-                        mMainActivity.getRecyclerView(), mMainActivity.getFab(),
+                        mMainActivity.getRecyclerView(), mMainActivity.getFabMenu(),
                         mMainActivity.getAppBarLayout(), mMainActivity.mSimpleItemTouchHelperCallback);
 
                 BaseController.setInstance(allNotesController);
@@ -35,7 +35,7 @@ public class DrawerOptionExecutor {
             case R.id.navigation_item_important:
                 mMainActivity.mSelectedId = selectedId;
                 ImportantController importantController = new ImportantController(mMainActivity, mMainActivity.getToolbar(),
-                        mMainActivity.getRecyclerView(), mMainActivity.getFab(),
+                        mMainActivity.getRecyclerView(), mMainActivity.getFabMenu(),
                         mMainActivity.getAppBarLayout(), mMainActivity.mSimpleItemTouchHelperCallback);
 
                 BaseController.setInstance(importantController);
@@ -43,7 +43,7 @@ public class DrawerOptionExecutor {
             case R.id.navigation_item_private:
                 mMainActivity.mSelectedId = selectedId;
                 PrivateController privateController = new PrivateController(mMainActivity, mMainActivity.getToolbar(),
-                        mMainActivity.getRecyclerView(), mMainActivity.getFab(),
+                        mMainActivity.getRecyclerView(), mMainActivity.getFabMenu(),
                         mMainActivity.getAppBarLayout(), mMainActivity.mSimpleItemTouchHelperCallback);
 
                 BaseController.setInstance(privateController);
@@ -51,7 +51,7 @@ public class DrawerOptionExecutor {
             case R.id.navigation_item_bin:
                 mMainActivity.mSelectedId = selectedId;
                 BinController binController = new BinController(mMainActivity, mMainActivity.getToolbar(),
-                        mMainActivity.getRecyclerView(), mMainActivity.getFab(),
+                        mMainActivity.getRecyclerView(), mMainActivity.getFabMenu(),
                         mMainActivity.getAppBarLayout(), mMainActivity.mSimpleItemTouchHelperCallback);
 
                 BaseController.setInstance(binController);

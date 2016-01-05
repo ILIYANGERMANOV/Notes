@@ -31,16 +31,16 @@ public class NavigationDrawerHelper implements NavigationView.OnNavigationItemSe
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, slideOffset);
-                if (MainActivity.mActionMenu != null && MainActivity.mActionMenu.isOpen()) {
-                    MainActivity.mActionMenu.close(true);
+                if (mMainActivity.getFabMenu().isOpened()) {
+                    mMainActivity.getFabMenu().close(true);
                 }
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                if (MainActivity.mActionMenu != null && MainActivity.mActionMenu.isOpen()) {
-                    MainActivity.mActionMenu.close(false);
+                if (mMainActivity.getFabMenu().isOpened()) {
+                    mMainActivity.getFabMenu().close(false);
                 }
             }
         };

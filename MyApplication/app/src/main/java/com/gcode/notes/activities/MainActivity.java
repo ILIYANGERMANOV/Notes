@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
@@ -22,22 +22,21 @@ import com.gcode.notes.activities.helpers.main.MainActivityResultHandler;
 import com.gcode.notes.activities.helpers.main.MainActivityRotationHandler;
 import com.gcode.notes.activities.helpers.main.ReminderNotificationStartHelper;
 import com.gcode.notes.activities.helpers.main.actions.DrawerOptionExecutor;
+import com.gcode.notes.activities.helpers.main.actions.FabMenuActionHandler;
 import com.gcode.notes.activities.helpers.main.actions.MainActivityBackPressHelper;
 import com.gcode.notes.activities.helpers.main.actions.MainActivityMenuOptionsHelper;
-import com.gcode.notes.activities.helpers.main.ui.fab.FabHelper;
+import com.gcode.notes.activities.helpers.main.ui.FabMenuHelper;
 import com.gcode.notes.activities.helpers.main.ui.MainRecyclerViewHelper;
 import com.gcode.notes.activities.helpers.main.ui.MainToolbarHelper;
 import com.gcode.notes.activities.helpers.main.ui.NavigationDrawerHelper;
-import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
+import com.github.clans.fab.FloatingActionMenu;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
-    public static FloatingActionMenu mActionMenu;
     public SimpleItemTouchHelperCallback mSimpleItemTouchHelperCallback = null;
     public ActionBarDrawerToggle mDrawerToggle;
     public int mSelectedId = R.id.navigation_item_all_notes;
@@ -54,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
     CoordinatorLayout mCoordinatorLayout;
     @Bind(R.id.main_navigation_drawer)
     NavigationView mDrawer;
-    @Bind(R.id.main_fab)
-    FloatingActionButton mFab;
+    @Bind(R.id.fab_menu)
+    FloatingActionMenu mFabMenu;
     @Bind(R.id.main_content_recycler_view)
     RecyclerView mRecyclerView;
     @Bind(R.id.main_notes_recycler_view_empty_text_view)
@@ -86,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
         return mDrawerLayout;
     }
 
-    public FloatingActionButton getFab() {
-        return mFab;
+    public FloatingActionMenu getFabMenu() {
+        return mFabMenu;
     }
 
     public TextView getRecyclerViewEmptyView() {
@@ -122,8 +121,8 @@ public class MainActivity extends AppCompatActivity {
         final DrawerOptionExecutor drawerOptionExecutor = new DrawerOptionExecutor(this);
 
         new MainToolbarHelper(this).setupToolbar();
+        FabMenuHelper.setupFabMenu(this);
         new NavigationDrawerHelper(this, drawerOptionExecutor).setupNavigationDrawer();
-        new FabHelper(this).setupFloatingActionButtonMenu();
         new MainRecyclerViewHelper(this).setupRecyclerView();
 
         new Handler().postDelayed(new Runnable() {
@@ -176,5 +175,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         MainActivityResultHandler.handleResult(this, requestCode, resultCode, data);
+    }
+
+    public void fabMenuItemClicked(View view) {
+        FabMenuActionHandler.handleItemClick(this, view);
     }
 }

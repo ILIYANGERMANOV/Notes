@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.gcode.notes.activities.MainActivity;
+import com.gcode.notes.activities.helpers.main.ui.listeners.RecyclerViewOnScrollListener;
 import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.data.note.base.ContentBase;
 import com.gcode.notes.extras.values.Constants;
@@ -29,14 +30,18 @@ public class MainRecyclerViewHelper {
         MainAdapter adapter = new MainAdapter(mMainActivity, mMainActivity.getRecyclerView(), notesList,
                 mMainActivity.getCoordinatorLayout(), mMainActivity.getRecyclerViewEmptyView());
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(mMainActivity, Constants.GRID_COLUMNS_COUNT);
+        final GridLayoutManager gridLayoutManager = new GridLayoutManager(mMainActivity, Constants.GRID_COLUMNS_COUNT);
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
 
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setItemAnimator(itemAnimator);
         recyclerView.setAdapter(adapter);
 
+        //shows / hides fab menu button on scrolling
+        recyclerView.addOnScrollListener(new RecyclerViewOnScrollListener(mMainActivity.getFabMenu()));
+
         mMainActivity.mSimpleItemTouchHelperCallback = new SimpleItemTouchHelperCallback(adapter);
+
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(mMainActivity.mSimpleItemTouchHelperCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }

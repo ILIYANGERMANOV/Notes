@@ -101,4 +101,6 @@ public class Constants {
     public static final int SHORT_DELAY = 50;
     public static final int MEDIUM_DELAY = 150;
     public static final int LONG_DELAY = 250;
+
+    public static final int DELAY_SO_USER_CAN_SEE = 300;
 }

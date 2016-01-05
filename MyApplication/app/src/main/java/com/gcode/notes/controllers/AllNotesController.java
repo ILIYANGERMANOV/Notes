@@ -3,26 +3,24 @@ package com.gcode.notes.controllers;
 
 import android.content.Context;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
-import com.gcode.notes.R;
-import com.gcode.notes.motions.MyAnimator;
 import com.gcode.notes.data.note.base.ContentBase;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
 import com.gcode.notes.tasks.async.AddItemFromDbToMainTask;
 import com.gcode.notes.tasks.async.LoadContentTask;
+import com.github.clans.fab.FloatingActionMenu;
+
 
 public class AllNotesController extends BaseController {
 
     public AllNotesController(Context context, Toolbar toolbar, RecyclerView recyclerView,
-                              FloatingActionButton fab, AppBarLayout appBarLayout,
+                              FloatingActionMenu fabMenu, AppBarLayout appBarLayout,
                               SimpleItemTouchHelperCallback simpleItemTouchHelperCallback) {
 
-        super(context, toolbar, recyclerView, fab, appBarLayout, simpleItemTouchHelperCallback);
+        super(context, toolbar, recyclerView, fabMenu, appBarLayout, simpleItemTouchHelperCallback);
     }
 
     @Override
@@ -39,8 +37,7 @@ public class AllNotesController extends BaseController {
         switch (mPreviousControllerId) {
             case Constants.ERROR:
             case Constants.CONTROLLER_BIN:
-                MyAnimator.startAnimationOnView(mContext, mFab, R.anim.expand_anim);
-                mFab.setVisibility(View.VISIBLE);
+                mFabMenu.showMenuButton(true);
                 break;
         }
     }

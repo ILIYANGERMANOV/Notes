@@ -2,7 +2,6 @@ package com.gcode.notes.controllers;
 
 import android.content.Context;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
@@ -11,6 +10,7 @@ import com.gcode.notes.data.note.base.ContentBase;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
+import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ public class BaseController {
     Context mContext;
     Toolbar mToolbar;
     RecyclerView mRecyclerView;
-    FloatingActionButton mFab;
+    FloatingActionMenu mFabMenu;
     AppBarLayout mAppBarLayout;
     SimpleItemTouchHelperCallback mSimpleItemTouchHelperCallback;
 
@@ -45,13 +45,13 @@ public class BaseController {
     }
 
     BaseController(Context context, Toolbar toolbar, RecyclerView recyclerView,
-                   FloatingActionButton fab, AppBarLayout appBarLayout,
+                   FloatingActionMenu fabMenu, AppBarLayout appBarLayout,
                    SimpleItemTouchHelperCallback simpleItemTouchHelperCallback) {
 
         mContext = context;
         mToolbar = toolbar;
         mRecyclerView = recyclerView;
-        mFab = fab;
+        mFabMenu = fabMenu;
         mAppBarLayout = appBarLayout;
         mSimpleItemTouchHelperCallback = simpleItemTouchHelperCallback;
     }
@@ -123,7 +123,7 @@ public class BaseController {
     }
 
     protected void onSetContentAnimation() {
-        mAppBarLayout.setExpanded(true, mFab.getTranslationY() != 0);
+        mAppBarLayout.setExpanded(true, true);
     }
 
     public void onItemAdded(int mode) {

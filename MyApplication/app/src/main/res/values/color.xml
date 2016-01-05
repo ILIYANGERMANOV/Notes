@@ -2,11 +2,18 @@
 <resources>
     <color name="color_primary_light_blue">#03A9F4</color>
     <color name="color_primary_light_blue_dark">#0288D1</color>
+    <!-- 200 -->
     <color name="color_accent_pink">#FF4081</color>
+    <!-- 700 -->
     <color name="color_accent_pink_dark">#C51162</color>
     <color name="text_color_primary_white">#FFFFFF</color>
     <color name="toolbar_icon_color">#014E70</color>
     <color name="card_view_background">#FFFFFF</color>
     <color name="link_color">#05C5CF</color>
     <color name="image_placeholder_color">#F5F5F5</color>
+    <color name="fab_menu_background">#ccffffff</color>
+    <!-- 200 -->
+    <color name="fab_menu_labels_color_normal">#EEEEEE</color>
+    <!-- 500 -->
+    <color name="fab_menu_labels_color_pressed">#9E9E9E</color>
 </resources>
