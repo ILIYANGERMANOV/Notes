@@ -79,6 +79,7 @@
                         layout="@layout/display_details_and_reminder_layout"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:layout_marginTop="16dp"
                         android:layout_weight="1" />
 
                 </LinearLayout>

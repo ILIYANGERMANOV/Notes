@@ -8,9 +8,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.gcode.notes.R;
+import com.gcode.notes.adapters.viewholders.main.listeners.BaseItemListener;
+import com.gcode.notes.adapters.viewholders.main.listeners.ListItemOnClickListener;
 import com.gcode.notes.data.note.base.ContentBase;
 import com.gcode.notes.data.note.list.ListData;
-import com.gcode.notes.adapters.viewholders.main.listeners.ListItemOnClickListener;
 
 import java.util.ArrayList;
 
@@ -22,6 +23,13 @@ public class ListItemViewHolder extends BaseItemViewHolder {
     LinearLayout mContainerLayout;
 
     Handler mHandler;
+
+    ListItemOnClickListener mListItemOnClickListener;
+
+    @Override
+    public BaseItemListener getItemBaseListener() {
+        return mListItemOnClickListener;
+    }
 
     public ListItemViewHolder(Activity activity, View itemView, ArrayList<ContentBase> data) {
         super(activity, itemView, data);
@@ -36,7 +44,9 @@ public class ListItemViewHolder extends BaseItemViewHolder {
             int itemPosition = getAdapterPosition();
             if (itemPosition != RecyclerView.NO_POSITION) {
                 ListData listData = (ListData) mData.get(itemPosition);
-                itemView.setOnClickListener(new ListItemOnClickListener(mActivity, listData));
+
+                mListItemOnClickListener = new ListItemOnClickListener(mActivity, listData);
+                itemView.setOnClickListener(mListItemOnClickListener);
                 stopRepeatingTask();
                 return;
             }

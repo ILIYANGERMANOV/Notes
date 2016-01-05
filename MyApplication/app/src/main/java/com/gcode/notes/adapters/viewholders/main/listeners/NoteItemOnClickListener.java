@@ -13,17 +13,20 @@ import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 
-public class NoteItemOnClickListener implements View.OnClickListener {
-    Activity mActivity;
+public class NoteItemOnClickListener extends BaseItemListener implements View.OnClickListener {
     NoteData mNoteData;
 
     public NoteItemOnClickListener(Activity activity, NoteData noteData) {
-        mActivity = activity;
+        super(activity);
         mNoteData = noteData;
     }
 
     @Override
     public void onClick(View v) {
+        if(mDisabled) {
+            MyDebugger.log("note item listener disabled");
+            return;
+        }
         Intent intent = null;
         switch (BaseController.getInstance().getControllerId()) {
             case Constants.CONTROLLER_ALL_NOTES:

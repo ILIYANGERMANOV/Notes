@@ -1,25 +1,16 @@
 package com.gcode.notes.controllers;
 
 
-import android.content.Context;
-import android.support.design.widget.AppBarLayout;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-
+import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.data.note.base.ContentBase;
 import com.gcode.notes.extras.values.Constants;
-import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
 import com.gcode.notes.tasks.async.AddItemFromDbToMainTask;
 import com.gcode.notes.tasks.async.LoadContentTask;
-import com.github.clans.fab.FloatingActionMenu;
 
 public class PrivateController extends BaseController {
 
-    public PrivateController(Context context, Toolbar toolbar, RecyclerView recyclerView,
-                             FloatingActionMenu fabMenu, AppBarLayout appBarLayout,
-                             SimpleItemTouchHelperCallback simpleItemTouchHelperCallback) {
-
-        super(context, toolbar, recyclerView, fabMenu, appBarLayout, simpleItemTouchHelperCallback);
+    public PrivateController(MainActivity mainActivity) {
+        super(mainActivity);
     }
 
     @Override

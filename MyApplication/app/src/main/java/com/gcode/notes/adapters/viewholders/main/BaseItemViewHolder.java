@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.adapters.viewholders.main.listeners.BaseItemListener;
 import com.gcode.notes.data.note.base.ContentBase;
 import com.gcode.notes.helper.ItemTouchHelperViewHolder;
 
@@ -68,4 +69,6 @@ public abstract class BaseItemViewHolder extends RecyclerView.ViewHolder impleme
     }
 
     public abstract void setStartState();
+
+    public abstract BaseItemListener getItemBaseListener();
 }

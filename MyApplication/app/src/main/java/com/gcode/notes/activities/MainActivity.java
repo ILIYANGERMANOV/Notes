@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     public SimpleItemTouchHelperCallback mSimpleItemTouchHelperCallback = null;
     public ActionBarDrawerToggle mDrawerToggle;
     public int mSelectedId = R.id.navigation_item_all_notes;
-    public boolean mSubMenuOpened;
+    public boolean mFabMenuOpened;
     public Menu mMenu;
 
     @Bind(R.id.main_toolbar)

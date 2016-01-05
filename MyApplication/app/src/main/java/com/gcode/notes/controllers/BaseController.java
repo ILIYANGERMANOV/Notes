@@ -5,6 +5,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
+import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.data.note.base.ContentBase;
 import com.gcode.notes.extras.MyDebugger;
@@ -29,7 +30,7 @@ public class BaseController {
     public synchronized static BaseController getInstance() {
         if (mInstance == null) {
             //TODO: handle problems when clear memory
-            mInstance = new BaseController(null, null, null, null, null, null);
+            mInstance = new BaseController(null);
             MyDebugger.log("BaseController is null, fake instance created.");
         }
         return mInstance;
@@ -44,16 +45,14 @@ public class BaseController {
         mInstance = controller;
     }
 
-    BaseController(Context context, Toolbar toolbar, RecyclerView recyclerView,
-                   FloatingActionMenu fabMenu, AppBarLayout appBarLayout,
-                   SimpleItemTouchHelperCallback simpleItemTouchHelperCallback) {
-
-        mContext = context;
-        mToolbar = toolbar;
-        mRecyclerView = recyclerView;
-        mFabMenu = fabMenu;
-        mAppBarLayout = appBarLayout;
-        mSimpleItemTouchHelperCallback = simpleItemTouchHelperCallback;
+    BaseController(MainActivity mainActivity) {
+        if(mainActivity == null) return; //protect from null pointer exception
+        mContext = mainActivity;
+        mToolbar = mainActivity.getToolbar();
+        mRecyclerView = mainActivity.getRecyclerView();
+        mFabMenu = mainActivity.getFabMenu();
+        mAppBarLayout = mainActivity.getAppBarLayout();
+        mSimpleItemTouchHelperCallback = mainActivity.mSimpleItemTouchHelperCallback;
     }
 
     public void setNewContent(ArrayList<ContentBase> newContent, boolean notForFirstTime) {

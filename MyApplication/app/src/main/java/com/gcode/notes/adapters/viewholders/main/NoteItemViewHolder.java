@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
+import com.gcode.notes.adapters.viewholders.main.listeners.BaseItemListener;
 import com.gcode.notes.adapters.viewholders.main.listeners.NoteItemOnClickListener;
 import com.gcode.notes.data.note.base.ContentBase;
 import com.gcode.notes.data.note.NoteData;
@@ -31,6 +32,13 @@ public class NoteItemViewHolder extends BaseItemViewHolder {
 
     Handler mHandler;
 
+    NoteItemOnClickListener mNoteItemOnClickListener;
+
+    @Override
+    public BaseItemListener getItemBaseListener() {
+        return mNoteItemOnClickListener;
+    }
+
     public NoteItemViewHolder(Activity activity, final View itemView, ArrayList<ContentBase> data) {
         super(activity, itemView, data);
         ButterKnife.bind(this, itemView);
@@ -44,7 +52,8 @@ public class NoteItemViewHolder extends BaseItemViewHolder {
             int itemPosition = getAdapterPosition();
             if (itemPosition != RecyclerView.NO_POSITION) {
                 NoteData noteData = (NoteData) mData.get(itemPosition);
-                itemView.setOnClickListener(new NoteItemOnClickListener(mActivity, noteData));
+                mNoteItemOnClickListener = new NoteItemOnClickListener(mActivity, noteData);
+                itemView.setOnClickListener(mNoteItemOnClickListener);
                 stopRepeatingTask();
                 return;
             }

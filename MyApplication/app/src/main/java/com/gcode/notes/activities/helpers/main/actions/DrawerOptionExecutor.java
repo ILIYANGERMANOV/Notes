@@ -26,33 +26,25 @@ public class DrawerOptionExecutor {
         switch (selectedId) {
             case R.id.navigation_item_all_notes:
                 mMainActivity.mSelectedId = selectedId;
-                AllNotesController allNotesController = new AllNotesController(mMainActivity, mMainActivity.getToolbar(),
-                        mMainActivity.getRecyclerView(), mMainActivity.getFabMenu(),
-                        mMainActivity.getAppBarLayout(), mMainActivity.mSimpleItemTouchHelperCallback);
+                AllNotesController allNotesController = new AllNotesController(mMainActivity);
 
                 BaseController.setInstance(allNotesController);
                 break;
             case R.id.navigation_item_important:
                 mMainActivity.mSelectedId = selectedId;
-                ImportantController importantController = new ImportantController(mMainActivity, mMainActivity.getToolbar(),
-                        mMainActivity.getRecyclerView(), mMainActivity.getFabMenu(),
-                        mMainActivity.getAppBarLayout(), mMainActivity.mSimpleItemTouchHelperCallback);
+                ImportantController importantController = new ImportantController(mMainActivity);
 
                 BaseController.setInstance(importantController);
                 break;
             case R.id.navigation_item_private:
                 mMainActivity.mSelectedId = selectedId;
-                PrivateController privateController = new PrivateController(mMainActivity, mMainActivity.getToolbar(),
-                        mMainActivity.getRecyclerView(), mMainActivity.getFabMenu(),
-                        mMainActivity.getAppBarLayout(), mMainActivity.mSimpleItemTouchHelperCallback);
+                PrivateController privateController = new PrivateController(mMainActivity);
 
                 BaseController.setInstance(privateController);
                 break;
             case R.id.navigation_item_bin:
                 mMainActivity.mSelectedId = selectedId;
-                BinController binController = new BinController(mMainActivity, mMainActivity.getToolbar(),
-                        mMainActivity.getRecyclerView(), mMainActivity.getFabMenu(),
-                        mMainActivity.getAppBarLayout(), mMainActivity.mSimpleItemTouchHelperCallback);
+                BinController binController = new BinController(mMainActivity);
 
                 BaseController.setInstance(binController);
                 break;

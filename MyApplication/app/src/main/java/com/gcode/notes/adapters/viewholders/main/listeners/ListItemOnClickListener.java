@@ -11,20 +11,22 @@ import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.note.list.ListData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
-import com.gcode.notes.motions.MyTransitionHelper;
 import com.gcode.notes.serialization.Serializer;
 
-public class ListItemOnClickListener implements View.OnClickListener {
-    Activity mActivity;
+public class ListItemOnClickListener extends BaseItemListener implements View.OnClickListener {
     ListData mListData;
 
     public ListItemOnClickListener(Activity activity, ListData listData) {
-        mActivity = activity;
+        super(activity);
         mListData = listData;
     }
 
     @Override
     public void onClick(View v) {
+        if (mDisabled) {
+            MyDebugger.log("list item listener disabled");
+            return;
+        }
         Intent intent = null;
         switch (BaseController.getInstance().getControllerId()) {
             case Constants.CONTROLLER_ALL_NOTES:
