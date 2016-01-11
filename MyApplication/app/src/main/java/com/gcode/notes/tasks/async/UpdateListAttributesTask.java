@@ -3,7 +3,7 @@ package com.gcode.notes.tasks.async;
 
 import android.os.AsyncTask;
 
-import com.gcode.notes.data.note.list.ListData;
+import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.notes.MyApplication;
 

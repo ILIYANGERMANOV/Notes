@@ -4,7 +4,7 @@ package com.gcode.notes.activities.helpers.display.list.listeners;
 import android.view.View;
 
 import com.gcode.notes.activities.display.list.DisplayListBaseActivity;
-import com.gcode.notes.data.note.list.ListDataItem;
+import com.gcode.notes.data.list.ListDataItem;
 import com.linearlistview.LinearListView;
 
 public class TickedLinearListViewOnItemClickListener implements LinearListView.OnItemClickListener {

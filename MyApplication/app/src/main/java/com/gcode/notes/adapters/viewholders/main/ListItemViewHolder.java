@@ -10,8 +10,9 @@ import android.widget.LinearLayout;
 import com.gcode.notes.R;
 import com.gcode.notes.adapters.viewholders.main.listeners.BaseItemListener;
 import com.gcode.notes.adapters.viewholders.main.listeners.ListItemOnClickListener;
-import com.gcode.notes.data.note.base.ContentBase;
-import com.gcode.notes.data.note.list.ListData;
+import com.gcode.notes.data.base.ContentBase;
+import com.gcode.notes.data.list.ListData;
+import com.gcode.notes.extras.values.Constants;
 
 import java.util.ArrayList;
 
@@ -50,7 +51,7 @@ public class ListItemViewHolder extends BaseItemViewHolder {
                 stopRepeatingTask();
                 return;
             }
-            mHandler.postDelayed(mSetOnClickListenerRunnable, 50);
+            mHandler.postDelayed(mSetOnClickListenerRunnable, Constants.MINIMUM_DELAY);
         }
     };
 

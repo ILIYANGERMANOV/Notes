@@ -1,7 +1,7 @@
 package com.gcode.notes.activities.compose;
 
-import android.support.v4.app.Fragment;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
@@ -34,9 +34,13 @@ public class ComposeBaseActivity extends AppCompatActivity {
     public boolean mNoteModeChanged;
     public Intent mResultIntent = new Intent();
 
+    public boolean mLocationObtained;
+    public double mLatitude;
+    public double mLongitude;
+
     public ComposeReminderFragment getComposeReminderFragment() {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.compose_note_reminder_fragment);
-        if(fragment != null && fragment instanceof ComposeReminderFragment) {
+        if (fragment != null && fragment instanceof ComposeReminderFragment) {
             //fragment is not null and can be cast to ComposeReminderFragment so return it
             return ((ComposeReminderFragment) fragment);
         } else {
@@ -55,6 +59,7 @@ public class ComposeBaseActivity extends AppCompatActivity {
         ComposeBaseToolbarHelper.setupToolbar(this, mToolbar);
     }
 
+    @SuppressWarnings("unused")
     @OnClick(R.id.compose_star_image_button)
     public void starImageButtonClicked() {
         if (mIsStarred) {

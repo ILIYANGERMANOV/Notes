@@ -1,10 +1,10 @@
 package com.gcode.notes.serialization;
 
 
-import com.gcode.notes.data.note.base.ContentDetails;
-import com.gcode.notes.data.note.list.ListDataItem;
-import com.gcode.notes.data.note.list.ListData;
-import com.gcode.notes.data.note.NoteData;
+import com.gcode.notes.data.NoteData;
+import com.gcode.notes.data.base.MyLocation;
+import com.gcode.notes.data.list.ListData;
+import com.gcode.notes.data.list.ListDataItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -46,17 +46,6 @@ public class Serializer {
                 }.getType());
     }
 
-    public static String serializeContentDetails(ContentDetails contentDetails) {
-        Gson gson = new Gson();
-        return gson.toJson(contentDetails);
-    }
-
-    public static ContentDetails parseContentDetails(String serializedObject) {
-        return new Gson().fromJson(serializedObject,
-                new TypeToken<ContentDetails>() {
-                }.getType());
-    }
-
     public static String serializeImagesPathsList(List<String> attachedImagesList) {
         Gson gson = new Gson();
         return gson.toJson(attachedImagesList);
@@ -68,4 +57,14 @@ public class Serializer {
                 }.getType());
     }
 
+    public static String serializeMyLocation(MyLocation myLocation) {
+        Gson gson = new Gson();
+        return gson.toJson(myLocation);
+    }
+
+    public static MyLocation parseMyLocation(String serializedObject) {
+        return new Gson().fromJson(serializedObject,
+                new TypeToken<MyLocation>() {
+                }.getType());
+    }
 }

@@ -116,6 +116,10 @@ public class DateUtils {
         return formatDateInSQLiteFormat(getCurrentTime());
     }
 
+    public static long getCurrentTimeAsMillis() {
+        return getCurrentTime().getTime();
+    }
+
     public static String formatDateInSQLiteFormat(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(SQL_LITE_DATE_FORMAT, Locale.US);
         return dateFormat.format(date);

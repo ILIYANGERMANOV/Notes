@@ -8,10 +8,10 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
 import com.gcode.notes.R;
-import com.gcode.notes.data.note.NoteData;
-import com.gcode.notes.data.note.base.ContentBase;
-import com.gcode.notes.data.note.list.ListData;
-import com.gcode.notes.data.note.list.ListDataItem;
+import com.gcode.notes.data.NoteData;
+import com.gcode.notes.data.base.ContentBase;
+import com.gcode.notes.data.list.ListData;
+import com.gcode.notes.data.list.ListDataItem;
 import com.gcode.notes.extras.builders.IntentBuilder;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;

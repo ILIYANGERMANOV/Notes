@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.gcode.notes.R;
-import com.gcode.notes.data.note.base.ContentBase;
+import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 

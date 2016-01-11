@@ -1,4 +1,4 @@
-package com.gcode.notes.data.note.base;
+package com.gcode.notes.data.base;
 
 
 import android.content.Context;
@@ -38,7 +38,8 @@ public abstract class ContentBase {
 
     //this constructor is used by Extractor when collecting info from database
     public ContentBase(int id, int orderId, int targetId, String title, int mode, boolean hasAttributesFlag,
-                       String reminder, String creationDate, String lastModifiedDate, String expirationDate) {
+                       String reminder, String creationDate, String lastModifiedDate, String expirationDate,
+                       String myLocationSerialized) {
 
         this.id = id;
         this.orderId = orderId;
@@ -47,7 +48,7 @@ public abstract class ContentBase {
         this.mode = mode;
         this.reminder = reminder;
         this.hasAttributesFlag = hasAttributesFlag;
-        contentDetails = new ContentDetails(creationDate, lastModifiedDate, expirationDate);
+        contentDetails = new ContentDetails(creationDate, lastModifiedDate, expirationDate, myLocationSerialized);
     }
 
     public abstract boolean hasAttributes();
@@ -121,6 +122,26 @@ public abstract class ContentBase {
                     DateUtils.formatDateTimeForDisplay(contentDetails.getExpirationDate()));
         }
         return dateDetails;
+    }
+
+    public boolean hasLocation() {
+        return contentDetails.getMyLocation().isSet();
+    }
+
+    public MyLocation getMyLocation() {
+        return contentDetails.getMyLocation();
+    }
+
+    public double getLatitude() {
+        return contentDetails.getMyLocation().getLatitude();
+    }
+
+    public double getLongitude() {
+        return contentDetails.getMyLocation().getLongitude();
+    }
+
+    public void setLocation(double latitude, double longitude) {
+        contentDetails.getMyLocation().setLocation(latitude, longitude);
     }
 
     public boolean getHasAttributesFlag() {

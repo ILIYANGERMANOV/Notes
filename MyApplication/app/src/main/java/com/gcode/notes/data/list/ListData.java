@@ -1,4 +1,4 @@
-package com.gcode.notes.data.note.list;
+package com.gcode.notes.data.list;
 
 
 import android.app.Activity;
@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 
 import com.gcode.notes.R;
 import com.gcode.notes.adapters.viewholders.main.ListItemViewHolder;
-import com.gcode.notes.data.note.base.ContentBase;
+import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.ui.helpers.CheckedTextViewHelper;
 
@@ -26,10 +26,12 @@ public class ListData extends ContentBase {
     }
 
     public ListData(int id, int orderId, int targetId, String title, int mode, boolean hasAttributes,
-                    String reminderString, String creationDate, String lastModified, String expirationDateString) {
+                    String reminderString, String creationDate, String lastModified,
+                    String expirationDateString, String myLocationSerialized) {
 
         super(id, orderId, targetId, title, mode, hasAttributes,
-                reminderString, creationDate, lastModified, expirationDateString);
+                reminderString, creationDate, lastModified,
+                expirationDateString, myLocationSerialized);
     }
 
     public boolean isValidList(boolean hadValidTitleBeforeSaveBase) {

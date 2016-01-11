@@ -1,7 +1,7 @@
 package com.gcode.notes.activities.helpers.compose.note;
 
 import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
-import com.gcode.notes.data.note.NoteData;
+import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.utils.AudioUtils;
 
 public class ComposeNoteAudioHelper {

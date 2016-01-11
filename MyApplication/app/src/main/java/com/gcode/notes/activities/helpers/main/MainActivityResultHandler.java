@@ -6,9 +6,9 @@ import android.content.Intent;
 
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.controllers.BaseController;
-import com.gcode.notes.data.note.base.ContentBase;
-import com.gcode.notes.data.note.list.ListData;
-import com.gcode.notes.data.note.NoteData;
+import com.gcode.notes.data.NoteData;
+import com.gcode.notes.data.base.ContentBase;
+import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.builders.IntentBuilder;
 import com.gcode.notes.extras.utils.FileUtils;
@@ -20,7 +20,7 @@ import com.gcode.notes.serialization.Serializer;
 
 public class MainActivityResultHandler {
     public static void handleResult(Activity activity, int requestCode, int resultCode, Intent data) {
-        if (resultCode == MainActivity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             if (data != null) {
                 //result from compose/display activity
                 switch (requestCode) {

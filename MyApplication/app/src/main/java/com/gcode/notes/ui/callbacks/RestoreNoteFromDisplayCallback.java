@@ -3,7 +3,7 @@ package com.gcode.notes.ui.callbacks;
 import android.app.Activity;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.gcode.notes.data.note.base.ContentBase;
+import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.tasks.async.RemoveItemFromMainTask;

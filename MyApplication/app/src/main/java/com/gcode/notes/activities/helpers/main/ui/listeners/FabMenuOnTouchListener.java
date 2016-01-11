@@ -19,20 +19,26 @@ public class FabMenuOnTouchListener implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        //MyDebugger.log("touch");
         //fabMenu#isOpened() is added too, for extra secure if handler doesn't wait enough
-        if (FabMenuHelper.isOpenStarted || mFabMenu.isOpened()) {
-            //MyDebugger.log("fab menu consumed the event");
+        if (FabMenuHelper.isOpenStarted || (mFabMenu.isOpened() && !FabMenuHelper.isOpenedConsumed)) {
             //fab menu is opened, close it
-            FabMenuHelper.isOpenStarted = false;
 
-            //postDelayed, cuz must wait opening animation so fabMenu#close() can work
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mFabMenu.close(true); //closing fab menu with animation
-                }
-            }, Constants.DELAY_SO_USER_CAN_SEE);
+            //!NOTE: flags must be reset here not in conditions, otherwise menu will be closed more than one
+            FabMenuHelper.setTouchListenerFlagsDown(); //flags used to prevent screen flashing and open note when spamming
+
+            if (mFabMenu.isOpened()) {
+                //menu is already opened, you can close it safely w/o adding delay
+                mFabMenu.close(true);
+            } else {
+                //menu is opening atm, close after the open anim is over
+                //postDelayed, cuz must wait opening animation so fabMenu#close() can work
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mFabMenu.close(true); //closing fab menu with animation
+                    }
+                }, Constants.DELAY_SO_USER_CAN_SEE);
+            }
             return true; //touch event is consumed return true
         }
         return false; //touch event isn't consumed return false

@@ -2,13 +2,11 @@ package com.gcode.notes.database.extras;
 
 import android.database.Cursor;
 
-import com.gcode.notes.data.note.list.ListData;
-import com.gcode.notes.data.note.NoteData;
+import com.gcode.notes.data.NoteData;
+import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.database.NotesContract.ContentEntry;
-import com.gcode.notes.extras.utils.DateUtils;
 
 public class Extractor {
-    //TODO: add location
     public static NoteData extractNoteDataFromContent(Cursor cursor) {
         return new NoteData(
                 cursor.getInt(cursor.getColumnIndex(ContentEntry._ID)),
@@ -20,7 +18,8 @@ public class Extractor {
                 cursor.getString(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_REMINDER)),
                 cursor.getString(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_CREATION_DATE)),
                 cursor.getString(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_LAST_MODIFIED_DATE)),
-                cursor.getString(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_EXPIRATION_DATE))
+                cursor.getString(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_EXPIRATION_DATE)),
+                cursor.getString(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_LOCATION))
         );
     }
 
@@ -35,7 +34,8 @@ public class Extractor {
                 cursor.getString(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_REMINDER)),
                 cursor.getString(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_CREATION_DATE)),
                 cursor.getString(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_LAST_MODIFIED_DATE)),
-                cursor.getString(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_EXPIRATION_DATE))
+                cursor.getString(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_EXPIRATION_DATE)),
+                cursor.getString(cursor.getColumnIndex(ContentEntry.COLUMN_NAME_LOCATION))
         );
     }
 

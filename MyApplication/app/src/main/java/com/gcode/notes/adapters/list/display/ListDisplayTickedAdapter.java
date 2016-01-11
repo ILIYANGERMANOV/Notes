@@ -7,7 +7,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.data.note.list.ListDataItem;
+import com.gcode.notes.data.list.ListDataItem;
 import com.gcode.notes.ui.helpers.SnackbarHelper;
 import com.gcode.notes.ui.helpers.VisibilityHelper;
 import com.linearlistview.LinearListView;

@@ -4,9 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.gcode.notes.data.note.NoteData;
-import com.gcode.notes.data.note.base.ContentBase;
-import com.gcode.notes.data.note.list.ListData;
+import com.gcode.notes.data.NoteData;
+import com.gcode.notes.data.base.ContentBase;
+import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.database.NotesContract.ContentEntry;
 import com.gcode.notes.database.NotesContract.ListEntry;
 import com.gcode.notes.database.NotesContract.NoteEntry;
@@ -86,6 +86,14 @@ public class UpdateHelper {
         contentValues.put(ContentEntry.COLUMN_NAME_HAS_ATTRIBUTES, contentBase.getHasAttributesFlag());
         contentValues.put(ContentEntry.COLUMN_NAME_LAST_MODIFIED_DATE, contentBase.getLastModifiedDate());
         contentValues.put(ContentEntry.COLUMN_NAME_REMINDER, contentBase.getReminder());
+        if (contentBase.hasLocation()) {
+            //note has location, update it
+            contentValues.put(ContentEntry.COLUMN_NAME_LOCATION, Serializer.serializeMyLocation(contentBase.getMyLocation()));
+        } else {
+            //note hasn't location, set NO_LOCATION
+            contentValues.put(ContentEntry.COLUMN_NAME_LOCATION, Constants.NO_LOCATION);
+        }
+
         if (contentBase.getTargetId() == Constants.NO_VALUE) {
             if (contentBase.getHasAttributesFlag()) {
                 //targetId isn't set so, there is no row for attributes; insert it now

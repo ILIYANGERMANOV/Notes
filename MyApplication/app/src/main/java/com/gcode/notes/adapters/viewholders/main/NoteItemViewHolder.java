@@ -12,8 +12,9 @@ import android.widget.TextView;
 import com.gcode.notes.R;
 import com.gcode.notes.adapters.viewholders.main.listeners.BaseItemListener;
 import com.gcode.notes.adapters.viewholders.main.listeners.NoteItemOnClickListener;
-import com.gcode.notes.data.note.base.ContentBase;
-import com.gcode.notes.data.note.NoteData;
+import com.gcode.notes.data.base.ContentBase;
+import com.gcode.notes.data.NoteData;
+import com.gcode.notes.extras.values.Constants;
 
 import java.util.ArrayList;
 
@@ -57,7 +58,7 @@ public class NoteItemViewHolder extends BaseItemViewHolder {
                 stopRepeatingTask();
                 return;
             }
-            mHandler.postDelayed(mSetOnClickListener, 50);
+            mHandler.postDelayed(mSetOnClickListener, Constants.MINIMUM_DELAY);
         }
     };
 

@@ -15,7 +15,7 @@ import com.gcode.notes.activities.helpers.display.DisplayBaseMenuOptionsHelper;
 import com.gcode.notes.activities.helpers.display.note.DisplayNoteBaseDisplayHelper;
 import com.gcode.notes.activities.helpers.display.note.DisplayNoteBaseResultHandler;
 import com.gcode.notes.activities.helpers.display.note.DisplayNoteBaseStartStateHelper;
-import com.gcode.notes.data.note.NoteData;
+import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.utils.AudioUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;

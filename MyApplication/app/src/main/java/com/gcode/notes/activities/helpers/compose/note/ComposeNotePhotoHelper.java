@@ -2,7 +2,7 @@ package com.gcode.notes.activities.helpers.compose.note;
 
 import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
 import com.gcode.notes.adapters.note.compose.ComposeNoteImagesAdapter;
-import com.gcode.notes.data.note.NoteData;
+import com.gcode.notes.data.NoteData;
 
 public class ComposeNotePhotoHelper {
     public static void setupFromPhoto(ComposeNoteActivity composeNoteActivity, String photoPath) {

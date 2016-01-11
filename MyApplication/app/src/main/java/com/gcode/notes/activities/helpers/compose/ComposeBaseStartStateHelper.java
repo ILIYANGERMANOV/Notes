@@ -2,7 +2,7 @@ package com.gcode.notes.activities.helpers.compose;
 
 import com.gcode.notes.activities.compose.ComposeBaseActivity;
 import com.gcode.notes.controllers.BaseController;
-import com.gcode.notes.data.note.base.ContentBase;
+import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.fragments.ComposeReminderFragment;
 

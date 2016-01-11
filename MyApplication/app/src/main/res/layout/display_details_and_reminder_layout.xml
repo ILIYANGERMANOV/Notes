@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:textSize="14sp"
+        android:textSize="15sp"
         android:visibility="gone" />
 
     <TextView
@@ -21,16 +21,19 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:gravity="bottom|end"
-        android:textSize="14sp" />
+        android:textSize="15sp" />
 
-    <TextView
-        android:id="@+id/display_location_text_view"
+    <Button
+        android:id="@+id/display_location_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
+        android:background="?attr/selectableItemBackground"
         android:clickable="true"
-        android:text="Location: Sofia, Bulgaria"
+        android:text="@string/location_button_decode_text"
+        android:textAllCaps="false"
         android:textColor="@color/link_color"
-        android:textSize="14sp" />
+        android:textSize="15sp"
+        android:visibility="gone" />
 
 </LinearLayout>

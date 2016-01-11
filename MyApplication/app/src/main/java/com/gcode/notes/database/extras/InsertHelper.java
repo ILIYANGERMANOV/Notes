@@ -3,9 +3,9 @@ package com.gcode.notes.database.extras;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.gcode.notes.data.note.NoteData;
-import com.gcode.notes.data.note.base.ContentBase;
-import com.gcode.notes.data.note.list.ListData;
+import com.gcode.notes.data.NoteData;
+import com.gcode.notes.data.base.ContentBase;
+import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.database.NotesContract.ContentEntry;
 import com.gcode.notes.database.NotesContract.ListEntry;
 import com.gcode.notes.database.NotesContract.NoteEntry;
@@ -46,8 +46,13 @@ public class InsertHelper {
         contentValues.put(ContentEntry.COLUMN_NAME_TYPE, contentBase.getType());
         contentValues.put(ContentEntry.COLUMN_NAME_HAS_ATTRIBUTES, contentBase.getHasAttributesFlag());
         contentValues.put(ContentEntry.COLUMN_NAME_REMINDER, contentBase.getReminder()); //reminder is already is in SQLite format
-        //TODO: add legit location
-        contentValues.put(ContentEntry.COLUMN_NAME_LOCATION, Constants.NO_LOCATION);
+        if (!contentBase.hasLocation()) {
+            //note has NOT location, set NO_LOCATION
+            contentValues.put(ContentEntry.COLUMN_NAME_LOCATION, Constants.NO_LOCATION);
+        } else {
+            //note has location, serialize it and put it
+            contentValues.put(ContentEntry.COLUMN_NAME_LOCATION, Serializer.serializeMyLocation(contentBase.getMyLocation()));
+        }
         contentValues.put(ContentEntry.COLUMN_NAME_CREATION_DATE, contentBase.getCreationDate());
         contentValues.put(ContentEntry.COLUMN_NAME_LAST_MODIFIED_DATE, contentBase.getLastModifiedDate());
         contentValues.put(ContentEntry.COLUMN_NAME_EXPIRATION_DATE, Constants.NO_DATE);

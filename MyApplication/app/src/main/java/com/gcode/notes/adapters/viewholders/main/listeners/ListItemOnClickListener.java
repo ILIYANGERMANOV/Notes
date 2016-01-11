@@ -8,7 +8,7 @@ import android.view.View;
 import com.gcode.notes.activities.display.list.DisplayListBinActivity;
 import com.gcode.notes.activities.display.list.DisplayListNormalActivity;
 import com.gcode.notes.controllers.BaseController;
-import com.gcode.notes.data.note.list.ListData;
+import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
@@ -23,10 +23,8 @@ public class ListItemOnClickListener extends BaseItemListener implements View.On
 
     @Override
     public void onClick(View v) {
-        if (mDisabled) {
-            MyDebugger.log("list item listener disabled");
-            return;
-        }
+        if (mDisabled) return; //if disabled prevent further execution (stop click event)
+
         Intent intent = null;
         switch (BaseController.getInstance().getControllerId()) {
             case Constants.CONTROLLER_ALL_NOTES:

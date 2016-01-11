@@ -4,9 +4,9 @@ package com.gcode.notes.database.extras;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.gcode.notes.data.note.base.ContentBase;
-import com.gcode.notes.data.note.list.ListData;
-import com.gcode.notes.data.note.NoteData;
+import com.gcode.notes.data.base.ContentBase;
+import com.gcode.notes.data.list.ListData;
+import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.values.Constants;
 
 import java.util.ArrayList;

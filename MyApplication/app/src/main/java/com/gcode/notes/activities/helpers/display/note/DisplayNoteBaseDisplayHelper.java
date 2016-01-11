@@ -5,7 +5,7 @@ import android.view.View;
 import com.gcode.notes.activities.display.note.DisplayNoteBaseActivity;
 import com.gcode.notes.activities.helpers.display.note.listeners.DisplayNoteImageOnItemClickListener;
 import com.gcode.notes.adapters.note.display.DisplayNoteImagesAdapter;
-import com.gcode.notes.data.note.NoteData;
+import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.utils.AudioUtils;
 import com.linearlistview.LinearListView;
 

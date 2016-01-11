@@ -1,4 +1,4 @@
-package com.gcode.notes.data.note;
+package com.gcode.notes.data;
 
 import android.content.Context;
 import android.os.Handler;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.adapters.viewholders.main.NoteItemViewHolder;
-import com.gcode.notes.data.note.base.ContentBase;
+import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.PhotoUtils;
 import com.gcode.notes.extras.values.Constants;
@@ -29,10 +29,12 @@ public class NoteData extends ContentBase {
     }
 
     public NoteData(int id, int orderId, int targetId, String title, int mode, boolean hasAttributes,
-                    String reminderString, String creationDate, String lastModifiedDate, String expirationDateString) {
+                    String reminderString, String creationDate, String lastModifiedDate,
+                    String expirationDateString, String myLocationSerialized) {
 
         super(id, orderId, targetId, title, mode, hasAttributes,
-                reminderString, creationDate, lastModifiedDate, expirationDateString);
+                reminderString, creationDate, lastModifiedDate,
+                expirationDateString, myLocationSerialized);
 
         setAttributesToDefaultValues();
     }

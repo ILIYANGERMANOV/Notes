@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.adapters.viewholders.main.listeners.BaseItemListener;
-import com.gcode.notes.data.note.base.ContentBase;
+import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.helper.ItemTouchHelperViewHolder;
 
 import java.util.ArrayList;

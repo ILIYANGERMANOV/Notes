@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
 import com.gcode.notes.activities.helpers.compose.ComposeBaseRotationHandler;
-import com.gcode.notes.data.note.NoteData;
+import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;

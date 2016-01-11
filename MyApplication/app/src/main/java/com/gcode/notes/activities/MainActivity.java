@@ -29,6 +29,8 @@ import com.gcode.notes.activities.helpers.main.ui.FabMenuHelper;
 import com.gcode.notes.activities.helpers.main.ui.MainRecyclerViewHelper;
 import com.gcode.notes.activities.helpers.main.ui.MainToolbarHelper;
 import com.gcode.notes.activities.helpers.main.ui.NavigationDrawerHelper;
+import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.utils.LocationUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
 import com.github.clans.fab.FloatingActionMenu;
@@ -125,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
         new NavigationDrawerHelper(this, drawerOptionExecutor).setupNavigationDrawer();
         new MainRecyclerViewHelper(this).setupRecyclerView();
 
+        //TODO: handle BaseController fake instance (happens cuz its creation is delayed), make callback in main for recreating
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

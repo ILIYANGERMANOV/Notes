@@ -1,19 +1,23 @@
 package com.gcode.notes.activities.helpers.main.actions;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.view.View;
 
 import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.activities.compose.list.ComposeListActivity;
 import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
+import com.gcode.notes.activities.helpers.main.ui.FabMenuHelper;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.VoiceUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.ui.helpers.DialogHelper;
 
 public class FabMenuActionHandler {
-    public static void handleItemClick(MainActivity mainActivity, View itemView) {
+    //TODO: REFACTOR
+
+    public static void handleItemClick(final MainActivity mainActivity, View itemView) {
         if (itemView.getTag() == null) return; //secure that view has tag
 
         String tag = (String) itemView.getTag(); //tag used to identify which item was clicked
@@ -41,6 +45,13 @@ public class FabMenuActionHandler {
 
         //!NOTE: startActivityForResult() and startActivity() doesn't terminate current code execution
 
-        mainActivity.getFabMenu().close(false); //click event consumed, close fab menu
+        //delay it, cuz if user click before animation has finished fab menu will not close
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mainActivity.getFabMenu().close(false); //click event consumed, close fab menu
+                FabMenuHelper.setTouchListenerFlagsDown(); //so click not consumed bug won't appear
+            }
+        }, Constants.DELAY_SO_USER_CAN_SEE);
     }
 }

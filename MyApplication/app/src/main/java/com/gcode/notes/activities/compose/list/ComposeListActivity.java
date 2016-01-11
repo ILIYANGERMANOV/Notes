@@ -9,13 +9,14 @@ import android.widget.ScrollView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.activities.compose.ComposeBaseActivity;
+import com.gcode.notes.activities.compose.list.listeners.TitleEditTextOnFocusChangeListener;
+import com.gcode.notes.activities.helpers.compose.ComposeLocationHelper;
 import com.gcode.notes.activities.helpers.compose.list.ComposeListMenuOptionsHelper;
 import com.gcode.notes.activities.helpers.compose.list.ComposeListRotationHandler;
 import com.gcode.notes.activities.helpers.compose.list.ComposeListStartStateHelper;
 import com.gcode.notes.adapters.list.compose.ListComposeContainerAdapter;
 import com.gcode.notes.adapters.list.compose.TickedListComposeContainerAdapter;
-import com.gcode.notes.data.note.list.ListData;
-import com.gcode.notes.activities.compose.list.listeners.TitleEditTextOnFocusChangeListener;
+import com.gcode.notes.data.list.ListData;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -67,6 +68,10 @@ public class ComposeListActivity extends ComposeBaseActivity {
         super.setup();
         getTitleEditText().setOnFocusChangeListener(new TitleEditTextOnFocusChangeListener(this));
         new ComposeListStartStateHelper(this).setupStartState(savedInstanceState);
+        if (!mIsOpenedInEditMode) {
+            //its new note, obtain creation location if possible
+            ComposeLocationHelper.getLocation(this);
+        }
     }
 
     @Override

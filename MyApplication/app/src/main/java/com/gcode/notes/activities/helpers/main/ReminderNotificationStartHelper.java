@@ -3,9 +3,9 @@ package com.gcode.notes.activities.helpers.main;
 import android.content.Intent;
 
 import com.gcode.notes.activities.MainActivity;
-import com.gcode.notes.data.note.NoteData;
-import com.gcode.notes.data.note.base.ContentBase;
-import com.gcode.notes.data.note.list.ListData;
+import com.gcode.notes.data.NoteData;
+import com.gcode.notes.data.base.ContentBase;
+import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.builders.IntentBuilder;
 import com.gcode.notes.extras.values.Constants;

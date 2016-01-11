@@ -1,7 +1,7 @@
 package com.gcode.notes.activities.helpers.compose;
 
 import com.gcode.notes.activities.compose.ComposeBaseActivity;
-import com.gcode.notes.data.note.base.ContentBase;
+import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.utils.AlarmUtils;
 import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
@@ -28,7 +28,7 @@ public class ComposeBaseSaveHelper {
 
         //!NOTE: all attributes used in display must be set before ---save reminder---- so it can display correctly
         String currentTimeSQLiteFormatted = DateUtils.getCurrentTimeSQLiteFormatted();
-        if (!contentBase.hasCreationDate()) {
+        if (!composeBaseActivity.mIsOpenedInEditMode) {
             //its new note, set creation date
             contentBase.setCreationDate(currentTimeSQLiteFormatted);
         }
@@ -54,6 +54,13 @@ public class ComposeBaseSaveHelper {
             }
         }
         //save reminder---------------------------------------------------------------------------------------------
+
+        //save location---------------------------------------------------------------------------------------------
+        if (composeBaseActivity.mLocationObtained && !contentBase.hasLocation()) {
+            //location is obtained successfully and note doesn't have location set, set it
+            contentBase.setLocation(composeBaseActivity.mLatitude, composeBaseActivity.mLongitude);
+        }
+        //save location---------------------------------------------------------------------------------------------
 
         return hadValidTitleBeforeValidation;
     }

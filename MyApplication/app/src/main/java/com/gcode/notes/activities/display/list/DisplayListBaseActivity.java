@@ -9,7 +9,6 @@ import android.widget.ScrollView;
 import com.gcode.notes.R;
 import com.gcode.notes.activities.display.DisplayBaseActivity;
 import com.gcode.notes.activities.helpers.display.DisplayBaseMenuOptionsHelper;
-import com.gcode.notes.activities.helpers.display.DisplayToolbarHelper;
 import com.gcode.notes.activities.helpers.display.list.DisplayListBaseContainersHelper;
 import com.gcode.notes.activities.helpers.display.list.DisplayListBaseDisplayHelper;
 import com.gcode.notes.activities.helpers.display.list.DisplayListBaseRotationHandler;
@@ -17,8 +16,8 @@ import com.gcode.notes.activities.helpers.display.list.DisplayListBaseStartState
 import com.gcode.notes.activities.helpers.display.list.DisplayListBaseTasksHelper;
 import com.gcode.notes.adapters.list.display.ListDisplayAdapter;
 import com.gcode.notes.adapters.list.display.ListDisplayTickedAdapter;
-import com.gcode.notes.data.note.list.ListData;
-import com.gcode.notes.data.note.list.ListDataItem;
+import com.gcode.notes.data.list.ListData;
+import com.gcode.notes.data.list.ListDataItem;
 import com.linearlistview.LinearListView;
 
 import java.util.ArrayList;

@@ -13,12 +13,13 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.R;
 import com.gcode.notes.activities.compose.ComposeBaseActivity;
+import com.gcode.notes.activities.helpers.compose.ComposeLocationHelper;
 import com.gcode.notes.activities.helpers.compose.note.ComposeNoteMenuOptionsHelper;
 import com.gcode.notes.activities.helpers.compose.note.ComposeNoteResultHandler;
 import com.gcode.notes.activities.helpers.compose.note.ComposeNoteRotationHandler;
 import com.gcode.notes.activities.helpers.compose.note.ComposeNoteStartStateHelper;
 import com.gcode.notes.adapters.note.compose.ComposeNoteImagesAdapter;
-import com.gcode.notes.data.note.NoteData;
+import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.utils.AudioUtils;
 import com.gcode.notes.ui.ActionExecutor;
 import com.linearlistview.LinearListView;
@@ -90,8 +91,11 @@ public class ComposeNoteActivity extends ComposeBaseActivity {
     private void setup(Bundle savedInstanceState) {
         super.setup(); //setups base in ComposeBaseActivity
         new ComposeNoteStartStateHelper(this).setupStartState(savedInstanceState);
+        if (!mIsOpenedInEditMode) {
+            //its new note, obtain creation location if possible
+            ComposeLocationHelper.getLocation(this);
+        }
     }
-
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -115,11 +119,13 @@ public class ComposeNoteActivity extends ComposeBaseActivity {
         super.onDestroy();
     }
 
+    @SuppressWarnings("unused")
     @OnClick(R.id.compose_audio_play_pause_button)
     public void playPauseAudio() {
         mAudioUtils.toggle();
     }
 
+    @SuppressWarnings("unused")
     @OnClick(R.id.compose_audio_delete_button)
     public void deleteAudio() {
         ActionExecutor.deleteAudioFromNote(this);

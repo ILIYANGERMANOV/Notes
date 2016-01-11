@@ -3,7 +3,7 @@ package com.gcode.notes.services;
 import android.app.IntentService;
 import android.content.Intent;
 
-import com.gcode.notes.data.note.base.ContentBase;
+import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.utils.AlarmUtils;
 import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.notes.MyApplication;

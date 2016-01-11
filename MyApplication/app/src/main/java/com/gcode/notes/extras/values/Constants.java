@@ -29,8 +29,6 @@ public class Constants {
     public static final String NOTE_UPDATED_SUCCESSFULLY = "note_updated_successfully";
     public static final String COMPOSE_NOTE_MODE = "compose_note_mode";
 
-    public static final String DEBUG_TAG = "ddq";
-
     public static final int TYPE_NOTE = 1;
     public static final int TYPE_LIST = 2;
 
@@ -103,4 +101,6 @@ public class Constants {
     public static final int LONG_DELAY = 250;
 
     public static final int DELAY_SO_USER_CAN_SEE = 300;
+
+    public static final long LOCATION_VALID_TIME = 900000;
 }
