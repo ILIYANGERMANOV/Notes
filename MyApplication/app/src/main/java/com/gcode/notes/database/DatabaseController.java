@@ -20,9 +20,7 @@ import java.util.ArrayList;
 public class DatabaseController {
     private Context mContext;
     private SQLiteDatabase mDatabase;
-
-    //TODO: optimize memory consumption by replacing NO_REMINDER,NO_EXPIRATION_DATE and NO_LOCATION with null
-
+    
     public DatabaseController(Context context) {
         mContext = context;
         NotesDbHelper mHelper = new NotesDbHelper(context);

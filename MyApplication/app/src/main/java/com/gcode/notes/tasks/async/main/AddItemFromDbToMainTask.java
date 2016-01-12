@@ -1,12 +1,12 @@
-package com.gcode.notes.tasks.async;
+package com.gcode.notes.tasks.async.main;
 
 
 import android.os.AsyncTask;
 
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.base.ContentBase;
-import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 
 public class AddItemFromDbToMainTask extends AsyncTask<Void, Void, ContentBase> {

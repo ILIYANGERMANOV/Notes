@@ -9,7 +9,7 @@ import com.gcode.notes.activities.helpers.display.list.DisplayListBaseResultHand
 import com.gcode.notes.activities.helpers.display.list.normal.DisplayListNormalMenuOptionsHelper;
 import com.gcode.notes.activities.helpers.display.list.normal.DisplayListNormalResultHandler;
 import com.gcode.notes.notes.MyApplication;
-import com.gcode.notes.tasks.async.UpdateListAttributesTask;
+import com.gcode.notes.tasks.async.display.UpdateListAttributesTask;
 
 import butterknife.OnClick;
 

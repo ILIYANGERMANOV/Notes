@@ -14,7 +14,7 @@ import com.gcode.notes.R;
 import com.gcode.notes.activities.helpers.display.DisplayToolbarHelper;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.utils.DateUtils;
-import com.gcode.notes.tasks.async.DecodeLocationTask;
+import com.gcode.notes.tasks.async.display.DecodeLocationTask;
 
 import butterknife.Bind;
 

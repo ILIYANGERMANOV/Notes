@@ -6,7 +6,6 @@ import com.gcode.notes.database.NotesContract.ContentEntry;
 import com.gcode.notes.database.NotesContract.ListEntry;
 import com.gcode.notes.database.NotesContract.NoteEntry;
 import com.gcode.notes.extras.utils.DateUtils;
-import com.gcode.notes.extras.values.Constants;
 
 public class SelectQueries {
     //TODO: refactor and optimize
@@ -21,7 +20,7 @@ public class SelectQueries {
     private static final String DESC_LIMIT_1 = " DESC LIMIT 1";
 
     public static final String EQUALS_TO = " = ?";
-    public static final String NOT_EQUALS = " != ";
+    public static final String IS_NOT_NULL = " IS NOT NULL";
     public static final String AND = " AND ";
     public static final String LESS_THAN = " < ";
 
@@ -35,13 +34,13 @@ public class SelectQueries {
 
     public static final String SELECT_ALL_EXPIRED_NOTES =
             SELECT_ALL_FROM + ContentEntry.TABLE_NAME + WHERE +
-                    ContentEntry.COLUMN_NAME_EXPIRATION_DATE + NOT_EQUALS + "'" + Constants.NO_DATE + "' " +
+                    ContentEntry.COLUMN_NAME_EXPIRATION_DATE + IS_NOT_NULL +
                     AND + ContentEntry.COLUMN_NAME_EXPIRATION_DATE + LESS_THAN +
                     "'" + DateUtils.getCurrentTimeSQLiteFormatted() + "'";
 
     public static final String SELECT_ALL_NOTES_WITH_REMINDER =
             SELECT_ALL_FROM + ContentEntry.TABLE_NAME + WHERE +
-                    ContentEntry.COLUMN_NAME_REMINDER + NOT_EQUALS + "'" + Constants.NO_REMINDER + "'";
+                    ContentEntry.COLUMN_NAME_REMINDER + IS_NOT_NULL;
 
     public static String whereClauseContentId = ContentEntry._ID + EQUALS_TO;
     public static String whereClauseNoteId = NoteEntry._ID + EQUALS_TO;

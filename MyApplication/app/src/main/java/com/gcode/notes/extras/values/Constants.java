@@ -5,8 +5,6 @@ import android.view.Menu;
 
 public class Constants {
     public static final String PREFERENCES_FILE = "notes_settings";
-    public static final int FAB_THRESHOLD_TRANSLATION_Y = 15;
-    public static final int FAB_MAX_TRANSLATION_Y = 200;
     public static final int GRID_COLUMNS_COUNT = 2;
 
     public static final int COMPOSE_NOTE_REQUEST_CODE = 1;
@@ -20,7 +18,7 @@ public class Constants {
     //TODO: fix bug on note with id 7833
     public static final int ERROR = 7833;
 
-    public static final int NO_VALUE = 1;
+    public static final int NO_VALUE = -1;
 
     //must be positive and greater than max list items + 1
     public static final int NO_FOCUS = 512;
@@ -46,11 +44,6 @@ public class Constants {
     public static final int DATABASE_ERROR = -1;
 
     public static final int MENU_EMPTY_BIN = Menu.FIRST + 3;
-
-    public static final String NO_LOCATION = "no_location";
-    public static final String NO_DATE = "no_date";
-    public static final String NO_REMINDER = "no_reminder";
-    public static final String NO_AUDIO = "no_audio_attached";
 
     public static final int SETUP_FROM_ZERO = 1;
     public static final int SETUP_FROM_EDIT_MODE = 2;

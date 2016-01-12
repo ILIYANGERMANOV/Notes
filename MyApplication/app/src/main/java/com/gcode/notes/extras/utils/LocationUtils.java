@@ -166,6 +166,7 @@ public class LocationUtils implements LocationListener {
 //        MyDebugger.log("postalCode", postalCode);
 //        MyDebugger.log("knownName", knownName);
 
+        //TODO: create smart location button text, not only from address (cuz when not in hometown is retarded)
         String result = "";
         if (knownName != null && knownName.trim().length() > 0) {
             result += knownName;

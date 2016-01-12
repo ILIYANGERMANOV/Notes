@@ -45,19 +45,21 @@ public class InsertHelper {
         contentValues.put(ContentEntry.COLUMN_NAME_MODE, contentBase.getMode());
         contentValues.put(ContentEntry.COLUMN_NAME_TYPE, contentBase.getType());
         contentValues.put(ContentEntry.COLUMN_NAME_HAS_ATTRIBUTES, contentBase.getHasAttributesFlag());
-        contentValues.put(ContentEntry.COLUMN_NAME_REMINDER, contentBase.getReminder()); //reminder is already is in SQLite format
-        if (!contentBase.hasLocation()) {
-            //note has NOT location, set NO_LOCATION
-            contentValues.put(ContentEntry.COLUMN_NAME_LOCATION, Constants.NO_LOCATION);
-        } else {
+        contentValues.put(ContentEntry.COLUMN_NAME_CREATION_DATE, contentBase.getCreationDate());
+        contentValues.put(ContentEntry.COLUMN_NAME_LAST_MODIFIED_DATE, contentBase.getLastModifiedDate());
+
+        //!NOTE: COLUMN_EXPIRATION_DATE will be always null when creation new note
+        if(contentBase.hasReminder()) {
+            //note has reminder, insert it
+            //!NOTE: reminder is already is in SQLite format
+            contentValues.put(ContentEntry.COLUMN_NAME_REMINDER, contentBase.getReminder());
+        }
+        if (contentBase.hasLocation()) {
             //note has location, serialize it and put it
             contentValues.put(ContentEntry.COLUMN_NAME_LOCATION, Serializer.serializeMyLocation(contentBase.getMyLocation()));
         }
-        contentValues.put(ContentEntry.COLUMN_NAME_CREATION_DATE, contentBase.getCreationDate());
-        contentValues.put(ContentEntry.COLUMN_NAME_LAST_MODIFIED_DATE, contentBase.getLastModifiedDate());
-        contentValues.put(ContentEntry.COLUMN_NAME_EXPIRATION_DATE, Constants.NO_DATE);
 
-        return database.insert(ContentEntry.TABLE_NAME, null, contentValues);
+        return database.insert(ContentEntry.TABLE_NAME, ContentEntry.COLUMN_NAME_REMINDER, contentValues);
     }
 
     public static void insertAttributesInNote(SQLiteDatabase database, ContentBase contentBase) {
@@ -70,7 +72,10 @@ public class InsertHelper {
             contentValues.put(NoteEntry.COLUMN_NAME_PHOTOS_PATHS,
                     Serializer.serializeImagesPathsList(noteData.getAttachedImagesPaths()));
         }
-        contentValues.put(NoteEntry.COLUMN_NAME_AUDIO_PATH, noteData.getAttachedAudioPath());
+        if(noteData.hasAttachedAudio()) {
+            //note has attached audio, insert it
+            contentValues.put(NoteEntry.COLUMN_NAME_AUDIO_PATH, noteData.getAttachedAudioPath());
+        }
 
         if (database.insert(NoteEntry.TABLE_NAME,
                 NoteEntry.COLUMN_NAME_PHOTOS_PATHS, contentValues) == Constants.DATABASE_ERROR) {

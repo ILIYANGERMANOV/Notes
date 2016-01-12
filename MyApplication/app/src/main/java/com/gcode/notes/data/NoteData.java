@@ -48,7 +48,7 @@ public class NoteData extends ContentBase {
     }
 
     public boolean hasAttachedAudio() {
-        return !attachedAudioPath.equals(Constants.NO_AUDIO);
+        return attachedAudioPath != null;
     }
 
     public boolean hasAttributes() {
@@ -167,7 +167,7 @@ public class NoteData extends ContentBase {
     private void setAttributesToDefaultValues() {
         attachedImagesPaths = null;
         description = "";
-        attachedAudioPath = Constants.NO_AUDIO;
+        attachedAudioPath = null;
     }
 
 }

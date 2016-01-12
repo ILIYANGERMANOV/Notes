@@ -13,7 +13,14 @@ public class DisplayNoteBaseDisplayHelper {
     public static void displayNoteData(final DisplayNoteBaseActivity displayNoteBaseActivity) {
         NoteData mNoteData = displayNoteBaseActivity.mNoteData; //create new reference for easier access
 
-        displayNoteBaseActivity.getDescriptionTextView().setText(mNoteData.getDescription()); //display note's description
+        //!NOTE: by default description text view visibility is VISIBLE
+        if(mNoteData.hasDescription()) {
+            //note data has description, display it
+            displayNoteBaseActivity.getDescriptionTextView().setText(mNoteData.getDescription()); //display note's description
+        } else {
+            //note data hasn't description, set description view visibility to gone so there are no white spaces
+            displayNoteBaseActivity.getDescriptionTextView().setVisibility(View.GONE);
+        }
 
         if (mNoteData.hasAttachedImage()) {
             //there is attached image, display it

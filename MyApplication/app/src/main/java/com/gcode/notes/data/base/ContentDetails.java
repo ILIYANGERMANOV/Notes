@@ -1,6 +1,5 @@
 package com.gcode.notes.data.base;
 
-import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 
 public class ContentDetails {
@@ -8,13 +7,13 @@ public class ContentDetails {
     private String lastModifiedDate;
     private String expirationDate;
 
-    MyLocation location;
+    MyLocation myLocation;
 
     public ContentDetails() {
-        creationDate = Constants.NO_DATE;
-        lastModifiedDate = Constants.NO_DATE;
-        expirationDate = Constants.NO_DATE;
-        location = new MyLocation();
+        creationDate = null;
+        lastModifiedDate = null;
+        expirationDate = null;
+        myLocation = null;
     }
 
     public ContentDetails(String creationDate, String lastModifiedDate,
@@ -22,12 +21,9 @@ public class ContentDetails {
         this.creationDate = creationDate;
         this.lastModifiedDate = lastModifiedDate;
         this.expirationDate = expirationDate;
-        if (myLocationSerialized.equals(Constants.NO_LOCATION)) {
-            //there is no location set, construct new one
-            location = new MyLocation();
-        } else {
-            //there is location set, parse it
-            location = Serializer.parseMyLocation(myLocationSerialized);
+        if (myLocationSerialized != null) {
+            //there is myLocation set, parse it
+            myLocation = Serializer.parseMyLocation(myLocationSerialized);
         }
     }
 
@@ -56,6 +52,10 @@ public class ContentDetails {
     }
 
     public MyLocation getMyLocation() {
-        return location;
+        return myLocation;
+    }
+
+    public void setMyLocation(MyLocation location) {
+        this.myLocation = location;
     }
 }

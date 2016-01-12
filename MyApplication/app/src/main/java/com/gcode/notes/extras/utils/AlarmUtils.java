@@ -31,7 +31,7 @@ public class AlarmUtils {
             default:
                 //unknown type, log it, remove reminder and prevent further execution
                 MyDebugger.log("setAlarm() unknown type", type);
-                contentBase.setReminder(Constants.NO_REMINDER);
+                contentBase.setReminder(null);
                 MyApplication.getWritableDatabase().updateNoteReminder(contentBase);
                 return;
         }

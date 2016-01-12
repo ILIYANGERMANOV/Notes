@@ -4,9 +4,9 @@ import android.view.View;
 
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.base.ContentBase;
-import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.extras.MyDebugger;
-import com.gcode.notes.tasks.async.UndoNoteDeletionTask;
+import com.gcode.notes.extras.values.Constants;
+import com.gcode.notes.tasks.async.main.UndoNoteDeletionTask;
 
 
 public class NoteDeletedUndoOnClickListener implements View.OnClickListener {

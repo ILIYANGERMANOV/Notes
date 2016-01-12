@@ -4,9 +4,9 @@ package com.gcode.notes.controllers;
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.values.Constants;
-import com.gcode.notes.tasks.async.AddItemFromDbToMainTask;
-import com.gcode.notes.tasks.async.LoadContentTask;
-import com.gcode.notes.tasks.async.RemoveItemFromMainTask;
+import com.gcode.notes.tasks.async.main.AddItemFromDbToMainTask;
+import com.gcode.notes.tasks.async.main.LoadContentTask;
+import com.gcode.notes.tasks.async.main.RemoveItemFromMainTask;
 
 public class ImportantController extends BaseController {
     public ImportantController(MainActivity mainActivity) {

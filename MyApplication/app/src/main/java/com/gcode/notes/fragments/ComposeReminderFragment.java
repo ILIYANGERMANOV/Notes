@@ -137,7 +137,7 @@ public class ComposeReminderFragment extends Fragment {
     }
 
     /**
-     * @return returns reminders' date as String in SQLite format if set else Constants.NO_REMINDER
+     * @return returns reminders' date as String in SQLite format if set else null
      */
     public String getReminder() {
         if (mIsReminderSet) {
@@ -146,7 +146,7 @@ public class ComposeReminderFragment extends Fragment {
             return DateUtils.formatDateInSQLiteFormat(getCalendarForSelectedDateTime().getTime()); //return reminder date as string in SQLite format
         } else {
             //there is no reminder set, return null
-            return Constants.NO_REMINDER;
+            return null;
         }
     }
 

@@ -32,7 +32,7 @@ public abstract class ContentBase {
         targetId = Constants.NO_VALUE;
         orderId = Constants.NO_VALUE;
         hasAttributesFlag = false;
-        reminder = Constants.NO_REMINDER;
+        reminder = null;
         contentDetails = new ContentDetails();
     }
 
@@ -77,10 +77,6 @@ public abstract class ContentBase {
         this.targetId = targetId;
     }
 
-    public boolean hasCreationDate() {
-        return !contentDetails.getCreationDate().equals(Constants.NO_DATE);
-    }
-
     public String getCreationDate() {
         return contentDetails.getCreationDate();
     }
@@ -98,7 +94,7 @@ public abstract class ContentBase {
     }
 
     public boolean hasExpirationDate() {
-        return !contentDetails.getExpirationDate().trim().equals(Constants.NO_DATE);
+        return contentDetails.getExpirationDate() != null;
     }
 
     public String getDateDetails() {
@@ -125,7 +121,7 @@ public abstract class ContentBase {
     }
 
     public boolean hasLocation() {
-        return contentDetails.getMyLocation().isSet();
+        return contentDetails.getMyLocation() != null;
     }
 
     public MyLocation getMyLocation() {
@@ -141,6 +137,11 @@ public abstract class ContentBase {
     }
 
     public void setLocation(double latitude, double longitude) {
+        if(contentDetails.getMyLocation() == null) {
+            //secure my location so there won't be null pointer exception
+            contentDetails.setMyLocation(new MyLocation(latitude, longitude));
+            return; // return cuz location is already set
+        }
         contentDetails.getMyLocation().setLocation(latitude, longitude);
     }
 
@@ -169,7 +170,7 @@ public abstract class ContentBase {
     }
 
     public boolean hasReminder() {
-        return !reminder.equals(Constants.NO_REMINDER);
+        return reminder != null;
     }
 
     public int getMode() {

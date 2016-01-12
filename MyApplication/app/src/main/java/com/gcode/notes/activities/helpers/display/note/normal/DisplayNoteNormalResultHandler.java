@@ -27,7 +27,7 @@ public class DisplayNoteNormalResultHandler {
             } else if (data.getBooleanExtra(Constants.EXTRA_DELETED_AUDIO, false)) {
                 //note isn't saved from compose, but its audio is deleted
                 //set mNoteData to NO_AUDIO and free audio utils
-                displayNoteNormalActivity.mNoteData.setAttachedAudioPath(Constants.NO_AUDIO);
+                displayNoteNormalActivity.mNoteData.setAttachedAudioPath(null);
                 displayNoteNormalActivity.mAudioUtils.clearResources();
                 displayNoteNormalActivity.mAudioUtils = null;
             }

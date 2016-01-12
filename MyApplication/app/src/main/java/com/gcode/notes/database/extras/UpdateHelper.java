@@ -23,14 +23,26 @@ public class UpdateHelper {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(ContentEntry.COLUMN_NAME_MODE, newMode);
-        String expirationDate = setExpire ? DateUtils.getExpirationDate() : Constants.NO_DATE;
-        contentValues.put(ContentEntry.COLUMN_NAME_EXPIRATION_DATE, expirationDate);
+        if(setExpire) {
+            //note is expiring, set expirationDate
+            contentValues.put(ContentEntry.COLUMN_NAME_EXPIRATION_DATE,  DateUtils.getExpirationDate());
+        } else {
+            //note is not expiring, put null to expiration date
+            contentValues.putNull(ContentEntry.COLUMN_NAME_EXPIRATION_DATE);
+        }
         return database.update(ContentEntry.TABLE_NAME, contentValues, SelectQueries.whereClauseContentId, getContentBaseIdStringArray(contentBase));
     }
 
     public static int updateNoteReminder(SQLiteDatabase database, ContentBase contentBase) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(ContentEntry.COLUMN_NAME_REMINDER, contentBase.getReminder());
+        if (contentBase.hasReminder()) {
+            //note has reminder, update it
+            //!NOTE: reminder is already is SQLite format
+            contentValues.put(ContentEntry.COLUMN_NAME_REMINDER, contentBase.getReminder());
+        } else {
+            //note hasn't reminder, put null on reminder
+            contentValues.putNull(ContentEntry.COLUMN_NAME_REMINDER);
+        }
         return database.update(ContentEntry.TABLE_NAME, contentValues,
                 SelectQueries.whereClauseContentId, getContentBaseIdStringArray(contentBase));
     }
@@ -71,7 +83,7 @@ public class UpdateHelper {
 
     public static int removeAttachedAudioFromNote(SQLiteDatabase database, int targetId) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(NoteEntry.COLUMN_NAME_AUDIO_PATH, Constants.NO_AUDIO);
+        contentValues.putNull(NoteEntry.COLUMN_NAME_AUDIO_PATH);
         return database.update(NoteEntry.TABLE_NAME, contentValues, SelectQueries.whereClauseNoteId,
                 new String[]{
                         Integer.toString(targetId)
@@ -85,13 +97,22 @@ public class UpdateHelper {
         contentValues.put(ContentEntry.COLUMN_NAME_MODE, contentBase.getMode());
         contentValues.put(ContentEntry.COLUMN_NAME_HAS_ATTRIBUTES, contentBase.getHasAttributesFlag());
         contentValues.put(ContentEntry.COLUMN_NAME_LAST_MODIFIED_DATE, contentBase.getLastModifiedDate());
-        contentValues.put(ContentEntry.COLUMN_NAME_REMINDER, contentBase.getReminder());
+
+        if (contentBase.hasReminder()) {
+            //note has reminder, update it
+            //!NOTE: reminder is already is SQLite format
+            contentValues.put(ContentEntry.COLUMN_NAME_REMINDER, contentBase.getReminder());
+        } else {
+            //note hasn't reminder, put null on reminder
+            contentValues.putNull(ContentEntry.COLUMN_NAME_REMINDER);
+        }
+
         if (contentBase.hasLocation()) {
             //note has location, update it
             contentValues.put(ContentEntry.COLUMN_NAME_LOCATION, Serializer.serializeMyLocation(contentBase.getMyLocation()));
         } else {
-            //note hasn't location, set NO_LOCATION
-            contentValues.put(ContentEntry.COLUMN_NAME_LOCATION, Constants.NO_LOCATION);
+            //note hasn't location, put null on location
+            contentValues.putNull(ContentEntry.COLUMN_NAME_LOCATION);
         }
 
         if (contentBase.getTargetId() == Constants.NO_VALUE) {
@@ -134,7 +155,13 @@ public class UpdateHelper {
             //note has no attached images, put null for the column
             contentValues.putNull(NoteEntry.COLUMN_NAME_PHOTOS_PATHS);
         }
-        contentValues.put(NoteEntry.COLUMN_NAME_AUDIO_PATH, noteData.getAttachedAudioPath());
+        if(noteData.hasAttachedAudio()) {
+            //note has attached audio, update it
+            contentValues.put(NoteEntry.COLUMN_NAME_AUDIO_PATH, noteData.getAttachedAudioPath());
+        } else {
+            //note hasn't attached audio, put null to audio_path
+            contentValues.putNull(NoteEntry.COLUMN_NAME_AUDIO_PATH);
+        }
 
         return database.update(NoteEntry.TABLE_NAME, contentValues,
                 SelectQueries.whereClauseNoteId, getContentBaseTargetId(noteData));

@@ -49,7 +49,7 @@ public class ReminderNotificationStartHelper {
     }
 
     private static void unsetReminderAndStartDisplayActivity(MainActivity mainActivity, ContentBase contentBase) {
-        contentBase.setReminder(Constants.NO_REMINDER); //unset contentBase's reminder
+        contentBase.setReminder(null); //unset contentBase's reminder
         MyApplication.getWritableDatabase().updateNoteReminder(contentBase); //apply reminder update to db
         Intent displayActivityIntent = IntentBuilder.buildStartDisplayActivity(mainActivity, contentBase);
         if (displayActivityIntent != null) {

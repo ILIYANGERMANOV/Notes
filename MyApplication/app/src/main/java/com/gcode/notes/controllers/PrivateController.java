@@ -4,8 +4,8 @@ package com.gcode.notes.controllers;
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.values.Constants;
-import com.gcode.notes.tasks.async.AddItemFromDbToMainTask;
-import com.gcode.notes.tasks.async.LoadContentTask;
+import com.gcode.notes.tasks.async.main.AddItemFromDbToMainTask;
+import com.gcode.notes.tasks.async.main.LoadContentTask;
 
 public class PrivateController extends BaseController {
 

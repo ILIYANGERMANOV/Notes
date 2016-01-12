@@ -16,7 +16,7 @@ public class ComposeLocationHelper {
 
             @Override
             public void onProviderDisabled() {
-                MyDebugger.log("No provider enabled");
+                //MyDebugger.log("No provider enabled");
                 composeBaseActivity.mLocationObtained = false;
             }
 
