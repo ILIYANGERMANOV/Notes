@@ -22,30 +22,30 @@ public class ComposeNoteSaveHelper implements CryptographyTaskCompletedCallback 
     }
 
     public void saveNote() {
-        NoteData mNoteData = mComposeNoteActivity.mNoteData;
+        NoteData noteData = mComposeNoteActivity.mNoteData;
 
         if (!mComposeNoteActivity.mIsOpenedInEditMode) {
             //!NOTE contentBase type must be set before ComposeBaseSaveHelper#saveBase() cuz reminder won't be set correctly
             //when it is new note
-            mNoteData.setType(Constants.TYPE_NOTE); //sets contentBase type to note
+            noteData.setType(Constants.TYPE_NOTE); //sets contentBase type to note
         }
-        mNoteData.setDescription(mComposeNoteActivity.getDescriptionEditText().getText().toString()); //set description here, before its used in isValidNote()
-        //images are already added (adapter uses same list as adapter, so removing/adding will result mNoteData, too)
+        noteData.setDescription(mComposeNoteActivity.getDescriptionEditText().getText().toString()); //set description here, before its used in isValidNote()
+        //images are already added (adapter uses same list as adapter, so removing/adding will result noteData, too)
         //if has audio is already set in setupFromAudio or delete in DeleteAudioCallback
 
-        boolean hadValidTitleBeforeSaveBase = ComposeBaseSaveHelper.saveBase(mComposeNoteActivity, mNoteData);
+        boolean hadValidTitleBeforeSaveBase = ComposeBaseSaveHelper.saveBase(mComposeNoteActivity, noteData);
         //!NOTE ComposeBaseSaveHelper#saveBase() returns boolean which indicates whether the title was valid
         //used cuz in ComposeBaseSaveHelper#saveBase()
         //if title isn't valid will be generated and this will result in saving not valid notes
         //cuz noteData#isValidNote will always return true
 
-        if (mNoteData.isValidNote(hadValidTitleBeforeSaveBase)) {
+        if (noteData.isValidNote(hadValidTitleBeforeSaveBase)) {
             if (mComposeNoteActivity.mInPrivateMode) {
-                new EncryptNoteTask(mComposeNoteActivity, this).execute(mNoteData);
+                new EncryptNoteTask(mComposeNoteActivity, this).execute(noteData);
                 return;
             }
 
-            saveToDbAndSetResult(mNoteData);
+            saveToDbAndSetResult(noteData);
         } else {
             MyDebugger.toast(mComposeNoteActivity, "Cannot save empty notes.");
         }
@@ -53,6 +53,7 @@ public class ComposeNoteSaveHelper implements CryptographyTaskCompletedCallback 
 
     @Override
     public void onTaskCompletedSuccessfully(ContentBase contentBase) {
+        //encrypted successfully, save to db
         saveToDbAndSetResult(((NoteData) contentBase));
     }
 
@@ -79,7 +80,12 @@ public class ComposeNoteSaveHelper implements CryptographyTaskCompletedCallback 
                 return;
             }
         }
+
+        //note saved successfully, set alarm for reminder
+        ComposeBaseSaveHelper.setAlarmIfHasReminder(mComposeNoteActivity.getComposeReminderFragment(), noteData);
+
         mComposeNoteActivity.setResult(Activity.RESULT_OK, resultIntent);
         mComposeNoteActivity.finish();
     }
+
 }

@@ -11,8 +11,7 @@ public class ComposeListMenuOptionsHelper {
             case R.id.action_settings:
                 return true;
             case android.R.id.home:
-                ComposeListSaveHelper.saveList(composeListActivity);
-                composeListActivity.finish();
+                new ComposeListSaveHelper(composeListActivity).saveList();
         }
         return false;
     }

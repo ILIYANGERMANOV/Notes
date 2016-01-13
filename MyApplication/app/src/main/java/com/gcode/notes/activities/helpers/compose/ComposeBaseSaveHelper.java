@@ -16,7 +16,7 @@ public class ComposeBaseSaveHelper {
      * @param contentBase         - used to set its title, reminder, mode, and attributes flag
      * @return whether the note had valid title before validation
      */
-    public static boolean saveBase(ComposeBaseActivity composeBaseActivity, ContentBase contentBase) {
+    public static boolean saveBase(ComposeBaseActivity composeBaseActivity, final ContentBase contentBase) {
         contentBase.setTitle(composeBaseActivity.getTitleEditText().getText().toString());
 
         boolean hadValidTitleBeforeValidation = contentBase.hasValidTitle();
@@ -38,7 +38,7 @@ public class ComposeBaseSaveHelper {
         MyApplication.getWritableDatabase().validateNote(contentBase, composeBaseActivity.mIsOpenedInEditMode);
 
         //save reminder---------------------------------------------------------------------------------------------
-        ComposeReminderFragment composeReminderFragment = composeBaseActivity.getComposeReminderFragment();
+        final ComposeReminderFragment composeReminderFragment = composeBaseActivity.getComposeReminderFragment();
         if (composeReminderFragment != null) {
             //composeReminderFragment found successfully, set reminder to note
             if (contentBase.hasReminder() && !composeReminderFragment.mIsReminderSet) {
@@ -48,10 +48,6 @@ public class ComposeBaseSaveHelper {
                 AlarmUtils.cancelAlarm(composeBaseActivity, contentBase.getId());
             }
             contentBase.setReminder(composeReminderFragment.getReminder());
-            if (contentBase.hasReminder()) {
-                //contentBase has reminder after obtaining data from ComposeReminderFragment, set an alarm event
-                composeReminderFragment.setAlarmForReminder(contentBase);
-            }
         }
         //save reminder---------------------------------------------------------------------------------------------
 
@@ -63,5 +59,12 @@ public class ComposeBaseSaveHelper {
         //save location---------------------------------------------------------------------------------------------
 
         return hadValidTitleBeforeValidation;
+    }
+
+    public static void setAlarmIfHasReminder(ComposeReminderFragment composeReminderFragment, ContentBase contentBase) {
+        if (contentBase.hasReminder() && composeReminderFragment != null) {
+            //contentBase has reminder after obtaining data from ComposeReminderFragment, set an alarm event
+            composeReminderFragment.setAlarmForReminder(contentBase);
+        }
     }
 }
