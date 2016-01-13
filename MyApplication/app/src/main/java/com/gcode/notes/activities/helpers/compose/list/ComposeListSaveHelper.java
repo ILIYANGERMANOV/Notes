@@ -5,13 +5,16 @@ import android.content.Intent;
 
 import com.gcode.notes.activities.compose.list.ComposeListActivity;
 import com.gcode.notes.activities.helpers.compose.ComposeBaseSaveHelper;
+import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
+import com.gcode.notes.tasks.async.encryption.EncryptNoteTask;
+import com.gcode.notes.tasks.async.encryption.callbacks.CryptTaskCallbacks;
 
-public class ComposeListSaveHelper {
+public class ComposeListSaveHelper implements CryptTaskCallbacks {
     ComposeListActivity mComposeListActivity;
 
     public ComposeListSaveHelper(ComposeListActivity composeListActivity) {
@@ -38,6 +41,13 @@ public class ComposeListSaveHelper {
         //cuz listData#isValidNote will always return true
 
         if (listData.isValidList(hadValidTitleBeforeSaveBase)) {
+            if (mComposeListActivity.mInPrivateMode) {
+                //note is private mode, encrypt it before saving
+                //!NOTE: onTaskCompletedSuccessfully or error callback will be called when ready
+                new EncryptNoteTask(mComposeListActivity, this).execute(listData);
+                return;
+            }
+
             saveToDbAndSetResult(listData);
         } else {
             MyDebugger.toast(mComposeListActivity, "Cannot save empty list.");
@@ -73,5 +83,11 @@ public class ComposeListSaveHelper {
 
         mComposeListActivity.setResult(Activity.RESULT_OK, resultIntent);
         mComposeListActivity.finish();
+    }
+
+    @Override
+    public void onTaskCompletedSuccessfully(ContentBase contentBase) {
+        //encrypted successfully, save list to db
+        saveToDbAndSetResult(((ListData) contentBase));
     }
 }

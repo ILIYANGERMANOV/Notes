@@ -1,6 +1,5 @@
 package com.gcode.notes.controllers;
 
-import android.content.Context;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -23,7 +22,7 @@ public class BaseController {
     //TODO: REFACTOR AND OPTIMIZE
     private static BaseController mInstance;
 
-    protected Context mContext;
+    protected MainActivity mMainActivity;
     protected Toolbar mToolbar;
     protected RecyclerView mRecyclerView;
     protected FloatingActionMenu mFabMenu;
@@ -52,7 +51,7 @@ public class BaseController {
 
     protected BaseController(MainActivity mainActivity) {
         if (mainActivity == null) return; //protect from null pointer exception
-        mContext = mainActivity;
+        mMainActivity = mainActivity;
         mToolbar = mainActivity.getToolbar();
         mRecyclerView = mainActivity.getRecyclerView();
         mFabMenu = mainActivity.getFabMenu();

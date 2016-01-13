@@ -35,10 +35,12 @@ public class ComposeNoteStartStateHelper extends ComposeBaseStartStateHelper {
                 break;
             case Constants.SETUP_FROM_PHOTO:
                 //Creating note from attached image
+                super.setupFromZero(mComposeNoteActivity); //setup mode
                 ComposeNotePhotoHelper.setupFromPhoto(mComposeNoteActivity, intent.getStringExtra(Constants.EXTRA_PHOTO_URI));
                 break;
             case Constants.SETUP_FROM_AUDIO:
                 //Creating audio note (from voice recognition)
+                super.setupFromZero(mComposeNoteActivity); //setup mode
                 ComposeNoteAudioHelper.setupFromAudio(mComposeNoteActivity, intent.getStringExtra(Constants.EXTRA_AUDIO_PATH),
                         intent.getStringExtra(Constants.EXTRA_RECOGNIZED_SPEECH_TEXT));
                 break;

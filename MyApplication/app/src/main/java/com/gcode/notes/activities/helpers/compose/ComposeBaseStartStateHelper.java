@@ -7,6 +7,12 @@ import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.fragments.ComposeReminderFragment;
 
 public class ComposeBaseStartStateHelper {
+    /**
+     * Sets activity mode.
+     * Set action button image and action.
+     *
+     * @param composeBaseActivity activity which modes and states will be set
+     */
     protected void setupFromZero(ComposeBaseActivity composeBaseActivity) {
         composeBaseActivity.mIsOpenedInEditMode = false;
         switch (BaseController.getInstance().getControllerId()) {
@@ -50,6 +56,10 @@ public class ComposeBaseStartStateHelper {
 
                 composeReminderFragment.updateButtonsText(); //update buttons' text to above setted values
             }
+        }
+        if (contentBase.getMode() == Constants.MODE_PRIVATE) {
+            //note is private mode, rise mInPrivateMode flag
+            composeBaseActivity.mInPrivateMode = true;
         }
     }
 }

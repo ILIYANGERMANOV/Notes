@@ -1,4 +1,4 @@
-package com.gcode.notes.tasks.async.compose;
+package com.gcode.notes.tasks.async.encryption;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -9,22 +9,22 @@ import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.EncryptionUtils;
-import com.gcode.notes.tasks.async.callbacks.CryptographyTaskCompletedCallback;
+import com.gcode.notes.tasks.async.encryption.callbacks.CryptTaskCallbacks;
 import com.gcode.notes.ui.helpers.DialogHelper;
 
-public class EncryptNoteTask extends AsyncTask<ContentBase, Void, ContentBase> {
+public class DecryptNoteTask extends AsyncTask<ContentBase, Void, ContentBase> {
     private Activity mActivity;
-    private CryptographyTaskCompletedCallback mTaskCompletedCallback;
+    private CryptTaskCallbacks mCryptTaskCallbacks;
     private MaterialDialog mProgressDialog;
 
-    public EncryptNoteTask(Activity activity, CryptographyTaskCompletedCallback taskCompletedCallback) {
+    public DecryptNoteTask(Activity activity, CryptTaskCallbacks taskCompletedCallback) {
         mActivity = activity;
-        mTaskCompletedCallback = taskCompletedCallback;
+        mCryptTaskCallbacks = taskCompletedCallback;
     }
 
     @Override
     protected void onPreExecute() {
-        mProgressDialog = DialogHelper.buildEncryptionProgressDialog(mActivity);
+        mProgressDialog = DialogHelper.buildDecryptNoteProgressDialog(mActivity);
     }
 
     @Override
@@ -33,16 +33,16 @@ public class EncryptNoteTask extends AsyncTask<ContentBase, Void, ContentBase> {
         try {
             if (contentBase instanceof NoteData) {
                 //its note
-                EncryptionUtils.getInstance("1312").encryptNoteData(((NoteData) contentBase));
+                EncryptionUtils.getInstance("1312").decryptNoteData(((NoteData) contentBase));
             } else if (contentBase instanceof ListData) {
                 //its list
-                EncryptionUtils.getInstance("1312").encryptListData(((ListData) contentBase));
+                EncryptionUtils.getInstance("1312").decryptListData(((ListData) contentBase));
             } else {
-                MyDebugger.log("EncryptNoteTask unknown TYPE.");
+                MyDebugger.log("DecryptNoteTask unknown TYPE.");
                 return null;
             }
         } catch (Exception e) {
-            MyDebugger.log("EncryptNoteTask exception", e.getMessage());
+            MyDebugger.log("DecryptNoteTask exception", e.getMessage());
             return null;
         }
         return contentBase;
@@ -55,8 +55,8 @@ public class EncryptNoteTask extends AsyncTask<ContentBase, Void, ContentBase> {
             mProgressDialog.dismiss();
         }
         if (contentBase != null) {
-            MyDebugger.log("note encrypted successfully");
-            mTaskCompletedCallback.onTaskCompletedSuccessfully(contentBase);
+            MyDebugger.log("note decrypted successfully");
+            mCryptTaskCallbacks.onTaskCompletedSuccessfully(contentBase);
         }
     }
 }

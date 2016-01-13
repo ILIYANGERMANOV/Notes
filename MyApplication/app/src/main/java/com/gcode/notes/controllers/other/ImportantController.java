@@ -16,7 +16,7 @@ public class ImportantController extends VisibleController {
     @Override
     public void setContent(boolean scrollToTop) {
         super.setContent(scrollToTop);
-        mToolbar.setTitle(mContext.getString(R.string.starred_label));
+        mToolbar.setTitle(mMainActivity.getString(R.string.starred_label));
     }
 
     @Override

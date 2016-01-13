@@ -17,7 +17,7 @@ public class BinController extends BaseController {
     @Override
     public void setContent(boolean scrollToTop) {
         super.setContent(scrollToTop);
-        mToolbar.setTitle(mContext.getString(R.string.bin_label));
+        mToolbar.setTitle(mMainActivity.getString(R.string.bin_label));
         new LoadContentTask(scrollToTop).execute();
         mSimpleItemTouchHelperCallback.setLongPressDragEnabled(false);
 

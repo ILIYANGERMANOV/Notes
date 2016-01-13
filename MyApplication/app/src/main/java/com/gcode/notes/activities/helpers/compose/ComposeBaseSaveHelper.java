@@ -23,7 +23,15 @@ public class ComposeBaseSaveHelper {
 
         //!NOTE: contentBase#setMode should be called before setting reminder,
         // cuz it will result in bug ('buildStartDisplayActivity() unknown mode: 0')
-        contentBase.setMode(composeBaseActivity.mIsStarred ? Constants.MODE_IMPORTANT : Constants.MODE_NORMAL); //mode should be set before setting reminder, cuz it will result in bug
+        int mode;
+        if (composeBaseActivity.mInPrivateMode) {
+            //activity is in private mode, set private mode to note
+            mode = Constants.MODE_PRIVATE;
+        } else {
+            //activity is in normal mode, set mode according starred state
+            mode = composeBaseActivity.mIsStarred ? Constants.MODE_IMPORTANT : Constants.MODE_NORMAL;
+        }
+        contentBase.setMode(mode); //mode should be set before setting reminder, cuz it will result in bug
         contentBase.setHasAttributesFlag(contentBase.hasAttributes());
 
         //!NOTE: all attributes used in display must be set before ---save reminder---- so it can display correctly

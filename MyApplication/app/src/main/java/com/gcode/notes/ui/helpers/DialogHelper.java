@@ -90,14 +90,34 @@ public class DialogHelper {
                 .title(R.string.open_image_progress_dialog_title)
                 .content(R.string.open_image_progress_dialog_content)
                 .progress(true, 0)
+                .cancelable(false)
                 .show();
     }
 
-    public static MaterialDialog buildEncryptionProgressDialog(Activity activity) {
+    public static MaterialDialog buildEncryptNoteProgressDialog(Activity activity) {
         return new MaterialDialog.Builder(activity)
                 .title(R.string.encrypt_progress_dialog_title)
                 .content(R.string.encrypt_progress_dialog_content)
                 .progress(true, 0)
+                .cancelable(false)
+                .show();
+    }
+
+    public static MaterialDialog buildDecryptNoteProgressDialog(Activity activity) {
+        return new MaterialDialog.Builder(activity)
+                .title(R.string.decrypt_progress_dialog_title)
+                .content(R.string.decrypt_progress_dialog_content)
+                .progress(true, 0)
+                .cancelable(false)
+                .show();
+    }
+
+    public static MaterialDialog buildDecryptAllNotesProgressDialog(Activity activity) {
+        return new MaterialDialog.Builder(activity)
+                .title(R.string.decrypt_all_notes_progress_dialog_title)
+                .content(R.string.decrypt_progress_dialog_content)
+                .progress(false, 100)
+                .cancelable(false)
                 .show();
     }
 

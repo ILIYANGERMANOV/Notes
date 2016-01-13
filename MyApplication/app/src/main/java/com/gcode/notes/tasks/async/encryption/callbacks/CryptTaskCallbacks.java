@@ -1,8 +1,8 @@
-package com.gcode.notes.tasks.async.callbacks;
+package com.gcode.notes.tasks.async.encryption.callbacks;
 
 
 import com.gcode.notes.data.base.ContentBase;
 
-public interface CryptographyTaskCompletedCallback {
+public interface CryptTaskCallbacks {
     void onTaskCompletedSuccessfully(ContentBase contentBase);
 }

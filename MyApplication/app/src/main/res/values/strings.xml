@@ -94,5 +94,8 @@
     <string name="fab_label_camera">Attach image</string>
     <string name="encrypt_progress_dialog_title">Encrypting note</string>
     <string name="encrypt_progress_dialog_content">Encrypting note with AES algorithm</string>
+    <string name="decrypt_progress_dialog_title">Decrypting note</string>
+    <string name="decrypt_progress_dialog_content">Please wait a moment...</string>
+    <string name="decrypt_all_notes_progress_dialog_title">Decrypting notes</string>
 
 </resources>

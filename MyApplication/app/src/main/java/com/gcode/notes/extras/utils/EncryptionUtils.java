@@ -92,4 +92,52 @@ public class EncryptionUtils {
     }
     //encrypt---------------------------------------------------------------------------------------------------------------
 
+    //decrypt---------------------------------------------------------------------------------------------------------------
+    public void decryptNoteData(NoteData noteData) throws Exception {
+        decryptContentBase(noteData); //decrypt note base
+        if (noteData.hasDescription()) {
+            //note has description, decrypt it
+            noteData.setDescription(mEncryption.decrypt(noteData.getDescription()));
+        }
+        if (noteData.hasAttachedImage()) {
+            //note has attached image path/paths, decrypt them
+            ArrayList<String> decryptedImagePaths = new ArrayList<>();
+            for (String imagePath : noteData.getAttachedImagesPaths()) {
+                decryptedImagePaths.add(mEncryption.decrypt(imagePath));
+            }
+            noteData.setAttachedImagesPaths(decryptedImagePaths);
+        }
+        if (noteData.hasAttachedAudio()) {
+            //note has attached audio path, decrypt it
+            noteData.setAttachedAudioPath(mEncryption.decrypt(noteData.getAttachedAudioPath()));
+        }
+    }
+
+    public void decryptListData(ListData listData) throws Exception {
+        decryptContentBase(listData); //decrypt list base
+        if (listData.hasAttachedList()) {
+            //list data has attached list, decrypt it
+            ArrayList<ListDataItem> decryptedListItems = new ArrayList<>();
+            for (ListDataItem listDataItem : listData.getList()) {
+                listDataItem.setContent(mEncryption.decrypt(listDataItem.getContent()));
+                decryptedListItems.add(listDataItem);
+            }
+            listData.setList(decryptedListItems);
+        }
+    }
+
+    private void decryptContentBase(ContentBase contentBase) throws Exception {
+        contentBase.setTitle(mEncryption.decrypt(contentBase.getTitle()));
+        contentBase.setLastModifiedDate(mEncryption.decrypt(contentBase.getLastModifiedDate()));
+        contentBase.setCreationDate(mEncryption.decrypt(contentBase.getCreationDate()));
+        if (contentBase.hasExpirationDate()) {
+            //note has expiration date, decrypt it
+            contentBase.setExpirationDate(mEncryption.decrypt(contentBase.getExpirationDate()));
+        }
+        if (contentBase.hasReminder()) {
+            //note has reminder, decrypt it
+            contentBase.setReminder(mEncryption.decrypt(contentBase.getReminder()));
+        }
+    }
+    //decrypt---------------------------------------------------------------------------------------------------------------
 }

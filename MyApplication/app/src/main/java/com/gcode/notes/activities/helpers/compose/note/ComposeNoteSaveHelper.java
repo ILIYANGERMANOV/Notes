@@ -11,10 +11,10 @@ import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
-import com.gcode.notes.tasks.async.callbacks.CryptographyTaskCompletedCallback;
-import com.gcode.notes.tasks.async.compose.EncryptNoteTask;
+import com.gcode.notes.tasks.async.encryption.EncryptNoteTask;
+import com.gcode.notes.tasks.async.encryption.callbacks.CryptTaskCallbacks;
 
-public class ComposeNoteSaveHelper implements CryptographyTaskCompletedCallback {
+public class ComposeNoteSaveHelper implements CryptTaskCallbacks {
     private ComposeNoteActivity mComposeNoteActivity;
 
     public ComposeNoteSaveHelper(ComposeNoteActivity composeNoteActivity) {
@@ -41,6 +41,8 @@ public class ComposeNoteSaveHelper implements CryptographyTaskCompletedCallback 
 
         if (noteData.isValidNote(hadValidTitleBeforeSaveBase)) {
             if (mComposeNoteActivity.mInPrivateMode) {
+                //note is private mode, encrypt it before saving
+                //!NOTE: onTaskCompletedSuccessfully or error callback will be called when ready
                 new EncryptNoteTask(mComposeNoteActivity, this).execute(noteData);
                 return;
             }
