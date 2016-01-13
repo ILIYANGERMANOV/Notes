@@ -18,6 +18,7 @@ public class ComposeBaseStartStateHelper {
                 break;
             case Constants.CONTROLLER_PRIVATE:
                 //TODO: PRIVATE: set mStarImageButton to sth
+                composeBaseActivity.mInPrivateMode = true;
                 break;
             default:
                 break;

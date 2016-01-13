@@ -1,7 +1,9 @@
-package com.gcode.notes.controllers;
+package com.gcode.notes.controllers.bin;
 
 
+import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
+import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.tasks.async.main.AddItemFromDbToMainTask;
 import com.gcode.notes.tasks.async.main.LoadContentTask;
@@ -13,10 +15,10 @@ public class BinController extends BaseController {
     }
 
     @Override
-    public void setContent(boolean notForFirstTime) {
-        super.setContent(notForFirstTime);
-        mToolbar.setTitle("Bin");
-        new LoadContentTask(notForFirstTime).execute();
+    public void setContent(boolean scrollToTop) {
+        super.setContent(scrollToTop);
+        mToolbar.setTitle(mContext.getString(R.string.bin_label));
+        new LoadContentTask(scrollToTop).execute();
         mSimpleItemTouchHelperCallback.setLongPressDragEnabled(false);
 
     }

@@ -12,8 +12,7 @@ public class ComposeNoteMenuOptionsHelper {
             case R.id.action_settings:
                 return true;
             case android.R.id.home:
-                ComposeNoteSaveHelper.saveNote(composeNoteActivity);
-                composeNoteActivity.finish();
+                new ComposeNoteSaveHelper(composeNoteActivity).saveNote();
                 return true;
             case R.id.action_add_image:
                 ActionExecutor.addPhotoToNote(composeNoteActivity);

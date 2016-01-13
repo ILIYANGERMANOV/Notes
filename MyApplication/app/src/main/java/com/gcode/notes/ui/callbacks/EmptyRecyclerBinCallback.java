@@ -2,7 +2,7 @@ package com.gcode.notes.ui.callbacks;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.controllers.BaseController;
-import com.gcode.notes.controllers.BinController;
+import com.gcode.notes.controllers.bin.BinController;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;

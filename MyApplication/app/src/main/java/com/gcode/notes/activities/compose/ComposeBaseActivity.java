@@ -29,6 +29,7 @@ public class ComposeBaseActivity extends AppCompatActivity {
         return mTitleEditText;
     }
 
+    public boolean mInPrivateMode;
     public boolean mIsOpenedInEditMode;
     public boolean mIsStarred;
     public boolean mNoteModeChanged;

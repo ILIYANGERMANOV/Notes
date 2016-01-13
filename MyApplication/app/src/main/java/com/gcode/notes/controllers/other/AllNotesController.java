@@ -1,36 +1,21 @@
-package com.gcode.notes.controllers;
+package com.gcode.notes.controllers.other;
 
-
+import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.tasks.async.main.AddItemFromDbToMainTask;
-import com.gcode.notes.tasks.async.main.LoadContentTask;
 
-
-public class AllNotesController extends BaseController {
+public class AllNotesController extends VisibleController {
 
     public AllNotesController(MainActivity mainActivity) {
         super(mainActivity);
     }
 
     @Override
-    public void setContent(boolean notForFirstTime) {
-        super.setContent(notForFirstTime);
-        mToolbar.setTitle("All Notes");
-        new LoadContentTask(notForFirstTime).execute();
-        mSimpleItemTouchHelperCallback.setLongPressDragEnabled(true);
-    }
-
-    @Override
-    protected void onSetContentAnimation() {
-        super.onSetContentAnimation();
-        switch (mPreviousControllerId) {
-            case Constants.ERROR:
-            case Constants.CONTROLLER_BIN:
-                mFabMenu.showMenuButton(true);
-                break;
-        }
+    public void setContent(boolean scrollToTop) {
+        super.setContent(scrollToTop);
+        mToolbar.setTitle(mContext.getString(R.string.all_notes_label));
     }
 
     @Override

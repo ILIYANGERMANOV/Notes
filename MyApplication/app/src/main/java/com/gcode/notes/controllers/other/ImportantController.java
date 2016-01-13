@@ -1,32 +1,22 @@
-package com.gcode.notes.controllers;
+package com.gcode.notes.controllers.other;
 
 
+import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.tasks.async.main.AddItemFromDbToMainTask;
-import com.gcode.notes.tasks.async.main.LoadContentTask;
 import com.gcode.notes.tasks.async.main.RemoveItemFromMainTask;
 
-public class ImportantController extends BaseController {
+public class ImportantController extends VisibleController {
     public ImportantController(MainActivity mainActivity) {
         super(mainActivity);
     }
 
     @Override
-    public void setContent(boolean notForFirstTime) {
-        super.setContent(notForFirstTime);
-        mToolbar.setTitle("Starred");
-        new LoadContentTask(notForFirstTime).execute();
-        mSimpleItemTouchHelperCallback.setLongPressDragEnabled(true);
-    }
-
-    @Override
-    protected void onSetContentAnimation() {
-        super.onSetContentAnimation();
-        if (mPreviousControllerId == Constants.CONTROLLER_BIN) {
-            mFabMenu.showMenuButton(true);
-        }
+    public void setContent(boolean scrollToTop) {
+        super.setContent(scrollToTop);
+        mToolbar.setTitle(mContext.getString(R.string.starred_label));
     }
 
     @Override

@@ -8,12 +8,12 @@
     <string name="action_empty_bin">Empty bin</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
-    <string name="navigation_item_all_notes_title">All notes</string>
-    <string name="navigation_item_important_title">Starred</string>
-    <string name="navigation_item_bin_title">Bin</string>
+    <string name="all_notes_label">All notes</string>
+    <string name="starred_label">Starred</string>
+    <string name="bin_label">Bin</string>
     <string name="navigation_item_explore_title">Explore</string>
     <string name="navigation_item_settings_title">Settings</string>
-    <string name="navigation_item_private_title">Private</string>
+    <string name="private_label">Private</string>
 
     <string name="title_activity_explore">Explore</string>
     <string name="title_activity_settings">Settings</string>
@@ -92,5 +92,7 @@
     <string name="fab_label_list">To-do list</string>
     <string name="fab_label_voice">Speech to text</string>
     <string name="fab_label_camera">Attach image</string>
+    <string name="encrypt_progress_dialog_title">Encrypting note</string>
+    <string name="encrypt_progress_dialog_content">Encrypting note with AES algorithm</string>
 
 </resources>

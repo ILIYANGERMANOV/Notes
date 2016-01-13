@@ -1,32 +1,22 @@
-package com.gcode.notes.controllers;
+package com.gcode.notes.controllers.other;
 
 
+import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.tasks.async.main.AddItemFromDbToMainTask;
-import com.gcode.notes.tasks.async.main.LoadContentTask;
 
-public class PrivateController extends BaseController {
+public class PrivateController extends VisibleController {
 
     public PrivateController(MainActivity mainActivity) {
         super(mainActivity);
     }
 
     @Override
-    public void setContent(boolean notForFirstTime) {
-        super.setContent(notForFirstTime);
-        mToolbar.setTitle("Private");
-        new LoadContentTask(notForFirstTime).execute();
-        mSimpleItemTouchHelperCallback.setLongPressDragEnabled(true);
-    }
-
-    @Override
-    protected void onSetContentAnimation() {
-        super.onSetContentAnimation();
-        if (mPreviousControllerId == Constants.CONTROLLER_BIN) {
-            mFabMenu.showMenuButton(true);
-        }
+    public void setContent(boolean scrollToTop) {
+        super.setContent(scrollToTop);
+        mToolbar.setTitle(mContext.getString(R.string.private_label));
     }
 
     @Override

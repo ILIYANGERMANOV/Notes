@@ -95,7 +95,7 @@ public class NoteData extends ContentBase {
         //recycler view uses already created holders for optimization, so clear holder
         setHolderInDefaultState(holder); //sets view holder in default state
         displayBase(holder.getTitleTextView(), holder.getReminderTextView()); //display title and reminder
-        displayDescription(holder.getDescriptionTextView(), holder.getMoreImageView());
+        displayDescription(holder);
         if (hasAttachedImage()) {
             displayAttachedImages(holder.getImagesContainer());
         }
@@ -104,11 +104,13 @@ public class NoteData extends ContentBase {
     }
 
     private void setHolderInDefaultState(NoteItemViewHolder holder) {
-        holder.getAttributesDivider().setVisibility(View.GONE);
         holder.getImagesContainer().removeAllViews(); //sets images container to default state
+        holder.getAttributesDivider().setVisibility(View.GONE); //hides attribute divider cuz  by default should be hidden
+        holder.getMoreImageView().setVisibility(View.GONE); //hide gone image view cuz by default should be hidden
     }
 
-    private void displayDescription(final TextView descriptionTextView, final ImageView moreImageView) {
+    private void displayDescription(final NoteItemViewHolder holder) {
+        final TextView descriptionTextView = holder.getDescriptionTextView(); //get reference for easier access
         descriptionTextView.setText(description); //set description always cuz its not done in setHolderDefaultState()
         if (hasDescription()) {
             descriptionTextView.setVisibility(View.VISIBLE);
@@ -117,10 +119,8 @@ public class NoteData extends ContentBase {
                 public void run() {
                     int linesCount = descriptionTextView.getLineCount();
                     if (linesCount != 0) {
-                        if (linesCount <= Constants.MAX_DESCRIPTION_LINES_TO_DISPLAY) {
-                            moreImageView.setVisibility(View.GONE);
-                        } else {
-                            moreImageView.setVisibility(View.VISIBLE);
+                        if (linesCount > Constants.MAX_DESCRIPTION_LINES_TO_DISPLAY) {
+                            holder.getMoreImageView().setVisibility(View.VISIBLE);
                         }
                     } else {
                         MyDebugger.log("displayNoteOnMain linesCount not build.");

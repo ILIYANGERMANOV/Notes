@@ -97,6 +97,14 @@ public abstract class ContentBase {
         return contentDetails.getExpirationDate() != null;
     }
 
+    public String getExpirationDate() {
+        return contentDetails.getExpirationDate();
+    }
+
+    public void setExpirationDate(String expirationDate) {
+        contentDetails.setExpirationDate(expirationDate);
+    }
+
     public String getDateDetails() {
         String dateDetails = "";
         if (contentDetails == null) {
@@ -137,7 +145,7 @@ public abstract class ContentBase {
     }
 
     public void setLocation(double latitude, double longitude) {
-        if(contentDetails.getMyLocation() == null) {
+        if (contentDetails.getMyLocation() == null) {
             //secure my location so there won't be null pointer exception
             contentDetails.setMyLocation(new MyLocation(latitude, longitude));
             return; // return cuz location is already set

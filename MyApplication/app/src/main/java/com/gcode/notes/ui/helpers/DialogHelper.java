@@ -10,8 +10,6 @@ import com.gcode.notes.R;
 import com.gcode.notes.extras.values.Tags;
 import com.gcode.notes.fragments.ComposeReminderFragment;
 import com.gcode.notes.ui.callbacks.AddPictureListCallback;
-import com.gcode.notes.fragments.listeners.pickers.DatePickerOnDateSetListener;
-import com.gcode.notes.fragments.listeners.pickers.TimePickerOnTimeSetListener;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
@@ -91,7 +89,15 @@ public class DialogHelper {
         return new MaterialDialog.Builder(activity)
                 .title(R.string.open_image_progress_dialog_title)
                 .content(R.string.open_image_progress_dialog_content)
-                .progress(true, 100)
+                .progress(true, 0)
+                .show();
+    }
+
+    public static MaterialDialog buildEncryptionProgressDialog(Activity activity) {
+        return new MaterialDialog.Builder(activity)
+                .title(R.string.encrypt_progress_dialog_title)
+                .content(R.string.encrypt_progress_dialog_content)
+                .progress(true, 0)
                 .show();
     }
 

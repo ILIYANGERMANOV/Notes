@@ -7,6 +7,10 @@ import android.support.v7.widget.Toolbar;
 
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.adapters.MainAdapter;
+import com.gcode.notes.controllers.bin.BinController;
+import com.gcode.notes.controllers.other.AllNotesController;
+import com.gcode.notes.controllers.other.ImportantController;
+import com.gcode.notes.controllers.other.PrivateController;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
@@ -16,16 +20,17 @@ import com.github.clans.fab.FloatingActionMenu;
 import java.util.ArrayList;
 
 public class BaseController {
+    //TODO: REFACTOR AND OPTIMIZE
     private static BaseController mInstance;
 
-    Context mContext;
-    Toolbar mToolbar;
-    RecyclerView mRecyclerView;
-    FloatingActionMenu mFabMenu;
-    AppBarLayout mAppBarLayout;
-    SimpleItemTouchHelperCallback mSimpleItemTouchHelperCallback;
+    protected Context mContext;
+    protected Toolbar mToolbar;
+    protected RecyclerView mRecyclerView;
+    protected FloatingActionMenu mFabMenu;
+    protected AppBarLayout mAppBarLayout;
+    protected SimpleItemTouchHelperCallback mSimpleItemTouchHelperCallback;
 
-    static int mPreviousControllerId;
+    protected static int mPreviousControllerId;
 
     public synchronized static BaseController getInstance() {
         if (mInstance == null) {
@@ -45,8 +50,8 @@ public class BaseController {
         mInstance = controller;
     }
 
-    BaseController(MainActivity mainActivity) {
-        if(mainActivity == null) return; //protect from null pointer exception
+    protected BaseController(MainActivity mainActivity) {
+        if (mainActivity == null) return; //protect from null pointer exception
         mContext = mainActivity;
         mToolbar = mainActivity.getToolbar();
         mRecyclerView = mainActivity.getRecyclerView();
@@ -55,12 +60,12 @@ public class BaseController {
         mSimpleItemTouchHelperCallback = mainActivity.mSimpleItemTouchHelperCallback;
     }
 
-    public void setNewContent(ArrayList<ContentBase> newContent, boolean notForFirstTime) {
-        MainAdapter mMainAdapter = getMainAdapter();
-        if (mMainAdapter != null) {
-            mMainAdapter.updateContent(newContent);
-            mRecyclerView.invalidate();
-            if (notForFirstTime) {
+    public void setNewContent(ArrayList<ContentBase> newContent, boolean scrollToTop) {
+        MainAdapter mainAdapter = getMainAdapter();
+        if (mainAdapter != null) {
+            mainAdapter.updateContent(newContent);
+            //mRecyclerView.invalidate();
+            if (scrollToTop) {
                 mRecyclerView.smoothScrollToPosition(0);
             }
         }
@@ -117,7 +122,12 @@ public class BaseController {
         return null;
     }
 
-    public void setContent(boolean fromSavedInstanceState) {
+    /**
+     * Changes toolbar titles.
+     * Sets recycler view's content, hides / shows FAB with animation.
+     * @param scrollToTop - whether recycler view should be scrolled to top
+     */
+    public void setContent(boolean scrollToTop) {
         onSetContentAnimation();
     }
 

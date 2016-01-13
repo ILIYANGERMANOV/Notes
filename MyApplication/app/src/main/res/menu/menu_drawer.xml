@@ -6,21 +6,21 @@
             android:id="@+id/navigation_item_all_notes"
             android:checked="true"
             android:icon="@drawable/ic_description_black_24dp"
-            android:title="@string/navigation_item_all_notes_title" />
+            android:title="@string/all_notes_label" />
         <item
-            android:id="@+id/navigation_item_important"
+            android:id="@+id/navigation_item_starred"
             android:icon="@drawable/ic_star_black_24dp"
-            android:title="@string/navigation_item_important_title" />
+            android:title="@string/starred_label" />
 
         <item
             android:id="@+id/navigation_item_private"
             android:icon="@drawable/ic_lock_black_24dp"
-            android:title="@string/navigation_item_private_title"/>
+            android:title="@string/private_label"/>
 
         <item
             android:id="@+id/navigation_item_bin"
             android:icon="@drawable/ic_delete_black_24dp"
-            android:title="@string/navigation_item_bin_title" />
+            android:title="@string/bin_label" />
     </group>
 
     <item

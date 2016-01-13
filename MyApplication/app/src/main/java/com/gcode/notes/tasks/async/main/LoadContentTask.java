@@ -14,11 +14,11 @@ import java.util.ArrayList;
 public class LoadContentTask extends AsyncTask<Void, Void, ArrayList<ContentBase>> {
 
     BaseController mController;
-    boolean mNotForFirstTime;
+    boolean mScrollToTop;
 
-    public LoadContentTask(boolean notForFirstTime) {
+    public LoadContentTask(boolean scrollToTop) {
         mController = BaseController.getInstance();
-        mNotForFirstTime = notForFirstTime;
+        mScrollToTop = scrollToTop;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class LoadContentTask extends AsyncTask<Void, Void, ArrayList<ContentBase
     @Override
     protected void onPostExecute(ArrayList<ContentBase> contentList) {
         if (contentList != null) {
-            mController.setNewContent(contentList, mNotForFirstTime);
+            mController.setNewContent(contentList, mScrollToTop);
         }
     }
 }

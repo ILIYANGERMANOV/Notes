@@ -17,8 +17,9 @@ public class DisplayNoteBaseDisplayHelper {
         if(mNoteData.hasDescription()) {
             //note data has description, display it
             displayNoteBaseActivity.getDescriptionTextView().setText(mNoteData.getDescription()); //display note's description
-        } else {
-            //note data hasn't description, set description view visibility to gone so there are no white spaces
+        } else if(mNoteData.hasAttachedImage()) {
+            //!NOTE: if there is no image and desc text view is hidden, details and audio look bad
+            //note has attached image and there is no description, hide desc text view so there are no white spaces
             displayNoteBaseActivity.getDescriptionTextView().setVisibility(View.GONE);
         }
 
