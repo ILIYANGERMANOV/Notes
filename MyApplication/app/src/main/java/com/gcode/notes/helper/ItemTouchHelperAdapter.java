@@ -54,5 +54,5 @@ public interface ItemTouchHelperAdapter {
      */
     void onItemDismiss(int position);
 
-    void onItemDismissFromBin(int position);
+    void onItemDismissUnrecoverable(int position);
 }

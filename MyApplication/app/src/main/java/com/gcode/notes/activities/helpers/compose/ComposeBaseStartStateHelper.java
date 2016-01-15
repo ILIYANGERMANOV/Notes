@@ -1,5 +1,7 @@
 package com.gcode.notes.activities.helpers.compose;
 
+import android.view.View;
+
 import com.gcode.notes.activities.compose.ComposeBaseActivity;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.base.ContentBase;
@@ -23,7 +25,7 @@ public class ComposeBaseStartStateHelper {
                 composeBaseActivity.setStarredState();
                 break;
             case Constants.CONTROLLER_PRIVATE:
-                //TODO: PRIVATE: set mStarImageButton to sth
+                composeBaseActivity.getStarImageButton().setVisibility(View.GONE);
                 composeBaseActivity.mInPrivateMode = true;
                 break;
             default:

@@ -3,7 +3,7 @@ package com.gcode.notes.activities.helpers.display.list.bin;
 import android.view.MenuItem;
 
 import com.gcode.notes.R;
-import com.gcode.notes.activities.display.list.DisplayListBinActivity;
+import com.gcode.notes.activities.display.list.bin.DisplayListBinActivity;
 import com.gcode.notes.ui.ActionExecutor;
 
 public class DisplayListBinMenuOptionsHelper {

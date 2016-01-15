@@ -1,18 +1,17 @@
-package com.gcode.notes.extras.utils;
+package com.gcode.notes.extras.utils.encryption;
 
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.data.list.ListDataItem;
+import com.scottyab.aescrypt.AESCrypt;
 
 import java.util.ArrayList;
 
-import se.simbio.encryption.Encryption;
-
 public class EncryptionUtils {
+    //TODO: Optimization: created own AESCrypt, which doesn't create new cipher instance on every encrypt/decrypt
     private static EncryptionUtils mInstance;
 
-    private Encryption mEncryption;
     private static String mPassword;
 
     public static EncryptionUtils getInstance(String password) {
@@ -25,19 +24,8 @@ public class EncryptionUtils {
         return mInstance;
     }
 
-    public Encryption getEncryption() {
-        return mEncryption;
-    }
-
-    public String getPassword() {
-        return mPassword;
-    }
-
     private EncryptionUtils(String password) {
-        final String ENCRYPTION_SALT = "samo_#Levski!";
-        final byte[] ENCRYPTION_IV_BYTE_ARRAY = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
         mPassword = password;
-        mEncryption = Encryption.getDefault(password, ENCRYPTION_SALT, ENCRYPTION_IV_BYTE_ARRAY);
     }
 
     //encrypt---------------------------------------------------------------------------------------------------------------
@@ -48,19 +36,19 @@ public class EncryptionUtils {
             //which will be fucked up after encryption
 
             //note has description, encrypt it
-            noteData.setDescription(mEncryption.encrypt(noteData.getDescription()));
+            noteData.setDescription(AESCrypt.encrypt(mPassword, noteData.getDescription()));
         }
         if (noteData.hasAttachedImage()) {
             //note has attached image path/paths, encrypt them
             ArrayList<String> encryptedImagePaths = new ArrayList<>();
             for (String imagePath : noteData.getAttachedImagesPaths()) {
-                encryptedImagePaths.add(mEncryption.encrypt(imagePath));
+                encryptedImagePaths.add(AESCrypt.encrypt(mPassword, imagePath));
             }
             noteData.setAttachedImagesPaths(encryptedImagePaths);
         }
         if (noteData.hasAttachedAudio()) {
             //note has attached audio path, encrypt it
-            noteData.setAttachedAudioPath(mEncryption.encrypt(noteData.getAttachedAudioPath()));
+            noteData.setAttachedAudioPath(AESCrypt.encrypt(mPassword, noteData.getAttachedAudioPath()));
         }
     }
 
@@ -70,7 +58,7 @@ public class EncryptionUtils {
             //list data has attached list, encrypt it
             ArrayList<ListDataItem> encryptedListItems = new ArrayList<>();
             for (ListDataItem listDataItem : listData.getList()) {
-                listDataItem.setContent(mEncryption.encrypt(listDataItem.getContent()));
+                listDataItem.setContent(AESCrypt.encrypt(mPassword, listDataItem.getContent()));
                 encryptedListItems.add(listDataItem);
             }
             listData.setList(encryptedListItems);
@@ -78,17 +66,9 @@ public class EncryptionUtils {
     }
 
     private void encryptContentBase(ContentBase contentBase) throws Exception {
-        contentBase.setTitle(mEncryption.encrypt(contentBase.getTitle()));
-        contentBase.setLastModifiedDate(mEncryption.encrypt(contentBase.getLastModifiedDate()));
-        contentBase.setCreationDate(mEncryption.encrypt(contentBase.getCreationDate()));
-        if (contentBase.hasExpirationDate()) {
-            //note has expiration date, encrypt it
-            contentBase.setExpirationDate(mEncryption.encrypt(contentBase.getExpirationDate()));
-        }
-        if (contentBase.hasReminder()) {
-            //note has reminder, encrypt it
-            contentBase.setReminder(mEncryption.encrypt(contentBase.getReminder()));
-        }
+        contentBase.setTitle(AESCrypt.encrypt(mPassword, contentBase.getTitle()));
+        contentBase.setLastModifiedDate(AESCrypt.encrypt(mPassword, contentBase.getLastModifiedDate()));
+        contentBase.setCreationDate(AESCrypt.encrypt(mPassword, contentBase.getCreationDate()));
     }
     //encrypt---------------------------------------------------------------------------------------------------------------
 
@@ -97,19 +77,19 @@ public class EncryptionUtils {
         decryptContentBase(noteData); //decrypt note base
         if (noteData.hasDescription()) {
             //note has description, decrypt it
-            noteData.setDescription(mEncryption.decrypt(noteData.getDescription()));
+            noteData.setDescription(AESCrypt.decrypt(mPassword, noteData.getDescription()));
         }
         if (noteData.hasAttachedImage()) {
             //note has attached image path/paths, decrypt them
             ArrayList<String> decryptedImagePaths = new ArrayList<>();
             for (String imagePath : noteData.getAttachedImagesPaths()) {
-                decryptedImagePaths.add(mEncryption.decrypt(imagePath));
+                decryptedImagePaths.add(AESCrypt.decrypt(mPassword, imagePath));
             }
             noteData.setAttachedImagesPaths(decryptedImagePaths);
         }
         if (noteData.hasAttachedAudio()) {
             //note has attached audio path, decrypt it
-            noteData.setAttachedAudioPath(mEncryption.decrypt(noteData.getAttachedAudioPath()));
+            noteData.setAttachedAudioPath(AESCrypt.decrypt(mPassword, noteData.getAttachedAudioPath()));
         }
     }
 
@@ -119,7 +99,7 @@ public class EncryptionUtils {
             //list data has attached list, decrypt it
             ArrayList<ListDataItem> decryptedListItems = new ArrayList<>();
             for (ListDataItem listDataItem : listData.getList()) {
-                listDataItem.setContent(mEncryption.decrypt(listDataItem.getContent()));
+                listDataItem.setContent(AESCrypt.decrypt(mPassword, listDataItem.getContent()));
                 decryptedListItems.add(listDataItem);
             }
             listData.setList(decryptedListItems);
@@ -127,17 +107,9 @@ public class EncryptionUtils {
     }
 
     private void decryptContentBase(ContentBase contentBase) throws Exception {
-        contentBase.setTitle(mEncryption.decrypt(contentBase.getTitle()));
-        contentBase.setLastModifiedDate(mEncryption.decrypt(contentBase.getLastModifiedDate()));
-        contentBase.setCreationDate(mEncryption.decrypt(contentBase.getCreationDate()));
-        if (contentBase.hasExpirationDate()) {
-            //note has expiration date, decrypt it
-            contentBase.setExpirationDate(mEncryption.decrypt(contentBase.getExpirationDate()));
-        }
-        if (contentBase.hasReminder()) {
-            //note has reminder, decrypt it
-            contentBase.setReminder(mEncryption.decrypt(contentBase.getReminder()));
-        }
+        contentBase.setTitle(AESCrypt.decrypt(mPassword, contentBase.getTitle()));
+        contentBase.setLastModifiedDate(AESCrypt.decrypt(mPassword, contentBase.getLastModifiedDate()));
+        contentBase.setCreationDate(AESCrypt.decrypt(mPassword, contentBase.getCreationDate()));
     }
     //decrypt---------------------------------------------------------------------------------------------------------------
 }

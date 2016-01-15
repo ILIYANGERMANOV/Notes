@@ -8,7 +8,7 @@ import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.extras.MyDebugger;
-import com.gcode.notes.extras.utils.EncryptionUtils;
+import com.gcode.notes.extras.utils.encryption.EncryptionUtils;
 import com.gcode.notes.tasks.async.encryption.callbacks.DecryptNotesTaskCallbacks;
 import com.gcode.notes.ui.helpers.DialogHelper;
 
@@ -43,16 +43,17 @@ public class DecryptAllNotesTask extends AsyncTask<Void, Integer, ArrayList<Cont
             try {
                 if (contentBase instanceof NoteData) {
                     //its note
-                    EncryptionUtils.getInstance("1312").decryptNoteData(((NoteData) contentBase));
+                    EncryptionUtils.getInstance("1312aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadasdasdassdgsdg").decryptNoteData(((NoteData) contentBase));
                 } else if (contentBase instanceof ListData) {
                     //its list
-                    EncryptionUtils.getInstance("1312").decryptListData(((ListData) contentBase));
+                    EncryptionUtils.getInstance("1312aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadasdasdassdgsdg").decryptListData(((ListData) contentBase));
                 } else {
                     MyDebugger.log("DecryptNoteTask unknown TYPE.");
                     return null;
                 }
             } catch (Exception e) {
-                MyDebugger.log("DecryptNoteTask exception", e.getMessage());
+                //TODO: handle exception
+                MyDebugger.log("DecryptAllNoteTask exception", e.getMessage());
                 return null;
             }
             float progress = (i + 1) / (float) size; //i + 1 cuz i starts from 0
@@ -65,7 +66,6 @@ public class DecryptAllNotesTask extends AsyncTask<Void, Integer, ArrayList<Cont
     @Override
     protected void onProgressUpdate(Integer... values) {
         int percent = values[0];
-        MyDebugger.log("percent", percent);
         mProgressDialog.setProgress(percent);
     }
 
@@ -76,7 +76,7 @@ public class DecryptAllNotesTask extends AsyncTask<Void, Integer, ArrayList<Cont
             mProgressDialog.dismiss();
         }
         if (decryptedNotes != null) {
-            MyDebugger.log("note decrypted successfully");
+            MyDebugger.log("all notes decrypted successfully");
             mDecryptNotesTaskCallback.onNotesDecryptedSuccessfully(decryptedNotes, mScrollToTop);
         }
     }

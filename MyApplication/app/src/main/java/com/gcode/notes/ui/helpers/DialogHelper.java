@@ -9,7 +9,7 @@ import com.afollestad.materialdialogs.simplelist.MaterialSimpleListItem;
 import com.gcode.notes.R;
 import com.gcode.notes.extras.values.Tags;
 import com.gcode.notes.fragments.ComposeReminderFragment;
-import com.gcode.notes.ui.callbacks.AddPictureListCallback;
+import com.gcode.notes.ui.callbacks.compose.AddPictureCallback;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
@@ -26,12 +26,12 @@ public class DialogHelper {
                 .show();
     }
 
-    public static void buildDeleteNoteFromBinDialog(Activity activity, MaterialDialog.ButtonCallback buttonCallback,
-                                                    boolean cancelable) {
+    public static void buildDeleteNotePermanentlyDialog(Activity activity, MaterialDialog.ButtonCallback buttonCallback,
+                                                        boolean cancelable) {
 
         new MaterialDialog.Builder(activity)
-                .title(R.string.delete_note_bin_dialog_title)
-                .positiveText(R.string.delete_note_bin_dialog_agree)
+                .title(R.string.delete_note_permanently_dialog_title)
+                .positiveText(R.string.delete_note_permanently_dialog_agree)
                 .negativeText(R.string.dialog_cancel)
                 .callback(buttonCallback)
                 .cancelable(cancelable)
@@ -62,7 +62,7 @@ public class DialogHelper {
         new MaterialDialog.Builder(activity)
                 .title(R.string.add_picture_dialog_title)
                 .items(R.array.add_picture_dialog_options)
-                .adapter(adapter, new AddPictureListCallback(activity, adapter))
+                .adapter(adapter, new AddPictureCallback(activity, adapter))
                 .show();
     }
 
@@ -70,7 +70,7 @@ public class DialogHelper {
         new MaterialDialog.Builder(activity)
                 .title(R.string.remove_photo_dialog_title)
                 .positiveText(R.string.remove_photo_dialog_positive_text)
-                .negativeText(R.string.remove_photo_dialog_negative_text)
+                .negativeText(R.string.dialog_cancel)
                 .callback(buttonCallback)
                 .show();
     }
@@ -80,10 +80,21 @@ public class DialogHelper {
                 .title(R.string.delete_audio_from_note_dialog_title)
                 .content(R.string.delete_audio_from_note_dialog_content)
                 .positiveText(R.string.delete_audio_from_note_dialog_positive_text)
-                .negativeText(R.string.delete_audio_from_note_negative_text)
+                .negativeText(R.string.dialog_cancel)
                 .callback(buttonCallback)
                 .show();
     }
+
+    public static void buildUnlockNoteDialog(Activity activity, MaterialDialog.ButtonCallback buttonCallback) {
+        new MaterialDialog.Builder(activity)
+                .title(R.string.unlock_note_dialog_title)
+                .content(R.string.unlock_note_dialog_content)
+                .positiveText(R.string.unlock_note_dialog_positive_text)
+                .negativeText(R.string.dialog_cancel)
+                .callback(buttonCallback)
+                .show();
+    }
+
 
     public static MaterialDialog buildOpenImageProgressDialog(Activity activity) {
         return new MaterialDialog.Builder(activity)

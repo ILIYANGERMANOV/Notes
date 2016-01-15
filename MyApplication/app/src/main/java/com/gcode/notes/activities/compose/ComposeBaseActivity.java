@@ -25,9 +25,16 @@ public class ComposeBaseActivity extends AppCompatActivity {
     @Bind(R.id.compose_star_image_button)
     ImageButton mStarImageButton;
 
+    //getters for layout components---------------------------------------------------------------------------------------
     public EditText getTitleEditText() {
         return mTitleEditText;
     }
+
+    public ImageButton getStarImageButton() {
+        return mStarImageButton;
+    }
+
+    //getters for layout components---------------------------------------------------------------------------------------
 
     public boolean mInPrivateMode;
     public boolean mIsOpenedInEditMode;
@@ -63,14 +70,17 @@ public class ComposeBaseActivity extends AppCompatActivity {
     @SuppressWarnings("unused")
     @OnClick(R.id.compose_star_image_button)
     public void starImageButtonClicked() {
-        if (mIsStarred) {
-            //activity is in starredState, change it to notStarredState
-            setNotStarredState();
-        } else {
-            //activity is in notStarredState, change it to starredState
-            setStarredState();
+        if(!mInPrivateMode) {
+            //note is in normal mode toggle starred / not starred
+            if (mIsStarred) {
+                //activity is in starredState, change it to notStarredState
+                setNotStarredState();
+            } else {
+                //activity is in notStarredState, change it to starredState
+                setStarredState();
+            }
+            mNoteModeChanged = !mNoteModeChanged;
         }
-        mNoteModeChanged = !mNoteModeChanged;
     }
 
     public void setStarredState() {

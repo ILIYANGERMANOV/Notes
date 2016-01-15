@@ -8,7 +8,7 @@ import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.extras.MyDebugger;
-import com.gcode.notes.extras.utils.EncryptionUtils;
+import com.gcode.notes.extras.utils.encryption.EncryptionUtils;
 import com.gcode.notes.tasks.async.encryption.callbacks.CryptTaskCallbacks;
 import com.gcode.notes.ui.helpers.DialogHelper;
 
@@ -33,15 +33,16 @@ public class DecryptNoteTask extends AsyncTask<ContentBase, Void, ContentBase> {
         try {
             if (contentBase instanceof NoteData) {
                 //its note
-                EncryptionUtils.getInstance("1312").decryptNoteData(((NoteData) contentBase));
+                EncryptionUtils.getInstance("1312aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadasdasdassdgsdg").decryptNoteData(((NoteData) contentBase));
             } else if (contentBase instanceof ListData) {
                 //its list
-                EncryptionUtils.getInstance("1312").decryptListData(((ListData) contentBase));
+                EncryptionUtils.getInstance("1312aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadasdasdassdgsdg").decryptListData(((ListData) contentBase));
             } else {
                 MyDebugger.log("DecryptNoteTask unknown TYPE.");
                 return null;
             }
         } catch (Exception e) {
+            //TODO: handle exception
             MyDebugger.log("DecryptNoteTask exception", e.getMessage());
             return null;
         }

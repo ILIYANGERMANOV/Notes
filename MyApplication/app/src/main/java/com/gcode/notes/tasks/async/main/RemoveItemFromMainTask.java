@@ -26,7 +26,7 @@ public class RemoveItemFromMainTask extends AsyncTask<ContentBase, Void, Boolean
         if (mAdapter != null) {
             mItemPosition = mAdapter.getIndexOfItem(item);
             if (mItemPosition != -1) {
-                //item exits proceed deleting it
+                //item exists proceed deleting it
                 return true;
             }
         } else {

@@ -12,9 +12,10 @@ import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
 import com.gcode.notes.tasks.async.encryption.EncryptNoteTask;
-import com.gcode.notes.tasks.async.encryption.callbacks.CryptTaskCallbacks;
+import com.gcode.notes.tasks.async.encryption.callbacks.EncryptTaskCallbacks;
 
-public class ComposeNoteSaveHelper implements CryptTaskCallbacks {
+public class ComposeNoteSaveHelper implements EncryptTaskCallbacks {
+    //TODO: REFACTOR AND OPTIMIZE
     private ComposeNoteActivity mComposeNoteActivity;
 
     public ComposeNoteSaveHelper(ComposeNoteActivity composeNoteActivity) {
@@ -42,24 +43,20 @@ public class ComposeNoteSaveHelper implements CryptTaskCallbacks {
         if (noteData.isValidNote(hadValidTitleBeforeSaveBase)) {
             if (mComposeNoteActivity.mInPrivateMode) {
                 //note is private mode, encrypt it before saving
-                //!NOTE: onTaskCompletedSuccessfully or error callback will be called when ready
+                //!NOTE: onEncryptedSuccessfully or error callback will be called when ready
+                //TODO: fix bug when editing private note (use copy constructor and setOldResult flag)
                 new EncryptNoteTask(mComposeNoteActivity, this).execute(noteData);
                 return;
             }
 
-            saveToDbAndSetResult(noteData);
+            saveToDbAndSetResult(noteData, false);
         } else {
             MyDebugger.toast(mComposeNoteActivity, "Cannot save empty notes.");
         }
     }
 
-    @Override
-    public void onTaskCompletedSuccessfully(ContentBase contentBase) {
-        //encrypted successfully, save to db
-        saveToDbAndSetResult(((NoteData) contentBase));
-    }
 
-    private void saveToDbAndSetResult(NoteData noteData) {
+    private void saveToDbAndSetResult(NoteData noteData, boolean setOldResult) {
         Intent resultIntent = mComposeNoteActivity.mResultIntent;
         if (!mComposeNoteActivity.mIsOpenedInEditMode) {
             //new note
@@ -90,4 +87,9 @@ public class ComposeNoteSaveHelper implements CryptTaskCallbacks {
         mComposeNoteActivity.finish();
     }
 
+    @Override
+    public void onEncryptedSuccessfully(ContentBase contentBase, boolean setOldResult) {
+        //note encrypted successfully, save to db
+        saveToDbAndSetResult(((NoteData) contentBase), setOldResult);
+    }
 }

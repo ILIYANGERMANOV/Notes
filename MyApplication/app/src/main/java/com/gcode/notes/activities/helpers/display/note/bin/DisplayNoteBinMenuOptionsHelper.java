@@ -4,7 +4,7 @@ package com.gcode.notes.activities.helpers.display.note.bin;
 import android.view.MenuItem;
 
 import com.gcode.notes.R;
-import com.gcode.notes.activities.display.note.DisplayNoteBinActivity;
+import com.gcode.notes.activities.display.note.bin.DisplayNoteBinActivity;
 import com.gcode.notes.ui.ActionExecutor;
 
 public class DisplayNoteBinMenuOptionsHelper {

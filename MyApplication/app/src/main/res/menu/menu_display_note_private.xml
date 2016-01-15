@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_unlock_note"
+        android:orderInCategory="90"
+        android:title="@string/action_unlock_note"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_edit"
+        android:icon="@drawable/ic_mode_edit_black_24dp"
+        android:title="@string/action_edit"
+        app:showAsAction="ifRoom" />
+</menu>

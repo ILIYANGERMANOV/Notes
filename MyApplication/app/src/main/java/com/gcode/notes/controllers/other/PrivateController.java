@@ -10,6 +10,7 @@ import com.gcode.notes.tasks.async.encryption.DecryptNoteTask;
 import com.gcode.notes.tasks.async.encryption.callbacks.CryptTaskCallbacks;
 import com.gcode.notes.tasks.async.encryption.callbacks.DecryptNotesTaskCallbacks;
 import com.gcode.notes.tasks.async.main.AddItemFromDbToMainTask;
+import com.gcode.notes.tasks.async.main.RemoveItemFromMainTask;
 
 import java.util.ArrayList;
 
@@ -39,7 +40,9 @@ public class PrivateController extends VisibleController implements DecryptNotes
 
     @Override
     public void onItemModeChanged(ContentBase item) {
-        //TODO: implement method
+        if (item.getMode() != Constants.MODE_PRIVATE) {
+            new RemoveItemFromMainTask(mMainActivity.getString(R.string.note_moved_to_all_notes)).execute(item);
+        }
     }
 
     @Override

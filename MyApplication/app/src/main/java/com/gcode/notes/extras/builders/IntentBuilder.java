@@ -8,10 +8,10 @@ import android.speech.RecognizerIntent;
 
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
-import com.gcode.notes.activities.display.list.DisplayListBinActivity;
-import com.gcode.notes.activities.display.list.DisplayListNormalActivity;
-import com.gcode.notes.activities.display.note.DisplayNoteBinActivity;
-import com.gcode.notes.activities.display.note.DisplayNoteNormalActivity;
+import com.gcode.notes.activities.display.list.bin.DisplayListBinActivity;
+import com.gcode.notes.activities.display.list.editable.DisplayListNormalActivity;
+import com.gcode.notes.activities.display.note.bin.DisplayNoteBinActivity;
+import com.gcode.notes.activities.display.note.editable.DisplayNoteNormalActivity;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
@@ -80,7 +80,7 @@ public class IntentBuilder {
                 }
                 break;
             case Constants.MODE_PRIVATE:
-                //TODO: private
+                //TODO: private (reminder) needs decryption
                 break;
             case Constants.MODE_DELETED_NORMAL:
             case Constants.MODE_DELETED_IMPORTANT:

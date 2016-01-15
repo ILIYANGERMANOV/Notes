@@ -40,8 +40,8 @@
     <string name="empty_bin_dialog_content">All notes in Bin will be permanently deleted.</string>
     <string name="empty_bin_dialog_agree">Empty Bin</string>
     <string name="dialog_cancel">Cancel</string>
-    <string name="delete_note_bin_dialog_title">Delete note forever?</string>
-    <string name="delete_note_bin_dialog_agree">Delete</string>
+    <string name="delete_note_permanently_dialog_title">Delete note forever?</string>
+    <string name="delete_note_permanently_dialog_agree">Delete</string>
     <string name="compose_lise_add_text_view_text">List item</string>
     <string name="action_edit">Edit</string>
     <string name="compose_list_done_tasks_caption">Done</string>
@@ -62,7 +62,6 @@
     <string name="delete_image_button_desc">Delete image icon</string>
     <string name="remove_photo_dialog_title">Remove image?</string>
     <string name="remove_photo_dialog_positive_text">Remove</string>
-    <string name="remove_photo_dialog_negative_text">Cancel</string>
     <string name="action_add_image">Add image</string>
     <string name="speech_prompt">Speak now</string>
     <string name="speech_not_supported">Speech recognition not supported on your device.</string>
@@ -71,7 +70,6 @@
     <string name="delete_audio_from_note_dialog_title">Delete audio?</string>
     <string name="delete_audio_from_note_dialog_content">Voice record will be deleted permanently.</string>
     <string name="delete_audio_from_note_dialog_positive_text">Delete permanently</string>
-    <string name="delete_audio_from_note_negative_text">Cancel</string>
     <string name="open_image_progress_dialog_title">Opening image</string>
     <string name="open_image_progress_dialog_content">Opening image with default gallery app.</string>
 
@@ -95,7 +93,12 @@
     <string name="encrypt_progress_dialog_title">Encrypting note</string>
     <string name="encrypt_progress_dialog_content">Encrypting note with AES algorithm</string>
     <string name="decrypt_progress_dialog_title">Decrypting note</string>
-    <string name="decrypt_progress_dialog_content">Please wait a moment...</string>
+    <string name="decrypt_progress_dialog_content">Please wait a moment</string>
     <string name="decrypt_all_notes_progress_dialog_title">Decrypting notes</string>
+    <string name="unlock_note_dialog_title">Unlock note?</string>
+    <string name="unlock_note_dialog_content">Unlocking note will make it normal and move it to all notes.</string>
+    <string name="unlock_note_dialog_positive_text">Unlock</string>
+    <string name="note_moved_to_all_notes">Note moved to \"all notes\".</string>
+    <string name="action_unlock_note">Unlock note</string>
 
 </resources>

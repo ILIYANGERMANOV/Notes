@@ -1,9 +1,10 @@
-package com.gcode.notes.activities.display.list;
+package com.gcode.notes.activities.display.list.bin;
 
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.gcode.notes.R;
+import com.gcode.notes.activities.display.list.DisplayListBaseActivity;
 import com.gcode.notes.activities.helpers.display.list.DisplayListBaseResultHandler;
 import com.gcode.notes.activities.helpers.display.list.bin.DisplayListBinMenuOptionsHelper;
 import com.gcode.notes.ui.ActionExecutor;

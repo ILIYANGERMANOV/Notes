@@ -12,6 +12,7 @@ import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 
 public abstract class ContentBase {
+    //TODO: copy constructor
     //have default value
     int id;
     int orderId;
@@ -116,12 +117,15 @@ public abstract class ContentBase {
         Context context = MyApplication.getAppContext();
         final String NEW_LINE = "\n";
 
+        MyDebugger.log("1");
         dateDetails += context.getString(R.string.display_last_modified_date,
                 DateUtils.formatDateTimeForDisplay(contentDetails.getLastModifiedDate())) + NEW_LINE;
 
+        MyDebugger.log("2");
         dateDetails += context.getString(R.string.display_creation_date,
                 DateUtils.formatDateTimeForDisplay(contentDetails.getCreationDate()));
         if (hasExpirationDate()) {
+            MyDebugger.log("3");
             dateDetails += NEW_LINE + context.getString(R.string.display_expiration_date,
                     DateUtils.formatDateTimeForDisplay(contentDetails.getExpirationDate()));
         }

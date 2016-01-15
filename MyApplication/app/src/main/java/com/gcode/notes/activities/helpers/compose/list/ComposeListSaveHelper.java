@@ -12,9 +12,9 @@ import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
 import com.gcode.notes.tasks.async.encryption.EncryptNoteTask;
-import com.gcode.notes.tasks.async.encryption.callbacks.CryptTaskCallbacks;
+import com.gcode.notes.tasks.async.encryption.callbacks.EncryptTaskCallbacks;
 
-public class ComposeListSaveHelper implements CryptTaskCallbacks {
+public class ComposeListSaveHelper implements EncryptTaskCallbacks {
     ComposeListActivity mComposeListActivity;
 
     public ComposeListSaveHelper(ComposeListActivity composeListActivity) {
@@ -43,18 +43,19 @@ public class ComposeListSaveHelper implements CryptTaskCallbacks {
         if (listData.isValidList(hadValidTitleBeforeSaveBase)) {
             if (mComposeListActivity.mInPrivateMode) {
                 //note is private mode, encrypt it before saving
-                //!NOTE: onTaskCompletedSuccessfully or error callback will be called when ready
+                //!NOTE: onEncryptedSuccessfully or error callback will be called when ready
+                //TODO: fix bug when editing private note (use copy constructor and setOldResult flag)
                 new EncryptNoteTask(mComposeListActivity, this).execute(listData);
                 return;
             }
 
-            saveToDbAndSetResult(listData);
+            saveToDbAndSetResult(listData, false);
         } else {
             MyDebugger.toast(mComposeListActivity, "Cannot save empty list.");
         }
     }
 
-    private void saveToDbAndSetResult(ListData listData) {
+    private void saveToDbAndSetResult(ListData listData, boolean setOldResult) {
         Intent resultIntent = mComposeListActivity.mResultIntent;
 
         if (!mComposeListActivity.mIsOpenedInEditMode) {
@@ -85,9 +86,10 @@ public class ComposeListSaveHelper implements CryptTaskCallbacks {
         mComposeListActivity.finish();
     }
 
+
     @Override
-    public void onTaskCompletedSuccessfully(ContentBase contentBase) {
+    public void onEncryptedSuccessfully(ContentBase contentBase, boolean setOldResult) {
         //encrypted successfully, save list to db
-        saveToDbAndSetResult(((ListData) contentBase));
+        saveToDbAndSetResult(((ListData) contentBase), setOldResult);
     }
 }

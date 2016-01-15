@@ -1,4 +1,4 @@
-package com.gcode.notes.ui.callbacks;
+package com.gcode.notes.ui.callbacks.compose;
 
 
 import android.app.Activity;
@@ -10,11 +10,11 @@ import com.afollestad.materialdialogs.simplelist.MaterialSimpleListItem;
 import com.gcode.notes.R;
 import com.gcode.notes.extras.utils.PhotoUtils;
 
-public class AddPictureListCallback implements MaterialDialog.ListCallback {
+public class AddPictureCallback implements MaterialDialog.ListCallback {
     Activity mActivity;
     MaterialSimpleListAdapter mAdapter;
 
-    public AddPictureListCallback(Activity activity, MaterialSimpleListAdapter adapter) {
+    public AddPictureCallback(Activity activity, MaterialSimpleListAdapter adapter) {
         mActivity = activity;
         mAdapter = adapter;
     }

@@ -16,6 +16,7 @@ public class ComposeBaseRotationHandler {
         outState.putBoolean(Constants.EXTRA_IS_OPENED_IN_EDIT_MODE, composeBaseActivity.mIsOpenedInEditMode);
         outState.putBoolean(Constants.EXTRA_IS_STARRED, composeBaseActivity.mIsStarred);
         outState.putBoolean(Constants.EXTRA_NOTE_MODE_CHANGED, composeBaseActivity.mNoteModeChanged);
+        outState.putBoolean(Constants.EXTRA_IS_IN_PRIVATE_MODE, composeBaseActivity.mInPrivateMode);
     }
 
     /**
@@ -30,5 +31,6 @@ public class ComposeBaseRotationHandler {
             composeBaseActivity.setStarredState();
         }
         composeBaseActivity.mNoteModeChanged = savedInstanceState.getBoolean(Constants.EXTRA_NOTE_MODE_CHANGED);
+        composeBaseActivity.mInPrivateMode = savedInstanceState.getBoolean(Constants.EXTRA_IS_IN_PRIVATE_MODE);
     }
 }

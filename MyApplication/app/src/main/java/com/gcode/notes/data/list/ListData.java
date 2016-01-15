@@ -17,6 +17,7 @@ import com.gcode.notes.ui.helpers.CheckedTextViewHelper;
 import java.util.ArrayList;
 
 public class ListData extends ContentBase {
+    //TODO: copy constructor
     //TODO: OPTIMIZE
     ArrayList<ListDataItem> list;
 

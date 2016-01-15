@@ -11,9 +11,9 @@ import com.gcode.notes.R;
 import com.gcode.notes.adapters.viewholders.main.BaseItemViewHolder;
 import com.gcode.notes.adapters.viewholders.main.ListItemViewHolder;
 import com.gcode.notes.adapters.viewholders.main.NoteItemViewHolder;
+import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
-import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.helper.ItemTouchHelperAdapter;
@@ -108,7 +108,7 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
             mData.set(position, item);
             notifyItemChanged(position);
         } else {
-            MyDebugger.log("Invalid position in UpdateItem");
+            MyDebugger.log("MainAdapter updateItem() - invalid position.");
         }
     }
 
@@ -146,8 +146,8 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
     }
 
     @Override
-    public void onItemDismissFromBin(int position) {
-        ActionExecutor.deleteNoteFromBin(mActivity, this, mData.get(position), position);
+    public void onItemDismissUnrecoverable(int position) {
+        ActionExecutor.deleteNotePermanently(mActivity, this, mData.get(position), position);
         removeItem(position);
     }
 

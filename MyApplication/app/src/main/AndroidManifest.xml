@@ -41,16 +41,25 @@
             android:name=".activities.compose.list.ComposeListActivity"
             android:label="@string/title_activity_compose_list" />
         <activity
-            android:name=".activities.display.note.DisplayNoteNormalActivity"
+            android:name=".activities.display.note.editable.DisplayNoteNormalActivity"
+            android:label="@string/title_activity_display_note" />
+
+        <activity
+            android:name=".activities.display.note.editable.DisplayNotePrivateActivity"
+            android:label="@string/title_activity_display_note" />
+
+        <activity
+            android:name=".activities.display.note.bin.DisplayNoteBinActivity"
             android:label="@string/title_activity_display_note" />
         <activity
-            android:name=".activities.display.note.DisplayNoteBinActivity"
-            android:label="@string/title_activity_display_note" />
-        <activity
-            android:name=".activities.display.list.DisplayListNormalActivity"
+            android:name=".activities.display.list.editable.DisplayListNormalActivity"
             android:label="@string/title_activity_display_list" />
+
+        <activity android:name=".activities.display.list.editable.DisplayListPrivateActivity"
+            android:label="@string/title_activity_display_list"/>
+
         <activity
-            android:name=".activities.display.list.DisplayListBinActivity"
+            android:name=".activities.display.list.bin.DisplayListBinActivity"
             android:label="@string/title_activity_display_list" />
 
         <service

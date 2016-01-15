@@ -1,4 +1,4 @@
-package com.gcode.notes.ui.callbacks;
+package com.gcode.notes.ui.callbacks.bin;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.adapters.MainAdapter;
@@ -6,12 +6,12 @@ import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.notes.MyApplication;
 
-public class DeleteNoteFromBinCallback extends MaterialDialog.ButtonCallback {
+public class DeleteNotePermanentlyCallback extends MaterialDialog.ButtonCallback {
     MainAdapter mAdapter;
     int mPosition;
     ContentBase mNote;
 
-    public DeleteNoteFromBinCallback(MainAdapter adapter, int position, ContentBase note) {
+    public DeleteNotePermanentlyCallback(MainAdapter adapter, int position, ContentBase note) {
         mAdapter = adapter;
         mPosition = position;
         mNote = note;
@@ -30,7 +30,7 @@ public class DeleteNoteFromBinCallback extends MaterialDialog.ButtonCallback {
             //failed to delete note from db
             mAdapter.addItem(mPosition, mNote);
             mAdapter.getRecyclerView().smoothScrollToPosition(mPosition);
-            MyDebugger.log("Failed to delete note from recycler bin!");
+            MyDebugger.log("Failed to delete note permanently!");
         }
         dialog.cancel();
     }

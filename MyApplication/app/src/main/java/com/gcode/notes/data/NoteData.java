@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NoteData extends ContentBase {
+    //TODO: copy constructor
     String description;
     List<String> attachedImagesPaths;
     String attachedAudioPath;

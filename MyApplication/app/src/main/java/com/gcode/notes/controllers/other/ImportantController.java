@@ -29,7 +29,7 @@ public class ImportantController extends VisibleController {
     @Override
     public void onItemModeChanged(ContentBase item) {
         if (item.getMode() != Constants.MODE_IMPORTANT) {
-            new RemoveItemFromMainTask("Note moved to All notes.").execute(item);
+            new RemoveItemFromMainTask(mMainActivity.getString(R.string.note_moved_to_all_notes)).execute(item);
         }
     }
 

@@ -23,6 +23,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.controllers.BaseController;
+import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 
 /**
@@ -86,20 +87,22 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int i) {
         // Notify the adapter of the dismissal
+        int itemPosition = viewHolder.getAdapterPosition();
         switch (BaseController.getInstance().getControllerId()) {
             case Constants.CONTROLLER_ALL_NOTES:
-                mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+                mAdapter.onItemDismiss(itemPosition);
                 break;
             case Constants.CONTROLLER_IMPORTANT:
-                mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+                mAdapter.onItemDismiss(itemPosition);
                 break;
             case Constants.CONTROLLER_PRIVATE:
-                //TODO: implement private
+                mAdapter.onItemDismissUnrecoverable(itemPosition);
                 break;
             case Constants.CONTROLLER_BIN:
-                mAdapter.onItemDismissFromBin(viewHolder.getAdapterPosition());
+                mAdapter.onItemDismissUnrecoverable(itemPosition);
                 break;
             default:
+                MyDebugger.log("onSwiped() invalid controller id");
                 break;
         }
     }

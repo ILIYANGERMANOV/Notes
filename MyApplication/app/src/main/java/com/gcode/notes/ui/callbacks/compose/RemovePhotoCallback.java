@@ -1,4 +1,4 @@
-package com.gcode.notes.ui.callbacks;
+package com.gcode.notes.ui.callbacks.compose;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.adapters.note.compose.ComposeNoteImagesAdapter;

@@ -61,6 +61,7 @@ public class Constants {
     public static final String EXTRA_DELETED_AUDIO = "deleted_audio_extra";
     public static final String EXTRA_LAST_FOCUSED = "last_focused_extra";
     public static final String EXTRA_IS_OPENED_IN_EDIT_MODE = "is_opened_in_edit_mode_extra";
+    public static final String EXTRA_IS_IN_PRIVATE_MODE = "is_in_private_mode_extra";
     public static final String EXTRA_IS_STARRED = "is_starred_extra";
     public static final String EXTRA_NOTE_MODE_CHANGED = "note_mode_changed_extra";
     public static final String EXTRA_IS_DONE_HIDDEN = "is_done_hidden_extra";
