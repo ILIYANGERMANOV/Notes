@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NoteData extends ContentBase {
-    //TODO: copy constructor
     String description;
     List<String> attachedImagesPaths;
     String attachedAudioPath;
@@ -39,6 +38,16 @@ public class NoteData extends ContentBase {
 
         setAttributesToDefaultValues();
     }
+
+    public NoteData(NoteData other) {
+        super(other);
+        description = other.description;
+        if(other.hasAttachedImage()) {
+            attachedImagesPaths = new ArrayList<>(other.attachedImagesPaths);
+        }
+        attachedAudioPath = other.attachedAudioPath;
+    }
+
 
     public boolean hasDescription() {
         return description.trim().length() > 0;

@@ -45,7 +45,7 @@ public class ComposeListStartStateHelper extends ComposeBaseStartStateHelper {
         ListData listData = Serializer.parseListData(serializedListData);
         if (listData != null) {
             //passed listData is OK, setup the activity from it
-            super.setupFromEditMode(mComposeListActivity, listData); //setup base (title, importance, reminder, mOpenedInEditMode)
+            super.setupFromEditMode(mComposeListActivity, listData); //setup base (title, importance, reminder, mOpenedInEditMode, mInPrivateMode)
             mComposeListActivity.mListData = listData;
             if (listData.hasAttachedList()) {
                 ComposeListContainerHelper.addListDataItems(mComposeListActivity, listData.getList());

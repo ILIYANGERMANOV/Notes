@@ -135,7 +135,11 @@ public class DatabaseController {
     }
 
     public boolean updateNote(ContentBase contentBase) {
-        return UpdateHelper.updateNote(mContext, mDatabase, contentBase) > 0;
+        return UpdateHelper.updateNote(mContext, mDatabase, contentBase, false) > 0;
+    }
+
+    public boolean updateNote(ContentBase contentBase, boolean updateCreationDate) {
+        return UpdateHelper.updateNote(mContext, mDatabase, contentBase, updateCreationDate) > 0;
     }
 
     public boolean updateListAttributes(ListData listData) {

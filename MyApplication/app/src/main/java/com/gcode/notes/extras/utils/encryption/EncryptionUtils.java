@@ -54,6 +54,10 @@ public class EncryptionUtils {
 
     public void encryptListData(ListData listData) throws Exception {
         encryptContentBase(listData); //encrypt list base
+        encryptListDataAttributes(listData); //encrypt list attributes
+    }
+
+    public void encryptListDataAttributes(ListData listData) throws Exception{
         if (listData.hasAttachedList()) {
             //list data has attached list, encrypt it
             ArrayList<ListDataItem> encryptedListItems = new ArrayList<>();

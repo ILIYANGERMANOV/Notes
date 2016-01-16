@@ -4,8 +4,9 @@ public class MyLocation {
     private double latitude;
     private double longitude;
 
-    public MyLocation() {
-
+    public MyLocation(MyLocation other) {
+        latitude = other.latitude;
+        longitude = other.longitude;
     }
 
     public MyLocation(double latitude, double longitude) {

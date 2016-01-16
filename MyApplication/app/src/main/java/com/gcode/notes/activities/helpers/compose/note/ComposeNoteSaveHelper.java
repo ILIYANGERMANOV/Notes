@@ -45,18 +45,18 @@ public class ComposeNoteSaveHelper implements EncryptTaskCallbacks {
                 //note is private mode, encrypt it before saving
                 //!NOTE: onEncryptedSuccessfully or error callback will be called when ready
                 //TODO: fix bug when editing private note (use copy constructor and setOldResult flag)
-                new EncryptNoteTask(mComposeNoteActivity, this).execute(noteData);
+                new EncryptNoteTask(mComposeNoteActivity, this).execute(new NoteData(noteData));
                 return;
             }
 
-            saveToDbAndSetResult(noteData, false);
+            saveToDbAndSetResult(noteData);
         } else {
             MyDebugger.toast(mComposeNoteActivity, "Cannot save empty notes.");
         }
     }
 
 
-    private void saveToDbAndSetResult(NoteData noteData, boolean setOldResult) {
+    private void saveToDbAndSetResult(NoteData noteData) {
         Intent resultIntent = mComposeNoteActivity.mResultIntent;
         if (!mComposeNoteActivity.mIsOpenedInEditMode) {
             //new note
@@ -72,7 +72,9 @@ public class ComposeNoteSaveHelper implements EncryptTaskCallbacks {
             //update existing note
             if (MyApplication.getWritableDatabase().updateNote(noteData)) {
                 resultIntent.putExtra(Constants.NOTE_UPDATED_SUCCESSFULLY, true);
-                resultIntent.putExtra(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(noteData));
+                NoteData resultNoteData = mComposeNoteActivity.mInPrivateMode ?
+                        mComposeNoteActivity.mNoteData : noteData;
+                resultIntent.putExtra(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(resultNoteData));
                 resultIntent.putExtra(Constants.EXTRA_NOTE_MODE_CHANGED, mComposeNoteActivity.mNoteModeChanged);
             } else {
                 MyDebugger.log("Failed to update note.");
@@ -88,8 +90,8 @@ public class ComposeNoteSaveHelper implements EncryptTaskCallbacks {
     }
 
     @Override
-    public void onEncryptedSuccessfully(ContentBase contentBase, boolean setOldResult) {
+    public void onEncryptedSuccessfully(ContentBase contentBase) {
         //note encrypted successfully, save to db
-        saveToDbAndSetResult(((NoteData) contentBase), setOldResult);
+        saveToDbAndSetResult(((NoteData) contentBase));
     }
 }

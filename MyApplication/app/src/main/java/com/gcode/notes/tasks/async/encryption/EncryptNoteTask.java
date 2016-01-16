@@ -57,7 +57,7 @@ public class EncryptNoteTask extends AsyncTask<ContentBase, Void, ContentBase> {
         }
         if (contentBase != null) {
             MyDebugger.log("note encrypted successfully");
-            mEncryptTaskCallbacks.onEncryptedSuccessfully(contentBase, mComposeBaseActivity.mIsOpenedInEditMode);
+            mEncryptTaskCallbacks.onEncryptedSuccessfully(contentBase);
         }
     }
 }

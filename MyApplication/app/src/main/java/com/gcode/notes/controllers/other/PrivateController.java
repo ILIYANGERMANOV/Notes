@@ -34,6 +34,7 @@ public class PrivateController extends VisibleController implements DecryptNotes
 
     @Override
     public void addItem(ContentBase item) {
+        //TODO: prevent double encrypt, decrypt
         //it is called by AddItemFromDbToMainTask() when it is ready, override to prevent default behaviour
         new DecryptNoteTask(mMainActivity, this).execute(item);
     }

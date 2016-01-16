@@ -23,9 +23,9 @@ public class UpdateHelper {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(ContentEntry.COLUMN_NAME_MODE, newMode);
-        if(setExpire) {
+        if (setExpire) {
             //note is expiring, set expirationDate
-            contentValues.put(ContentEntry.COLUMN_NAME_EXPIRATION_DATE,  DateUtils.getExpirationDate());
+            contentValues.put(ContentEntry.COLUMN_NAME_EXPIRATION_DATE, DateUtils.getExpirationDate());
         } else {
             //note is not expiring, put null to expiration date
             contentValues.putNull(ContentEntry.COLUMN_NAME_EXPIRATION_DATE);
@@ -61,9 +61,10 @@ public class UpdateHelper {
                 SelectQueries.whereClauseContentId, getContentBaseIdStringArray(contentBase));
     }
 
-    public static int updateNote(Context context, SQLiteDatabase database, ContentBase contentBase) {
+    public static int updateNote(Context context, SQLiteDatabase database, ContentBase contentBase,
+                                 boolean updateCreationDate) {
         int affectedRows = 0;
-        affectedRows += updateBaseContent(database, contentBase); //returns <= 0 on fail
+        affectedRows += updateBaseContent(database, contentBase, updateCreationDate); //returns <= 0 on fail
         if (affectedRows <= 0) {
             //unrecoverable error happened while updating base content, log it, inform the user and cancel update
             MyDebugger.log("updatingBaseContent failed.");
@@ -91,12 +92,18 @@ public class UpdateHelper {
         );
     }
 
-    private static int updateBaseContent(SQLiteDatabase database, ContentBase contentBase) {
+    private static int updateBaseContent(SQLiteDatabase database, ContentBase contentBase,
+                                         boolean updateCreationDate) {
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(ContentEntry.COLUMN_NAME_TITLE, contentBase.getTitle());
         contentValues.put(ContentEntry.COLUMN_NAME_MODE, contentBase.getMode());
         contentValues.put(ContentEntry.COLUMN_NAME_HAS_ATTRIBUTES, contentBase.getHasAttributesFlag());
         contentValues.put(ContentEntry.COLUMN_NAME_LAST_MODIFIED_DATE, contentBase.getLastModifiedDate());
+        if (updateCreationDate) {
+            //creation data must be updated, required when unlocking / locking note
+            contentValues.put(ContentEntry.COLUMN_NAME_CREATION_DATE, contentBase.getCreationDate());
+        }
 
         if (contentBase.hasReminder()) {
             //note has reminder, update it
@@ -155,7 +162,7 @@ public class UpdateHelper {
             //note has no attached images, put null for the column
             contentValues.putNull(NoteEntry.COLUMN_NAME_PHOTOS_PATHS);
         }
-        if(noteData.hasAttachedAudio()) {
+        if (noteData.hasAttachedAudio()) {
             //note has attached audio, update it
             contentValues.put(NoteEntry.COLUMN_NAME_AUDIO_PATH, noteData.getAttachedAudioPath());
         } else {

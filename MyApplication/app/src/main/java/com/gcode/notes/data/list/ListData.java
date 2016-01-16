@@ -17,7 +17,6 @@ import com.gcode.notes.ui.helpers.CheckedTextViewHelper;
 import java.util.ArrayList;
 
 public class ListData extends ContentBase {
-    //TODO: copy constructor
     //TODO: OPTIMIZE
     ArrayList<ListDataItem> list;
 
@@ -33,6 +32,17 @@ public class ListData extends ContentBase {
         super(id, orderId, targetId, title, mode, hasAttributes,
                 reminderString, creationDate, lastModified,
                 expirationDateString, myLocationSerialized);
+    }
+
+    public ListData(ListData other) {
+        super(other);
+        if(other.hasAttachedList()) {
+            //needs deep copy
+            list = new ArrayList<>();
+            for(ListDataItem otherListDataItem : other.list) {
+                list.add(new ListDataItem(otherListDataItem));
+            }
+        }
     }
 
     public boolean isValidList(boolean hadValidTitleBeforeSaveBase) {

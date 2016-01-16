@@ -24,7 +24,8 @@ public class UnlockNoteCallback extends MaterialDialog.ButtonCallback {
         //!NOTE: note here is already decrypted, no need for decryption
         mDisplayBaseActivity.mNoteModeChanged = true; //set to true so main activity can handle it properly
         mContentBase.setMode(Constants.MODE_NORMAL); //changes note mode from private to normal
-        if (!MyApplication.getWritableDatabase().updateNote(mContentBase)) {
+        //!NOTE: Must be used with update creation date flag, so will work
+        if (!MyApplication.getWritableDatabase().updateNote(mContentBase, true)) {
             //failed to save to db decrypted note, log it and prevent further execution
             MyDebugger.log("UnlockNoteCallback failed to update note.");
             return;

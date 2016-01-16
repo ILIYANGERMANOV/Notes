@@ -10,6 +10,11 @@ public class ListDataItem {
         this.checked = checked;
     }
 
+    public ListDataItem(ListDataItem other) {
+        content = other.content;
+        checked = other.checked;
+    }
+
     public boolean isChecked() {
         return checked;
     }

@@ -16,6 +16,15 @@ public class ContentDetails {
         myLocation = null;
     }
 
+    public ContentDetails(ContentDetails other) {
+        creationDate = other.creationDate;
+        lastModifiedDate = other.lastModifiedDate;
+        expirationDate = other.expirationDate;
+        if(other.myLocation != null) {
+            myLocation = new MyLocation(other.myLocation);
+        }
+    }
+
     public ContentDetails(String creationDate, String lastModifiedDate,
                           String expirationDate, String myLocationSerialized) {
         this.creationDate = creationDate;

@@ -25,8 +25,7 @@ public class ComposeBaseStartStateHelper {
                 composeBaseActivity.setStarredState();
                 break;
             case Constants.CONTROLLER_PRIVATE:
-                composeBaseActivity.getStarImageButton().setVisibility(View.GONE);
-                composeBaseActivity.mInPrivateMode = true;
+                putInPrivateMode(composeBaseActivity);
                 break;
             default:
                 break;
@@ -61,7 +60,12 @@ public class ComposeBaseStartStateHelper {
         }
         if (contentBase.getMode() == Constants.MODE_PRIVATE) {
             //note is private mode, rise mInPrivateMode flag
-            composeBaseActivity.mInPrivateMode = true;
+            putInPrivateMode(composeBaseActivity);
         }
+    }
+
+    private void putInPrivateMode(ComposeBaseActivity composeBaseActivity) {
+        composeBaseActivity.mInPrivateMode = true;
+        composeBaseActivity.getStarImageButton().setVisibility(View.GONE);
     }
 }

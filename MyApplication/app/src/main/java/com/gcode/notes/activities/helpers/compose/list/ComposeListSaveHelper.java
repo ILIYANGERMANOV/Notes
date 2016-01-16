@@ -44,18 +44,17 @@ public class ComposeListSaveHelper implements EncryptTaskCallbacks {
             if (mComposeListActivity.mInPrivateMode) {
                 //note is private mode, encrypt it before saving
                 //!NOTE: onEncryptedSuccessfully or error callback will be called when ready
-                //TODO: fix bug when editing private note (use copy constructor and setOldResult flag)
-                new EncryptNoteTask(mComposeListActivity, this).execute(listData);
+                new EncryptNoteTask(mComposeListActivity, this).execute(new ListData(listData));
                 return;
             }
 
-            saveToDbAndSetResult(listData, false);
+            saveToDbAndSetResult(listData);
         } else {
             MyDebugger.toast(mComposeListActivity, "Cannot save empty list.");
         }
     }
 
-    private void saveToDbAndSetResult(ListData listData, boolean setOldResult) {
+    private void saveToDbAndSetResult(ListData listData) {
         Intent resultIntent = mComposeListActivity.mResultIntent;
 
         if (!mComposeListActivity.mIsOpenedInEditMode) {
@@ -71,7 +70,23 @@ public class ComposeListSaveHelper implements EncryptTaskCallbacks {
             //update existing list
             if (MyApplication.getWritableDatabase().updateNote(listData)) {
                 resultIntent.putExtra(Constants.NOTE_UPDATED_SUCCESSFULLY, true);
-                resultIntent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(listData));
+
+                ListData resultListData;
+                if (!mComposeListActivity.mInPrivateMode) {
+                    //updating in normal mode, use object passed to function
+                    resultListData = listData;
+                } else {
+                    //updating note in private mode, use mListData which is not affected by encryption
+                    resultListData = mComposeListActivity.mListData;
+
+                    //!NOTE: If mListData hasn't attributes before update in db they are inserted
+                    //and there targetId is set at that moment, so mListData won't have targetId
+                    //and UpdateListAttributesTask() in display activity will fail, set targetId
+                    //from object used in db#updateNote()
+                    resultListData.setTargetId(listData.getTargetId());
+                }
+
+                resultIntent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(resultListData));
                 resultIntent.putExtra(Constants.EXTRA_NOTE_MODE_CHANGED, mComposeListActivity.mNoteModeChanged);
             } else {
                 MyDebugger.log("Failed to update list.");
@@ -88,8 +103,8 @@ public class ComposeListSaveHelper implements EncryptTaskCallbacks {
 
 
     @Override
-    public void onEncryptedSuccessfully(ContentBase contentBase, boolean setOldResult) {
+    public void onEncryptedSuccessfully(ContentBase contentBase) {
         //encrypted successfully, save list to db
-        saveToDbAndSetResult(((ListData) contentBase), setOldResult);
+        saveToDbAndSetResult(((ListData) contentBase));
     }
 }
