@@ -10,7 +10,7 @@ import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.encryption.EncryptionUtils;
 import com.gcode.notes.tasks.async.encryption.callbacks.CryptTaskCallbacks;
-import com.gcode.notes.ui.helpers.DialogHelper;
+import com.gcode.notes.ui.helpers.DialogBuilder;
 
 public class DecryptNoteTask extends AsyncTask<ContentBase, Void, ContentBase> {
     private Activity mActivity;
@@ -24,7 +24,7 @@ public class DecryptNoteTask extends AsyncTask<ContentBase, Void, ContentBase> {
 
     @Override
     protected void onPreExecute() {
-        mProgressDialog = DialogHelper.buildDecryptNoteProgressDialog(mActivity);
+        mProgressDialog = DialogBuilder.buildDecryptNoteProgressDialog(mActivity);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class DecryptNoteTask extends AsyncTask<ContentBase, Void, ContentBase> {
                 return null;
             }
         } catch (Exception e) {
-            //TODO: handle exception
+            //TODO: handle exception and refactor
             MyDebugger.log("DecryptNoteTask exception", e.getMessage());
             return null;
         }

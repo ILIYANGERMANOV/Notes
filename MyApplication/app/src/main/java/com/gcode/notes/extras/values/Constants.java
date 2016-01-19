@@ -23,6 +23,11 @@ public class Constants {
     //must be positive and greater than max list items + 1
     public static final int NO_FOCUS = 512;
 
+    public static final int PASS_MAX_TRIES = 5;
+    public static final String NO_PASSWORD = "__#!no_password^";
+    public static final int PASS_MIN_LENGTH = 3;
+    public static final int PASS_MAX_LENGTH = 20;
+
     public static final String NOTE_ADDED_SUCCESSFULLY = "note_added_successfully";
     public static final String NOTE_UPDATED_SUCCESSFULLY = "note_updated_successfully";
     public static final String COMPOSE_NOTE_MODE = "compose_note_mode";

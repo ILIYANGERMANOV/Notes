@@ -3,7 +3,7 @@ package com.gcode.notes.fragments.listeners.buttons;
 import android.view.View;
 
 import com.gcode.notes.fragments.ComposeReminderFragment;
-import com.gcode.notes.ui.helpers.DialogHelper;
+import com.gcode.notes.ui.helpers.DialogBuilder;
 
 public class TimeButtonOnClickListener implements View.OnClickListener {
     ComposeReminderFragment mComposeReminderFragment;
@@ -14,6 +14,6 @@ public class TimeButtonOnClickListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        DialogHelper.buildTimePickerDialog(mComposeReminderFragment);
+        DialogBuilder.buildTimePickerDialog(mComposeReminderFragment);
     }
 }

@@ -10,7 +10,7 @@ import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.encryption.EncryptionUtils;
 import com.gcode.notes.tasks.async.encryption.callbacks.EncryptTaskCallbacks;
-import com.gcode.notes.ui.helpers.DialogHelper;
+import com.gcode.notes.ui.helpers.DialogBuilder;
 
 public class EncryptNoteTask extends AsyncTask<ContentBase, Void, ContentBase> {
     private ComposeBaseActivity mComposeBaseActivity;
@@ -24,7 +24,7 @@ public class EncryptNoteTask extends AsyncTask<ContentBase, Void, ContentBase> {
 
     @Override
     protected void onPreExecute() {
-        mProgressDialog = DialogHelper.buildEncryptNoteProgressDialog(mComposeBaseActivity);
+        mProgressDialog = DialogBuilder.buildEncryptNoteProgressDialog(mComposeBaseActivity);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class EncryptNoteTask extends AsyncTask<ContentBase, Void, ContentBase> {
                 return null;
             }
         } catch (Exception e) {
-            //TODO: handle exception
+            //TODO: handle exception and refactor
             MyDebugger.log("EncryptNoteTask exception", e.getMessage());
             return null;
         }

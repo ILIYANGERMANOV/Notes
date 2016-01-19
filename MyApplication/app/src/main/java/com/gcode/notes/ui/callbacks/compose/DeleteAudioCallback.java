@@ -1,7 +1,9 @@
 package com.gcode.notes.ui.callbacks.compose;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
 import com.gcode.notes.data.NoteData;
@@ -10,15 +12,14 @@ import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.tasks.async.DeleteFileTask;
 import com.gcode.notes.tasks.async.compose.RemoveAttachedAudioTask;
 
-public class DeleteAudioCallback extends MaterialDialog.ButtonCallback {
+public class DeleteAudioCallback implements MaterialDialog.SingleButtonCallback {
     ComposeNoteActivity mComposeNoteActivity;
 
     public DeleteAudioCallback(ComposeNoteActivity composeNoteActivity) {
         mComposeNoteActivity = composeNoteActivity;
     }
-
     @Override
-    public void onPositive(MaterialDialog dialog) {
+    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
         AudioUtils audioUtils = mComposeNoteActivity.mAudioUtils;
         audioUtils.stopAudio();
         audioUtils.hideAudioLayout();
@@ -33,11 +34,5 @@ public class DeleteAudioCallback extends MaterialDialog.ButtonCallback {
             mComposeNoteActivity.mResultIntent.putExtra(Constants.EXTRA_DELETED_AUDIO, true);
             mComposeNoteActivity.setResult(Activity.RESULT_OK, mComposeNoteActivity.mResultIntent); //set result if here not isn't saved so EXTRA_AUDIO_DELETED will be used
         }
-        dialog.cancel();
-    }
-
-    @Override
-    public void onNegative(MaterialDialog dialog) {
-        dialog.cancel();
     }
 }

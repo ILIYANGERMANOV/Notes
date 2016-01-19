@@ -16,4 +16,6 @@
     <color name="fab_menu_labels_color_normal">#EEEEEE</color>
     <!-- 500 -->
     <color name="fab_menu_labels_color_pressed">#9E9E9E</color>
+
+    <color name="not_valid_red">#F44336</color>
 </resources>

@@ -1,10 +1,15 @@
-package com.gcode.notes.controllers.other;
+package com.gcode.notes.controllers.visible;
 
 
 import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
+import com.gcode.notes.controllers.visible.callbacks.AuthenticationCallbacks;
 import com.gcode.notes.data.base.ContentBase;
+import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.utils.AuthenticationUtils;
+import com.gcode.notes.extras.utils.MyUtils;
 import com.gcode.notes.extras.values.Constants;
+import com.gcode.notes.extras.values.Keys;
 import com.gcode.notes.tasks.async.encryption.DecryptAllNotesTask;
 import com.gcode.notes.tasks.async.encryption.DecryptNoteTask;
 import com.gcode.notes.tasks.async.encryption.callbacks.CryptTaskCallbacks;
@@ -14,7 +19,12 @@ import com.gcode.notes.tasks.async.main.RemoveItemFromMainTask;
 
 import java.util.ArrayList;
 
-public class PrivateController extends VisibleController implements DecryptNotesTaskCallbacks, CryptTaskCallbacks {
+public class PrivateController extends VisibleController implements
+        DecryptNotesTaskCallbacks, CryptTaskCallbacks, AuthenticationCallbacks {
+    //TODO: REFACTOR AND OPTIMIZE (IMPORTANT)
+
+    ArrayList<ContentBase> mNewContent;
+    boolean mScrollToTop;
 
     public PrivateController(MainActivity mainActivity) {
         super(mainActivity);
@@ -29,12 +39,14 @@ public class PrivateController extends VisibleController implements DecryptNotes
     @Override
     public void setNewContent(ArrayList<ContentBase> newContent, boolean scrollToTop) {
         //it is called by LoadNewContentTask() when it is ready, override to prevent default behaviour
-        new DecryptAllNotesTask(mMainActivity, this, newContent, scrollToTop).execute();
+        AuthenticationUtils.getInstance(mMainActivity, this).authenticate();
+        mNewContent = newContent;
+        mScrollToTop = scrollToTop;
     }
 
     @Override
     public void addItem(ContentBase item) {
-        //TODO: prevent double encrypt, decrypt
+        //TODO: prevent double encrypt, decrypt (not very important)
         //it is called by AddItemFromDbToMainTask() when it is ready, override to prevent default behaviour
         new DecryptNoteTask(mMainActivity, this).execute(item);
     }
@@ -69,5 +81,25 @@ public class PrivateController extends VisibleController implements DecryptNotes
     @Override
     public void onTaskCompletedSuccessfully(ContentBase contentBase) {
         super.addItem(contentBase);
+    }
+
+    @Override
+    public void onAuthenticated(String password) {
+        MyDebugger.log("authenticated", password);
+        new DecryptAllNotesTask(mMainActivity, this, mNewContent, mScrollToTop).execute();
+    }
+
+    @Override
+    public void onPasswordTriesEnded() {
+        MyDebugger.log("onPasswordTriesEnded()");
+        //delete private notes
+        MyUtils.saveToPreferences(Keys.PREF_PASS_TRIES, Constants.PASS_MAX_TRIES);
+        MyUtils.saveToPreferences(Keys.PREF_PASSWORD, Constants.NO_PASSWORD);
+        onExitPrivate();
+    }
+
+    @Override
+    public void onExitPrivate() {
+        MyDebugger.log("onExitPrivate()");
     }
 }

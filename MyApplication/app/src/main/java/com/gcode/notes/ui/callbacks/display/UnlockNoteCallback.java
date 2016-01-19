@@ -1,5 +1,8 @@
 package com.gcode.notes.ui.callbacks.display;
 
+import android.support.annotation.NonNull;
+
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.R;
 import com.gcode.notes.activities.display.DisplayBaseActivity;
@@ -9,7 +12,7 @@ import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.tasks.async.main.RemoveItemFromMainTask;
 
-public class UnlockNoteCallback extends MaterialDialog.ButtonCallback {
+public class UnlockNoteCallback implements MaterialDialog.SingleButtonCallback {
     DisplayBaseActivity mDisplayBaseActivity;
     ContentBase mContentBase;
 
@@ -19,7 +22,7 @@ public class UnlockNoteCallback extends MaterialDialog.ButtonCallback {
     }
 
     @Override
-    public void onPositive(MaterialDialog dialog) {
+    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
         //note should moved from private to normal mode
         //!NOTE: note here is already decrypted, no need for decryption
         mDisplayBaseActivity.mNoteModeChanged = true; //set to true so main activity can handle it properly
@@ -33,10 +36,4 @@ public class UnlockNoteCallback extends MaterialDialog.ButtonCallback {
         mDisplayBaseActivity.finish();
         new RemoveItemFromMainTask(mDisplayBaseActivity.getString(R.string.note_moved_to_all_notes)).execute(mContentBase);
     }
-
-    @Override
-    public void onNegative(MaterialDialog dialog) {
-        dialog.cancel();
-    }
-
 }

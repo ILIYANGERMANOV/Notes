@@ -28,15 +28,28 @@ public class MyUtils {
     }
 
     public static void saveToPreferences(String preferenceName, String value) {
-        SharedPreferences sharedPref = MyApplication.getAppContext().getSharedPreferences(Constants.PREFERENCES_FILE, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
+        SharedPreferences.Editor editor = getSharedPref().edit();
         editor.putString(preferenceName, value);
         editor.apply();
     }
 
     public static String readFromPreferences(String preferenceName, String defaultValue) {
-        SharedPreferences sharedPref = MyApplication.getAppContext().getSharedPreferences(Constants.PREFERENCES_FILE, Context.MODE_PRIVATE);
-        return sharedPref.getString(preferenceName, defaultValue);
+        return getSharedPref().getString(preferenceName, defaultValue);
+    }
+
+    public static void saveToPreferences(String preferenceName, Integer value) {
+        SharedPreferences.Editor editor = getSharedPref().edit();
+        editor.putInt(preferenceName, value);
+        editor.apply();
+    }
+
+    public static Integer readFromPreferences(String preferenceName, Integer defaultValue) {
+        return getSharedPref().getInt(preferenceName, defaultValue);
+    }
+
+    private static SharedPreferences getSharedPref() {
+        return MyApplication.getAppContext().
+                getSharedPreferences(Constants.PREFERENCES_FILE, Context.MODE_PRIVATE);
     }
 
     public static boolean isLollipop() {

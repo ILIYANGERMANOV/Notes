@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.gcode.notes.activities.display.note.DisplayNoteBaseActivity;
 import com.gcode.notes.extras.utils.PhotoUtils;
-import com.gcode.notes.ui.helpers.DialogHelper;
+import com.gcode.notes.ui.helpers.DialogBuilder;
 import com.linearlistview.LinearListView;
 
 public class DisplayNoteImageOnItemClickListener implements LinearListView.OnItemClickListener {
@@ -16,7 +16,7 @@ public class DisplayNoteImageOnItemClickListener implements LinearListView.OnIte
 
     @Override
     public void onItemClick(LinearListView parent, View view, int position, long id) {
-        mDisplayNoteBaseActivity.mOpenInGalleryProgressDialog = DialogHelper.buildOpenImageProgressDialog(mDisplayNoteBaseActivity);
+        mDisplayNoteBaseActivity.mOpenInGalleryProgressDialog = DialogBuilder.buildOpenImageProgressDialog(mDisplayNoteBaseActivity);
         //TODO: add on click effect on image
         PhotoUtils.openPhotoInGallery(mDisplayNoteBaseActivity, (String) parent.getAdapter().getItem(position));
     }

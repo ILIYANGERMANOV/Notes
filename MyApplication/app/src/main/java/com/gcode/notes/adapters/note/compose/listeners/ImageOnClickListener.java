@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
 import com.gcode.notes.extras.utils.PhotoUtils;
-import com.gcode.notes.ui.helpers.DialogHelper;
+import com.gcode.notes.ui.helpers.DialogBuilder;
 
 public class ImageOnClickListener implements View.OnClickListener {
     ComposeNoteActivity mComposeNoteActivity;
@@ -20,7 +20,7 @@ public class ImageOnClickListener implements View.OnClickListener {
     public void onClick(View v) {
         //show opening image in gallery progress dialog
         mComposeNoteActivity.mOpenImageInGalleryProgressDialog =
-                DialogHelper.buildOpenImageProgressDialog(mComposeNoteActivity);
+                DialogBuilder.buildOpenImageProgressDialog(mComposeNoteActivity);
 
         PhotoUtils.openPhotoInGallery(mComposeNoteActivity, mPhotoPath); //launch open photo in gallery intent
     }

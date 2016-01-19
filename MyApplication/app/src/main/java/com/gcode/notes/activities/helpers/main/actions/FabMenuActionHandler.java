@@ -12,7 +12,7 @@ import com.gcode.notes.activities.helpers.main.ui.FabMenuHelper;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.VoiceUtils;
 import com.gcode.notes.extras.values.Constants;
-import com.gcode.notes.ui.helpers.DialogHelper;
+import com.gcode.notes.ui.helpers.DialogBuilder;
 
 public class FabMenuActionHandler {
     //TODO: REFACTOR
@@ -36,7 +36,7 @@ public class FabMenuActionHandler {
             VoiceUtils.promptSpeechInput(mainActivity);
         } else if (tag.equals(mainActivity.getString(R.string.fab_label_camera))) {
             //camera clicked, build dialog for attaching image
-            DialogHelper.buildAddPictureDialog(mainActivity);
+            DialogBuilder.buildAddPictureDialog(mainActivity);
         } else {
             //unknown tag, log it and prevent further execution
             MyDebugger.log("FabMenuActionHelper handleItemClick() unknown tag!");

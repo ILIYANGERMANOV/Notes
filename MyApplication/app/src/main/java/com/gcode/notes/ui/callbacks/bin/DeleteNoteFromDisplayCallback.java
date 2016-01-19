@@ -1,7 +1,9 @@
 package com.gcode.notes.ui.callbacks.bin;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.adapters.MainAdapter;
 import com.gcode.notes.controllers.BaseController;
@@ -10,7 +12,7 @@ import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.notes.MyApplication;
 
 
-public class DeleteNoteFromDisplayCallback extends MaterialDialog.ButtonCallback {
+public class DeleteNoteFromDisplayCallback implements MaterialDialog.SingleButtonCallback {
     Activity mActivity;
     ContentBase mNote;
 
@@ -20,7 +22,7 @@ public class DeleteNoteFromDisplayCallback extends MaterialDialog.ButtonCallback
     }
 
     @Override
-    public void onPositive(MaterialDialog dialog) {
+    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
         if (MyApplication.getWritableDatabase().deleteNoteFromBin(mNote)) {
             mActivity.finish();
             MainAdapter adapter = BaseController.getInstance().getMainAdapter();
@@ -33,11 +35,5 @@ public class DeleteNoteFromDisplayCallback extends MaterialDialog.ButtonCallback
         } else {
             MyDebugger.log("Failed to delete note");
         }
-        dialog.cancel();
-    }
-
-    @Override
-    public void onNegative(MaterialDialog dialog) {
-        dialog.cancel();
     }
 }

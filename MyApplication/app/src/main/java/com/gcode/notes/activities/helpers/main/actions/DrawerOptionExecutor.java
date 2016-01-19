@@ -9,9 +9,9 @@ import com.gcode.notes.activities.extra.ExploreActivity;
 import com.gcode.notes.activities.extra.SettingsActivity;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.controllers.bin.BinController;
-import com.gcode.notes.controllers.other.AllNotesController;
-import com.gcode.notes.controllers.other.ImportantController;
-import com.gcode.notes.controllers.other.PrivateController;
+import com.gcode.notes.controllers.visible.AllNotesController;
+import com.gcode.notes.controllers.visible.ImportantController;
+import com.gcode.notes.controllers.visible.PrivateController;
 
 public class DrawerOptionExecutor {
     MainActivity mMainActivity;

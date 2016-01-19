@@ -1,4 +1,4 @@
-package com.gcode.notes.controllers.other;
+package com.gcode.notes.controllers.visible;
 
 
 import com.gcode.notes.R;
