@@ -1,9 +1,7 @@
 package com.gcode.notes.activities.helpers.main.ui;
 
 import android.os.Handler;
-import android.support.design.widget.NavigationView;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.gcode.notes.R;
@@ -12,7 +10,7 @@ import com.gcode.notes.activities.helpers.main.actions.DrawerOptionExecutor;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.ui.helpers.NavDrawerHelper;
 
-public class NavigationDrawerHelper implements NavigationView.OnNavigationItemSelectedListener {
+public class NavigationDrawerHelper {
     MainActivity mMainActivity;
     DrawerOptionExecutor mDrawerOptionExecutor;
 
@@ -22,7 +20,7 @@ public class NavigationDrawerHelper implements NavigationView.OnNavigationItemSe
     }
 
     public void setupNavigationDrawer() {
-        mMainActivity.getDrawer().setNavigationItemSelectedListener(this);
+        mMainActivity.getDrawer().setNavigationItemSelectedListener(mDrawerOptionExecutor);
         mMainActivity.mDrawerToggle = new ActionBarDrawerToggle(mMainActivity,
                 mMainActivity.getDrawerLayout(),
                 mMainActivity.getToolbar(),
@@ -62,15 +60,5 @@ public class NavigationDrawerHelper implements NavigationView.OnNavigationItemSe
                 }
             }
         }, Constants.DELAY_SO_USER_CAN_SEE);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(MenuItem menuItem) {
-        if (menuItem.getGroupId() == R.id.navigation_group_1) {
-            menuItem.setChecked(true);
-            NavDrawerHelper.closeDrawer(mMainActivity.getDrawerLayout());
-        }
-        mDrawerOptionExecutor.applySelectedOption(menuItem.getItemId(), true);
-        return true;
     }
 }

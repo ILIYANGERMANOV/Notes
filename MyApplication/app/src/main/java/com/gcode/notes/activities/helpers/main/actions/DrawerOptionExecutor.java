@@ -2,6 +2,8 @@ package com.gcode.notes.activities.helpers.main.actions;
 
 
 import android.content.Intent;
+import android.support.design.widget.NavigationView;
+import android.view.MenuItem;
 
 import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
@@ -12,16 +14,28 @@ import com.gcode.notes.controllers.bin.BinController;
 import com.gcode.notes.controllers.visible.AllNotesController;
 import com.gcode.notes.controllers.visible.ImportantController;
 import com.gcode.notes.controllers.visible.PrivateController;
+import com.gcode.notes.ui.helpers.NavDrawerHelper;
 
-public class DrawerOptionExecutor {
+public class DrawerOptionExecutor implements NavigationView.OnNavigationItemSelectedListener {
     MainActivity mMainActivity;
 
     public DrawerOptionExecutor(MainActivity mainActivity) {
         mMainActivity = mainActivity;
     }
 
+    /**
+     * @param selectedId               the nav drawer id to switch on
+     * @param preventExecutionIfSameId must be false when called onCreate() else true
+     */
     public void applySelectedOption(int selectedId, boolean preventExecutionIfSameId) {
         if (mMainActivity.mSelectedId == selectedId && preventExecutionIfSameId) return;
+
+
+        if(preventExecutionIfSameId || selectedId == R.id.navigation_item_bin) {
+            //private controller is selected or we are bin (both selected or screen rotation),
+            //save previous selected id cuz bin fab animation will bug
+            mMainActivity.mPreviousSelectedId = mMainActivity.mSelectedId;
+        }
 
         //!NOTE: this is executing only if the selected id is not already selected or
         //if applySelectedOption() is called from OnCreate(), in this case it should be executed
@@ -29,27 +43,19 @@ public class DrawerOptionExecutor {
         switch (selectedId) {
             case R.id.navigation_item_all_notes:
                 mMainActivity.mSelectedId = selectedId;
-                AllNotesController allNotesController = new AllNotesController(mMainActivity);
-
-                BaseController.setInstance(allNotesController);
+                BaseController.setInstance(new AllNotesController(mMainActivity));
                 break;
             case R.id.navigation_item_starred:
                 mMainActivity.mSelectedId = selectedId;
-                ImportantController importantController = new ImportantController(mMainActivity);
-
-                BaseController.setInstance(importantController);
+                BaseController.setInstance(new ImportantController(mMainActivity));
                 break;
             case R.id.navigation_item_private:
                 mMainActivity.mSelectedId = selectedId;
-                PrivateController privateController = new PrivateController(mMainActivity);
-
-                BaseController.setInstance(privateController);
+                BaseController.setInstance(new PrivateController(mMainActivity));
                 break;
             case R.id.navigation_item_bin:
                 mMainActivity.mSelectedId = selectedId;
-                BinController binController = new BinController(mMainActivity);
-
-                BaseController.setInstance(binController);
+                BaseController.setInstance(new BinController(mMainActivity));
                 break;
             case R.id.navigation_item_explore:
                 mMainActivity.startActivity(new Intent(mMainActivity, ExploreActivity.class));
@@ -73,5 +79,15 @@ public class DrawerOptionExecutor {
             //mMenu is already created, prepare its new options according controller
             mMainActivity.onPrepareOptionsMenu(mMainActivity.mMenu);
         }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        if (menuItem.getGroupId() == R.id.navigation_group_1) {
+            menuItem.setChecked(true);
+            NavDrawerHelper.closeDrawer(mMainActivity.getDrawerLayout());
+        }
+        applySelectedOption(menuItem.getItemId(), true);
+        return true;
     }
 }

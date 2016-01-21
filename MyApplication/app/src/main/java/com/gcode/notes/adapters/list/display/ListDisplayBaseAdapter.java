@@ -28,7 +28,9 @@ public abstract class ListDisplayBaseAdapter extends ArrayAdapter<ListDataItem> 
 
         //create view
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_display_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).
+                    inflate(R.layout.list_display_list_item, parent, false);
+
             holder = new ListItemHolder();
             holder.checkedTextView =
                     (CheckedTextView) convertView.findViewById(R.id.list_data_item_row_checked_text_view);

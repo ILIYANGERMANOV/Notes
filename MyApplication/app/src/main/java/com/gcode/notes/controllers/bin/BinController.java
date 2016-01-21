@@ -26,9 +26,11 @@ public class BinController extends BaseController {
     @Override
     protected void onSetContentAnimation() {
         super.onSetContentAnimation();
-        if (mPreviousControllerId != Constants.CONTROLLER_BIN) {
+        if (mMainActivity.mPreviousSelectedId != R.id.navigation_item_bin) {
+            //selected bin, button disappear should be animated
             mFabMenu.hideMenuButton(true);
         } else {
+            //bin coming from screen rotation, menu button disappear should not be animated
             mFabMenu.hideMenuButton(false);
         }
     }

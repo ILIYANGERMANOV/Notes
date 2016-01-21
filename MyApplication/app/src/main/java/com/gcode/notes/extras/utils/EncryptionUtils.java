@@ -1,4 +1,4 @@
-package com.gcode.notes.extras.utils.encryption;
+package com.gcode.notes.extras.utils;
 
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
@@ -6,26 +6,37 @@ import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.data.list.ListDataItem;
 import com.scottyab.aescrypt.AESCrypt;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 public class EncryptionUtils {
     //TODO: Optimization: created own AESCrypt, which doesn't create new cipher instance on every encrypt/decrypt
     private static EncryptionUtils mInstance;
 
-    private static String mPassword;
+    private String mPassword;
 
     public static EncryptionUtils getInstance(String password) {
-        //!NOTE: if mPassword is null it won't be problem, cuz mInstance will be null too
-        //so it will enter the if condition instantly
-        if (mInstance == null || !password.equals(mPassword)) {
+        if (mInstance == null) {
             //mInstance is not created or new password is selected
             mInstance = new EncryptionUtils(password);
+        } else if (!mInstance.mPassword.equals(password)) {
+            //new password is selected, change it
+            mInstance.mPassword = password;
         }
         return mInstance;
     }
 
     private EncryptionUtils(String password) {
         mPassword = password;
+    }
+
+    public static String SHA1(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        MessageDigest md = MessageDigest.getInstance("SHA-1");
+        md.update(text.getBytes("UTF-8"), 0, text.length());
+        byte[] sha1hash = md.digest();
+        return convertToHex(sha1hash);
     }
 
     //encrypt---------------------------------------------------------------------------------------------------------------
@@ -57,7 +68,7 @@ public class EncryptionUtils {
         encryptListDataAttributes(listData); //encrypt list attributes
     }
 
-    public void encryptListDataAttributes(ListData listData) throws Exception{
+    public void encryptListDataAttributes(ListData listData) throws Exception {
         if (listData.hasAttachedList()) {
             //list data has attached list, encrypt it
             ArrayList<ListDataItem> encryptedListItems = new ArrayList<>();
@@ -116,4 +127,17 @@ public class EncryptionUtils {
         contentBase.setCreationDate(AESCrypt.decrypt(mPassword, contentBase.getCreationDate()));
     }
     //decrypt---------------------------------------------------------------------------------------------------------------
+
+    private static String convertToHex(byte[] data) {
+        StringBuilder buf = new StringBuilder();
+        for (byte b : data) {
+            int halfByte = (b >>> 4) & 0x0F;
+            int twoHalfs = 0;
+            do {
+                buf.append((0 <= halfByte) && (halfByte <= 9) ? (char) ('0' + halfByte) : (char) ('a' + (halfByte - 10)));
+                halfByte = b & 0x0F;
+            } while (twoHalfs++ < 1);
+        }
+        return buf.toString();
+    }
 }

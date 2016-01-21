@@ -1,4 +1,4 @@
-package com.gcode.notes.tasks.async;
+package com.gcode.notes.tasks.async.delete;
 
 import android.os.AsyncTask;
 
@@ -9,7 +9,7 @@ public class DeleteExpiredNotesTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         if (!MyApplication.getWritableDatabase().deleteExpiredNotes()) {
-            MyDebugger.log("Failed to delete expired notes");
+            MyDebugger.log("DeleteExpiredNotesTask error.");
         }
         return null;
     }

@@ -1,6 +1,9 @@
 package com.gcode.notes.controllers.visible;
 
 
+import android.view.MenuItem;
+import android.view.View;
+
 import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.controllers.visible.callbacks.AuthenticationCallbacks;
@@ -10,6 +13,7 @@ import com.gcode.notes.extras.utils.AuthenticationUtils;
 import com.gcode.notes.extras.utils.MyUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.extras.values.Keys;
+import com.gcode.notes.tasks.async.delete.DeletePrivateNotesTask;
 import com.gcode.notes.tasks.async.encryption.DecryptAllNotesTask;
 import com.gcode.notes.tasks.async.encryption.DecryptNoteTask;
 import com.gcode.notes.tasks.async.encryption.callbacks.CryptTaskCallbacks;
@@ -23,7 +27,6 @@ public class PrivateController extends VisibleController implements
         DecryptNotesTaskCallbacks, CryptTaskCallbacks, AuthenticationCallbacks {
     //TODO: REFACTOR AND OPTIMIZE (IMPORTANT)
 
-    ArrayList<ContentBase> mNewContent;
     boolean mScrollToTop;
 
     public PrivateController(MainActivity mainActivity) {
@@ -32,16 +35,16 @@ public class PrivateController extends VisibleController implements
 
     @Override
     public void setContent(boolean scrollToTop) {
-        super.setContent(scrollToTop);
-        mToolbar.setTitle(mMainActivity.getString(R.string.private_label));
+        mScrollToTop = scrollToTop;
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        mToolbar.setTitle(R.string.authentication_label);
+        AuthenticationUtils.getInstance(mMainActivity, this).authenticate();
     }
 
     @Override
     public void setNewContent(ArrayList<ContentBase> newContent, boolean scrollToTop) {
         //it is called by LoadNewContentTask() when it is ready, override to prevent default behaviour
-        AuthenticationUtils.getInstance(mMainActivity, this).authenticate();
-        mNewContent = newContent;
-        mScrollToTop = scrollToTop;
+        new DecryptAllNotesTask(mMainActivity, this, newContent, mScrollToTop).execute();
     }
 
     @Override
@@ -75,6 +78,7 @@ public class PrivateController extends VisibleController implements
 
     @Override
     public void onNotesDecryptedSuccessfully(ArrayList<ContentBase> decryptedNotes, boolean scrollToTop) {
+        mRecyclerView.setVisibility(View.VISIBLE);
         super.setNewContent(decryptedNotes, scrollToTop);
     }
 
@@ -86,20 +90,29 @@ public class PrivateController extends VisibleController implements
     @Override
     public void onAuthenticated(String password) {
         MyDebugger.log("authenticated", password);
-        new DecryptAllNotesTask(mMainActivity, this, mNewContent, mScrollToTop).execute();
+        super.setContent(mScrollToTop);
+        mToolbar.setTitle(mMainActivity.getString(R.string.private_label));
     }
 
     @Override
     public void onPasswordTriesEnded() {
         MyDebugger.log("onPasswordTriesEnded()");
-        //delete private notes
+
+        //delete all private notes
+        new DeletePrivateNotesTask().execute();
+
+        //reset password
         MyUtils.saveToPreferences(Keys.PREF_PASS_TRIES, Constants.PASS_MAX_TRIES);
         MyUtils.saveToPreferences(Keys.PREF_PASSWORD, Constants.NO_PASSWORD);
+
         onExitPrivate();
     }
 
     @Override
     public void onExitPrivate() {
         MyDebugger.log("onExitPrivate()");
+        mRecyclerView.setVisibility(View.VISIBLE);
+        MenuItem menuItem = mMainActivity.getDrawer().getMenu().findItem(mMainActivity.mPreviousSelectedId);
+        mMainActivity.mDrawerOptionExecutor.onNavigationItemSelected(menuItem);
     }
 }

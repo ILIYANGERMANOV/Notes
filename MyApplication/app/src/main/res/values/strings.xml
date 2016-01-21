@@ -11,6 +11,7 @@
     <string name="all_notes_label">All notes</string>
     <string name="starred_label">Starred</string>
     <string name="bin_label">Bin</string>
+    <string name="authentication_label">Authentication</string>
     <string name="navigation_item_explore_title">Explore</string>
     <string name="navigation_item_settings_title">Settings</string>
     <string name="private_label">Private</string>

@@ -10,8 +10,10 @@ import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
 import com.gcode.notes.activities.display.list.bin.DisplayListBinActivity;
 import com.gcode.notes.activities.display.list.editable.DisplayListNormalActivity;
+import com.gcode.notes.activities.display.list.editable.DisplayListPrivateActivity;
 import com.gcode.notes.activities.display.note.bin.DisplayNoteBinActivity;
 import com.gcode.notes.activities.display.note.editable.DisplayNoteNormalActivity;
+import com.gcode.notes.activities.display.note.editable.DisplayNotePrivateActivity;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
@@ -80,7 +82,14 @@ public class IntentBuilder {
                 }
                 break;
             case Constants.MODE_PRIVATE:
-                //TODO: private (reminder) needs decryption
+                //start private display activity (note is already decrypted here)
+                if (type == Constants.TYPE_NOTE) {
+                    //it's note, start display note activity
+                    intent = new Intent(activity, DisplayNotePrivateActivity.class);
+                } else {
+                    //it's list start display list activity
+                    intent = new Intent(activity, DisplayListPrivateActivity.class);
+                }
                 break;
             case Constants.MODE_DELETED_NORMAL:
             case Constants.MODE_DELETED_IMPORTANT:

@@ -56,6 +56,7 @@ public class Constants {
     public static final int SETUP_FROM_PHOTO = 4;
     public static final int SETUP_FROM_AUDIO = 5;
 
+    //TODO: create extra class in values package
     //extras for activities
     public static final String EXTRA_LIST_DATA = "list_data_extra";
     public static final String EXTRA_NOTE_DATA = "note_data_extra";
@@ -98,7 +99,6 @@ public class Constants {
     public static final int SHORT_DELAY = 50;
     public static final int MEDIUM_DELAY = 150;
     public static final int LONG_DELAY = 250;
-
     public static final int DELAY_SO_USER_CAN_SEE = 300;
 
     public static final long LOCATION_VALID_TIME = 900000;

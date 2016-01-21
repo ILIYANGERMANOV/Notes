@@ -119,7 +119,7 @@ public class ListData extends ContentBase {
 
     private View createViewForItem(ListDataItem item, LayoutInflater inflater, LinearLayout containerLayout) {
         //create view
-        View itemView = inflater.inflate(R.layout.list_display_item, containerLayout, false);
+        View itemView = inflater.inflate(R.layout.list_main_list_item, containerLayout, false);
 
         //bind view
         CheckedTextView checkedTextView = (CheckedTextView) itemView.findViewById(R.id.list_data_item_row_checked_text_view);

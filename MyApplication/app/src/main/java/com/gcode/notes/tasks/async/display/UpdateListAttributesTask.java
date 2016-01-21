@@ -5,7 +5,8 @@ import android.os.AsyncTask;
 
 import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.extras.MyDebugger;
-import com.gcode.notes.extras.utils.encryption.EncryptionUtils;
+import com.gcode.notes.extras.utils.AuthenticationUtils;
+import com.gcode.notes.extras.utils.EncryptionUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 
@@ -18,8 +19,8 @@ public class UpdateListAttributesTask extends AsyncTask<ListData, Void, Void> {
             listData = new ListData(listData); //reconstruct object,
             //so encryption won't change list data attributes in main activity
             try {
-                EncryptionUtils.getInstance("1312aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadasdasdassdgsdg").
-                        encryptListDataAttributes(listData);
+                String password = AuthenticationUtils.getInstance(null, null).getPassword();
+                EncryptionUtils.getInstance(password).encryptListDataAttributes(listData);
             } catch (Exception e) {
                 MyDebugger.log("UpdateListAttributesTask encryption exception", e.getMessage());
                 return null;

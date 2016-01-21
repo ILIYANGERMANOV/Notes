@@ -67,9 +67,16 @@ public class NotificationHelper {
     }
 
     private static NotificationCompat.Builder getBaseNotificationBuilder(Context context, ContentBase contentBase) {
+        String title;
+        if(contentBase.getMode() == Constants.MODE_PRIVATE) {
+            title = context.getString(R.string.private_label);
+        } else {
+            title = contentBase.getTitle();
+        }
+
         return new NotificationCompat.Builder(context)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(contentBase.getTitle())
+                .setContentTitle(title)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
     }

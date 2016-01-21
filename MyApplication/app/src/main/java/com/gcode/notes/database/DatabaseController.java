@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class DatabaseController {
     private Context mContext;
     private SQLiteDatabase mDatabase;
-    
+
     public DatabaseController(Context context) {
         mContext = context;
         NotesDbHelper mHelper = new NotesDbHelper(context);
@@ -29,7 +29,7 @@ public class DatabaseController {
 
     //GETTERS ----------------------------------------------------------------------------------------------------------
     public ArrayList<ContentBase> getAllVisibleNotes() {
-        Cursor cursor = getCursorForAllItemsFromContentForModes(Constants.MODE_NORMAL, Constants.MODE_IMPORTANT);
+        Cursor cursor = getCursorForAllNoteForModes(Constants.MODE_NORMAL, Constants.MODE_IMPORTANT);
         return DataBuilder.buildItemList(mDatabase, cursor);
     }
 
@@ -39,7 +39,7 @@ public class DatabaseController {
     }
 
     public ArrayList<ContentBase> getAllImportantNotes() {
-        Cursor cursor = getCursorForAllItemsFromContentForModes(Constants.MODE_IMPORTANT);
+        Cursor cursor = getCursorForAllNoteForModes(Constants.MODE_IMPORTANT);
         return DataBuilder.buildItemList(mDatabase, cursor);
     }
 
@@ -49,7 +49,7 @@ public class DatabaseController {
     }
 
     public ArrayList<ContentBase> getAllPrivateNotes() {
-        Cursor cursor = getCursorForAllItemsFromContentForModes(Constants.MODE_PRIVATE);
+        Cursor cursor = getCursorForAllNoteForModes(Constants.MODE_PRIVATE);
         return DataBuilder.buildItemList(mDatabase, cursor);
     }
 
@@ -64,7 +64,7 @@ public class DatabaseController {
     }
 
     public ArrayList<ContentBase> getAllDeletedNotes() {
-        Cursor cursor = getCursorForAllItemsFromContentForModes(Constants.MODE_DELETED_NORMAL,
+        Cursor cursor = getCursorForAllNoteForModes(Constants.MODE_DELETED_NORMAL,
                 Constants.MODE_DELETED_IMPORTANT);
         return DataBuilder.buildItemList(mDatabase, cursor);
     }
@@ -165,6 +165,10 @@ public class DatabaseController {
     public boolean deleteNoteFromBin(ContentBase note) {
         return DeleteHelper.deleteNote(mDatabase, note) != 0;
     }
+
+    public boolean deleteAllPrivateNotes() {
+        return DeleteHelper.deleteNotesList(mDatabase, getAllPrivateNotes());
+    }
     //DELETE------------------------------------------------------------------------------------------------------------
 
 
@@ -196,7 +200,7 @@ public class DatabaseController {
      * @param modes - MUST CONTAIN AT LEAST ONE MODE; to order by expiration date pass MODE_DELETED_NORMAL as first argument
      * @return Cursor with the result of the query
      */
-    private Cursor getCursorForAllItemsFromContentForModes(int... modes) {
+    private Cursor getCursorForAllNoteForModes(int... modes) {
         return mDatabase.rawQuery(
                 SelectQueries.selectAllItemsFromContentForModes(modes.length, modes[0] != Constants.MODE_DELETED_NORMAL),
                 SelectQueries.buildSelectionArgs(modes)

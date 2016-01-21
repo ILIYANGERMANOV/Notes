@@ -12,7 +12,7 @@ public class VisibleController extends BaseController {
 
     @Override
     public void setContent(boolean scrollToTop) {
-        super.setContent(scrollToTop);
+        super.setContent(scrollToTop); //calls onSetContentAnimation
         new LoadContentTask(scrollToTop).execute();
         mSimpleItemTouchHelperCallback.setLongPressDragEnabled(true);
     }

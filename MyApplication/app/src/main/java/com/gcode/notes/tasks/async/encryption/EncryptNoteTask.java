@@ -1,5 +1,6 @@
 package com.gcode.notes.tasks.async.encryption;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -8,35 +9,39 @@ import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.extras.MyDebugger;
-import com.gcode.notes.extras.utils.encryption.EncryptionUtils;
+import com.gcode.notes.extras.utils.AuthenticationUtils;
+import com.gcode.notes.extras.utils.EncryptionUtils;
 import com.gcode.notes.tasks.async.encryption.callbacks.EncryptTaskCallbacks;
 import com.gcode.notes.ui.helpers.DialogBuilder;
 
 public class EncryptNoteTask extends AsyncTask<ContentBase, Void, ContentBase> {
-    private ComposeBaseActivity mComposeBaseActivity;
+    private Activity mActivity;
     private EncryptTaskCallbacks mEncryptTaskCallbacks;
     private MaterialDialog mProgressDialog;
 
     public EncryptNoteTask(ComposeBaseActivity composeBaseActivity, EncryptTaskCallbacks encryptTaskCallbacks) {
-        mComposeBaseActivity = composeBaseActivity;
+        mActivity = composeBaseActivity;
         mEncryptTaskCallbacks = encryptTaskCallbacks;
     }
 
     @Override
     protected void onPreExecute() {
-        mProgressDialog = DialogBuilder.buildEncryptNoteProgressDialog(mComposeBaseActivity);
+        mProgressDialog = DialogBuilder.buildEncryptNoteProgressDialog(mActivity);
     }
 
     @Override
     protected ContentBase doInBackground(ContentBase... params) {
         ContentBase contentBase = params[0];
+        String password = AuthenticationUtils.getInstance(mActivity, null).getPassword();
+        EncryptionUtils encryptionUtils = EncryptionUtils.getInstance(password);
+        MyDebugger.log("encrypting with password", password);
         try {
             if (contentBase instanceof NoteData) {
                 //its note
-                EncryptionUtils.getInstance("1312aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadasdasdassdgsdg").encryptNoteData(((NoteData) contentBase));
+                encryptionUtils.encryptNoteData(((NoteData) contentBase));
             } else if (contentBase instanceof ListData) {
                 //its list
-                EncryptionUtils.getInstance("1312aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadasdasdassdgsdg").encryptListData(((ListData) contentBase));
+                encryptionUtils.encryptListData(((ListData) contentBase));
             } else {
                 MyDebugger.log("EncryptNoteTask unknown TYPE.");
                 return null;
@@ -51,7 +56,7 @@ public class EncryptNoteTask extends AsyncTask<ContentBase, Void, ContentBase> {
 
     @Override
     protected void onPostExecute(ContentBase contentBase) {
-        if (!mComposeBaseActivity.isFinishing()) {
+        if (!mActivity.isFinishing()) {
             //if activity is finishing, mProgressDialog#dismiss() will lead to crash
             mProgressDialog.dismiss();
         }

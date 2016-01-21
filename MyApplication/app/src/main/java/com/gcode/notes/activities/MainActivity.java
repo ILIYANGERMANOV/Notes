@@ -29,8 +29,6 @@ import com.gcode.notes.activities.helpers.main.ui.FabMenuHelper;
 import com.gcode.notes.activities.helpers.main.ui.MainRecyclerViewHelper;
 import com.gcode.notes.activities.helpers.main.ui.MainToolbarHelper;
 import com.gcode.notes.activities.helpers.main.ui.NavigationDrawerHelper;
-import com.gcode.notes.extras.MyDebugger;
-import com.gcode.notes.extras.utils.LocationUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
 import com.github.clans.fab.FloatingActionMenu;
@@ -42,8 +40,18 @@ public class MainActivity extends AppCompatActivity {
     public SimpleItemTouchHelperCallback mSimpleItemTouchHelperCallback = null;
     public ActionBarDrawerToggle mDrawerToggle;
     public int mSelectedId = R.id.navigation_item_all_notes;
+    /**
+     * The id of nav drawer menu item.
+     * WARNING: On first creation equals all_notes id;
+     * After bin screen rotation is bin id;
+     * In all other cases is the id of the previous different item selected id.
+     */
+    public int mPreviousSelectedId = R.id.navigation_item_all_notes;
     public boolean mFabMenuOpened;
     public Menu mMenu;
+    public DrawerOptionExecutor mDrawerOptionExecutor;
+
+    private ReminderNotificationStartHelper mReminderNotificationStartHelper;
 
     @Bind(R.id.main_toolbar)
     Toolbar mToolbar;
@@ -110,21 +118,26 @@ public class MainActivity extends AppCompatActivity {
 
         //!NOTE: must be called after handleScreenRotation(), cuz there getIntent() is set correctly,
         //else will result in bug (opening always display activity on screen rotation)
-        ReminderNotificationStartHelper.handleIfStartedFromReminderNotifcation(this, getIntent());
+        mReminderNotificationStartHelper = new ReminderNotificationStartHelper(this);
+        mReminderNotificationStartHelper.handleIfStartedFromReminderNotification(getIntent());
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        ReminderNotificationStartHelper.handleIfStartedFromReminderNotifcation(this, intent);
+        if (mReminderNotificationStartHelper == null) {
+            //secure
+            mReminderNotificationStartHelper = new ReminderNotificationStartHelper(this);
+        }
+        mReminderNotificationStartHelper.handleIfStartedFromReminderNotification(intent);
     }
 
     private void setup() {
-        final DrawerOptionExecutor drawerOptionExecutor = new DrawerOptionExecutor(this);
+        mDrawerOptionExecutor = new DrawerOptionExecutor(this);
 
         new MainToolbarHelper(this).setupToolbar();
         FabMenuHelper.setupFabMenu(this);
-        new NavigationDrawerHelper(this, drawerOptionExecutor).setupNavigationDrawer();
+        new NavigationDrawerHelper(this, mDrawerOptionExecutor).setupNavigationDrawer();
         new MainRecyclerViewHelper(this).setupRecyclerView();
 
         //TODO: handle BaseController fake instance (happens cuz its creation is delayed), make callback in main for recreating
@@ -132,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 //delay it, cuz otherwise will result in crash (layout is not ready)
-                drawerOptionExecutor.applySelectedOption(mSelectedId, false);
+                mDrawerOptionExecutor.applySelectedOption(mSelectedId, false);
             }
         }, Constants.MINIMUM_DELAY);
     }

@@ -1,6 +1,5 @@
-package com.gcode.notes.tasks.async;
+package com.gcode.notes.tasks.async.delete;
 
-import android.net.Uri;
 import android.os.AsyncTask;
 
 import com.gcode.notes.extras.MyDebugger;

@@ -9,8 +9,8 @@ import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.extras.utils.AudioUtils;
 import com.gcode.notes.extras.values.Constants;
-import com.gcode.notes.tasks.async.DeleteFileTask;
 import com.gcode.notes.tasks.async.compose.RemoveAttachedAudioTask;
+import com.gcode.notes.tasks.async.delete.DeleteFileTask;
 
 public class DeleteAudioCallback implements MaterialDialog.SingleButtonCallback {
     ComposeNoteActivity mComposeNoteActivity;

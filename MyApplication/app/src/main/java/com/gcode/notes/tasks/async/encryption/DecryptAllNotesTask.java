@@ -8,7 +8,8 @@ import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.extras.MyDebugger;
-import com.gcode.notes.extras.utils.encryption.EncryptionUtils;
+import com.gcode.notes.extras.utils.AuthenticationUtils;
+import com.gcode.notes.extras.utils.EncryptionUtils;
 import com.gcode.notes.tasks.async.encryption.callbacks.DecryptNotesTaskCallbacks;
 import com.gcode.notes.ui.helpers.DialogBuilder;
 
@@ -38,15 +39,18 @@ public class DecryptAllNotesTask extends AsyncTask<Void, Integer, ArrayList<Cont
     protected ArrayList<ContentBase> doInBackground(Void... params) {
         int size = mNotesList.size();
         publishProgress(1);
+        String password = AuthenticationUtils.getInstance(mActivity, null).getPassword();
+        EncryptionUtils encryptionUtils = EncryptionUtils.getInstance(password);
+        MyDebugger.log("decrypting with", password);
         for (int i = 0; i < size; ++i) {
             ContentBase contentBase = mNotesList.get(i);
             try {
                 if (contentBase instanceof NoteData) {
                     //its note
-                    EncryptionUtils.getInstance("1312aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadasdasdassdgsdg").decryptNoteData(((NoteData) contentBase));
+                    encryptionUtils.decryptNoteData(((NoteData) contentBase));
                 } else if (contentBase instanceof ListData) {
                     //its list
-                    EncryptionUtils.getInstance("1312aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadasdasdassdgsdg").decryptListData(((ListData) contentBase));
+                    encryptionUtils.decryptListData(((ListData) contentBase));
                 } else {
                     MyDebugger.log("DecryptNoteTask unknown TYPE.");
                     return null;

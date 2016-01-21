@@ -29,8 +29,6 @@ public class BaseController {
     protected AppBarLayout mAppBarLayout;
     protected SimpleItemTouchHelperCallback mSimpleItemTouchHelperCallback;
 
-    protected static int mPreviousControllerId;
-
     public synchronized static BaseController getInstance() {
         if (mInstance == null) {
             //TODO: handle problems when clear memory
@@ -41,11 +39,6 @@ public class BaseController {
     }
 
     public static void setInstance(BaseController controller) {
-        if (mInstance != null) {
-            mPreviousControllerId = mInstance.getControllerId();
-        } else {
-            mPreviousControllerId = Constants.ERROR;
-        }
         mInstance = controller;
     }
 

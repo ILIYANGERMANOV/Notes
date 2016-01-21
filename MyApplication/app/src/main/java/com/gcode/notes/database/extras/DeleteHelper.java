@@ -11,6 +11,7 @@ import com.gcode.notes.database.extras.queries.SelectQueries;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.AlarmUtils;
 import com.gcode.notes.notes.MyApplication;
+import com.gcode.notes.tasks.async.delete.DeleteFileTask;
 
 import java.util.ArrayList;
 
@@ -49,7 +50,12 @@ public class DeleteHelper {
 
         if (note instanceof NoteData) {
             //delete note attributes
+            NoteData noteData = ((NoteData) note);
             String whereClause = NoteEntry._ID + " = ?";
+            if (noteData.hasAttachedAudio()) {
+                //!NOTE: in all when this method is called attachedAudioPath isn't encrypted
+                new DeleteFileTask().execute(noteData.getAttachedAudioPath());
+            }
             return database.delete(NoteEntry.TABLE_NAME, whereClause, whereArgs);
         } else {
             //delete list attributes
