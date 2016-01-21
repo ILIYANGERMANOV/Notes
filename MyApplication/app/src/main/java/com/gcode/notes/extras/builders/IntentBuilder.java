@@ -18,10 +18,7 @@ import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.extras.MyDebugger;
-import com.gcode.notes.extras.utils.AuthenticationUtils;
-import com.gcode.notes.extras.utils.EncryptionUtils;
 import com.gcode.notes.extras.values.Constants;
-import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
 
 public class IntentBuilder {
@@ -48,7 +45,7 @@ public class IntentBuilder {
     public static Intent buildStartMainActivityFromReminder(Context context, String objectSerialized, int type) {
         Intent intent = new Intent(context, MainActivity.class); //start MainActivity
         intent.putExtra(Constants.EXTRA_FROM_REMINDER_NOTIFICATION, true); //flag that help MainActivity recognize that it was started from notification
-        intent.putExtra(Constants.EXTRA_TYPE, type); //int flag that helps MainActivity to recognize if object is note/list
+        intent.putExtra(Constants.EXTRA_NOTE_ID, type); //int flag that helps MainActivity to recognize if object is note/list
         switch (type) {
             case Constants.TYPE_NOTE:
                 //put objectSerialized as EXTRA_NOTE_DATA
@@ -67,32 +64,11 @@ public class IntentBuilder {
         return intent;
     }
 
-    public static Intent buildStartDisplayActivity(Activity activity, ContentBase contentBase) {
-        //TODO: REFACTOR AND OPTIMIZE
-        //TODO: fix possible bugs when lock note is implemented (consider always getting updated note from db)
+    public static Intent buildStartDisplayActivityIntent(Activity activity, ContentBase contentBase) {
         Intent intent = null;
 
-        int type = contentBase.getType();
-
-        if (type == Constants.TYPE_LIST) {
-            //note is list, get latest update list from db
-            ContentBase updatedList = getUpdatedList(contentBase);
-            if(updatedList != null) {
-                //secure updated list
-                contentBase = updatedList;
-            }
-        } else {
-            //note is not list, get updated mode
-            try {
-                contentBase.setMode(MyApplication.getWritableDatabase().getNoteModeFromId(contentBase.getId()));
-            } catch (Exception e) {
-                e.printStackTrace();
-                MyDebugger.log("buildStartDisplayActivity() exception while getting updated note mode",
-                        e.getMessage());
-            }
-        }
-
         int mode = contentBase.getMode();
+        int type = contentBase.getType();
 
         switch (mode) {
             case Constants.MODE_NORMAL:
@@ -129,7 +105,7 @@ public class IntentBuilder {
                 break;
             default:
                 //unknown note mode, log it
-                MyDebugger.log("buildStartDisplayActivity() unknown mode", mode);
+                MyDebugger.log("buildStartDisplayActivityIntent() unknown mode", mode);
         }
 
         if (intent != null) {
@@ -144,38 +120,5 @@ public class IntentBuilder {
         }
 
         return intent;
-    }
-
-    private static ContentBase getUpdatedList(ContentBase contentBase) {
-        ContentBase targetList = MyApplication.getWritableDatabase().getNoteFromId(contentBase.getId());
-        if (targetList != null) {
-            //updated list obtained successfully
-            if (targetList.getMode() == Constants.MODE_PRIVATE) {
-                //target list is private and needs decryption
-                try {
-                    //TODO: possible skipping frames (very low chance)
-                    EncryptionUtils.getInstance(AuthenticationUtils.getInstance(null, null).getPassword())
-                            .decryptListData(((ListData) targetList));
-                } catch (Exception e) {
-                    //exception while decrypting, log it and set not updated list
-                    MyDebugger.log("buildStartDisplayActivity() decryption exception", e.getMessage());
-                    targetList = contentBase;
-                    try {
-                        EncryptionUtils.getInstance(AuthenticationUtils.getInstance(null, null).getPassword())
-                                .decryptListData(((ListData) targetList));
-                    } catch (Exception e1) {
-                        //fatal decryption exception, cannot proceed forward, log it and return null
-                        MyDebugger.log("buildStartDisplayActivity() 2nd level decryption exception", e1.getMessage());
-                        return null;
-                    }
-                }
-            }
-            contentBase = targetList;
-        } else {
-            //failed to find updated list, log it
-            MyDebugger.log("buildStartDisplayActivity() failed to find updated list.");
-        }
-
-        return contentBase;
     }
 }

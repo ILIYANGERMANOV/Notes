@@ -27,7 +27,7 @@ public class ResetAlarmsService extends IntentService {
         //builds list with all notes, which has reminder
         for (ContentBase contentBase : MyApplication.getWritableDatabase().getAllNotesWithReminder()) {
             Date reminderDate = DateUtils.parseDateFromSQLiteFormat(contentBase.getReminder()); //parse reminderDate
-            AlarmUtils.setAlarm(this, contentBase, reminderDate.getTime()); //reset alarm for current contentBase
+            AlarmUtils.setAlarm(this, contentBase.getId(), reminderDate.getTime()); //reset alarm for current contentBase
         }
         BootWakefulBroadcastReceiver.completeWakefulIntent(intent);//releases the wake lock
     }

@@ -34,7 +34,7 @@ public class ReminderNotificationStartHelper implements AuthenticationCallbacks,
         if (intent != null && intent.getBooleanExtra(Constants.EXTRA_FROM_REMINDER_NOTIFICATION, false)) {
             //!NOTE contentBase's reminder, so it wont duplicate
             //activity was started from reminder notification, start display activity according it extra data
-            switch (intent.getIntExtra(Constants.EXTRA_TYPE, Constants.NO_VALUE)) {
+            switch (intent.getIntExtra(Constants.EXTRA_NOTE_ID, Constants.NO_VALUE)) {
                 case Constants.TYPE_NOTE:
                     //It's note, parse noteData, remove it's reminder and start according display activity
                     NoteData noteData = Serializer.parseNoteData(intent.getStringExtra(Constants.EXTRA_NOTE_DATA));
@@ -69,7 +69,7 @@ public class ReminderNotificationStartHelper implements AuthenticationCallbacks,
         MyApplication.getWritableDatabase().updateNoteReminder(contentBase); //apply reminder update to db
 
         if (contentBase.getMode() == Constants.MODE_PRIVATE) {
-            //its private note, authenticate accesss
+            //its private note, authenticate access
             mContentBase = contentBase;
             AuthenticationUtils.getInstance(mMainActivity, this).authenticate();
             return;
@@ -78,7 +78,7 @@ public class ReminderNotificationStartHelper implements AuthenticationCallbacks,
     }
 
     private void startDisplayActivity(ContentBase contentBase) {
-        Intent displayActivityIntent = IntentBuilder.buildStartDisplayActivity(mMainActivity, contentBase);
+        Intent displayActivityIntent = IntentBuilder.buildStartDisplayActivityIntent(mMainActivity, contentBase);
         if (displayActivityIntent != null) {
             //IntentBuilder has successfully built intent, start it
             int requestCode = contentBase.getType() == Constants.TYPE_NOTE ? //set requestCode according contentBase type
@@ -90,14 +90,7 @@ public class ReminderNotificationStartHelper implements AuthenticationCallbacks,
 
     @Override
     public void onAuthenticated(String password) {
-        if (mContentBase.getType() != Constants.TYPE_LIST) {
-            //it is private note, should be decrypted here
-            new DecryptNoteTask(mMainActivity, this).execute(mContentBase);
-        } else {
-            //private note is list, it will be obtained from db and decrypted in startDisplayActivity()
-            //so there is no need for double decryption
-            startDisplayActivity(mContentBase);
-        }
+        new DecryptNoteTask(mMainActivity, this).execute(mContentBase);
     }
 
     @Override

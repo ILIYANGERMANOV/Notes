@@ -82,7 +82,7 @@ public class Constants {
 
     //extras for reminder notification
     public static final String EXTRA_FROM_REMINDER_NOTIFICATION = "from_reminder_notification_extra";
-    public static final String EXTRA_TYPE = "type_extra";
+    public static final String EXTRA_NOTE_ID = "note_id_extra";
 
 
     public static final int MAX_LIST_ITEMS_TO_DISPLAY = 5;

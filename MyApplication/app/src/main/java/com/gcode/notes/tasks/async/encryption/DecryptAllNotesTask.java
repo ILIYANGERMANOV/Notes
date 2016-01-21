@@ -41,7 +41,6 @@ public class DecryptAllNotesTask extends AsyncTask<Void, Integer, ArrayList<Cont
         publishProgress(1);
         String password = AuthenticationUtils.getInstance(mActivity, null).getPassword();
         EncryptionUtils encryptionUtils = EncryptionUtils.getInstance(password);
-        MyDebugger.log("decrypting with", password);
         for (int i = 0; i < size; ++i) {
             ContentBase contentBase = mNotesList.get(i);
             try {

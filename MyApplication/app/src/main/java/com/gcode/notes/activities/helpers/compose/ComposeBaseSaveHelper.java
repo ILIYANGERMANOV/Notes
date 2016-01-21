@@ -22,7 +22,7 @@ public class ComposeBaseSaveHelper {
         boolean hadValidTitleBeforeValidation = contentBase.hasValidTitle();
 
         //!NOTE: contentBase#setMode should be called before setting reminder,
-        // cuz it will result in bug ('buildStartDisplayActivity() unknown mode: 0')
+        // cuz it will result in bug ('buildStartDisplayActivityIntent() unknown mode: 0')
         int mode;
         if (composeBaseActivity.mInPrivateMode) {
             //activity is in private mode, set private mode to note
@@ -72,7 +72,7 @@ public class ComposeBaseSaveHelper {
     public static void setAlarmIfHasReminder(ComposeReminderFragment composeReminderFragment, ContentBase contentBase) {
         if (contentBase.hasReminder() && composeReminderFragment != null) {
             //contentBase has reminder after obtaining data from ComposeReminderFragment, set an alarm event
-            composeReminderFragment.setAlarmForReminder(contentBase);
+            composeReminderFragment.setAlarmForReminder(contentBase.getId());
         }
     }
 }

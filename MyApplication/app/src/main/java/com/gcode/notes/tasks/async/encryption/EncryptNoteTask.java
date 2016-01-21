@@ -34,7 +34,6 @@ public class EncryptNoteTask extends AsyncTask<ContentBase, Void, ContentBase> {
         ContentBase contentBase = params[0];
         String password = AuthenticationUtils.getInstance(mActivity, null).getPassword();
         EncryptionUtils encryptionUtils = EncryptionUtils.getInstance(password);
-        MyDebugger.log("encrypting with password", password);
         try {
             if (contentBase instanceof NoteData) {
                 //its note
