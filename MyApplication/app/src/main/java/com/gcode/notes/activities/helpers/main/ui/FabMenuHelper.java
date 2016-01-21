@@ -12,7 +12,7 @@ import com.github.clans.fab.FloatingActionMenu;
 
 public class FabMenuHelper {
     //TODO: REFACTOR AND OPTIMIZE
-    //TODO: push up FAB when a wild snackbar appears, fix FAB animations
+    //TODO: fix FAB animations
     //TODO: fix bug when recycler view scroll called programmatically hides the FAB
 
     public static boolean isOpenStarted = false;

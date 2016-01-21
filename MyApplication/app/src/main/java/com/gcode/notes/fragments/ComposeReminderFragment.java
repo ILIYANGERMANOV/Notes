@@ -176,7 +176,8 @@ public class ComposeReminderFragment extends Fragment {
     private Calendar getCalendarForSelectedDateTime() {
         Calendar calendar = Calendar.getInstance();
         calendar.clear();
-        calendar.set(mYear, mMonthOfYear, mDayOfMonth, mHour, mMinute);
+        //set seconds to 0 in order to start the alarm exactly at selected minute
+        calendar.set(mYear, mMonthOfYear, mDayOfMonth, mHour, mMinute, 0);
         return calendar;
     }
 

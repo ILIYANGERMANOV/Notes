@@ -1,7 +1,5 @@
 package com.gcode.notes.activities.helpers.compose;
 
-import android.view.View;
-
 import com.gcode.notes.activities.compose.ComposeBaseActivity;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.base.ContentBase;
@@ -25,7 +23,7 @@ public class ComposeBaseStartStateHelper {
                 composeBaseActivity.setStarredState();
                 break;
             case Constants.CONTROLLER_PRIVATE:
-                putInPrivateMode(composeBaseActivity);
+                composeBaseActivity.setInPrivateMode();
                 break;
             default:
                 break;
@@ -60,12 +58,9 @@ public class ComposeBaseStartStateHelper {
         }
         if (contentBase.getMode() == Constants.MODE_PRIVATE) {
             //note is private mode, rise mInPrivateMode flag
-            putInPrivateMode(composeBaseActivity);
+            composeBaseActivity.setInPrivateMode();
         }
     }
 
-    private void putInPrivateMode(ComposeBaseActivity composeBaseActivity) {
-        composeBaseActivity.mInPrivateMode = true;
-        composeBaseActivity.getStarImageButton().setVisibility(View.GONE);
-    }
+
 }

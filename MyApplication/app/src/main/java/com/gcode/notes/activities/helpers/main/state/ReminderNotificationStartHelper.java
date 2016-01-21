@@ -1,4 +1,4 @@
-package com.gcode.notes.activities.helpers.main;
+package com.gcode.notes.activities.helpers.main.state;
 
 import android.content.Intent;
 
@@ -69,6 +69,7 @@ public class ReminderNotificationStartHelper implements AuthenticationCallbacks,
         MyApplication.getWritableDatabase().updateNoteReminder(contentBase); //apply reminder update to db
 
         if (contentBase.getMode() == Constants.MODE_PRIVATE) {
+            //its private note, authenticate accesss
             mContentBase = contentBase;
             AuthenticationUtils.getInstance(mMainActivity, this).authenticate();
             return;
@@ -89,7 +90,14 @@ public class ReminderNotificationStartHelper implements AuthenticationCallbacks,
 
     @Override
     public void onAuthenticated(String password) {
-        new DecryptNoteTask(mMainActivity, this).execute(mContentBase);
+        if (mContentBase.getType() != Constants.TYPE_LIST) {
+            //it is private note, should be decrypted here
+            new DecryptNoteTask(mMainActivity, this).execute(mContentBase);
+        } else {
+            //private note is list, it will be obtained from db and decrypted in startDisplayActivity()
+            //so there is no need for double decryption
+            startDisplayActivity(mContentBase);
+        }
     }
 
     @Override

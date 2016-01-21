@@ -36,7 +36,9 @@ public class ComposeListRotationHandler {
 
     public static void handlerScreenRotation(final ComposeListActivity composeListActivity, final Bundle savedInstanceState) {
         ComposeBaseRotationHandler.handlerScreenRotation(composeListActivity, savedInstanceState); //handle base
-        final ListData listData = Serializer.parseListData(savedInstanceState.getString(Constants.EXTRA_LIST_DATA));
+        //TODO: fix skipping frames by parsing note on another thread
+        final ListData listData = Serializer.parseListData(
+                savedInstanceState.getString(Constants.EXTRA_LIST_DATA));
         if (listData != null) {
             composeListActivity.mListData = listData;
             new Handler().postDelayed(new Runnable() {

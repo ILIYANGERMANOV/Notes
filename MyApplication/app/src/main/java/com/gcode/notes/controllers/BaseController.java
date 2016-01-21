@@ -105,6 +105,10 @@ public class BaseController {
         return mRecyclerView;
     }
 
+    public MainActivity getMainActivity() {
+        return mMainActivity;
+    }
+
     public MainAdapter getMainAdapter() {
         if (mRecyclerView == null) return null;
         RecyclerView.Adapter mAdapter = mRecyclerView.getAdapter();

@@ -18,13 +18,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.activities.helpers.main.MainActivityResultHandler;
-import com.gcode.notes.activities.helpers.main.MainActivityRotationHandler;
-import com.gcode.notes.activities.helpers.main.ReminderNotificationStartHelper;
 import com.gcode.notes.activities.helpers.main.actions.DrawerOptionExecutor;
 import com.gcode.notes.activities.helpers.main.actions.FabMenuActionHandler;
 import com.gcode.notes.activities.helpers.main.actions.MainActivityBackPressHelper;
 import com.gcode.notes.activities.helpers.main.actions.MainActivityMenuOptionsHelper;
+import com.gcode.notes.activities.helpers.main.state.MainActivityResultHandler;
+import com.gcode.notes.activities.helpers.main.state.MainActivityRotationHandler;
+import com.gcode.notes.activities.helpers.main.state.ReminderNotificationStartHelper;
 import com.gcode.notes.activities.helpers.main.ui.FabMenuHelper;
 import com.gcode.notes.activities.helpers.main.ui.MainRecyclerViewHelper;
 import com.gcode.notes.activities.helpers.main.ui.MainToolbarHelper;

@@ -27,8 +27,7 @@ public class MainRecyclerViewHelper {
 
         RecyclerView recyclerView = mMainActivity.getRecyclerView();
 
-        MainAdapter adapter = new MainAdapter(mMainActivity, mMainActivity.getRecyclerView(), notesList,
-                mMainActivity.getCoordinatorLayout(), mMainActivity.getRecyclerViewEmptyView());
+        MainAdapter adapter = new MainAdapter(mMainActivity, notesList);
 
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(mMainActivity, Constants.GRID_COLUMNS_COUNT);
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();

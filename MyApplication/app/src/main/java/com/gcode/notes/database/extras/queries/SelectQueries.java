@@ -42,6 +42,15 @@ public class SelectQueries {
             SELECT_ALL_FROM + ContentEntry.TABLE_NAME + WHERE +
                     ContentEntry.COLUMN_NAME_REMINDER + IS_NOT_NULL;
 
+    public static final String SELECT_NOTE_WITH_ID =
+            SELECT_ALL_FROM + ContentEntry.TABLE_NAME + WHERE +
+                    ContentEntry._ID + EQUALS_TO;
+
+    public static final String SELECT_NOTE_MODE_WITH_ID =
+            SELECT + ContentEntry.COLUMN_NAME_MODE +
+                    FROM + ContentEntry.TABLE_NAME + WHERE +
+                    ContentEntry._ID + EQUALS_TO;
+
     public static String whereClauseContentId = ContentEntry._ID + EQUALS_TO;
     public static String whereClauseNoteId = NoteEntry._ID + EQUALS_TO;
     public static String whereClauseListId = ListEntry._ID + EQUALS_TO;

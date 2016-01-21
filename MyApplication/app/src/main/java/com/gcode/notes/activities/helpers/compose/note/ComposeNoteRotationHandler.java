@@ -19,6 +19,7 @@ public class ComposeNoteRotationHandler {
     public static void handlerScreenRotation(ComposeNoteActivity composeNoteActivity, Bundle savedInstanceState) {
         ComposeBaseRotationHandler.handlerScreenRotation(composeNoteActivity, savedInstanceState); //handle base
         String serializedNoteData = savedInstanceState.getString(Constants.EXTRA_NOTE_DATA);
+        //TODO: fix skipping frames by parsing note on another thread
         NoteData noteData = Serializer.parseNoteData(serializedNoteData);
         if (noteData != null) {
             composeNoteActivity.mNoteData = noteData;

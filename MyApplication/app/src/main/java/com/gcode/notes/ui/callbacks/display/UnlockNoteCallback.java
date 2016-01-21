@@ -13,6 +13,7 @@ import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.tasks.async.main.RemoveItemFromMainTask;
 
 public class UnlockNoteCallback implements MaterialDialog.SingleButtonCallback {
+    //TODO: fix issues with unlocking note from reminder notification
     DisplayBaseActivity mDisplayBaseActivity;
     ContentBase mContentBase;
 

@@ -27,12 +27,11 @@ import com.gcode.notes.ui.listeners.NoteDeletedUndoOnClickListener;
 public class ActionExecutor {
     //TODO: REFACTOR AND OPTIMIZE
 
-    public static void popNoteDeletedSnackbar(View rootView, MainAdapter adapter,
-                                              int position, ContentBase note) {
+    public static void popNoteDeletedSnackbar(MainAdapter adapter, int position, ContentBase note) {
 
         NoteDeletedUndoOnClickListener undoOnClickListener = new NoteDeletedUndoOnClickListener(position, note);
         Snackbar.Callback snackbarCallback = new NoteDeletedSnackbarCallback(adapter, note, position, undoOnClickListener);
-        SnackbarHelper.buildNoteDeletedSnackbar(rootView, undoOnClickListener, snackbarCallback).show();
+        SnackbarHelper.buildNoteDeletedSnackbar(adapter.getRootView(), undoOnClickListener, snackbarCallback).show();
     }
 
     public static void popListItemDeletedSnackbar(BaseComposeContainerAdapter containerAdapter, View removedItem) {

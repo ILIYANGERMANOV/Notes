@@ -14,6 +14,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class AuthenticationUtils implements PasswordCallbacks {
     //TODO: REFACTOR AND OPTIMIZE
+    //TODO: fix possible null pointer exceptions
     private static AuthenticationUtils mInstance;
 
     private Activity mActivity;
@@ -39,7 +40,6 @@ public class AuthenticationUtils implements PasswordCallbacks {
             }
             mInstance.updateInstancePassword();
         }
-        MyDebugger.log("Instance password", mInstance.mPassword);
         return mInstance;
     }
 

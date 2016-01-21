@@ -1,13 +1,13 @@
 package com.gcode.notes.adapters;
 
 
-import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.gcode.notes.R;
+import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.adapters.viewholders.main.BaseItemViewHolder;
 import com.gcode.notes.adapters.viewholders.main.ListItemViewHolder;
 import com.gcode.notes.adapters.viewholders.main.NoteItemViewHolder;
@@ -26,7 +26,7 @@ import java.util.Collections;
 public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implements ItemTouchHelperAdapter {
     ArrayList<ContentBase> mData;
     View mRootView;
-    Activity mActivity;
+    MainActivity mMainActivity;
     RecyclerView mRecyclerView;
     LayoutInflater mInflater;
 
@@ -34,18 +34,30 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
 
     private boolean mEmptyViewVisible;
 
-    public MainAdapter(Activity activity, RecyclerView recyclerView,
-                       ArrayList<ContentBase> data, View rooView, View emptyView) {
-
-        mRecyclerView = recyclerView;
-        mActivity = activity;
+    public MainAdapter(MainActivity mainActivity, ArrayList<ContentBase> data) {
+        mMainActivity = mainActivity;
+        mRecyclerView = mainActivity.getRecyclerView();
+        mRootView = mainActivity.getCoordinatorLayout();
+        mEmptyView = mainActivity.getRecyclerViewEmptyView();
         mData = data;
-        mRootView = rooView;
-        mEmptyView = emptyView;
 
-        mInflater = LayoutInflater.from(activity);
+        mInflater = LayoutInflater.from(mainActivity);
         mEmptyViewVisible = false;
     }
+
+    //getters----------------------------------------------------------------------------------------
+    public RecyclerView getRecyclerView() {
+        return mRecyclerView;
+    }
+
+    public View getRootView() {
+        return mRootView;
+    }
+
+    public MainActivity getMainActivity() {
+        return mMainActivity;
+    }
+    //getters----------------------------------------------------------------------------------------
 
     @Override
     public int getItemViewType(int position) {
@@ -55,9 +67,9 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
     @Override
     public BaseItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == Constants.TYPE_NOTE) {
-            return new NoteItemViewHolder(mActivity, mInflater.inflate(R.layout.note, parent, false), mData);
+            return new NoteItemViewHolder(mMainActivity, mInflater.inflate(R.layout.note, parent, false), mData);
         } else {
-            return new ListItemViewHolder(mActivity, mInflater.inflate(R.layout.list, parent, false), mData);
+            return new ListItemViewHolder(mMainActivity, mInflater.inflate(R.layout.list, parent, false), mData);
         }
     }
 
@@ -69,7 +81,7 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
             if (currentItem.getType() == Constants.TYPE_NOTE) {
                 ((NoteData) currentItem).displayNoteOnMain((NoteItemViewHolder) holder);
             } else {
-                ((ListData) currentItem).displayListOnMain(mActivity, (ListItemViewHolder) holder);
+                ((ListData) currentItem).displayListOnMain(mMainActivity, (ListItemViewHolder) holder);
             }
         }
     }
@@ -79,9 +91,7 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
         return mData.size();
     }
 
-    public RecyclerView getRecyclerView() {
-        return mRecyclerView;
-    }
+
 
     public int getIndexOfItem(ContentBase item) {
         int itemIndex = -1;
@@ -147,13 +157,13 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
 
     @Override
     public void onItemDismissUnrecoverable(int position) {
-        ActionExecutor.deleteNotePermanently(mActivity, this, mData.get(position), position);
+        ActionExecutor.deleteNotePermanently(mMainActivity, this, mData.get(position), position);
         removeItem(position);
     }
 
     @Override
     public void onItemDismiss(int position) {
-        ActionExecutor.popNoteDeletedSnackbar(mRootView, this, position, mData.get(position));
+        ActionExecutor.popNoteDeletedSnackbar(this, position, mData.get(position));
         removeItem(position);
     }
 

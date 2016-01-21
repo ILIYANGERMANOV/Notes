@@ -69,6 +69,9 @@ public class DisplayBaseActivity extends AppCompatActivity {
             mReminderTextView.setText(getString(R.string.display_reminder_text_and_date,
                     DateUtils.formatDateTimeForDisplay(contentBase.getReminder())) //reminder is currently in SQLite format, format it for display
             );
+        } else {
+            //note hasn't reminder, hide it (this case is when note with reminder is modified and it is removed)
+            mReminderTextView.setVisibility(View.GONE);
         }
         if (contentBase.hasLocation()) {
             //there is location, display it

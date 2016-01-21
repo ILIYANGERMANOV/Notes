@@ -32,5 +32,8 @@ public class ComposeBaseRotationHandler {
         }
         composeBaseActivity.mNoteModeChanged = savedInstanceState.getBoolean(Constants.EXTRA_NOTE_MODE_CHANGED);
         composeBaseActivity.mInPrivateMode = savedInstanceState.getBoolean(Constants.EXTRA_IS_IN_PRIVATE_MODE);
+        if(composeBaseActivity.mInPrivateMode) {
+            composeBaseActivity.setInPrivateMode();
+        }
     }
 }

@@ -89,7 +89,6 @@ public class PrivateController extends VisibleController implements
 
     @Override
     public void onAuthenticated(String password) {
-        MyDebugger.log("authenticated", password);
         super.setContent(mScrollToTop);
         mToolbar.setTitle(mMainActivity.getString(R.string.private_label));
     }
@@ -110,7 +109,6 @@ public class PrivateController extends VisibleController implements
 
     @Override
     public void onExitPrivate() {
-        MyDebugger.log("onExitPrivate()");
         mRecyclerView.setVisibility(View.VISIBLE);
         MenuItem menuItem = mMainActivity.getDrawer().getMenu().findItem(mMainActivity.mPreviousSelectedId);
         mMainActivity.mDrawerOptionExecutor.onNavigationItemSelected(menuItem);

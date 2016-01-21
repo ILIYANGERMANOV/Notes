@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -91,5 +92,10 @@ public class ComposeBaseActivity extends AppCompatActivity {
     public void setNotStarredState() {
         mIsStarred = false;
         mStarImageButton.setImageResource(R.drawable.ic_star_border_black_36dp);
+    }
+
+    public void setInPrivateMode() {
+        mInPrivateMode = true;
+        getStarImageButton().setVisibility(View.GONE);
     }
 }

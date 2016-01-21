@@ -1,4 +1,4 @@
-package com.gcode.notes.activities.helpers.main;
+package com.gcode.notes.activities.helpers.main.state;
 
 import android.os.Bundle;
 

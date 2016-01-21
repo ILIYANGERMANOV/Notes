@@ -9,12 +9,19 @@ import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 
-public class AddItemFromDbToMainTask extends AsyncTask<Void, Void, ContentBase> {
+public class AddItemFromDbToMainTask extends AsyncTask<Integer, Void, ContentBase> {
     BaseController mController;
 
     @Override
-    protected ContentBase doInBackground(Void... params) {
+    protected ContentBase doInBackground(Integer... params) {
         ContentBase item;
+
+        if(params.length > 0) {
+            //adds item with specific id, not last for mode
+            item = MyApplication.getWritableDatabase().getNoteFromId(params[0]);
+            return item;
+        }
+
         mController = BaseController.getInstance();
         switch (mController.getControllerId()) {
             case Constants.CONTROLLER_ALL_NOTES:
