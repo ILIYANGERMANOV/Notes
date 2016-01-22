@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 
 import com.gcode.notes.data.base.ContentBase;
+import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.AlarmUtils;
 import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.notes.MyApplication;
@@ -27,6 +28,11 @@ public class ResetAlarmsService extends IntentService {
         //builds list with all notes, which has reminder
         for (ContentBase contentBase : MyApplication.getWritableDatabase().getAllNotesWithReminder()) {
             Date reminderDate = DateUtils.parseDateFromSQLiteFormat(contentBase.getReminder()); //parse reminderDate
+            if (reminderDate == null) {
+                //failed to parse reminder date, log it and skip this alarm
+                MyDebugger.log(RESET_ALARM_SERVICE_TAG + " onHandleIntent() failed to parse reminder date.");
+                continue;
+            }
             AlarmUtils.setAlarm(this, contentBase.getId(), reminderDate.getTime()); //reset alarm for current contentBase
         }
         BootWakefulBroadcastReceiver.completeWakefulIntent(intent);//releases the wake lock

@@ -1,5 +1,7 @@
 package com.gcode.notes.activities.helpers.main.actions;
 
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -14,6 +16,12 @@ public class MainActivityMenuOptionsHelper {
         mainActivity.getMenuInflater().inflate(R.menu.menu_main, menu); //adds settings and search action to menu
         mainActivity.mMenu = menu; //get reference for the last created menu, so onPrepareMenuOptions() can be called
         //it needs as argument the last created menu and there is no other way to pass it
+        final MenuItem item = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        MainSearchHandler mainSearchHandler = new MainSearchHandler(mainActivity);
+        searchView.setOnQueryTextListener(mainSearchHandler);
+        searchView.setOnCloseListener(mainSearchHandler);
+        searchView.setOnSearchClickListener(mainSearchHandler);
     }
 
     public static void prepareOptionsMenu(Menu menu) {
@@ -34,8 +42,7 @@ public class MainActivityMenuOptionsHelper {
     public static boolean optionsItemSelected(MainActivity mainActivity, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
-                return true;
-            case R.id.action_search:
+                //TODO: implement settings
                 return true;
             case Constants.MENU_EMPTY_BIN:
                 ActionExecutor.emptyRecyclerBin(mainActivity);

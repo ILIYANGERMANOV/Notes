@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.gcode.notes.activities.MainActivity;
-import com.gcode.notes.adapters.MainAdapter;
+import com.gcode.notes.adapters.main.MainAdapter;
 import com.gcode.notes.controllers.bin.BinController;
 import com.gcode.notes.controllers.visible.AllNotesController;
 import com.gcode.notes.controllers.visible.ImportantController;

@@ -2,7 +2,7 @@ package com.gcode.notes.ui.callbacks;
 
 import android.support.design.widget.Snackbar;
 
-import com.gcode.notes.adapters.MainAdapter;
+import com.gcode.notes.adapters.main.MainAdapter;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.MyDebugger;

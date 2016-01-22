@@ -29,6 +29,7 @@ import com.gcode.notes.activities.helpers.main.ui.FabMenuHelper;
 import com.gcode.notes.activities.helpers.main.ui.MainRecyclerViewHelper;
 import com.gcode.notes.activities.helpers.main.ui.MainToolbarHelper;
 import com.gcode.notes.activities.helpers.main.ui.NavigationDrawerHelper;
+import com.gcode.notes.adapters.main.MainAdapter;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
 import com.github.clans.fab.FloatingActionMenu;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean mFabMenuOpened;
     public Menu mMenu;
     public DrawerOptionExecutor mDrawerOptionExecutor;
+    public MainAdapter mMainAdapter;
 
     private ReminderNotificationStartHelper mReminderNotificationStartHelper;
 

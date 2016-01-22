@@ -1,4 +1,4 @@
-package com.gcode.notes.adapters.viewholders.main;
+package com.gcode.notes.adapters.main.viewholders;
 
 
 import android.app.Activity;
@@ -10,10 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.adapters.viewholders.main.listeners.BaseItemListener;
-import com.gcode.notes.adapters.viewholders.main.listeners.NoteItemOnClickListener;
-import com.gcode.notes.data.base.ContentBase;
+import com.gcode.notes.adapters.main.viewholders.listeners.BaseItemListener;
+import com.gcode.notes.adapters.main.viewholders.listeners.NoteItemOnClickListener;
 import com.gcode.notes.data.NoteData;
+import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.values.Constants;
 
 import java.util.ArrayList;

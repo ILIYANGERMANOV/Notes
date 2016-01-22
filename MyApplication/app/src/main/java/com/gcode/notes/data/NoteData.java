@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.adapters.viewholders.main.NoteItemViewHolder;
+import com.gcode.notes.adapters.main.viewholders.NoteItemViewHolder;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.PhotoUtils;

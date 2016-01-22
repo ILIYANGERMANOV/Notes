@@ -21,7 +21,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
-import com.gcode.notes.adapters.MainAdapter;
+import com.gcode.notes.adapters.main.MainAdapter;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
@@ -43,10 +43,17 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     private final ItemTouchHelperAdapter mAdapter;
 
     private boolean mIsLongPressDragEnabled;
+    private boolean mIsSwipeEnabled;
 
     public SimpleItemTouchHelperCallback(MainAdapter adapter) {
         mAdapter = adapter;
         mIsLongPressDragEnabled = true;
+        mIsSwipeEnabled = true;
+    }
+
+    public void setAllEnabled(boolean enabled) {
+        mIsLongPressDragEnabled = enabled;
+        mIsSwipeEnabled = enabled;
     }
 
     public void setLongPressDragEnabled(boolean enabled) {
@@ -60,7 +67,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public boolean isItemViewSwipeEnabled() {
-        return true;
+        return mIsSwipeEnabled;
     }
 
     @Override

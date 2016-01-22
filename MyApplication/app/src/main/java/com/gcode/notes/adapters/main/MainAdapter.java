@@ -1,4 +1,4 @@
-package com.gcode.notes.adapters;
+package com.gcode.notes.adapters.main;
 
 
 import android.support.v7.widget.RecyclerView;
@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 
 import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
-import com.gcode.notes.adapters.viewholders.main.BaseItemViewHolder;
-import com.gcode.notes.adapters.viewholders.main.ListItemViewHolder;
-import com.gcode.notes.adapters.viewholders.main.NoteItemViewHolder;
+import com.gcode.notes.adapters.main.viewholders.BaseItemViewHolder;
+import com.gcode.notes.adapters.main.viewholders.ListItemViewHolder;
+import com.gcode.notes.adapters.main.viewholders.NoteItemViewHolder;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
@@ -24,14 +24,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implements ItemTouchHelperAdapter {
-    ArrayList<ContentBase> mData;
-    View mRootView;
-    MainActivity mMainActivity;
-    RecyclerView mRecyclerView;
-    LayoutInflater mInflater;
+    //TODO: REFACTOR AND OPTIMIZE
+    private ArrayList<ContentBase> mData;
+    private View mRootView;
+    private MainActivity mMainActivity;
+    private RecyclerView mRecyclerView;
+    private LayoutInflater mInflater;
 
-    View mEmptyView;
-
+    private View mEmptyView;
     private boolean mEmptyViewVisible;
 
     public MainAdapter(MainActivity mainActivity, ArrayList<ContentBase> data) {
@@ -57,6 +57,11 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
     public MainActivity getMainActivity() {
         return mMainActivity;
     }
+
+    public ArrayList<ContentBase> getData() {
+        return mData;
+    }
+
     //getters----------------------------------------------------------------------------------------
 
     @Override
@@ -90,8 +95,6 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
     public int getItemCount() {
         return mData.size();
     }
-
-
 
     public int getIndexOfItem(ContentBase item) {
         int itemIndex = -1;
@@ -149,10 +152,51 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
         }
     }
 
-    public void removeItem(int position) {
-        mData.remove(position);
+    public ContentBase removeItem(int position) {
+        ContentBase removedItem = mData.remove(position);
         notifyItemRemoved(position);
         checkForEmptyState();
+        return removedItem;
+    }
+
+    public void moveItem(int fromPosition, int toPosition) {
+        ContentBase model = mData.remove(fromPosition);
+        mData.add(toPosition, model);
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
+    public void animateTo(ArrayList<ContentBase> filteredList) {
+        applyAndAnimateRemovals(filteredList);
+        applyAndAnimateAdditions(filteredList);
+        applyAndAnimateMovedItems(filteredList);
+    }
+
+    private void applyAndAnimateRemovals(ArrayList<ContentBase> newNotes) {
+        for (int i = mData.size() - 1; i >= 0; i--) {
+            final ContentBase contentBase = mData.get(i);
+            if (!newNotes.contains(contentBase)) {
+                removeItem(i);
+            }
+        }
+    }
+
+    private void applyAndAnimateAdditions(ArrayList<ContentBase> newNotes) {
+        for (int i = 0, count = newNotes.size(); i < count; i++) {
+            final ContentBase contentBase = newNotes.get(i);
+            if (!mData.contains(contentBase)) {
+                addItem(i, contentBase);
+            }
+        }
+    }
+
+    private void applyAndAnimateMovedItems(ArrayList<ContentBase> newNotes) {
+        for (int toPosition = newNotes.size() - 1; toPosition >= 0; toPosition--) {
+            final ContentBase contentBase = newNotes.get(toPosition);
+            final int fromPosition = mData.indexOf(contentBase);
+            if (fromPosition >= 0 && fromPosition != toPosition) {
+                moveItem(fromPosition, toPosition);
+            }
+        }
     }
 
     @Override

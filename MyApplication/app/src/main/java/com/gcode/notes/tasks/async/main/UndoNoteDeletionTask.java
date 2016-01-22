@@ -3,7 +3,7 @@ package com.gcode.notes.tasks.async.main;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 
-import com.gcode.notes.adapters.MainAdapter;
+import com.gcode.notes.adapters.main.MainAdapter;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.base.ContentBase;
 

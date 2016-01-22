@@ -1,4 +1,4 @@
-package com.gcode.notes.adapters.viewholders.main.listeners;
+package com.gcode.notes.adapters.main.viewholders.listeners;
 
 
 import android.app.Activity;

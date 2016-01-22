@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.gcode.notes.R;
-import com.gcode.notes.adapters.viewholders.main.ListItemViewHolder;
+import com.gcode.notes.adapters.main.viewholders.ListItemViewHolder;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.ui.helpers.CheckedTextViewHelper;

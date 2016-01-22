@@ -1,4 +1,4 @@
-package com.gcode.notes.adapters.viewholders.main;
+package com.gcode.notes.adapters.main.viewholders;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.adapters.viewholders.main.listeners.BaseItemListener;
+import com.gcode.notes.adapters.main.viewholders.listeners.BaseItemListener;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.helper.ItemTouchHelperViewHolder;
 

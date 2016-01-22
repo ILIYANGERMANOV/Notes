@@ -6,8 +6,8 @@ import android.view.View;
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.activities.helpers.main.ui.listeners.FabMenuOnMenuToggleListener;
 import com.gcode.notes.activities.helpers.main.ui.listeners.FabMenuOnTouchListener;
-import com.gcode.notes.adapters.viewholders.main.BaseItemViewHolder;
-import com.gcode.notes.adapters.viewholders.main.listeners.BaseItemListener;
+import com.gcode.notes.adapters.main.viewholders.BaseItemViewHolder;
+import com.gcode.notes.adapters.main.viewholders.listeners.BaseItemListener;
 import com.github.clans.fab.FloatingActionMenu;
 
 public class FabMenuHelper {
