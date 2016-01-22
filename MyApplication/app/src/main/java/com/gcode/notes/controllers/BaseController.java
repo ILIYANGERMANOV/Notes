@@ -124,6 +124,11 @@ public class BaseController {
      * @param scrollToTop - whether recycler view should be scrolled to top
      */
     public void setContent(boolean scrollToTop) {
+        if(mMainActivity.mSearchView != null && !mMainActivity.mSearchView.isIconified()) {
+            //closes search view on label change
+            mMainActivity.mSearchView.setQuery("", false);
+            mMainActivity.mSearchView.setIconified(true);
+        }
         onSetContentAnimation();
     }
 

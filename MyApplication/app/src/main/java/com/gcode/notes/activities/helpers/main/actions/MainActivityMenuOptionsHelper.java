@@ -16,8 +16,9 @@ public class MainActivityMenuOptionsHelper {
         mainActivity.getMenuInflater().inflate(R.menu.menu_main, menu); //adds settings and search action to menu
         mainActivity.mMenu = menu; //get reference for the last created menu, so onPrepareMenuOptions() can be called
         //it needs as argument the last created menu and there is no other way to pass it
-        final MenuItem item = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        final MenuItem searchMenuItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+        mainActivity.mSearchView = searchView; //used in base controller to close search menu
         MainSearchHandler mainSearchHandler = new MainSearchHandler(mainActivity);
         searchView.setOnQueryTextListener(mainSearchHandler);
         searchView.setOnCloseListener(mainSearchHandler);

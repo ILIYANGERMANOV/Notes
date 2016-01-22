@@ -20,8 +20,7 @@ public class MainSearchHandler implements SearchView.OnQueryTextListener,
     private RecyclerView mRecyclerView;
     private MainAdapter mMainAdapter;
 
-    private ArrayList<ContentBase> mDataCopy;
-    private boolean mIsDataCopied;
+    private ArrayList<ContentBase> mNotesListCopy;
 
 
     public MainSearchHandler(MainActivity mainActivity) {
@@ -37,11 +36,7 @@ public class MainSearchHandler implements SearchView.OnQueryTextListener,
 
     @Override
     public boolean onQueryTextChange(String query) {
-        if (!mIsDataCopied) {
-            mDataCopy = new ArrayList<>(mMainAdapter.getData());
-            mIsDataCopied = true;
-        }
-        final ArrayList<ContentBase> filteredNotesList = filter(mDataCopy, query);
+        final ArrayList<ContentBase> filteredNotesList = filter(mNotesListCopy, query);
         mMainAdapter.animateTo(filteredNotesList);
         mRecyclerView.scrollToPosition(0);
         return true;
@@ -92,7 +87,8 @@ public class MainSearchHandler implements SearchView.OnQueryTextListener,
 
     @Override
     public void onClick(View v) {
-        //search view is opened, disable recycler view's drag and swipe
+        //search view is opened, disable recycler view's swipe, drag and create notes list copy
         mMainActivity.mSimpleItemTouchHelperCallback.setAllEnabled(false);
+        mNotesListCopy = new ArrayList<>(mMainAdapter.getData());
     }
 }
