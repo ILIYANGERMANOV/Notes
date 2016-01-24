@@ -29,6 +29,16 @@ public class BaseController {
     protected AppBarLayout mAppBarLayout;
     protected SimpleItemTouchHelperCallback mSimpleItemTouchHelperCallback;
 
+    protected BaseController(MainActivity mainActivity) {
+        if (mainActivity == null) return; //protect from null pointer exception
+        mMainActivity = mainActivity;
+        mToolbar = mainActivity.getToolbar();
+        mRecyclerView = mainActivity.getRecyclerView();
+        mFabMenu = mainActivity.getFabMenu();
+        mAppBarLayout = mainActivity.getAppBarLayout();
+        mSimpleItemTouchHelperCallback = mainActivity.mSimpleItemTouchHelperCallback;
+    }
+
     public synchronized static BaseController getInstance() {
         if (mInstance == null) {
             //TODO: handle problems when clear memory
@@ -40,16 +50,6 @@ public class BaseController {
 
     public static void setInstance(BaseController controller) {
         mInstance = controller;
-    }
-
-    protected BaseController(MainActivity mainActivity) {
-        if (mainActivity == null) return; //protect from null pointer exception
-        mMainActivity = mainActivity;
-        mToolbar = mainActivity.getToolbar();
-        mRecyclerView = mainActivity.getRecyclerView();
-        mFabMenu = mainActivity.getFabMenu();
-        mAppBarLayout = mainActivity.getAppBarLayout();
-        mSimpleItemTouchHelperCallback = mainActivity.mSimpleItemTouchHelperCallback;
     }
 
     public void setNewContent(ArrayList<ContentBase> newContent, boolean scrollToTop) {
@@ -145,5 +145,6 @@ public class BaseController {
     }
 
     public void onItemModeChanged(ContentBase item) {
+        //TODO: make not so useless
     }
 }

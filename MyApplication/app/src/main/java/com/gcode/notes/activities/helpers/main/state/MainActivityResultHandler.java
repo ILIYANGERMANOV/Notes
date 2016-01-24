@@ -129,6 +129,7 @@ public class MainActivityResultHandler {
 
     private static void notifyControllerForChanges(Intent data, ContentBase contentBase) {
         BaseController controller = BaseController.getInstance();
+        //TODO: same issues as BaseController#onItemModeChanged
         controller.onItemChanged(contentBase);
         if (data.getBooleanExtra(Constants.EXTRA_NOTE_MODE_CHANGED, false)) {
             controller.onItemModeChanged(contentBase);
