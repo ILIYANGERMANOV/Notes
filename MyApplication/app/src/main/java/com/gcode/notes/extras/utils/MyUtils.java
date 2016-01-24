@@ -1,10 +1,12 @@
 package com.gcode.notes.extras.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.DisplayMetrics;
+import android.view.inputmethod.InputMethodManager;
 
 import com.gcode.notes.R;
 import com.gcode.notes.extras.values.Constants;
@@ -60,5 +62,17 @@ public class MyUtils {
         final int directionality = Character.getDirectionality(Locale.getDefault().getDisplayName().charAt(0));
         return directionality == Character.DIRECTIONALITY_RIGHT_TO_LEFT ||
                 directionality == Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC;
+    }
+
+    /**
+     * Hides keyboard if shown.
+     *
+     * @param activity Instance of Activity
+     */
+    public static void hideSoftInput(Activity activity) {
+        if (activity.getCurrentFocus() != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+        }
     }
 }

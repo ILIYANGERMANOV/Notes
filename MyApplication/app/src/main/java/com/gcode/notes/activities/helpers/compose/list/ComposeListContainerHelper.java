@@ -20,8 +20,9 @@ public class ComposeListContainerHelper {
 
     public static void setupContainers(ComposeListActivity composeListActivity) {
         if (composeListActivity.mContainerAdapter == null || composeListActivity.mTickedContainerAdapter == null) {
-            composeListActivity.mContainerAdapter = new ListComposeContainerAdapter(composeListActivity.getContainer(),
-                    composeListActivity.getScrollView(), composeListActivity.getLastDividerView());
+            composeListActivity.mContainerAdapter =
+                    new ListComposeContainerAdapter(composeListActivity, composeListActivity.getContainer(),
+                            composeListActivity.getScrollView(), composeListActivity.getLastDividerView());
 
             composeListActivity.mTickedContainerAdapter = new TickedListComposeContainerAdapter(composeListActivity.getTickedContainer(),
                     composeListActivity.getScrollView());

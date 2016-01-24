@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.gcode.notes.R;
@@ -17,23 +16,24 @@ import com.gcode.notes.activities.helpers.compose.list.ComposeListStartStateHelp
 import com.gcode.notes.adapters.list.compose.ListComposeContainerAdapter;
 import com.gcode.notes.adapters.list.compose.TickedListComposeContainerAdapter;
 import com.gcode.notes.data.list.ListData;
+import com.jmedeisis.draglinearlayout.DragLinearLayout;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ComposeListActivity extends ComposeBaseActivity {
+    public ListComposeContainerAdapter mContainerAdapter;
+    public TickedListComposeContainerAdapter mTickedContainerAdapter;
+    public ListData mListData;
     @Bind(R.id.compose_list_scroll_view)
     ScrollView mScrollView;
-
     @Bind(R.id.compose_list_last_divider_view)
     View mLastDividerView;
-
     @Bind(R.id.compose_list_container_layout)
-    LinearLayout mContainer;
-
+    DragLinearLayout mContainer;
     @Bind(R.id.compose_list_container_ticked_layout)
-    LinearLayout mTickedContainer;
+    DragLinearLayout mTickedContainer;
 
     public ScrollView getScrollView() {
         return mScrollView;
@@ -43,18 +43,13 @@ public class ComposeListActivity extends ComposeBaseActivity {
         return mLastDividerView;
     }
 
-    public LinearLayout getContainer() {
+    public DragLinearLayout getContainer() {
         return mContainer;
     }
 
-    public LinearLayout getTickedContainer() {
+    public DragLinearLayout getTickedContainer() {
         return mTickedContainer;
     }
-
-    public ListComposeContainerAdapter mContainerAdapter;
-    public TickedListComposeContainerAdapter mTickedContainerAdapter;
-
-    public ListData mListData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -18,19 +18,22 @@ import com.gcode.notes.adapters.list.compose.listeners.RemoveListInputOnClickLis
 import com.gcode.notes.data.list.ListDataItem;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
+import com.jmedeisis.draglinearlayout.DragLinearLayout;
 
 import java.util.ArrayList;
 
 public abstract class BaseComposeContainerAdapter {
-    LinearLayout mContainer;
+    //TODO: REFACTOR AND OPTIMIZE (make base container to use LinearLayout and only not ticked to use DragLinearLayout)
+    DragLinearLayout mContainer;
     ScrollView mScrollView;
     LayoutInflater mInflater;
     BaseComposeContainerAdapter mOtherContainerAdapter;
 
     int mLastFocused;
 
-    public BaseComposeContainerAdapter(LinearLayout container, ScrollView scrollView) {
+    public BaseComposeContainerAdapter(DragLinearLayout container, ScrollView scrollView) {
         mContainer = container;
+        mContainer.setContainerScrollView(scrollView);
         mScrollView = scrollView;
         mInflater = (LayoutInflater) container.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mLastFocused = Constants.NO_FOCUS;
@@ -77,6 +80,7 @@ public abstract class BaseComposeContainerAdapter {
     public void addInputItemAsFirst(View inputItem, boolean requestFocus) {
         mContainer.addView(inputItem, 0);
         inputItem.setTag(0);
+        onItemAddedToContainer(inputItem);
         //inputItem is already added to the container at 0, so update from position 1 (previous first item has position 1)
         incrementItemsIdFromPosition(1);
         if (requestFocus) {
@@ -111,8 +115,8 @@ public abstract class BaseComposeContainerAdapter {
         incrementItemsIdFromPosition(inputItemPosition);
 
         setupInputItemLayout(inputItem, inputItemContent);
-
         mContainer.addView(inputItem, inputItemPosition);
+        onItemAddedToContainer(inputItem);
         if (requestFocus) {
             onItemAddedRequestFocus(inputItem);
         }
@@ -124,7 +128,7 @@ public abstract class BaseComposeContainerAdapter {
         boolean wasItemFocused = getEditTextFromView(inputItem).isFocused();
         //item isn't removed yet, so decrement items ids after its position
         decrementItemsIdAfterPosition(itemPosition);
-        mContainer.removeView(inputItem);
+        mContainer.removeDragView(inputItem);
         View previousItem = mContainer.getChildAt(itemPosition - 1);
         if (requestFocus) {
             onRemoveItemRequestFocus(previousItem, wasItemFocused);
@@ -168,6 +172,10 @@ public abstract class BaseComposeContainerAdapter {
 
     protected abstract boolean isListDataItemChecked();
 
+    protected void onItemAddedToContainer(View inputItem) {
+
+    }
+
     protected void onRemoveItemRequestFocus(View previousItem, boolean wasItemFocused) {
 
     }
@@ -191,6 +199,7 @@ public abstract class BaseComposeContainerAdapter {
         inputItem.setTag(0);
         setupInputItemLayout(inputItem, itemContent);
         mContainer.addView(inputItem);
+        onItemAddedToContainer(inputItem);
         if (requestFocus) {
             onItemAddedRequestFocus(inputItem);
         }

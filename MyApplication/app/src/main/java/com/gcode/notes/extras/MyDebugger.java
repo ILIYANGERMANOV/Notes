@@ -6,7 +6,9 @@ import android.widget.Toast;
 
 public class MyDebugger {
     public static final String DEBUG_TAG = "ddq";
+
     private static final String COLON_DIVIDER = ": ";
+    private static final String COMMA = ", ";
 
     public static void log(String info) {
         Log.d(DEBUG_TAG, info);
@@ -18,6 +20,19 @@ public class MyDebugger {
 
     public static void log(String key, int info) {
         Log.d(DEBUG_TAG, key + COLON_DIVIDER + Integer.toString(info));
+    }
+
+    public static void log(String key, int... values) {
+        String valuesString = "";
+        boolean firstValuePassed = false;
+        for (int value : values) {
+            if (firstValuePassed) {
+                valuesString += COMMA;
+            }
+            valuesString += Integer.toString(value);
+            firstValuePassed = true;
+        }
+        Log.d(DEBUG_TAG, key + COLON_DIVIDER + valuesString);
     }
 
     public static void log(String key, boolean info) {

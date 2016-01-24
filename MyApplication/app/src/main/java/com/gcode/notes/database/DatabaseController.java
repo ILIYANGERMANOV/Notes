@@ -84,25 +84,6 @@ public class DatabaseController {
         );
         return DataBuilder.buildSingleItem(mDatabase, cursor);
     }
-
-    public int getNoteModeFromId(int noteId) throws Exception {
-        Cursor cursor = mDatabase.rawQuery(
-                SelectQueries.SELECT_NOTE_MODE_WITH_ID,
-                new String[]{
-                        Integer.toString(noteId)
-                }
-        );
-        int noteMode;
-
-        if(cursor.moveToFirst()) {
-            //mode found, obtain it
-            noteMode = cursor.getInt(cursor.getColumnIndex(NotesContract.ContentEntry.COLUMN_NAME_MODE));
-        } else {
-            throw new Exception("getNoteModeFromId() note id not found.");
-        }
-
-        return noteMode;
-    }
     //GETTERS ----------------------------------------------------------------------------------------------------------
 
     //INSERTS--------------------------------------------------------------------------------------------------

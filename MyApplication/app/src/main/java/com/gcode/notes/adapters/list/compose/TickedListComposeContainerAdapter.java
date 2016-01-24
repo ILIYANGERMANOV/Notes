@@ -4,13 +4,13 @@ package com.gcode.notes.adapters.list.compose;
 import android.graphics.Paint;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.gcode.notes.R;
+import com.jmedeisis.draglinearlayout.DragLinearLayout;
 
 public class TickedListComposeContainerAdapter extends BaseComposeContainerAdapter {
-    public TickedListComposeContainerAdapter(LinearLayout container, ScrollView scrollView) {
+    public TickedListComposeContainerAdapter(DragLinearLayout container, ScrollView scrollView) {
         super(container, scrollView);
     }
 
