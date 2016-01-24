@@ -23,7 +23,7 @@ public class DeleteNoteFromDisplayCallback implements MaterialDialog.SingleButto
 
     @Override
     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-        if (MyApplication.getWritableDatabase().deleteNoteFromBin(mNote)) {
+        if (MyApplication.getWritableDatabase().deleteNotePermanently(mNote)) {
             mActivity.finish();
             MainAdapter adapter = BaseController.getInstance().getMainAdapter();
             if (adapter != null) {

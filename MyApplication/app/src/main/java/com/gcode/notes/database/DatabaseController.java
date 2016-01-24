@@ -105,6 +105,12 @@ public class DatabaseController {
         UpdateHelper.updateNoteMode(mDatabase, contentBase);
     }
 
+    /**
+     * Sets mode to deleted one both in contentBase and in database
+     *
+     * @param contentBase note which mode will be set to deleted
+     * @return whether the operation was successful
+     */
     public boolean deleteNote(ContentBase contentBase) {
         int newMode;
         switch (contentBase.getMode()) {
@@ -117,6 +123,7 @@ public class DatabaseController {
             default:
                 return false;
         }
+        contentBase.setMode(newMode);
         return UpdateHelper.updateNoteModeAndExpirationDate(mDatabase, contentBase, newMode, true) > 0;
     }
 
@@ -172,7 +179,7 @@ public class DatabaseController {
         return DeleteHelper.deleteNotesList(mDatabase, DataBuilder.buildItemList(mDatabase, cursor));
     }
 
-    public boolean deleteNoteFromBin(ContentBase note) {
+    public boolean deleteNotePermanently(ContentBase note) {
         return DeleteHelper.deleteNote(mDatabase, note) != 0;
     }
 

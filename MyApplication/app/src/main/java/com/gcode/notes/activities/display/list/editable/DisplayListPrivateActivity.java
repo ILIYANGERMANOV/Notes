@@ -4,7 +4,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.gcode.notes.R;
-import com.gcode.notes.activities.helpers.display.list.editable.mprivate.DisplayListPrivateMenuOptionsHelper;
+import com.gcode.notes.activities.helpers.display.DisplayBasePrivateOptionsHelper;
 import com.gcode.notes.ui.ActionExecutor;
 
 import butterknife.OnClick;
@@ -30,6 +30,7 @@ public class DisplayListPrivateActivity extends DisplayListEditableActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item) || DisplayListPrivateMenuOptionsHelper.optionItemSelected(this, item);
+        return super.onOptionsItemSelected(item) ||
+                DisplayBasePrivateOptionsHelper.optionItemSelected(this, item, mListData);
     }
 }

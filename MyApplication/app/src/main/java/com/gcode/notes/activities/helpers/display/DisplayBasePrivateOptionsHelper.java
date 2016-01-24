@@ -7,15 +7,15 @@ import com.gcode.notes.activities.display.DisplayBaseActivity;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.ui.ActionExecutor;
 
-public class DisplayBaseNormalOptionsHelper {
+public class DisplayBasePrivateOptionsHelper {
     public static boolean optionItemSelected(DisplayBaseActivity displayBaseActivity, MenuItem item,
                                              ContentBase contentBase) {
         switch (item.getItemId()) {
-            case R.id.action_lock_note:
-                ActionExecutor.lockNote(displayBaseActivity, contentBase);
+            case R.id.action_unlock_note:
+                ActionExecutor.unlockNote(displayBaseActivity, contentBase);
                 return true;
-            case R.id.action_delete_normal_note:
-                ActionExecutor.deleteNormalNote(displayBaseActivity, contentBase);
+            case R.id.action_delete_private_note:
+                ActionExecutor.deletePrivateNote(displayBaseActivity, contentBase);
                 return true;
         }
         return false;

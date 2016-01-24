@@ -118,6 +118,26 @@ public class DialogBuilder {
                 .show();
     }
 
+    public static void buildDeleteNormalNoteDialog(Activity activity, SingleButtonCallback buttonCallback) {
+        new MaterialDialog.Builder(activity)
+                .title(R.string.delete_normal_note_dialog_title)
+                .content(R.string.delete_normal_note_dialog_content)
+                .positiveText(R.string.delete_normal_note_dialog_positive_text)
+                .negativeText(R.string.dialog_cancel)
+                .onPositive(buttonCallback)
+                .show();
+    }
+
+    public static void buildDeletePrivateNoteDialog(Activity activity, SingleButtonCallback buttonCallback) {
+        new MaterialDialog.Builder(activity)
+                .title(R.string.delete_private_note_dialog_title)
+                .content(R.string.delete_private_note_dialog_content)
+                .positiveText(R.string.delete_private_note_dialog_positive_text)
+                .negativeText(R.string.dialog_cancel)
+                .onPositive(buttonCallback)
+                .show();
+    }
+
 
     public static MaterialDialog buildOpenImageProgressDialog(Activity activity) {
         return new MaterialDialog.Builder(activity)

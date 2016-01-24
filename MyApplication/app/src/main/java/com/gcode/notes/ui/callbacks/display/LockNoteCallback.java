@@ -15,7 +15,8 @@ import com.gcode.notes.tasks.async.encryption.callbacks.EncryptTaskCallbacks;
 import com.gcode.notes.tasks.async.main.RemoveItemFromMainTask;
 
 public class LockNoteCallback implements MaterialDialog.SingleButtonCallback, EncryptTaskCallbacks {
-    //TODO: fix issues with locking note from reminder notification
+    //TODO: fix issues with locking note from reminder notification (happens when you are in private when open it)
+    //TODO: the problem is that note is not added and wrong updateItem is called mark
     DisplayBaseActivity mDisplayBaseActivity;
     ContentBase mContentBase;
 
@@ -33,7 +34,7 @@ public class LockNoteCallback implements MaterialDialog.SingleButtonCallback, En
     @Override
     public void onEncryptedSuccessfully(ContentBase contentBase) {
         //note encrypted successfully, ready to proceed
-        mDisplayBaseActivity.mNoteModeChanged = true; //set to true so main activity can handle it properly
+        mDisplayBaseActivity.mNoteModeChanged = false; //main activity onItemModeChanged() shouldn't be called
         mContentBase.setMode(Constants.MODE_PRIVATE); //changes note mode from normal to private
         //!NOTE: Must be used with update creation date flag, so will work
         if (!MyApplication.getWritableDatabase().updateNote(mContentBase, true)) {

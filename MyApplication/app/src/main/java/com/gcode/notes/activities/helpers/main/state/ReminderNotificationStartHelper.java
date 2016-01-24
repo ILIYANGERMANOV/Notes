@@ -96,7 +96,10 @@ public class ReminderNotificationStartHelper implements AuthenticationCallbacks,
     @Override
     public void onPasswordTriesEnded() {
         //delete private note and reset password tries
-        MyApplication.getWritableDatabase().deleteNote(mContentBase);
+        if (!MyApplication.getWritableDatabase().deleteNotePermanently(mContentBase)) {
+            //failed to delete note, log it
+            MyDebugger.log("ReminderNotificationStartHelper onPasswordTriesEnded() failed to delete note");
+        }
         new RemoveItemFromMainTask("Private note deleted due to security actions.").execute(mContentBase);
         MyUtils.saveToPreferences(Keys.PREF_PASS_TRIES, Constants.PASS_MAX_TRIES);
     }

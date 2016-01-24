@@ -24,7 +24,7 @@ public class DeleteNotePermanentlyCallback implements MaterialDialog.SingleButto
     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
         if(which == DialogAction.POSITIVE) {
             //positive option selected, delete note
-            if (!MyApplication.getWritableDatabase().deleteNoteFromBin(mNote)) {
+            if (!MyApplication.getWritableDatabase().deleteNotePermanently(mNote)) {
                 //failed to delete note from db
                 mAdapter.addItem(mPosition, mNote);
                 mAdapter.getRecyclerView().smoothScrollToPosition(mPosition);

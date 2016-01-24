@@ -19,6 +19,8 @@ import com.gcode.notes.ui.callbacks.bin.EmptyRecyclerBinCallback;
 import com.gcode.notes.ui.callbacks.bin.RestoreNoteFromDisplayCallback;
 import com.gcode.notes.ui.callbacks.compose.DeleteAudioCallback;
 import com.gcode.notes.ui.callbacks.compose.RemovePhotoCallback;
+import com.gcode.notes.ui.callbacks.display.DeleteNormalNoteCallback;
+import com.gcode.notes.ui.callbacks.display.DeletePrivateNoteCallback;
 import com.gcode.notes.ui.callbacks.display.LockNoteCallback;
 import com.gcode.notes.ui.callbacks.display.UnlockNoteCallback;
 import com.gcode.notes.ui.helpers.DialogBuilder;
@@ -85,5 +87,17 @@ public class ActionExecutor {
     public static void lockNote(DisplayBaseActivity displayBaseActivity, ContentBase contentBase) {
         LockNoteCallback lockNoteCallback = new LockNoteCallback(displayBaseActivity, contentBase);
         DialogBuilder.buildLockNoteDialog(displayBaseActivity, lockNoteCallback);
+    }
+
+    public static void deleteNormalNote(DisplayBaseActivity displayBaseActivity, ContentBase contentBase) {
+        DeleteNormalNoteCallback deleteNormalNoteCallback =
+                new DeleteNormalNoteCallback(displayBaseActivity, contentBase);
+        DialogBuilder.buildDeleteNormalNoteDialog(displayBaseActivity, deleteNormalNoteCallback);
+    }
+
+    public static void deletePrivateNote(DisplayBaseActivity displayBaseActivity, ContentBase contentBase) {
+        DeletePrivateNoteCallback deletePrivateNoteCallback =
+                new DeletePrivateNoteCallback(displayBaseActivity, contentBase);
+        DialogBuilder.buildDeletePrivateNoteDialog(displayBaseActivity, deletePrivateNoteCallback);
     }
 }

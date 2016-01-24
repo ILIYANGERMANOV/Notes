@@ -13,7 +13,7 @@ import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.tasks.async.main.RemoveItemFromMainTask;
 
 public class UnlockNoteCallback implements MaterialDialog.SingleButtonCallback {
-    //TODO: fix issues with unlocking note from reminder notification
+    //TODO: SAME AS LockNote todo conception and !!mNoteChanged optimization for all display actions
     DisplayBaseActivity mDisplayBaseActivity;
     ContentBase mContentBase;
 
@@ -26,7 +26,7 @@ public class UnlockNoteCallback implements MaterialDialog.SingleButtonCallback {
     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
         //note should be moved from private to normal mode
         //!NOTE: note here is already decrypted, no need for decryption
-        mDisplayBaseActivity.mNoteModeChanged = true; //set to true so main activity can handle it properly
+        mDisplayBaseActivity.mNoteModeChanged = false; //main activity onItemModeChanged() shouldn't be called
         mContentBase.setMode(Constants.MODE_NORMAL); //changes note mode from private to normal
         //!NOTE: Must be used with update creation date flag, so will work
         if (!MyApplication.getWritableDatabase().updateNote(mContentBase, true)) {
