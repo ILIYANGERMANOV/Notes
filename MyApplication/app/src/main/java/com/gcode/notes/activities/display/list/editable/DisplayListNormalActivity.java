@@ -1,8 +1,10 @@
 package com.gcode.notes.activities.display.list.editable;
 
 import android.view.Menu;
+import android.view.MenuItem;
 
 import com.gcode.notes.R;
+import com.gcode.notes.activities.helpers.display.DisplayBaseNormalOptionsHelper;
 import com.gcode.notes.notes.MyApplication;
 
 import butterknife.OnClick;
@@ -30,6 +32,12 @@ public class DisplayListNormalActivity extends DisplayListEditableActivity {
         mListData.setModeImportant(mIsStarred);
         mNoteModeChanged = !mNoteModeChanged;
         MyApplication.getWritableDatabase().updateNoteMode(mListData);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item) ||
+                DisplayBaseNormalOptionsHelper.optionItemSelected(this, item, mListData);
     }
 
     @Override

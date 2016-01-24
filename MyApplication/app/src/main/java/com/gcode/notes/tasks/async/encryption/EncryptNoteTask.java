@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.gcode.notes.activities.compose.ComposeBaseActivity;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
@@ -19,8 +18,8 @@ public class EncryptNoteTask extends AsyncTask<ContentBase, Void, ContentBase> {
     private EncryptTaskCallbacks mEncryptTaskCallbacks;
     private MaterialDialog mProgressDialog;
 
-    public EncryptNoteTask(ComposeBaseActivity composeBaseActivity, EncryptTaskCallbacks encryptTaskCallbacks) {
-        mActivity = composeBaseActivity;
+    public EncryptNoteTask(Activity activity, EncryptTaskCallbacks encryptTaskCallbacks) {
+        mActivity = activity;
         mEncryptTaskCallbacks = encryptTaskCallbacks;
     }
 

@@ -16,15 +16,15 @@ import com.gcode.notes.extras.values.Keys;
 import com.gcode.notes.tasks.async.delete.DeletePrivateNotesTask;
 import com.gcode.notes.tasks.async.encryption.DecryptAllNotesTask;
 import com.gcode.notes.tasks.async.encryption.DecryptNoteTask;
-import com.gcode.notes.tasks.async.encryption.callbacks.CryptTaskCallbacks;
-import com.gcode.notes.tasks.async.encryption.callbacks.DecryptNotesTaskCallbacks;
+import com.gcode.notes.tasks.async.encryption.callbacks.DecryptAllNotesTaskCallbacks;
+import com.gcode.notes.tasks.async.encryption.callbacks.DecryptTaskCallbacks;
 import com.gcode.notes.tasks.async.main.AddItemFromDbToMainTask;
 import com.gcode.notes.tasks.async.main.RemoveItemFromMainTask;
 
 import java.util.ArrayList;
 
 public class PrivateController extends VisibleController implements
-        DecryptNotesTaskCallbacks, CryptTaskCallbacks, AuthenticationCallbacks {
+        DecryptAllNotesTaskCallbacks, DecryptTaskCallbacks, AuthenticationCallbacks {
     //TODO: REFACTOR AND OPTIMIZE (IMPORTANT)
 
     boolean mScrollToTop;
@@ -83,7 +83,7 @@ public class PrivateController extends VisibleController implements
     }
 
     @Override
-    public void onTaskCompletedSuccessfully(ContentBase contentBase) {
+    public void onDecryptedSuccessfully(ContentBase contentBase) {
         super.addItem(contentBase);
     }
 

@@ -19,6 +19,7 @@ import com.gcode.notes.ui.callbacks.bin.EmptyRecyclerBinCallback;
 import com.gcode.notes.ui.callbacks.bin.RestoreNoteFromDisplayCallback;
 import com.gcode.notes.ui.callbacks.compose.DeleteAudioCallback;
 import com.gcode.notes.ui.callbacks.compose.RemovePhotoCallback;
+import com.gcode.notes.ui.callbacks.display.LockNoteCallback;
 import com.gcode.notes.ui.callbacks.display.UnlockNoteCallback;
 import com.gcode.notes.ui.helpers.DialogBuilder;
 import com.gcode.notes.ui.helpers.SnackbarHelper;
@@ -79,5 +80,10 @@ public class ActionExecutor {
     public static void unlockNote(DisplayBaseActivity displayBaseActivity, ContentBase contentBase) {
         UnlockNoteCallback unlockNoteCallback = new UnlockNoteCallback(displayBaseActivity, contentBase);
         DialogBuilder.buildUnlockNoteDialog(displayBaseActivity, unlockNoteCallback);
+    }
+
+    public static void lockNote(DisplayBaseActivity displayBaseActivity, ContentBase contentBase) {
+        LockNoteCallback lockNoteCallback = new LockNoteCallback(displayBaseActivity, contentBase);
+        DialogBuilder.buildLockNoteDialog(displayBaseActivity, lockNoteCallback);
     }
 }

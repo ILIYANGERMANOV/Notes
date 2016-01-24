@@ -17,6 +17,7 @@ public class DisplayNoteEditableActivity extends DisplayNoteBaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item) || DisplayNoteEditableMenuOptionsHelper.optionItemSelected(this, item);
+        return super.onOptionsItemSelected(item) ||
+                DisplayNoteEditableMenuOptionsHelper.optionItemSelected(this, item);
     }
 }

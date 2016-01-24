@@ -10,31 +10,39 @@ import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
+import com.gcode.notes.tasks.async.encryption.EncryptNoteTask;
+import com.gcode.notes.tasks.async.encryption.callbacks.EncryptTaskCallbacks;
 import com.gcode.notes.tasks.async.main.RemoveItemFromMainTask;
 
-public class UnlockNoteCallback implements MaterialDialog.SingleButtonCallback {
-    //TODO: fix issues with unlocking note from reminder notification
+public class LockNoteCallback implements MaterialDialog.SingleButtonCallback, EncryptTaskCallbacks {
+    //TODO: fix issues with locking note from reminder notification
     DisplayBaseActivity mDisplayBaseActivity;
     ContentBase mContentBase;
 
-    public UnlockNoteCallback(DisplayBaseActivity displayBaseActivity, ContentBase contentBase) {
+    public LockNoteCallback(DisplayBaseActivity displayBaseActivity, ContentBase contentBase) {
         mDisplayBaseActivity = displayBaseActivity;
         mContentBase = contentBase;
     }
 
     @Override
     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-        //note should be moved from private to normal mode
-        //!NOTE: note here is already decrypted, no need for decryption
+        //note should be moved from normal to private mode
+        new EncryptNoteTask(mDisplayBaseActivity, this).execute(mContentBase);
+    }
+
+    @Override
+    public void onEncryptedSuccessfully(ContentBase contentBase) {
+        //note encrypted successfully, ready to proceed
         mDisplayBaseActivity.mNoteModeChanged = true; //set to true so main activity can handle it properly
-        mContentBase.setMode(Constants.MODE_NORMAL); //changes note mode from private to normal
+        mContentBase.setMode(Constants.MODE_PRIVATE); //changes note mode from normal to private
         //!NOTE: Must be used with update creation date flag, so will work
         if (!MyApplication.getWritableDatabase().updateNote(mContentBase, true)) {
             //failed to save to db decrypted note, log it and prevent further execution
-            MyDebugger.log("UnlockNoteCallback failed to update note.");
+            MyDebugger.log("LockNoteCallback failed to update note.");
             return;
         }
         mDisplayBaseActivity.finish();
-        new RemoveItemFromMainTask(mDisplayBaseActivity.getString(R.string.note_moved_to_all_notes)).execute(mContentBase);
+        new RemoveItemFromMainTask(mDisplayBaseActivity.getString(
+                R.string.note_moved_to_private)).execute(mContentBase);
     }
 }

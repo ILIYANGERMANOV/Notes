@@ -10,22 +10,22 @@ import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.AuthenticationUtils;
 import com.gcode.notes.extras.utils.EncryptionUtils;
-import com.gcode.notes.tasks.async.encryption.callbacks.DecryptNotesTaskCallbacks;
+import com.gcode.notes.tasks.async.encryption.callbacks.DecryptAllNotesTaskCallbacks;
 import com.gcode.notes.ui.helpers.DialogBuilder;
 
 import java.util.ArrayList;
 
 public class DecryptAllNotesTask extends AsyncTask<Void, Integer, ArrayList<ContentBase>> {
     private Activity mActivity;
-    private DecryptNotesTaskCallbacks mDecryptNotesTaskCallback;
+    private DecryptAllNotesTaskCallbacks mDecryptNotesTaskCallback;
     private MaterialDialog mProgressDialog;
     private ArrayList<ContentBase> mNotesList;
     private boolean mScrollToTop;
 
-    public DecryptAllNotesTask(Activity activity, DecryptNotesTaskCallbacks decryptNotesTaskCallbacks,
+    public DecryptAllNotesTask(Activity activity, DecryptAllNotesTaskCallbacks decryptAllNotesTaskCallbacks,
                                ArrayList<ContentBase> notesList, boolean scrollToTop) {
         mActivity = activity;
-        mDecryptNotesTaskCallback = decryptNotesTaskCallbacks;
+        mDecryptNotesTaskCallback = decryptAllNotesTaskCallbacks;
         mNotesList = notesList;
         mScrollToTop = scrollToTop;
     }

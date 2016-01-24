@@ -4,6 +4,6 @@ import com.gcode.notes.data.base.ContentBase;
 
 import java.util.ArrayList;
 
-public interface DecryptNotesTaskCallbacks {
+public interface DecryptAllNotesTaskCallbacks {
     void onNotesDecryptedSuccessfully(ArrayList<ContentBase> decryptedNotes, boolean scrollToTop);
 }

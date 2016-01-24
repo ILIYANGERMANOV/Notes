@@ -16,11 +16,11 @@ import com.gcode.notes.extras.values.Keys;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
 import com.gcode.notes.tasks.async.encryption.DecryptNoteTask;
-import com.gcode.notes.tasks.async.encryption.callbacks.CryptTaskCallbacks;
+import com.gcode.notes.tasks.async.encryption.callbacks.DecryptTaskCallbacks;
 import com.gcode.notes.tasks.async.main.RemoveItemFromMainTask;
 
 public class ReminderNotificationStartHelper implements AuthenticationCallbacks,
-        CryptTaskCallbacks {
+        DecryptTaskCallbacks {
 
     private MainActivity mMainActivity;
 
@@ -107,7 +107,7 @@ public class ReminderNotificationStartHelper implements AuthenticationCallbacks,
     }
 
     @Override
-    public void onTaskCompletedSuccessfully(ContentBase contentBase) {
+    public void onDecryptedSuccessfully(ContentBase contentBase) {
         startDisplayActivity(contentBase);
     }
 }

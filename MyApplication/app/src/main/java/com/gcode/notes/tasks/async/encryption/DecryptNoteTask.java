@@ -10,17 +10,17 @@ import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.AuthenticationUtils;
 import com.gcode.notes.extras.utils.EncryptionUtils;
-import com.gcode.notes.tasks.async.encryption.callbacks.CryptTaskCallbacks;
+import com.gcode.notes.tasks.async.encryption.callbacks.DecryptTaskCallbacks;
 import com.gcode.notes.ui.helpers.DialogBuilder;
 
 public class DecryptNoteTask extends AsyncTask<ContentBase, Void, ContentBase> {
     private Activity mActivity;
-    private CryptTaskCallbacks mCryptTaskCallbacks;
+    private DecryptTaskCallbacks mDecryptTaskCallbacks;
     private MaterialDialog mProgressDialog;
 
-    public DecryptNoteTask(Activity activity, CryptTaskCallbacks taskCompletedCallback) {
+    public DecryptNoteTask(Activity activity, DecryptTaskCallbacks taskCompletedCallback) {
         mActivity = activity;
-        mCryptTaskCallbacks = taskCompletedCallback;
+        mDecryptTaskCallbacks = taskCompletedCallback;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class DecryptNoteTask extends AsyncTask<ContentBase, Void, ContentBase> {
         }
         if (contentBase != null) {
             MyDebugger.log("note decrypted successfully");
-            mCryptTaskCallbacks.onTaskCompletedSuccessfully(contentBase);
+            mDecryptTaskCallbacks.onDecryptedSuccessfully(contentBase);
         }
     }
 }

@@ -44,6 +44,7 @@ public class DisplayListEditableActivity extends DisplayListBaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item) || DisplayListEditableMenuOptionsHelper.optionItemSelected(this, item);
+        return super.onOptionsItemSelected(item) ||
+                DisplayListEditableMenuOptionsHelper.optionItemSelected(this, item);
     }
 }
