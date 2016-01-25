@@ -10,6 +10,8 @@ import com.gcode.notes.R;
 import com.jmedeisis.draglinearlayout.DragLinearLayout;
 
 public class TickedListComposeContainerAdapter extends BaseComposeContainerAdapter {
+    //TODO: hide / show done according done tasks
+
     public TickedListComposeContainerAdapter(DragLinearLayout container, ScrollView scrollView) {
         super(container, scrollView);
     }
