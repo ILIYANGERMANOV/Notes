@@ -16,8 +16,18 @@ public class DisplayNoteImageOnItemClickListener implements LinearListView.OnIte
 
     @Override
     public void onItemClick(LinearListView parent, View view, int position, long id) {
-        mDisplayNoteBaseActivity.mOpenInGalleryProgressDialog = DialogBuilder.buildOpenImageProgressDialog(mDisplayNoteBaseActivity);
+        if (mDisplayNoteBaseActivity.mOpenInGalleryProgressDialog == null) {
+            mDisplayNoteBaseActivity.mOpenInGalleryProgressDialog =
+                    DialogBuilder.buildOpenImageProgressDialog(mDisplayNoteBaseActivity);
+        }
+        if (mDisplayNoteBaseActivity.mOpenInGalleryProgressDialog.isShowing()) {
+            //another open is already in progress, prevent further execution
+            return;
+        }
+
+        mDisplayNoteBaseActivity.mOpenInGalleryProgressDialog.show();
         //TODO: add on click effect on image
-        PhotoUtils.openPhotoInGallery(mDisplayNoteBaseActivity, (String) parent.getAdapter().getItem(position));
+        PhotoUtils.openPhotoInGallery(mDisplayNoteBaseActivity,
+                (String) parent.getAdapter().getItem(position));
     }
 }

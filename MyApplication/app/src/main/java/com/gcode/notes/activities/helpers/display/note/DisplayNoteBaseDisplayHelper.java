@@ -10,6 +10,7 @@ import com.gcode.notes.extras.utils.AudioUtils;
 import com.linearlistview.LinearListView;
 
 public class DisplayNoteBaseDisplayHelper {
+    //TODO: REFACTOR AND OPTIMIZE
     public static void displayNoteData(final DisplayNoteBaseActivity displayNoteBaseActivity) {
         NoteData noteData = displayNoteBaseActivity.mNoteData; //create new reference for easier access
 
@@ -19,21 +20,24 @@ public class DisplayNoteBaseDisplayHelper {
         //!NOTE: always set notes description text view, cuz when come back from compose activity
         //problems can occur
         displayNoteBaseActivity.getDescriptionTextView().setText(noteData.getDescription());
-        if (noteData.hasAttachedImage()) {
-            //!NOTE: if there is no image and desc text view is hidden, details and audio look bad
-            //note has attached image and there is no description, hide desc text view so there are no white spaces
-            displayNoteBaseActivity.getDescriptionTextView().setVisibility(View.GONE);
-        }
+
 
         if (noteData.hasAttachedImage()) {
             //there is attached image, display it
-            LinearListView mImagesLinearListView = displayNoteBaseActivity.getImagesLinearListView(); //create new reference for easier access
-            DisplayNoteImagesAdapter adapter = (DisplayNoteImagesAdapter) mImagesLinearListView.getAdapter();
+
+            if (!noteData.hasDescription()) {
+                //!NOTE: note has attached image and there is no description, hide desc text view
+                // so there are no white spaces
+                displayNoteBaseActivity.getDescriptionTextView().setVisibility(View.GONE);
+            }
+
+            LinearListView imagesLinearListView = displayNoteBaseActivity.getImagesLinearListView(); //create new reference for easier access
+            DisplayNoteImagesAdapter adapter = (DisplayNoteImagesAdapter) imagesLinearListView.getAdapter();
             if (adapter == null) {
                 //activity is created for first time, init and setup adapter
                 adapter = new DisplayNoteImagesAdapter(displayNoteBaseActivity, noteData.getAttachedImagesPaths());
-                mImagesLinearListView.setAdapter(adapter);
-                mImagesLinearListView.setOnItemClickListener(new DisplayNoteImageOnItemClickListener(displayNoteBaseActivity));
+                imagesLinearListView.setAdapter(adapter);
+                imagesLinearListView.setOnItemClickListener(new DisplayNoteImageOnItemClickListener(displayNoteBaseActivity));
             } else {
                 //adapter is already created (called from onActivityResult), just update its data
                 adapter.clear();

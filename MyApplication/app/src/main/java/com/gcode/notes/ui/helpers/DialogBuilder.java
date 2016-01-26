@@ -145,7 +145,7 @@ public class DialogBuilder {
                 .content(R.string.open_image_progress_dialog_content)
                 .progress(true, 0)
                 .cancelable(false)
-                .show();
+                .build();
     }
 
     public static MaterialDialog buildEncryptNoteProgressDialog(Activity activity) {

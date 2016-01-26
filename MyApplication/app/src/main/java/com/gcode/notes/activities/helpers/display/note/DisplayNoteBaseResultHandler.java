@@ -25,7 +25,8 @@ public class DisplayNoteBaseResultHandler {
      */
     public static void setResult(DisplayNoteBaseActivity displayNoteBaseActivity) {
         Intent resultIntent = new Intent();
-        resultIntent.putExtra(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(displayNoteBaseActivity.mNoteData));
+        resultIntent.putExtra(Constants.EXTRA_NOTE_DATA,
+                Serializer.serializeNoteData(displayNoteBaseActivity.mNoteData));
         resultIntent.putExtra(Constants.EXTRA_NOTE_MODE_CHANGED, displayNoteBaseActivity.mNoteModeChanged);
         displayNoteBaseActivity.setResult(Activity.RESULT_OK, resultIntent);
     }
