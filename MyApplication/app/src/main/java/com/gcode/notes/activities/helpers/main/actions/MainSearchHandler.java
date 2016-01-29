@@ -89,6 +89,7 @@ public class MainSearchHandler implements SearchView.OnQueryTextListener,
     public void onClick(View v) {
         //search view is opened, disable recycler view's swipe, drag and create notes list copy
         mMainActivity.mSimpleItemTouchHelperCallback.setAllEnabled(false);
+        //TODO: fix issues with notes list copy
         mNotesListCopy = new ArrayList<>(mMainAdapter.getData());
     }
 }

@@ -54,9 +54,6 @@ public class MainActivity extends AppCompatActivity {
     public DrawerOptionExecutor mDrawerOptionExecutor;
     public MainAdapter mMainAdapter;
     public SearchView mSearchView;
-
-    private ReminderNotificationStartHelper mReminderNotificationStartHelper;
-
     @Bind(R.id.main_toolbar)
     Toolbar mToolbar;
     @Bind(R.id.main_app_bar_layout)
@@ -73,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
     @Bind(R.id.main_notes_recycler_view_empty_text_view)
     TextView mRecyclerViewEmptyView;
+    private ReminderNotificationStartHelper mReminderNotificationStartHelper;
 
     //getters for layout components------------------------------------------------------------------------------------------
     public AppBarLayout getAppBarLayout() {
@@ -188,7 +186,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item) || MainActivityMenuOptionsHelper.optionsItemSelected(this, item);
+        return super.onOptionsItemSelected(item) ||
+                MainActivityMenuOptionsHelper.optionsItemSelected(this, item);
     }
 
     @Override

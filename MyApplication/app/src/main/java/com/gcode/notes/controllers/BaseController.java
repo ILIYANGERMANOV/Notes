@@ -141,18 +141,14 @@ public abstract class BaseController implements ControllerInterface {
         mAppBarLayout.setExpanded(true, true);
     }
 
+    @Override
     public void onNewNoteAdded(int mode) {
         if (shouldHandleMode(mode)) {
             new AddItemFromDbToMainTask().execute();
         }
     }
 
-    /**
-     * Called only when controller should handle current note mode
-     * and notes is not added to adapter.
-     *
-     * @param contentBase note to be added
-     */
+    @Override
     public void onAddNote(ContentBase contentBase) {
         MainAdapter mainAdapter = getMainAdapter();
         if (mainAdapter != null) {
@@ -160,23 +156,14 @@ public abstract class BaseController implements ControllerInterface {
         }
     }
 
-    /**
-     * Called when note comes back from display activity or onItemModeChanged()
-     * if notes has changed in display.
-     *
-     * @param item note to be updated
-     */
+    @Override
     public void onItemChanged(ContentBase item) {
         if (shouldHandleMode(item.getMode())) {
             updateItem(item);
         }
     }
 
-    /**
-     * Called when display activity has flagged that item mode was changed.
-     *
-     * @param item note which mode has changed
-     */
+    @Override
     public void onItemModeChanged(ContentBase item) {
         int mode = item.getMode();
         if (shouldHandleMode(mode)) {
