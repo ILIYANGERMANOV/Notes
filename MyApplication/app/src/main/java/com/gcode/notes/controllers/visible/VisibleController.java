@@ -5,7 +5,7 @@ import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.tasks.async.main.LoadContentTask;
 
-public class VisibleController extends BaseController {
+public abstract class VisibleController extends BaseController {
     protected VisibleController(MainActivity mainActivity) {
         super(mainActivity);
     }

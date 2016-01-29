@@ -59,7 +59,6 @@ public class EncryptNoteTask extends AsyncTask<ContentBase, Void, ContentBase> {
             mProgressDialog.dismiss();
         }
         if (contentBase != null) {
-            MyDebugger.log("note encrypted successfully");
             mEncryptTaskCallbacks.onEncryptedSuccessfully(contentBase);
         }
     }

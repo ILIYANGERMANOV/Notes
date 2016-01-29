@@ -4,15 +4,12 @@ import android.support.annotation.NonNull;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.gcode.notes.R;
 import com.gcode.notes.activities.display.DisplayBaseActivity;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.notes.MyApplication;
-import com.gcode.notes.tasks.async.main.RemoveItemFromMainTask;
 
 public class DeleteNormalNoteCallback implements MaterialDialog.SingleButtonCallback {
-    //TODO: Same issue as LockNoteCallback
 
     DisplayBaseActivity mDisplayBaseActivity;
     ContentBase mContentBase;
@@ -32,10 +29,7 @@ public class DeleteNormalNoteCallback implements MaterialDialog.SingleButtonCall
             MyDebugger.log("DeleteNormalNoteCallback failed to send note to bin");
             return;
         }
-        mDisplayBaseActivity.mNoteModeChanged = false; //main activity onItemModeChanged() shouldn't be called
+        mDisplayBaseActivity.mNoteModeChanged = true; //main activity onItemModeChanged() should be called
         mDisplayBaseActivity.finish();
-
-        new RemoveItemFromMainTask(mDisplayBaseActivity.
-                getString(R.string.note_moved_to_bin)).execute(mContentBase);
     }
 }

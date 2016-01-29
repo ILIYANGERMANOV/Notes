@@ -5,7 +5,6 @@ import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.extras.values.Constants;
-import com.gcode.notes.tasks.async.main.AddItemFromDbToMainTask;
 import com.gcode.notes.tasks.async.main.LoadContentTask;
 
 public class BinController extends BaseController {
@@ -36,9 +35,7 @@ public class BinController extends BaseController {
     }
 
     @Override
-    public void onItemAdded(int mode) {
-        if (mode == Constants.MODE_DELETED_NORMAL || mode == Constants.MODE_DELETED_IMPORTANT) {
-            new AddItemFromDbToMainTask().execute();
-        }
+    public boolean shouldHandleMode(int mode) {
+        return mode == Constants.MODE_DELETED_NORMAL || mode == Constants.MODE_DELETED_IMPORTANT;
     }
 }

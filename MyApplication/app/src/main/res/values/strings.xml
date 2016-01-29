@@ -126,6 +126,7 @@
     <string name="action_empty_bin">Empty bin</string>
     <string name="action_delete_forever">Delete note forever</string>
     <string name="action_restore_deleted">Restore note</string>
+    <string name="private_note_deleted_due_to_wrong_pass">Private note deleted due to security actions.</string>
 
 
 </resources>

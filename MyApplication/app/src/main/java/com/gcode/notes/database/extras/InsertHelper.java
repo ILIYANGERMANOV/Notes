@@ -33,8 +33,11 @@ public class InsertHelper {
         if (contentBase.getHasAttributesFlag()) {
             //target id - the id corresponding in the relevant attribute table (Notes/Lists),
             // which is already inserted successfully for the current item
-            String tableName = contentBase.getType() == Constants.TYPE_NOTE ? NoteEntry.TABLE_NAME : ListEntry.TABLE_NAME;
-            contentValues.put(ContentEntry.COLUMN_NAME_TARGET_ID, Selector.getLastRowIdFromTable(database, tableName));
+            String tableName = contentBase.getType() == Constants.TYPE_NOTE ?
+                    NoteEntry.TABLE_NAME : ListEntry.TABLE_NAME;
+
+            contentValues.put(ContentEntry.COLUMN_NAME_TARGET_ID,
+                    Selector.getLastRowIdFromTable(database, tableName));
         } else {
             //note hasn't attributes, set TARGET_ID to NO_VALUE
             contentValues.put(ContentEntry.COLUMN_NAME_TARGET_ID, Constants.NO_VALUE);
@@ -56,7 +59,8 @@ public class InsertHelper {
         }
         if (contentBase.hasLocation()) {
             //note has location, serialize it and put it
-            contentValues.put(ContentEntry.COLUMN_NAME_LOCATION, Serializer.serializeMyLocation(contentBase.getMyLocation()));
+            contentValues.put(ContentEntry.COLUMN_NAME_LOCATION,
+                    Serializer.serializeMyLocation(contentBase.getMyLocation()));
         }
 
         return database.insert(ContentEntry.TABLE_NAME, ContentEntry.COLUMN_NAME_REMINDER, contentValues);

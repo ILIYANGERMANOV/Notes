@@ -59,7 +59,6 @@ public class DecryptNoteTask extends AsyncTask<ContentBase, Void, ContentBase> {
             mProgressDialog.dismiss();
         }
         if (contentBase != null) {
-            MyDebugger.log("note decrypted successfully");
             mDecryptTaskCallbacks.onDecryptedSuccessfully(contentBase);
         }
     }

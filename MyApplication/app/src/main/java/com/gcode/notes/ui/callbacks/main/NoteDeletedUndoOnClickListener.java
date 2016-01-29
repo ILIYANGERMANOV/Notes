@@ -1,4 +1,4 @@
-package com.gcode.notes.ui.listeners;
+package com.gcode.notes.ui.callbacks.main;
 
 import android.view.View;
 
@@ -10,6 +10,7 @@ import com.gcode.notes.tasks.async.main.UndoNoteDeletionTask;
 
 
 public class NoteDeletedUndoOnClickListener implements View.OnClickListener {
+    //TODO: REFACTOR AND OPTIMIZE
     boolean mUndo;
 
     int mPosition;

@@ -79,7 +79,6 @@ public class DecryptAllNotesTask extends AsyncTask<Void, Integer, ArrayList<Cont
             mProgressDialog.dismiss();
         }
         if (decryptedNotes != null) {
-            MyDebugger.log("all notes decrypted successfully");
             mDecryptNotesTaskCallback.onNotesDecryptedSuccessfully(decryptedNotes, mScrollToTop);
         }
     }

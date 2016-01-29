@@ -2,9 +2,7 @@ package com.gcode.notes.controllers.visible;
 
 import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
-import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.values.Constants;
-import com.gcode.notes.tasks.async.main.AddItemFromDbToMainTask;
 
 public class AllNotesController extends VisibleController {
 
@@ -19,25 +17,7 @@ public class AllNotesController extends VisibleController {
     }
 
     @Override
-    public void onItemAdded(int mode) {
-        if (mode == Constants.MODE_NORMAL || mode == Constants.MODE_IMPORTANT) {
-            new AddItemFromDbToMainTask().execute();
-        }
-    }
-
-    @Override
-    public void onItemModeChanged(ContentBase item) {
-        int mode = item.getMode();
-        if (mode == Constants.MODE_NORMAL || mode == Constants.MODE_IMPORTANT) {
-            updateItemMode(item);
-        }
-    }
-
-    @Override
-    public void onItemChanged(ContentBase item) {
-        int mode = item.getMode();
-        if (mode == Constants.MODE_NORMAL || mode == Constants.MODE_IMPORTANT) {
-            updateItem(item);
-        }
+    public boolean shouldHandleMode(int mode) {
+        return mode == Constants.MODE_NORMAL || mode == Constants.MODE_IMPORTANT;
     }
 }

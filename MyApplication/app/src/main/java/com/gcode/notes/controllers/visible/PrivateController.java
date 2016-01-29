@@ -18,13 +18,11 @@ import com.gcode.notes.tasks.async.encryption.DecryptAllNotesTask;
 import com.gcode.notes.tasks.async.encryption.DecryptNoteTask;
 import com.gcode.notes.tasks.async.encryption.callbacks.DecryptAllNotesTaskCallbacks;
 import com.gcode.notes.tasks.async.encryption.callbacks.DecryptTaskCallbacks;
-import com.gcode.notes.tasks.async.main.AddItemFromDbToMainTask;
-import com.gcode.notes.tasks.async.main.RemoveItemFromMainTask;
 
 import java.util.ArrayList;
 
 public class PrivateController extends VisibleController implements
-        DecryptAllNotesTaskCallbacks, DecryptTaskCallbacks, AuthenticationCallbacks {
+        DecryptAllNotesTaskCallbacks, AuthenticationCallbacks {
     //TODO: REFACTOR AND OPTIMIZE (IMPORTANT)
 
     boolean mScrollToTop;
@@ -48,43 +46,31 @@ public class PrivateController extends VisibleController implements
     }
 
     @Override
-    public void addItem(ContentBase item) {
+    public void addItemAsFirst(ContentBase item) {
         //TODO: prevent double encrypt, decrypt (not very important)
         //it is called by AddItemFromDbToMainTask() when it is ready, override to prevent default behaviour
-        new DecryptNoteTask(mMainActivity, this).execute(item);
+        new DecryptNoteTask(mMainActivity, new DecryptTaskCallbacks() {
+            @Override
+            public void onDecryptedSuccessfully(ContentBase contentBase) {
+                PrivateController.super.addItemAsFirst(contentBase);
+            }
+        }).execute(item);
     }
 
     @Override
-    public void onItemModeChanged(ContentBase item) {
-        if (item.getMode() != Constants.MODE_PRIVATE) {
-            new RemoveItemFromMainTask(mMainActivity.getString(R.string.note_moved_to_all_notes)).execute(item);
-        }
-    }
-
-    @Override
-    public void onItemChanged(ContentBase item) {
-        int mode = item.getMode();
-        if (mode == Constants.MODE_PRIVATE) {
-            updateItem(item);
-        }
-    }
-
-    @Override
-    public void onItemAdded(int mode) {
-        if (mode == Constants.MODE_PRIVATE) {
-            new AddItemFromDbToMainTask().execute();
-        }
+    public void onAddNote(ContentBase contentBase) {
+        new DecryptNoteTask(mMainActivity, new DecryptTaskCallbacks() {
+            @Override
+            public void onDecryptedSuccessfully(ContentBase contentBase) {
+                PrivateController.super.onAddNote(contentBase);
+            }
+        }).execute(contentBase);
     }
 
     @Override
     public void onNotesDecryptedSuccessfully(ArrayList<ContentBase> decryptedNotes, boolean scrollToTop) {
         mRecyclerView.setVisibility(View.VISIBLE);
         super.setNewContent(decryptedNotes, scrollToTop);
-    }
-
-    @Override
-    public void onDecryptedSuccessfully(ContentBase contentBase) {
-        super.addItem(contentBase);
     }
 
     @Override
@@ -112,5 +98,10 @@ public class PrivateController extends VisibleController implements
         mRecyclerView.setVisibility(View.VISIBLE);
         MenuItem menuItem = mMainActivity.getDrawer().getMenu().findItem(mMainActivity.mPreviousSelectedId);
         mMainActivity.mDrawerOptionExecutor.onNavigationItemSelected(menuItem);
+    }
+
+    @Override
+    public boolean shouldHandleMode(int mode) {
+        return mode == Constants.MODE_PRIVATE;
     }
 }

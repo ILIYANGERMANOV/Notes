@@ -4,6 +4,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
+import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.adapters.main.MainAdapter;
 import com.gcode.notes.controllers.bin.BinController;
@@ -14,11 +15,13 @@ import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
+import com.gcode.notes.tasks.async.main.AddItemFromDbToMainTask;
+import com.gcode.notes.tasks.async.main.RemoveItemFromMainTask;
 import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.ArrayList;
 
-public class BaseController {
+public abstract class BaseController implements ControllerInterface {
     //TODO: REFACTOR AND OPTIMIZE
     private static BaseController mInstance;
 
@@ -42,7 +45,12 @@ public class BaseController {
     public synchronized static BaseController getInstance() {
         if (mInstance == null) {
             //TODO: handle problems when clear memory
-            mInstance = new BaseController(null);
+            mInstance = new BaseController(null) {
+                @Override
+                public boolean shouldHandleMode(int mode) {
+                    return false;
+                }
+            };
             MyDebugger.log("BaseController is null, fake instance created.");
         }
         return mInstance;
@@ -63,7 +71,7 @@ public class BaseController {
         }
     }
 
-    public void addItem(ContentBase item) {
+    public void addItemAsFirst(ContentBase item) {
         MainAdapter mainAdapter = getMainAdapter();
         if (mainAdapter != null) {
             mainAdapter.addItem(0, item);
@@ -72,21 +80,16 @@ public class BaseController {
     }
 
     public void updateItem(ContentBase item) {
-        MainAdapter mMainAdapter = getMainAdapter();
-        if (mMainAdapter != null) {
-            mMainAdapter.updateItem(item);
+        MainAdapter mainAdapter = getMainAdapter();
+        if (mainAdapter != null) {
+            if (!mainAdapter.updateItem(item)) {
+                //item not updated, so it not exists, add it
+                onAddNote(item);
+            }
         } else {
-            MyDebugger.log("Failed to update item, mMainAdapter is null.");
+            MyDebugger.log("Failed to update item, mainAdapter is null.");
         }
     }
-
-    public void updateItemMode(ContentBase item) {
-        MainAdapter mMainAdapter = getMainAdapter();
-        if (mMainAdapter != null) {
-            mMainAdapter.updateItemMode(item);
-        }
-    }
-
 
     public int getControllerId() {
         if (this instanceof AllNotesController) {
@@ -115,16 +118,18 @@ public class BaseController {
         if (mAdapter instanceof MainAdapter) {
             return (MainAdapter) mAdapter;
         }
+        MyDebugger.log("getMainAdapter() failed to get main adapter.");
         return null;
     }
 
     /**
      * Changes toolbar titles.
      * Sets recycler view's content, hides / shows FAB with animation.
+     *
      * @param scrollToTop - whether recycler view should be scrolled to top
      */
     public void setContent(boolean scrollToTop) {
-        if(mMainActivity.mSearchView != null && !mMainActivity.mSearchView.isIconified()) {
+        if (mMainActivity.mSearchView != null && !mMainActivity.mSearchView.isIconified()) {
             //closes search view on label change
             mMainActivity.mSearchView.setQuery("", false);
             mMainActivity.mSearchView.setIconified(true);
@@ -136,15 +141,66 @@ public class BaseController {
         mAppBarLayout.setExpanded(true, true);
     }
 
-    public void onItemAdded(int mode) {
-
+    public void onNewNoteAdded(int mode) {
+        if (shouldHandleMode(mode)) {
+            new AddItemFromDbToMainTask().execute();
+        }
     }
 
+    /**
+     * Called only when controller should handle current note mode
+     * and notes is not added to adapter.
+     *
+     * @param contentBase note to be added
+     */
+    public void onAddNote(ContentBase contentBase) {
+        MainAdapter mainAdapter = getMainAdapter();
+        if (mainAdapter != null) {
+            mRecyclerView.smoothScrollToPosition(mainAdapter.addItemByOrderId(contentBase));
+        }
+    }
+
+    /**
+     * Called when note comes back from display activity or onItemModeChanged()
+     * if notes has changed in display.
+     *
+     * @param item note to be updated
+     */
     public void onItemChanged(ContentBase item) {
-
+        if (shouldHandleMode(item.getMode())) {
+            updateItem(item);
+        }
     }
 
+    /**
+     * Called when display activity has flagged that item mode was changed.
+     *
+     * @param item note which mode has changed
+     */
     public void onItemModeChanged(ContentBase item) {
-        //TODO: make not so useless
+        int mode = item.getMode();
+        if (shouldHandleMode(mode)) {
+            //controller should handle item change, call onItemChanged()
+            onItemChanged(item);
+        } else {
+            //this item should not be handled by controller, remove it
+            new RemoveItemFromMainTask(getRemoveMessageForMode(mode))
+                    .execute(item);
+        }
+    }
+
+    private String getRemoveMessageForMode(int mode) {
+        switch (mode) {
+            case Constants.MODE_NORMAL:
+            case Constants.MODE_IMPORTANT:
+                return mMainActivity.getString(R.string.note_moved_to_all_notes);
+            case Constants.MODE_DELETED_NORMAL:
+            case Constants.MODE_DELETED_IMPORTANT:
+                return mMainActivity.getString(R.string.note_moved_to_bin);
+            case Constants.MODE_PRIVATE:
+                return mMainActivity.getString(R.string.note_moved_to_private);
+            default:
+                return "Note moved to unknown mode";
+        }
     }
 }

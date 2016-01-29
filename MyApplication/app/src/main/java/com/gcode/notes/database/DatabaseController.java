@@ -87,6 +87,13 @@ public class DatabaseController {
     //GETTERS ----------------------------------------------------------------------------------------------------------
 
     //INSERTS--------------------------------------------------------------------------------------------------
+
+    /**
+     * Inserts note in database. !WARN: Note order id and target id are NOT set to contentBase
+     *
+     * @param contentBase note to be inserted
+     * @return the newly inserted row id or Constants.DATABASE_ERROR
+     */
     public long insertNote(ContentBase contentBase) {
         mDatabase.beginTransaction();
         long newlyInsertedRow = InsertHelper.insertNote(mDatabase, contentBase);
@@ -106,40 +113,27 @@ public class DatabaseController {
     }
 
     /**
-     * Sets mode to deleted one both in contentBase and in database
+     * Sets mode to deleted in both contentBase and database.
      *
      * @param contentBase note which mode will be set to deleted
      * @return whether the operation was successful
      */
     public boolean deleteNote(ContentBase contentBase) {
-        int newMode;
-        switch (contentBase.getMode()) {
-            case Constants.MODE_NORMAL:
-                newMode = Constants.MODE_DELETED_NORMAL;
-                break;
-            case Constants.MODE_IMPORTANT:
-                newMode = Constants.MODE_DELETED_IMPORTANT;
-                break;
-            default:
-                return false;
-        }
-        contentBase.setMode(newMode);
-        return UpdateHelper.updateNoteModeAndExpirationDate(mDatabase, contentBase, newMode, true) > 0;
+        int newMode = contentBase.setAndReturnDeletedMode();
+        return newMode != Constants.ERROR &&
+                UpdateHelper.updateNoteModeAndExpirationDate(mDatabase, contentBase, newMode, true) > 0;
     }
 
+    /**
+     * Sets note mode to restored (normal/important) in both contentBase and database.
+     *
+     * @param contentBase note which mode will be set to MODE_NORMAL / MODE_IMPORTANT
+     * @return whether the operation was successful
+     */
     public boolean restoreNoteFromBin(ContentBase contentBase) {
-        int newMode;
-        switch (contentBase.getMode()) {
-            case Constants.MODE_DELETED_NORMAL:
-                newMode = Constants.MODE_NORMAL;
-                break;
-            case Constants.MODE_DELETED_IMPORTANT:
-                newMode = Constants.MODE_IMPORTANT;
-                break;
-            default:
-                return false;
-        }
-        return UpdateHelper.updateNoteModeAndExpirationDate(mDatabase, contentBase, newMode, false) > 0;
+        int newMode = contentBase.setAndReturnRestoredMode();
+        return newMode != Constants.ERROR &&
+                UpdateHelper.updateNoteModeAndExpirationDate(mDatabase, contentBase, newMode, false) > 0;
     }
 
     public void swapNotesPosition(ContentBase noteA, ContentBase noteB) {

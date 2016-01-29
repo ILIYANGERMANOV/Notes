@@ -12,7 +12,6 @@ import com.gcode.notes.adapters.list.compose.listeners.ListItemDeletedUndoOnClic
 import com.gcode.notes.adapters.main.MainAdapter;
 import com.gcode.notes.adapters.note.compose.ComposeNoteImagesAdapter;
 import com.gcode.notes.data.base.ContentBase;
-import com.gcode.notes.ui.callbacks.NoteDeletedSnackbarCallback;
 import com.gcode.notes.ui.callbacks.bin.DeleteNoteFromDisplayCallback;
 import com.gcode.notes.ui.callbacks.bin.DeleteNotePermanentlyCallback;
 import com.gcode.notes.ui.callbacks.bin.EmptyRecyclerBinCallback;
@@ -23,18 +22,22 @@ import com.gcode.notes.ui.callbacks.display.DeleteNormalNoteCallback;
 import com.gcode.notes.ui.callbacks.display.DeletePrivateNoteCallback;
 import com.gcode.notes.ui.callbacks.display.LockNoteCallback;
 import com.gcode.notes.ui.callbacks.display.UnlockNoteCallback;
+import com.gcode.notes.ui.callbacks.main.NoteDeletedSnackbarCallback;
+import com.gcode.notes.ui.callbacks.main.NoteDeletedUndoOnClickListener;
 import com.gcode.notes.ui.helpers.DialogBuilder;
 import com.gcode.notes.ui.helpers.SnackbarHelper;
-import com.gcode.notes.ui.listeners.NoteDeletedUndoOnClickListener;
 
 public class ActionExecutor {
     //TODO: REFACTOR AND OPTIMIZE
 
     public static void popNoteDeletedSnackbar(MainAdapter adapter, int position, ContentBase note) {
 
-        NoteDeletedUndoOnClickListener undoOnClickListener = new NoteDeletedUndoOnClickListener(position, note);
-        Snackbar.Callback snackbarCallback = new NoteDeletedSnackbarCallback(adapter, note, position, undoOnClickListener);
-        SnackbarHelper.buildNoteDeletedSnackbar(adapter.getRootView(), undoOnClickListener, snackbarCallback).show();
+        NoteDeletedUndoOnClickListener undoOnClickListener =
+                new NoteDeletedUndoOnClickListener(position, note);
+        Snackbar.Callback snackbarCallback =
+                new NoteDeletedSnackbarCallback(adapter, note, position, undoOnClickListener);
+        SnackbarHelper.buildNoteDeletedSnackbar(adapter.getRootView(),
+                undoOnClickListener, snackbarCallback).show();
     }
 
     public static void popListItemDeletedSnackbar(BaseComposeContainerAdapter containerAdapter, View removedItem) {
@@ -48,9 +51,10 @@ public class ActionExecutor {
         DialogBuilder.buildEmptyBinDialog(activity, emptyRecyclerBinCallback);
     }
 
-    public static void restoreDeletedNote(Activity activity, ContentBase note) {
-        SingleButtonCallback restoreNoteFromDisplayCallback = new RestoreNoteFromDisplayCallback(activity, note);
-        DialogBuilder.buildRestoreNoteFromDisplayDialog(activity, restoreNoteFromDisplayCallback);
+    public static void restoreDeletedNote(DisplayBaseActivity displayBaseActivity, ContentBase note) {
+        SingleButtonCallback restoreNoteFromDisplayCallback =
+                new RestoreNoteFromDisplayCallback(displayBaseActivity, note);
+        DialogBuilder.buildRestoreNoteFromDisplayDialog(displayBaseActivity, restoreNoteFromDisplayCallback);
     }
 
     public static void deleteNoteFromDisplayBin(Activity activity, ContentBase note) {

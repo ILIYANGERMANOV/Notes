@@ -97,7 +97,7 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
     }
 
     public int getIndexOfItem(ContentBase item) {
-        int itemIndex = -1;
+        int itemIndex = Constants.NO_VALUE;
         for (int i = 0; i < getItemCount(); ++i) {
             if (mData.get(i).getId() == item.getId()) {
                 itemIndex = i;
@@ -115,39 +115,62 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
         return false;
     }
 
-    public void updateItem(ContentBase item) {
-        int position = getIndexOfItem(item);
-        if (position != -1) {
-            mData.set(position, item);
-            notifyItemChanged(position);
-        } else {
-            MyDebugger.log("MainAdapter updateItem() - invalid position.");
+    /**
+     * Adds item to adapter by its order id.
+     *
+     * @param contentBase item to be added
+     * @return the position of the added item in the list
+     */
+    public int addItemByOrderId(ContentBase contentBase) {
+        int itemOrderId = contentBase.getOrderId();
+        for (int i = 0; i < getItemCount(); ++i) {
+            if (itemOrderId > mData.get(i).getOrderId()) {
+                addItem(i, contentBase);
+                return i;
+            }
         }
+        //add item as last
+        mData.add(contentBase);
+        //!NOTE: getItemCount() is increment after #add() is called,
+        //so item position is getItemCount() - 1
+        int itemPosition = getItemCount() - 1;
+        notifyItemInserted(itemPosition);
+        return itemPosition;
     }
-
-    public void updateItemMode(ContentBase item) {
-        int position = getIndexOfItem(item);
-        if (position != -1) {
-            mData.get(position).setMode(item.getMode());
-            notifyItemChanged(position);
-        } else {
-            MyDebugger.log("updateItemMode()", "Item not found");
-        }
-    }
-
 
     public boolean addItem(int position, ContentBase item) {
         try {
             mData.add(position, item);
             notifyItemInserted(position);
-            if (mEmptyViewVisible) {
-                hideEmptyView();
-            }
+
             return true;
         } catch (IndexOutOfBoundsException exception) {
             MyDebugger.log("MainAdapter(): indexOutOfBoundsException caught.");
             mData.add(item);
             notifyItemInserted(getItemCount() - 1);
+            return false;
+        } finally {
+            if (mEmptyViewVisible) {
+                hideEmptyView();
+            }
+        }
+    }
+
+    /**
+     * Updates item in adapter.
+     *
+     * @param item item to be updated
+     * @return whether the item was updated
+     */
+    public boolean updateItem(ContentBase item) {
+        int position = getIndexOfItem(item);
+        if (position != Constants.NO_VALUE) {
+            //item found in list, update it
+            mData.set(position, item);
+            notifyItemChanged(position);
+            return true;
+        } else {
+            //item not found in list, return false because it is not updated
             return false;
         }
     }

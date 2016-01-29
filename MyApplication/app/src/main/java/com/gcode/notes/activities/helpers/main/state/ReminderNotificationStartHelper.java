@@ -2,6 +2,7 @@ package com.gcode.notes.activities.helpers.main.state;
 
 import android.content.Intent;
 
+import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.controllers.visible.callbacks.AuthenticationCallbacks;
 import com.gcode.notes.data.NoteData;
@@ -100,7 +101,9 @@ public class ReminderNotificationStartHelper implements AuthenticationCallbacks,
             //failed to delete note, log it
             MyDebugger.log("ReminderNotificationStartHelper onPasswordTriesEnded() failed to delete note");
         }
-        new RemoveItemFromMainTask("Private note deleted due to security actions.").execute(mContentBase);
+        new RemoveItemFromMainTask(mMainActivity.getString(
+                R.string.private_note_deleted_due_to_wrong_pass)).execute(mContentBase);
+
         MyUtils.saveToPreferences(Keys.PREF_PASS_TRIES, Constants.PASS_MAX_TRIES);
     }
 

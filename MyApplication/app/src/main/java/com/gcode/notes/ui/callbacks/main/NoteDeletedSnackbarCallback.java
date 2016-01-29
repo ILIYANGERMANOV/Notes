@@ -1,7 +1,8 @@
-package com.gcode.notes.ui.callbacks;
+package com.gcode.notes.ui.callbacks.main;
 
 import android.support.design.widget.Snackbar;
 
+import com.gcode.notes.R;
 import com.gcode.notes.adapters.main.MainAdapter;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.base.ContentBase;
@@ -10,9 +11,9 @@ import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.motions.MyAnimator;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.tasks.async.main.RemoveItemFromMainTask;
-import com.gcode.notes.ui.listeners.NoteDeletedUndoOnClickListener;
 
 public class NoteDeletedSnackbarCallback extends Snackbar.Callback {
+    //TODO: REFACTOR AND OPTIMIZE
     MainAdapter mAdapter;
     ContentBase mNote;
     int mPosition;
@@ -48,12 +49,15 @@ public class NoteDeletedSnackbarCallback extends Snackbar.Callback {
                 if (MyApplication.getWritableDatabase().deleteNote(mNote)) {
                     //note deleted successfully
                     BaseController baseController = BaseController.getInstance();
-                    if (baseController.getControllerId() == Constants.CONTROLLER_BIN) {
-                        //if in bin controller add item
-                        baseController.onItemAdded(mNote.setAndReturnDeletedMode());
+                    if (baseController.getControllerId() != Constants.CONTROLLER_BIN) {
+                        //item is still current controller, remove it
+                        new RemoveItemFromMainTask(MyApplication.getAppContext().
+                                getString(R.string.note_moved_to_bin)).execute(mNote);
+
                     } else {
-                        //if item still on view remove it
-                        new RemoveItemFromMainTask("Note moved to Bin.").execute(mNote);
+                        //if in bin controller add newly deleted note
+                        //!NOTE: delete mode is already set in db#deleteNote()
+                        baseController.onNewNoteAdded(mNote.getMode());
                     }
                 } else {
                     //failed to delete note, revert it back

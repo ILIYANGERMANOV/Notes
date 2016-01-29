@@ -47,7 +47,7 @@ public class AddItemFromDbToMainTask extends AsyncTask<Integer, Void, ContentBas
     @Override
     protected void onPostExecute(ContentBase item) {
         if (item != null) {
-            mController.addItem(item);
+            mController.addItemAsFirst(item);
         } else {
             MyDebugger.log("AddItemTask: item to add is null.");
         }

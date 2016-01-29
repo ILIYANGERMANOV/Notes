@@ -11,6 +11,11 @@ import com.gcode.notes.activities.helpers.display.list.editable.DisplayListEdita
 import com.gcode.notes.tasks.async.display.UpdateListAttributesTask;
 
 public class DisplayListEditableActivity extends DisplayListBaseActivity {
+    /**
+     * Used to prevent list attributes update after they are encrypted
+     * when list is locked.
+     */
+    public boolean mPreventOnStopSave;
     boolean mFinishCalled;
 
     @Override
@@ -21,7 +26,7 @@ public class DisplayListEditableActivity extends DisplayListBaseActivity {
 
     @Override
     protected void onStop() {
-        if (mListData.getHasAttributesFlag()) {
+        if (mListData.getHasAttributesFlag() && !mPreventOnStopSave) {
             //list has attributes, save tasks changes (ticked/unticked) to database
             if (!mFinishCalled) {
                 mListData.setList(mListDataItems);

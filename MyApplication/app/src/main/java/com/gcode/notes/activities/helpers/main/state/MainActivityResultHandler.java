@@ -34,10 +34,10 @@ public class MainActivityResultHandler {
                         handleNoteFromDisplay(data);
                         break;
                     case Constants.REQUEST_OPEN_GALLERY:
-                        handleSelectedPhotoFromGallery(activity, data);
+                        handleCreateNoteWithPicutre(activity, data);
                         break;
                     case Constants.SPEECH_INPUT_REQ_CODE:
-                        handleSpeechInput(activity, data);
+                        handleSpeechInputOption(activity, data);
                 }
             } else {
                 //data is null, check for camera app result
@@ -53,17 +53,17 @@ public class MainActivityResultHandler {
         }
     }
 
-    private static void handleSpeechInput(Activity activity, Intent data) {
+    private static void handleSpeechInputOption(Activity activity, Intent data) {
         String audioFilePath = FileUtils.createVoiceRecordFile(data.getData());
         if (audioFilePath != null) {
             Intent intent = IntentBuilder.buildStartComposeFromAudioIntent(activity, data, audioFilePath);
             activity.startActivityForResult(intent, Constants.COMPOSE_NOTE_REQUEST_CODE);
         } else {
-            MyDebugger.log("handleSpeechInput()", "audioFilePath is null");
+            MyDebugger.log("handleSpeechInputOption()", "audioFilePath is null");
         }
     }
 
-    private static void handleSelectedPhotoFromGallery(final Activity activity, Intent data) {
+    private static void handleCreateNoteWithPicutre(final Activity activity, Intent data) {
         //photo selected from gallery
         PhotoSelectedCallback photoSelectedCallback = new PhotoSelectedCallback() {
             @Override
@@ -92,47 +92,40 @@ public class MainActivityResultHandler {
         if (data.getBooleanExtra(Constants.NOTE_ADDED_SUCCESSFULLY, false)) {
             int mode = data.getIntExtra(Constants.COMPOSE_NOTE_MODE, Constants.ERROR);
             if (mode != Constants.ERROR) {
-                BaseController.getInstance().onItemAdded(mode);
+                BaseController.getInstance().onNewNoteAdded(mode);
             } else {
-                MyDebugger.log("onActivityResult() mode ERROR!");
+                MyDebugger.log("MainResultHandler handleComposeResult() mode ERROR!");
             }
         }
     }
 
     private static void handleNoteFromDisplay(Intent data) {
-        String serializedNoteData = data.getStringExtra(Constants.EXTRA_NOTE_DATA);
-        if (serializedNoteData != null) {
-            NoteData noteData = Serializer.parseNoteData(serializedNoteData);
-            if (noteData != null) {
-                notifyControllerForChanges(data, noteData);
-            } else {
-                MyDebugger.log("NOTE_FROM_DISPLAY noteData is null!");
-            }
+        NoteData noteData = Serializer.parseNoteData(data.getStringExtra(Constants.EXTRA_NOTE_DATA));
+        if (noteData != null) {
+            notifyControllerForChanges(data, noteData);
         } else {
-            MyDebugger.log("NOTE_FROM_DISPLAY serializedNoteData is null!");
+            MyDebugger.log("NOTE_FROM_DISPLAY noteData is null!");
         }
     }
 
     private static void handleListFromDisplay(Intent data) {
-        String serializedListData = data.getStringExtra(Constants.EXTRA_LIST_DATA);
-        if (serializedListData != null) {
-            ListData listData = Serializer.parseListData(serializedListData);
-            if (listData != null) {
-                notifyControllerForChanges(data, listData);
-            } else {
-                MyDebugger.log("LIST_FROM_DISPLAY listData is null!");
-            }
+        ListData listData = Serializer.parseListData(data.getStringExtra(Constants.EXTRA_LIST_DATA));
+        if (listData != null) {
+            notifyControllerForChanges(data, listData);
         } else {
-            MyDebugger.log("LIST_FROM_DISPLAY serializedListData is null!");
+            MyDebugger.log("LIST_FROM_DISPLAY listData is null!");
         }
     }
 
     private static void notifyControllerForChanges(Intent data, ContentBase contentBase) {
+        //TODO: consider adding flags for note change so onItemChanged() won't be called every time
         BaseController controller = BaseController.getInstance();
-        //TODO: same issues as BaseController#onItemModeChanged
-        controller.onItemChanged(contentBase);
         if (data.getBooleanExtra(Constants.EXTRA_NOTE_MODE_CHANGED, false)) {
+            //item mode has changed, onItemModeChanged will handle properly
             controller.onItemModeChanged(contentBase);
+        } else {
+            //item mode has NOT changed, onItemChanged will update note
+            controller.onItemChanged(contentBase);
         }
     }
 }

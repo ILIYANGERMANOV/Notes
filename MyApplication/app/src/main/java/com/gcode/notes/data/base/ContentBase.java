@@ -238,6 +238,23 @@ public abstract class ContentBase {
     }
 
     /**
+     * Sets note's mode to MODE_NORMAL / MODE_IMPORTANT according its current mode.
+     *
+     * @return the mode of the note (MODE_NORMAL / MODE_IMPORTANT)
+     */
+    public int setAndReturnRestoredMode() {
+        switch (mode) {
+            case Constants.MODE_DELETED_NORMAL:
+                mode = Constants.MODE_NORMAL;
+                return mode;
+            case Constants.MODE_DELETED_IMPORTANT:
+                mode = Constants.MODE_IMPORTANT;
+                return mode;
+        }
+        return Constants.ERROR;
+    }
+
+    /**
      * Displays content base's title and reminder
      *
      * @param titleTextView    - text view in which to display title
