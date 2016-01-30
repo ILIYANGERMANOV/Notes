@@ -118,7 +118,7 @@ public class MainActivityResultHandler {
     }
 
     private static void notifyControllerForChanges(Intent data, ContentBase contentBase) {
-        //TODO: consider adding flags for note change so onItemChanged() won't be called every time
+        //TODO: consider adding flags for note change so onItemChanged() won't be called every time, at least call only when open in edit mode
         BaseController controller = BaseController.getInstance();
         if (data.getBooleanExtra(Constants.EXTRA_NOTE_MODE_CHANGED, false)) {
             //item mode has changed, onItemModeChanged will handle properly
