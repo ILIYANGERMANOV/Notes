@@ -184,8 +184,12 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
 
     public void moveItem(int fromPosition, int toPosition) {
         ContentBase model = mData.remove(fromPosition);
-        mData.add(toPosition, model);
-        notifyItemMoved(fromPosition, toPosition);
+        try {
+            mData.add(toPosition, model);
+            notifyItemMoved(fromPosition, toPosition);
+        } catch (IndexOutOfBoundsException e) {
+            MyDebugger.log("MainAdapter moveItem(): IndexOutOfBoundsException", e.getMessage());
+        }
     }
 
     public void animateTo(ArrayList<ContentBase> filteredList) {

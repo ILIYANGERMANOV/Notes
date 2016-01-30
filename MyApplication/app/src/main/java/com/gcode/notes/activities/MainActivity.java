@@ -23,6 +23,7 @@ import com.gcode.notes.activities.helpers.main.actions.DrawerOptionExecutor;
 import com.gcode.notes.activities.helpers.main.actions.FabMenuActionHandler;
 import com.gcode.notes.activities.helpers.main.actions.MainActivityBackPressHelper;
 import com.gcode.notes.activities.helpers.main.actions.MainActivityMenuOptionsHelper;
+import com.gcode.notes.activities.helpers.main.actions.MainSearchHandler;
 import com.gcode.notes.activities.helpers.main.state.MainActivityResultHandler;
 import com.gcode.notes.activities.helpers.main.state.MainActivityRotationHandler;
 import com.gcode.notes.activities.helpers.main.state.ReminderNotificationStartHelper;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     public DrawerOptionExecutor mDrawerOptionExecutor;
     public MainAdapter mMainAdapter;
     public SearchView mSearchView;
+    public MainSearchHandler mSearchHandler;
     @Bind(R.id.main_toolbar)
     Toolbar mToolbar;
     @Bind(R.id.main_app_bar_layout)
@@ -166,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (MainActivityBackPressHelper.handleBackPressedWhenDrawerOrFABMenuOpened(this)) {
+        if (MainActivityBackPressHelper.shouldMoveTaskToBack(this)) {
             //returns true, when moveTaskToBack() should be called
             moveTaskToBack(false);
         }

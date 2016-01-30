@@ -17,6 +17,7 @@ import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
 import com.gcode.notes.tasks.async.main.AddItemFromDbToMainTask;
 import com.gcode.notes.tasks.async.main.RemoveItemFromMainTask;
+import com.gcode.notes.ui.helpers.SearchViewHelper;
 import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.ArrayList;
@@ -76,13 +77,23 @@ public abstract class BaseController implements ControllerInterface {
         if (mainAdapter != null) {
             mainAdapter.addItem(0, item);
             mRecyclerView.smoothScrollToPosition(0);
+            if (SearchViewHelper.isSearchViewOpened(mMainActivity)) {
+                //search view is open, call searchHandler#onNewItemAdded() so list copy can be present
+                mMainActivity.mSearchHandler.onNewItemAdded(item);
+            }
         }
     }
 
     public void updateItem(ContentBase item) {
         MainAdapter mainAdapter = getMainAdapter();
         if (mainAdapter != null) {
-            if (!mainAdapter.updateItem(item)) {
+            if (mainAdapter.updateItem(item)) {
+                //item was updated successfully, if search is started call onItemChange()
+                if (SearchViewHelper.isSearchViewOpened(mMainActivity)) {
+                    //search view is opened, call searchHandler#onItemChanged() so list copy will be present
+                    mMainActivity.mSearchHandler.onItemChanged(item);
+                }
+            } else {
                 //item not updated, so it not exists, add it
                 onAddNote(item);
             }
@@ -129,11 +140,7 @@ public abstract class BaseController implements ControllerInterface {
      * @param scrollToTop - whether recycler view should be scrolled to top
      */
     public void setContent(boolean scrollToTop) {
-        if (mMainActivity.mSearchView != null && !mMainActivity.mSearchView.isIconified()) {
-            //closes search view on label change
-            mMainActivity.mSearchView.setQuery("", false);
-            mMainActivity.mSearchView.setIconified(true);
-        }
+        SearchViewHelper.closeSearchView(mMainActivity);
         onSetContentAnimation();
     }
 
@@ -152,7 +159,12 @@ public abstract class BaseController implements ControllerInterface {
     public void onAddNote(ContentBase contentBase) {
         MainAdapter mainAdapter = getMainAdapter();
         if (mainAdapter != null) {
-            mRecyclerView.smoothScrollToPosition(mainAdapter.addItemByOrderId(contentBase));
+            int itemPosition = mainAdapter.addItemByOrderId(contentBase);
+            mRecyclerView.smoothScrollToPosition(itemPosition);
+            if (SearchViewHelper.isSearchViewOpened(mMainActivity)) {
+                //search view is opened, call searchHandler#onItemAdded() so list copy will be present
+                mMainActivity.mSearchHandler.onItemAdded(contentBase);
+            }
         }
     }
 
@@ -173,6 +185,10 @@ public abstract class BaseController implements ControllerInterface {
             //this item should not be handled by controller, remove it
             new RemoveItemFromMainTask(getRemoveMessageForMode(mode))
                     .execute(item);
+            if (SearchViewHelper.isSearchViewOpened(mMainActivity)) {
+                //search view is opened, call searchHandler#onItemRemoved() so list copy will be present
+                mMainActivity.mSearchHandler.onItemRemoved(item);
+            }
         }
     }
 
@@ -187,6 +203,7 @@ public abstract class BaseController implements ControllerInterface {
             case Constants.MODE_PRIVATE:
                 return mMainActivity.getString(R.string.note_moved_to_private);
             default:
+                MyDebugger.log("BaseController getRemoveMessageForMode(): unknown mode!");
                 return "Note moved to unknown mode";
         }
     }

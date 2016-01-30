@@ -7,6 +7,7 @@ import com.gcode.notes.extras.values.Keys;
 import com.gcode.notes.tasks.async.delete.DeleteExpiredNotesTask;
 
 public class MainActivityRotationHandler {
+    //TODO: OPTIMIZE sometimes skipping frames on screen rotation (40max)
     public static void saveInstanceState(MainActivity mainActivity, Bundle outState) {
         //saves selected item id in nav drawer
         outState.putInt(Keys.EXTRA_SELECTED_ID, mainActivity.mSelectedId);

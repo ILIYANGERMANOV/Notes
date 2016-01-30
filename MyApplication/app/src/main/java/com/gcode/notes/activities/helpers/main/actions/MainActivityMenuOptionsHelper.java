@@ -12,6 +12,7 @@ import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.ui.ActionExecutor;
 
 public class MainActivityMenuOptionsHelper {
+    //TODO: REFACTOR AND OPTIMIZE
     public static void createOptionsMenu(MainActivity mainActivity, Menu menu) {
         mainActivity.getMenuInflater().inflate(R.menu.menu_main, menu); //adds settings and search action to menu
         mainActivity.mMenu = menu; //get reference for the last created menu, so onPrepareMenuOptions() can be called
@@ -19,7 +20,8 @@ public class MainActivityMenuOptionsHelper {
         final MenuItem searchMenuItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
         mainActivity.mSearchView = searchView; //used in base controller to close search menu
-        MainSearchHandler mainSearchHandler = new MainSearchHandler(mainActivity);
+        final MainSearchHandler mainSearchHandler = new MainSearchHandler(mainActivity);
+        mainActivity.mSearchHandler = mainSearchHandler; //set reference in main activity so it can callback
         searchView.setOnQueryTextListener(mainSearchHandler);
         searchView.setOnCloseListener(mainSearchHandler);
         searchView.setOnSearchClickListener(mainSearchHandler);

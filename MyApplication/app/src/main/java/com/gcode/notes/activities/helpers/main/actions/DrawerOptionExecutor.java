@@ -28,10 +28,15 @@ public class DrawerOptionExecutor implements NavigationView.OnNavigationItemSele
      * @param preventExecutionIfSameId must be false when called onCreate() else true
      */
     public void applySelectedOption(int selectedId, boolean preventExecutionIfSameId) {
-        if (mMainActivity.mSelectedId == selectedId && preventExecutionIfSameId) return;
+        if (mMainActivity.mSelectedId == selectedId) {
+            //current option is already selected, scroll to top and expand appbar
+            mMainActivity.getAppBarLayout().setExpanded(true, true); //animate appbar expanding
+            mMainActivity.getRecyclerView().smoothScrollToPosition(0); //scroll to first item
+            if (preventExecutionIfSameId) return; //preventExcecution if flag is up
+        }
 
 
-        if(preventExecutionIfSameId || selectedId == R.id.navigation_item_bin) {
+        if (preventExecutionIfSameId || selectedId == R.id.navigation_item_bin) {
             //private controller is selected or we are bin (both selected or screen rotation),
             //save previous selected id cuz bin fab animation will bug
             mMainActivity.mPreviousSelectedId = mMainActivity.mSelectedId;
