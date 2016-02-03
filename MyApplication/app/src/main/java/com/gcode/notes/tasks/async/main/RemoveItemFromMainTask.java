@@ -1,12 +1,14 @@
 package com.gcode.notes.tasks.async.main;
 
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.widget.Toast;
 
 import com.gcode.notes.adapters.main.MainAdapter;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 
 public class RemoveItemFromMainTask extends AsyncTask<ContentBase, Void, Boolean> {
@@ -40,9 +42,15 @@ public class RemoveItemFromMainTask extends AsyncTask<ContentBase, Void, Boolean
     @Override
     protected void onPostExecute(Boolean deleteItem) {
         if (deleteItem) {
-            //delete item
-            mAdapter.removeItem(mItemPosition);
-            Toast.makeText(MyApplication.getAppContext(), mMessage, Toast.LENGTH_LONG).show();
+            //remove item
+            //Delay so user can see remove animation
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mAdapter.removeItem(mItemPosition);
+                    Toast.makeText(MyApplication.getAppContext(), mMessage, Toast.LENGTH_LONG).show();
+                }
+            }, Constants.DELAY_SO_USER_CAN_SEE);
         }
     }
 }

@@ -2,6 +2,7 @@ package com.gcode.notes.tasks.async.main;
 
 
 import android.os.AsyncTask;
+import android.os.Handler;
 
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.base.ContentBase;
@@ -45,9 +46,15 @@ public class AddItemFromDbToMainTask extends AsyncTask<Integer, Void, ContentBas
 
 
     @Override
-    protected void onPostExecute(ContentBase item) {
+    protected void onPostExecute(final ContentBase item) {
         if (item != null) {
-            mController.addItemAsFirst(item);
+            //Delay so user can see remove animation
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mController.addItemAsFirst(item);
+                }
+            }, Constants.DELAY_SO_USER_CAN_SEE);
         } else {
             MyDebugger.log("AddItemTask: item to add is null.");
         }

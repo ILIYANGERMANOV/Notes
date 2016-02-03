@@ -34,7 +34,7 @@ public class MainActivityResultHandler {
                         handleNoteFromDisplay(data);
                         break;
                     case Constants.REQUEST_OPEN_GALLERY:
-                        handleCreateNoteWithPicutre(activity, data);
+                        handleCreateNoteWithPicture(activity, data);
                         break;
                     case Constants.SPEECH_INPUT_REQ_CODE:
                         handleSpeechInputOption(activity, data);
@@ -63,7 +63,7 @@ public class MainActivityResultHandler {
         }
     }
 
-    private static void handleCreateNoteWithPicutre(final Activity activity, Intent data) {
+    private static void handleCreateNoteWithPicture(final Activity activity, Intent data) {
         //photo selected from gallery
         PhotoSelectedCallback photoSelectedCallback = new PhotoSelectedCallback() {
             @Override
