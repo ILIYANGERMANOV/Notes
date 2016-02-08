@@ -1,5 +1,5 @@
 # Notes 0.0.1
-Notes is fast, simple and efficient android note-taking applicaiton that allows you to capture what's on your mind.Create lists so you'll never forget something when you are shopping again. Set reminders so you'll always be notified at the appropriate time. No time for writing? Use speech to text funcoonality and Notes will transcribe it for you.
+Notes is fast, simple and efficient android note-taking applicaiton that allows you to capture what is on your mind. Create lists so you'll never forget something when you are shopping again. Set reminders so you'll always be notified at the right time. No time for writing? Use speech to text funcionality and Notes will transcribe it for you.
 With Notes is easy to organise and manage your notes, which will bring your noting skills to a whole new level! 
 
 **Basic features:**
