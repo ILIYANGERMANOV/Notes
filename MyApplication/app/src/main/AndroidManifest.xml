@@ -70,7 +70,7 @@
             android:name=".services.ResetAlarmsService"
             android:exported="false" />
 
-        <receiver android:name=".receiver.BootWakefulBroadcastReceiver">
+        <receiver android:name=".receivers.BootWakefulBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

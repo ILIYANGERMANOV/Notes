@@ -8,7 +8,7 @@ import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.utils.AlarmUtils;
 import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.notes.MyApplication;
-import com.gcode.notes.receiver.BootWakefulBroadcastReceiver;
+import com.gcode.notes.receivers.BootWakefulBroadcastReceiver;
 
 import java.util.Date;
 

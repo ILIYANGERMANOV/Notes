@@ -1,4 +1,4 @@
-package com.gcode.notes.receiver;
+package com.gcode.notes.receivers;
 
 
 import android.content.Context;
