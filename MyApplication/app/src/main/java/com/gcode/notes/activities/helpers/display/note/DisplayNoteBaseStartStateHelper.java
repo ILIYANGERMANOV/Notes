@@ -22,7 +22,8 @@ public class DisplayNoteBaseStartStateHelper {
             setupFromBundle(extras);
         } else {
             //from saved instance state
-            mDisplayNoteActivity.mNoteModeChanged = savedInstanceState.getBoolean(Constants.EXTRA_NOTE_MODE_CHANGED); //restore mNoteModeChanged flag from previous state
+            mDisplayNoteActivity.mNoteModeChanged =
+                    savedInstanceState.getBoolean(Constants.EXTRA_NOTE_MODE_CHANGED); //restore mNoteModeChanged flag from previous state
             setupFromBundle(savedInstanceState);
         }
     }
