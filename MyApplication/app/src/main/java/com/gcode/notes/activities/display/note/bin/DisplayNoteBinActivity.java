@@ -18,6 +18,7 @@ public class DisplayNoteBinActivity extends DisplayNoteBaseActivity {
         getActionImageButton().setImageResource(R.drawable.ic_restore_deleted_24dp);
     }
 
+    @SuppressWarnings("unused")
     @OnClick(R.id.display_action_image_button)
     public void restoreNote() {
         ActionExecutor.restoreDeletedNote(this, mNoteData);
