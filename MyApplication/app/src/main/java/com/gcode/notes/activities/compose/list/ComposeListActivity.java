@@ -75,11 +75,6 @@ public class ComposeListActivity extends ComposeBaseActivity {
         ComposeListRotationHandler.saveInstanceState(this, outState);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
     @OnClick(R.id.compose_list_add_list_item_text_view)
     public void addListInputItem() {
         //cast it to String in order to not be ambiguous
