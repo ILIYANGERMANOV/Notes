@@ -14,7 +14,7 @@ import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 
-public class NoteItemOnClickListener extends BaseItemListener implements View.OnClickListener {
+public class NoteItemOnClickListener extends BaseItemListener {
     NoteData mNoteData;
 
     public NoteItemOnClickListener(Activity activity, NoteData noteData) {
@@ -24,7 +24,9 @@ public class NoteItemOnClickListener extends BaseItemListener implements View.On
 
     @Override
     public void onClick(View v) {
-        if (mDisabled) return; //if disabled prevent further execution (stop click event)
+        if (mDisabled || mIsAnimating)
+            return; //if disabled prevent further execution (stop click event)
+        super.onClick(v); //call base method to animate click
 
         Intent intent;
         switch (BaseController.getInstance().getControllerId()) {
@@ -44,8 +46,6 @@ public class NoteItemOnClickListener extends BaseItemListener implements View.On
         }
 
         intent.putExtra(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(mNoteData));
-        //MyTransitionHelper.startSharedElementTransitionForResult(mActivity, v, intent, Constants.NOTE_FROM_DISPLAY_REQUEST_CODE); transitions disabled due to bug
-        mActivity.startActivityForResult(intent, Constants.NOTE_FROM_DISPLAY_REQUEST_CODE);
-
+        performAnimationAndStartActivity(v, intent, Constants.NOTE_FROM_DISPLAY_REQUEST_CODE);
     }
 }

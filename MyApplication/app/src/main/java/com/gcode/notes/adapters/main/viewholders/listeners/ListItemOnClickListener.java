@@ -14,7 +14,7 @@ import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 
-public class ListItemOnClickListener extends BaseItemListener implements View.OnClickListener {
+public class ListItemOnClickListener extends BaseItemListener {
     ListData mListData;
 
     public ListItemOnClickListener(Activity activity, ListData listData) {
@@ -24,7 +24,8 @@ public class ListItemOnClickListener extends BaseItemListener implements View.On
 
     @Override
     public void onClick(View v) {
-        if (mDisabled) return; //if disabled prevent further execution (stop click event)
+        if (mDisabled || mIsAnimating)
+            return; //if disabled prevent further execution (stop click event)
 
         Intent intent;
         switch (BaseController.getInstance().getControllerId()) {
@@ -44,7 +45,6 @@ public class ListItemOnClickListener extends BaseItemListener implements View.On
         }
 
         intent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(mListData));
-        //MyTransitionHelper.startSharedElementTransitionForResult(mActivity, v, intent, Constants.LIST_FROM_DISPLAY_REQUEST_CODE); transitions disabled due to bug
-        mActivity.startActivityForResult(intent, Constants.LIST_FROM_DISPLAY_REQUEST_CODE);
+        performAnimationAndStartActivity(v, intent, Constants.LIST_FROM_DISPLAY_REQUEST_CODE);
     }
 }

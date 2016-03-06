@@ -60,6 +60,18 @@ public class DisplayBaseActivity extends AppCompatActivity {
         DisplayToolbarHelper.setupToolbar(this, mToolbar); //setup activity's toolbar
     }
 
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        overridePendingTransition(0, R.anim.slide_out_bottom);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, R.anim.slide_out_bottom);
+    }
+
     public void displayBase(final ContentBase contentBase) {
         mTitleTextView.setText(contentBase.getTitle()); //display note's title
         mDatesTextView.setText(contentBase.getDateDetails()); //display Creation, Last modified and if has Expiration dates
