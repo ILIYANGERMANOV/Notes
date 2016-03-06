@@ -14,10 +14,12 @@ public class BinController extends BaseController {
     }
 
     @Override
-    public void setContent(boolean scrollToTop) {
-        super.setContent(scrollToTop);
+    public void setContent(boolean scrollToTop, boolean loadNewContent) {
+        super.setContent(scrollToTop, loadNewContent);
         mToolbar.setTitle(mMainActivity.getString(R.string.bin_label));
-        new LoadContentTask(scrollToTop).execute();
+        if (loadNewContent) {
+            new LoadContentTask(scrollToTop).execute();
+        }
         mSimpleItemTouchHelperCallback.setLongPressDragEnabled(false);
 
     }

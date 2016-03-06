@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.controllers.BaseController;
+import com.gcode.notes.controllers.bin.BinController;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.ui.ActionExecutor;
 
@@ -28,7 +29,7 @@ public class MainActivityMenuOptionsHelper {
     }
 
     public static void prepareOptionsMenu(Menu menu) {
-        if (BaseController.getInstance().getControllerId() == Constants.CONTROLLER_BIN) {
+        if (BaseController.getInstance() instanceof BinController) {
             //we are in bin, add empty bin action
             if (menu.findItem(Constants.MENU_EMPTY_BIN) == null) {
                 //empty bin menu action, isn't added, add it (if it is exist it shouldn't be added cuz will duplicate)

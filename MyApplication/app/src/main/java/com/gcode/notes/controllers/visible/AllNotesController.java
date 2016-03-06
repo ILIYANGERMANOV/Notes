@@ -11,8 +11,8 @@ public class AllNotesController extends VisibleController {
     }
 
     @Override
-    public void setContent(boolean scrollToTop) {
-        super.setContent(scrollToTop);
+    public void setContent(boolean scrollToTop, boolean loadNewContent) {
+        super.setContent(scrollToTop, loadNewContent);
         mToolbar.setTitle(mMainActivity.getString(R.string.all_notes_label));
     }
 

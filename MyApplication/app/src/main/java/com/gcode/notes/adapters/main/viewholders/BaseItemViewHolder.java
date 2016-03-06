@@ -42,6 +42,10 @@ public abstract class BaseItemViewHolder extends RecyclerView.ViewHolder impleme
         mData = data;
     }
 
+    public void clearAnimation() {
+        itemView.clearAnimation();
+    }
+
     public TextView getTitleTextView() {
         return mTitleTextView;
     }

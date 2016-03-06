@@ -45,7 +45,7 @@ public class DecryptNoteTask extends AsyncTask<ContentBase, Void, ContentBase> {
                 return null;
             }
         } catch (Exception e) {
-            //TODO: handle exception and refactor
+            //TODO: fix decrypt note exception (happening when comeback with screen rotation from display private)
             MyDebugger.log("DecryptNoteTask exception", e.getMessage());
             return null;
         }

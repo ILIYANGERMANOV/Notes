@@ -17,6 +17,7 @@ import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.helper.ItemTouchHelperAdapter;
+import com.gcode.notes.motions.MyAnimator;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.ui.ActionExecutor;
 
@@ -33,6 +34,8 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
 
     private View mEmptyView;
     private boolean mEmptyViewVisible;
+    private int mLastAnimatedPosition = -1;
+    private boolean mAnimate = true;
 
     public MainAdapter(MainActivity mainActivity, ArrayList<ContentBase> data) {
         mMainActivity = mainActivity;
@@ -43,6 +46,10 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
 
         mInflater = LayoutInflater.from(mainActivity);
         mEmptyViewVisible = false;
+    }
+
+    public void setAnimate(boolean animate) {
+        this.mAnimate = animate;
     }
 
     //getters----------------------------------------------------------------------------------------
@@ -89,6 +96,21 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
                 ((ListData) currentItem).displayListOnMain(mMainActivity, (ListItemViewHolder) holder);
             }
         }
+        runEnterAnimation(holder.itemView, position);
+    }
+
+    private void runEnterAnimation(View itemView, int position) {
+        if (position > mLastAnimatedPosition && mAnimate) {
+            MyAnimator.startAnimationOnView(mMainActivity, itemView, R.anim.recycler_view_item_appear);
+            mLastAnimatedPosition = position;
+        }
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(BaseItemViewHolder holder) {
+        //clear animation, because they are problems on fast scrolling
+        //with animating view while adapter is trying to reuse it
+        holder.clearAnimation();
     }
 
     @Override
@@ -257,6 +279,7 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
 
 
     public void updateContent(ArrayList<ContentBase> newData) {
+        mLastAnimatedPosition = -1; //reset animated position to run animation again
         mData.clear();
         mData.addAll(newData);
         notifyDataSetChanged();

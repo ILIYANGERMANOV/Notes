@@ -56,6 +56,11 @@ public class MainActivity extends AppCompatActivity {
     public MainAdapter mMainAdapter;
     public SearchView mSearchView;
     public MainSearchHandler mSearchHandler;
+    /**
+     * Flag indicating whether the controller should load new content.
+     * Used to prevent loading new content when exiting from private label.
+     */
+    public boolean mLoadNewContentPrivate;
     @Bind(R.id.main_toolbar)
     Toolbar mToolbar;
     @Bind(R.id.main_app_bar_layout)
@@ -149,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 //delay it, cuz otherwise will result in crash (layout is not ready)
-                mDrawerOptionExecutor.applySelectedOption(mSelectedId, false);
+                mDrawerOptionExecutor.applySelectedOption(mSelectedId, false, true);
             }
         }, Constants.MINIMUM_DELAY);
     }

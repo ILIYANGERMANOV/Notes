@@ -18,6 +18,7 @@ import com.gcode.notes.tasks.async.encryption.DecryptAllNotesTask;
 import com.gcode.notes.tasks.async.encryption.DecryptNoteTask;
 import com.gcode.notes.tasks.async.encryption.callbacks.DecryptAllNotesTaskCallbacks;
 import com.gcode.notes.tasks.async.encryption.callbacks.DecryptTaskCallbacks;
+import com.gcode.notes.ui.helpers.NavDrawerHelper;
 
 import java.util.ArrayList;
 
@@ -25,14 +26,14 @@ public class PrivateController extends VisibleController implements
         DecryptAllNotesTaskCallbacks, AuthenticationCallbacks {
     //TODO: REFACTOR AND OPTIMIZE (IMPORTANT)
 
-    boolean mScrollToTop;
+    private boolean mScrollToTop;
 
     public PrivateController(MainActivity mainActivity) {
         super(mainActivity);
     }
 
     @Override
-    public void setContent(boolean scrollToTop) {
+    public void setContent(boolean scrollToTop, boolean loadNewContent) {
         mScrollToTop = scrollToTop;
         mRecyclerView.setVisibility(View.INVISIBLE);
         mToolbar.setTitle(R.string.authentication_label);
@@ -75,7 +76,7 @@ public class PrivateController extends VisibleController implements
 
     @Override
     public void onAuthenticated(String password) {
-        super.setContent(mScrollToTop);
+        super.setContent(mScrollToTop, true);
         mToolbar.setTitle(mMainActivity.getString(R.string.private_label));
     }
 
@@ -95,9 +96,11 @@ public class PrivateController extends VisibleController implements
 
     @Override
     public void onExitPrivate() {
-        mRecyclerView.setVisibility(View.VISIBLE);
         MenuItem menuItem = mMainActivity.getDrawer().getMenu().findItem(mMainActivity.mPreviousSelectedId);
-        mMainActivity.mDrawerOptionExecutor.onNavigationItemSelected(menuItem);
+        NavDrawerHelper.selectLabel(mMainActivity, menuItem);
+        mMainActivity.mDrawerOptionExecutor.applySelectedOption(menuItem.getItemId(), true,
+                mMainActivity.mLoadNewContentPrivate);
+        mRecyclerView.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -3,6 +3,9 @@ package com.gcode.notes.activities.helpers.main.state;
 import android.os.Bundle;
 
 import com.gcode.notes.activities.MainActivity;
+import com.gcode.notes.adapters.main.viewholders.listeners.BaseItemListener;
+import com.gcode.notes.controllers.BaseController;
+import com.gcode.notes.controllers.visible.PrivateController;
 import com.gcode.notes.extras.values.Keys;
 import com.gcode.notes.tasks.async.delete.DeleteExpiredNotesTask;
 
@@ -27,6 +30,14 @@ public class MainActivityRotationHandler {
      */
     public static void handleScreenRotation(MainActivity mainActivity, Bundle savedInstanceState) {
         if (savedInstanceState != null) {
+            BaseItemListener.mIsAnimating = false; //reset is animating, cuz if rotated while animating items
+            //cannot be clicked
+            BaseController controller = BaseController.getInstance();
+            if (controller instanceof PrivateController) {
+                //screen rotation in private, it should load new content
+                mainActivity.mLoadNewContentPrivate = true;
+            }
+
             mainActivity.setIntent(null); //start from notification has been consumed, set intent to null, so getIntent() will be null
             //and it won't start display activity again
 

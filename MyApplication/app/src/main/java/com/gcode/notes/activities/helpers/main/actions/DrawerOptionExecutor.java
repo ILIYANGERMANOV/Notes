@@ -26,15 +26,16 @@ public class DrawerOptionExecutor implements NavigationView.OnNavigationItemSele
     /**
      * @param selectedId               the nav drawer id to switch on
      * @param preventExecutionIfSameId must be false when called onCreate() else true
+     * @param loadNewContent flag indicating whether the controller should load new content
      */
-    public void applySelectedOption(int selectedId, boolean preventExecutionIfSameId) {
+    public void applySelectedOption(int selectedId, boolean preventExecutionIfSameId,
+                                    boolean loadNewContent) {
         if (mMainActivity.mSelectedId == selectedId) {
             //current option is already selected, scroll to top and expand appbar
             mMainActivity.getAppBarLayout().setExpanded(true, true); //animate appbar expanding
             mMainActivity.getRecyclerView().smoothScrollToPosition(0); //scroll to first item
-            if (preventExecutionIfSameId) return; //preventExcecution if flag is up
+            if (preventExecutionIfSameId) return; //prevent further execution if flag is up
         }
-
 
         if (preventExecutionIfSameId || selectedId == R.id.navigation_item_bin) {
             //private controller is selected or we are bin (both selected or screen rotation),
@@ -72,13 +73,22 @@ public class DrawerOptionExecutor implements NavigationView.OnNavigationItemSele
                 return;
         }
 
+
+        if (preventExecutionIfSameId) {
+            //preventExecutionIfSameId is false only when called by onCreate() in MainActivity
+            //so if its true user has switched labels and there wasn't screen rotation in private
+
+            mMainActivity.mLoadNewContentPrivate = false; //the controller should load new content
+            //only when there was a screen rotation in private label
+        }
+
         //!NOTE: preventExecutionIfSameId flag matches with scrollToTop in setContent(), cuz:
         //1.when method is called from onCreate() the flag is FALSE: the activity is fresh created or coming from
         //screen rotation in both cases content shouldn't be scrolled to top
         //2. when method is called from nav drawer on click the flag is TRUE: new controller should be chosen and
         //then new content should be scrolled (!if the current id is reselected code execution will be stopped at
         //the start on applySelectedOption()
-        BaseController.getInstance().setContent(preventExecutionIfSameId);
+        BaseController.getInstance().setContent(preventExecutionIfSameId, loadNewContent);
 
         if (mMainActivity.mMenu != null) {
             //mMenu is already created, prepare its new options according controller
@@ -88,11 +98,8 @@ public class DrawerOptionExecutor implements NavigationView.OnNavigationItemSele
 
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
-        if (menuItem.getGroupId() == R.id.navigation_group_1) {
-            menuItem.setChecked(true);
-            NavDrawerHelper.closeDrawer(mMainActivity.getDrawerLayout());
-        }
-        applySelectedOption(menuItem.getItemId(), true);
+        NavDrawerHelper.selectLabel(mMainActivity, menuItem);
+        applySelectedOption(menuItem.getItemId(), true, true);
         return true;
     }
 }

@@ -31,6 +31,7 @@ public abstract class BaseController implements ControllerInterface {
     protected RecyclerView mRecyclerView;
     protected FloatingActionMenu mFabMenu;
     protected AppBarLayout mAppBarLayout;
+    protected MainAdapter mMainAdapter;
     protected SimpleItemTouchHelperCallback mSimpleItemTouchHelperCallback;
 
     protected BaseController(MainActivity mainActivity) {
@@ -40,20 +41,11 @@ public abstract class BaseController implements ControllerInterface {
         mRecyclerView = mainActivity.getRecyclerView();
         mFabMenu = mainActivity.getFabMenu();
         mAppBarLayout = mainActivity.getAppBarLayout();
+        mMainAdapter = mainActivity.mMainAdapter;
         mSimpleItemTouchHelperCallback = mainActivity.mSimpleItemTouchHelperCallback;
     }
 
     public synchronized static BaseController getInstance() {
-        if (mInstance == null) {
-            //TODO: handle problems when clear memory
-            mInstance = new BaseController(null) {
-                @Override
-                public boolean shouldHandleMode(int mode) {
-                    return false;
-                }
-            };
-            MyDebugger.log("BaseController is null, fake instance created.");
-        }
         return mInstance;
     }
 
@@ -62,7 +54,7 @@ public abstract class BaseController implements ControllerInterface {
     }
 
     public void setNewContent(ArrayList<ContentBase> newContent, boolean scrollToTop) {
-        MainAdapter mainAdapter = getMainAdapter();
+        MainAdapter mainAdapter = mMainAdapter;
         if (mainAdapter != null) {
             mainAdapter.updateContent(newContent);
             //mRecyclerView.invalidate();
@@ -73,7 +65,7 @@ public abstract class BaseController implements ControllerInterface {
     }
 
     public void addItemAsFirst(ContentBase item) {
-        MainAdapter mainAdapter = getMainAdapter();
+        MainAdapter mainAdapter = mMainAdapter;
         if (mainAdapter != null) {
             mainAdapter.addItem(0, item);
             mRecyclerView.smoothScrollToPosition(0);
@@ -85,7 +77,7 @@ public abstract class BaseController implements ControllerInterface {
     }
 
     public void updateItem(ContentBase item) {
-        MainAdapter mainAdapter = getMainAdapter();
+        MainAdapter mainAdapter = mMainAdapter;
         if (mainAdapter != null) {
             if (mainAdapter.updateItem(item)) {
                 //item was updated successfully, if search is started call onItemChange()
@@ -124,22 +116,17 @@ public abstract class BaseController implements ControllerInterface {
     }
 
     public MainAdapter getMainAdapter() {
-        if (mRecyclerView == null) return null;
-        RecyclerView.Adapter mAdapter = mRecyclerView.getAdapter();
-        if (mAdapter instanceof MainAdapter) {
-            return (MainAdapter) mAdapter;
-        }
-        MyDebugger.log("getMainAdapter() failed to get main adapter.");
-        return null;
+        return mMainAdapter;
     }
 
     /**
      * Changes toolbar titles.
      * Sets recycler view's content, hides / shows FAB with animation.
      *
-     * @param scrollToTop - whether recycler view should be scrolled to top
+     * @param scrollToTop    whether recycler view should be scrolled to top
+     * @param loadNewContent whether the controller should load new content
      */
-    public void setContent(boolean scrollToTop) {
+    public void setContent(boolean scrollToTop, boolean loadNewContent) {
         SearchViewHelper.closeSearchView(mMainActivity);
         onSetContentAnimation();
     }
@@ -157,9 +144,8 @@ public abstract class BaseController implements ControllerInterface {
 
     @Override
     public void onAddNote(ContentBase contentBase) {
-        MainAdapter mainAdapter = getMainAdapter();
-        if (mainAdapter != null) {
-            int itemPosition = mainAdapter.addItemByOrderId(contentBase);
+        if (mMainAdapter != null) {
+            int itemPosition = mMainAdapter.addItemByOrderId(contentBase);
             mRecyclerView.smoothScrollToPosition(itemPosition);
             if (SearchViewHelper.isSearchViewOpened(mMainActivity)) {
                 //search view is opened, call searchHandler#onItemAdded() so list copy will be present

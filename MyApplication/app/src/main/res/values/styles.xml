@@ -6,10 +6,14 @@
         <item name="colorPrimary">@color/color_primary_light_blue</item>
         <item name="colorPrimaryDark">@color/color_primary_light_blue_dark</item>
         <item name="colorAccent">@color/color_accent_pink</item>
-        <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="AppTheme" parent="AppThemeBase">
+
+    </style>
+
+    <style name="AppThemeTranslucent" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
 
     </style>
 
