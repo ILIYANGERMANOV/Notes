@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -17,12 +18,20 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 public class ComposeBaseActivity extends AppCompatActivity {
+    public boolean mInPrivateMode;
+    public boolean mIsOpenedInEditMode;
+    public boolean mIsStarred;
+    public boolean mNoteModeChanged;
+    public Intent mResultIntent = new Intent();
+
+    //getters for layout components---------------------------------------------------------------------------------------
+    public boolean mLocationObtained;
+    public double mLatitude;
+    public double mLongitude;
     @Bind(R.id.compose_toolbar)
     Toolbar mToolbar;
-
     @Bind(R.id.compose_title_edit_text)
     EditText mTitleEditText;
-
     @Bind(R.id.compose_star_image_button)
     ImageButton mStarImageButton;
 
@@ -34,18 +43,6 @@ public class ComposeBaseActivity extends AppCompatActivity {
     public ImageButton getStarImageButton() {
         return mStarImageButton;
     }
-
-    //getters for layout components---------------------------------------------------------------------------------------
-
-    public boolean mInPrivateMode;
-    public boolean mIsOpenedInEditMode;
-    public boolean mIsStarred;
-    public boolean mNoteModeChanged;
-    public Intent mResultIntent = new Intent();
-
-    public boolean mLocationObtained;
-    public double mLatitude;
-    public double mLongitude;
 
     public ComposeReminderFragment getComposeReminderFragment() {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.compose_note_reminder_fragment);
@@ -59,6 +56,14 @@ public class ComposeBaseActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mIsOpenedInEditMode) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        }
+    }
+
     /**
      * Setups title edit text to not has horizontal scrolling and activity's toolbar
      */
@@ -68,10 +73,22 @@ public class ComposeBaseActivity extends AppCompatActivity {
         ComposeBaseToolbarHelper.setupToolbar(this, mToolbar);
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        if (mIsOpenedInEditMode) {
+            overridePendingTransition(0, R.anim.slide_out_top);
+        } else {
+            overridePendingTransition(0, R.anim.slide_out_right);
+        }
+
+    }
+
+
     @SuppressWarnings("unused")
     @OnClick(R.id.compose_star_image_button)
     public void starImageButtonClicked() {
-        if(!mInPrivateMode) {
+        if (!mInPrivateMode) {
             //note is in normal mode toggle starred / not starred
             if (mIsStarred) {
                 //activity is in starredState, change it to notStarredState

@@ -22,7 +22,6 @@ public class ComposeNoteStartStateHelper extends ComposeBaseStartStateHelper {
         switch (intent.getIntExtra(Constants.EXTRA_SETUP_FROM, Constants.ERROR)) {
             case Constants.SETUP_FROM_ZERO:
                 //New note
-                mComposeNoteActivity.mIsOpenedInEditMode = false;
                 setupFromZero();
                 break;
             case Constants.SETUP_FROM_EDIT_MODE:
@@ -35,14 +34,11 @@ public class ComposeNoteStartStateHelper extends ComposeBaseStartStateHelper {
                 break;
             case Constants.SETUP_FROM_PHOTO:
                 //Creating note from attached image
-                super.setupFromZero(mComposeNoteActivity); //setup mode
-                ComposeNotePhotoHelper.setupFromPhoto(mComposeNoteActivity, intent.getStringExtra(Constants.EXTRA_PHOTO_URI));
+                setupFromPicture(intent);
                 break;
             case Constants.SETUP_FROM_AUDIO:
                 //Creating audio note (from voice recognition)
-                super.setupFromZero(mComposeNoteActivity); //setup mode
-                ComposeNoteAudioHelper.setupFromAudio(mComposeNoteActivity, intent.getStringExtra(Constants.EXTRA_AUDIO_PATH),
-                        intent.getStringExtra(Constants.EXTRA_RECOGNIZED_SPEECH_TEXT));
+                setupFromAudio(intent);
                 break;
             default:
                 MyDebugger.log("EXTRA_SETUP_FROM not passed!");
@@ -50,9 +46,23 @@ public class ComposeNoteStartStateHelper extends ComposeBaseStartStateHelper {
         }
     }
 
+    private void setupFromPicture(Intent intent) {
+        super.setupFromZero(mComposeNoteActivity); //setup mode
+        ComposeNotePhotoHelper.setupFromPhoto(mComposeNoteActivity,
+                intent.getStringExtra(Constants.EXTRA_PHOTO_URI));
+    }
+
+    private void setupFromAudio(Intent intent) {
+        super.setupFromZero(mComposeNoteActivity); //setup mode
+        ComposeNoteAudioHelper.setupFromAudio(mComposeNoteActivity, intent.getStringExtra(Constants.EXTRA_AUDIO_PATH),
+                intent.getStringExtra(Constants.EXTRA_RECOGNIZED_SPEECH_TEXT));
+        mComposeNoteActivity.getDescriptionEditText().requestFocus();
+    }
+
     protected void setupFromZero() {
         super.setupFromZero(mComposeNoteActivity);
         mComposeNoteActivity.mNoteData = new NoteData();
+        mComposeNoteActivity.getDescriptionEditText().requestFocus();
     }
 
     private void setupFromEditMode(String serializedNoteData) {

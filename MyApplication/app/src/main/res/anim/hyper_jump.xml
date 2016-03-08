@@ -2,7 +2,7 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android"
     android:shareInterpolator="false">
     <scale
-        android:duration="@android:integer/config_mediumAnimTime"
+        android:duration="250"
         android:fillAfter="false"
         android:fromXScale="1.0"
         android:fromYScale="1.0"
@@ -11,23 +11,22 @@
         android:pivotY="50%"
         android:toXScale="1.4"
         android:toYScale="0.6" />
-    <set android:interpolator="@android:anim/decelerate_interpolator">
+    <set
+        android:duration="150"
+        android:interpolator="@android:anim/decelerate_interpolator"
+        android:startOffset="250">
         <scale
-            android:duration="@android:integer/config_shortAnimTime"
             android:fillBefore="false"
             android:fromXScale="1.4"
             android:fromYScale="0.6"
             android:pivotX="50%"
             android:pivotY="50%"
-            android:startOffset="@android:integer/config_mediumAnimTime"
             android:toXScale="0.0"
             android:toYScale="0.0" />
         <rotate
-            android:duration="@android:integer/config_shortAnimTime"
             android:fromDegrees="0"
             android:pivotX="50%"
             android:pivotY="50%"
-            android:startOffset="@android:integer/config_mediumAnimTime"
             android:toDegrees="-45"
             android:toYScale="0.0" />
     </set>

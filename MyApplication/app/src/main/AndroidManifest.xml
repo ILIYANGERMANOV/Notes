@@ -38,10 +38,14 @@
             android:label="@string/title_activity_settings" />
         <activity
             android:name=".activities.compose.note.ComposeNoteActivity"
-            android:label="@string/title_activity_compose_note" />
+            android:label="@string/title_activity_compose_note"
+            android:screenOrientation="sensor"
+            android:theme="@style/AppThemeTranslucent" />
         <activity
             android:name=".activities.compose.list.ComposeListActivity"
-            android:label="@string/title_activity_compose_list" />
+            android:label="@string/title_activity_compose_list"
+            android:screenOrientation="sensor"
+            android:theme="@style/AppThemeTranslucent" />
         <activity
             android:name=".activities.display.note.editable.DisplayNoteNormalActivity"
             android:label="@string/title_activity_display_note"
@@ -65,7 +69,8 @@
             android:screenOrientation="sensor"
             android:theme="@style/AppThemeTranslucent" />
 
-        <activity android:name=".activities.display.list.editable.DisplayListPrivateActivity"
+        <activity
+            android:name=".activities.display.list.editable.DisplayListPrivateActivity"
             android:label="@string/title_activity_display_list"
             android:screenOrientation="sensor"
             android:theme="@style/AppThemeTranslucent" />

@@ -162,13 +162,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
         super.startActivityForResult(intent, requestCode, options);
-        overridePendingTransition(R.anim.slide_in_bottom, 0);
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.slide_in_bottom, 0);
+        switch (requestCode) {
+            case Constants.NOTE_FROM_DISPLAY_REQUEST_CODE:
+            case Constants.LIST_FROM_DISPLAY_REQUEST_CODE:
+                overridePendingTransition(R.anim.slide_in_bottom, 0);
+                break;
+            case Constants.COMPOSE_NOTE_REQUEST_CODE:
+                overridePendingTransition(R.anim.slide_in_right, 0);
+                break;
+        }
     }
 
     @Override
