@@ -17,11 +17,11 @@ public class MainActivityRotationHandler {
         //saves previous selected item id in nav drawer
         outState.putInt(Keys.EXTRA_PREVIOUS_SELECTED_ID, mainActivity.mPreviousSelectedId);
         //saves whether FAB menu is opened
-        outState.putBoolean(Keys.EXTRA_FAB_MENU_OPENED, mainActivity.mFabMenuOpened);
+        outState.putBoolean(Keys.EXTRA_FAB_MENU_OPENED, mainActivity.mIsFabMenuOpened);
     }
 
     /**
-     * Sets mSelectedId, mFabMenuOpened and activity's intent properly.
+     * Sets mSelectedId, mIsFabMenuOpened and activity's intent properly.
      * Start DeleteExpiredNotesTask if app is ran for first time.
      * !NOTE: MUST BE CALLED before setup()!
      *
@@ -43,7 +43,7 @@ public class MainActivityRotationHandler {
 
             mainActivity.mSelectedId = savedInstanceState.getInt(Keys.EXTRA_SELECTED_ID); //handle previous selected item id in nav drawer
             mainActivity.mPreviousSelectedId = savedInstanceState.getInt(Keys.EXTRA_PREVIOUS_SELECTED_ID);
-            mainActivity.mFabMenuOpened = savedInstanceState.getBoolean(Keys.EXTRA_FAB_MENU_OPENED); //handle whether FAB menu was opened
+            mainActivity.mIsFabMenuOpened = savedInstanceState.getBoolean(Keys.EXTRA_FAB_MENU_OPENED); //handle whether FAB menu was opened
         } else {
             //app is ran for first time delete expired notes
             new DeleteExpiredNotesTask().execute();

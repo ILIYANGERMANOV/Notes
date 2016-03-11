@@ -37,6 +37,7 @@ public class PrivateController extends VisibleController implements
         mScrollToTop = scrollToTop;
         mRecyclerView.setVisibility(View.INVISIBLE);
         mToolbar.setTitle(R.string.authentication_label);
+        mFabMenu.hideMenuButton(false);
         AuthenticationUtils.getInstance(mMainActivity, this).authenticate();
     }
 

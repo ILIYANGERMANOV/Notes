@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
@@ -25,8 +24,8 @@ public class NoteItemViewHolder extends BaseItemViewHolder {
     @Bind(R.id.note_description_text_view)
     TextView mContentTextView;
 
-    @Bind(R.id.note_item_images_container)
-    LinearLayout mImagesContainer;
+    @Bind(R.id.note_image_view)
+    ImageView mNoteImageView;
 
     @Bind(R.id.voice_image_view)
     ImageView mVoiceImageView;
@@ -34,19 +33,6 @@ public class NoteItemViewHolder extends BaseItemViewHolder {
     Handler mHandler;
 
     NoteItemOnClickListener mNoteItemOnClickListener;
-
-    @Override
-    public BaseItemListener getItemBaseListener() {
-        return mNoteItemOnClickListener;
-    }
-
-    public NoteItemViewHolder(Activity activity, final View itemView, ArrayList<ContentBase> data) {
-        super(activity, itemView, data);
-        ButterKnife.bind(this, itemView);
-        mHandler = new Handler();
-        startRepeatingTask();
-    }
-
     Runnable mSetOnClickListener = new Runnable() {
         @Override
         public void run() {
@@ -61,6 +47,18 @@ public class NoteItemViewHolder extends BaseItemViewHolder {
             mHandler.postDelayed(mSetOnClickListener, Constants.MINIMUM_DELAY);
         }
     };
+
+    public NoteItemViewHolder(Activity activity, final View itemView, ArrayList<ContentBase> data) {
+        super(activity, itemView, data);
+        ButterKnife.bind(this, itemView);
+        mHandler = new Handler();
+        startRepeatingTask();
+    }
+
+    @Override
+    public BaseItemListener getItemBaseListener() {
+        return mNoteItemOnClickListener;
+    }
 
     void startRepeatingTask() {
         mSetOnClickListener.run();
@@ -79,8 +77,8 @@ public class NoteItemViewHolder extends BaseItemViewHolder {
         return mVoiceImageView;
     }
 
-    public LinearLayout getImagesContainer() {
-        return mImagesContainer;
+    public ImageView getNoteImageView() {
+        return mNoteImageView;
     }
 
     public TextView getDescriptionTextView() {

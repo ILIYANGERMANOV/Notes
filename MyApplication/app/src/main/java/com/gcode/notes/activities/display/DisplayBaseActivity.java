@@ -15,6 +15,7 @@ import com.gcode.notes.R;
 import com.gcode.notes.activities.helpers.display.DisplayToolbarHelper;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.utils.DateUtils;
+import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.tasks.async.display.DecodeLocationTask;
 
 import butterknife.Bind;
@@ -64,7 +65,9 @@ public class DisplayBaseActivity extends AppCompatActivity {
     @Override
     public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
         super.startActivityForResult(intent, requestCode, options);
-        overridePendingTransition(R.anim.slide_in_top, 0);
+        if (requestCode == Constants.COMPOSE_NOTE_REQUEST_CODE) {
+            overridePendingTransition(R.anim.slide_in_top, 0);
+        }
     }
 
     @Override
@@ -80,7 +83,7 @@ public class DisplayBaseActivity extends AppCompatActivity {
             //there is reminder, display it
             mReminderTextView.setVisibility(View.VISIBLE); //reminder text view is currently gone
             mReminderTextView.setText(getString(R.string.display_reminder_text_and_date,
-                    DateUtils.formatDateTimeForDisplay(contentBase.getReminder())) //reminder is currently in SQLite format, format it for display
+                    DateUtils.formatSQLiteDateForDisplay(contentBase.getReminder())) //reminder is currently in SQLite format, format it for display
             );
         } else {
             //note hasn't reminder, hide it (this case is when note with reminder is modified and it is removed)

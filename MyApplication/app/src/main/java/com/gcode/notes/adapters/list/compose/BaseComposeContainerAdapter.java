@@ -206,11 +206,11 @@ public abstract class BaseComposeContainerAdapter {
     }
 
     protected void setupInputItemLayout(View inputItem, String inputItemContent) {
-        EditText mEditText = getEditTextFromView(inputItem);
-        mEditText.setOnEditorActionListener(new ListInputOnEditorActionListener(this));
-        mEditText.setHorizontallyScrolling(false);
-        mEditText.setMaxLines(Constants.MAX_LIST_INPUT_ITEM_LINES);
-        mEditText.setOnFocusChangeListener(new MyFocusListener(this));
+        EditText editText = getEditTextFromView(inputItem);
+        editText.setOnEditorActionListener(new ListInputOnEditorActionListener(this));
+        editText.setHorizontallyScrolling(false);
+        editText.setMaxLines(Constants.MAX_LIST_INPUT_ITEM_LINES);
+        editText.setOnFocusChangeListener(new MyFocusListener(this));
 
         ImageButton removeImageButton = (ImageButton) inputItem.findViewById(R.id.list_input_item_remove_button);
         removeImageButton.setOnClickListener(new RemoveListInputOnClickListener(this));
@@ -229,7 +229,7 @@ public abstract class BaseComposeContainerAdapter {
         });
 
         if (inputItemContent != null) {
-            mEditText.setText(inputItemContent);
+            editText.setText(inputItemContent);
         }
     }
 

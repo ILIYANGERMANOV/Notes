@@ -13,6 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/note_small_padding"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -20,20 +21,19 @@
             android:id="@+id/voice_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_play_arrow_black_24dp"
+            android:src="@drawable/ic_play_main_attribute_12dp"
             android:visibility="gone" />
 
         <TextView
             android:id="@+id/reminder_text_view"
+            style="@style/TextAppearance.AppCompat.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_access_time_black_18dp"
-            android:drawableStart="@drawable/ic_access_time_black_18dp"
-            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/ic_reminder_main_12dp"
+            android:drawablePadding="@dimen/note_small_padding"
+            android:drawableStart="@drawable/ic_reminder_main_12dp"
             android:gravity="center_vertical"
-            android:visibility="gone"
-            android:paddingTop="2dp" />
-
+            android:visibility="gone" />
     </LinearLayout>
 
 </LinearLayout>

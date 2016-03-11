@@ -127,6 +127,7 @@
     <string name="action_delete_forever">Delete note forever</string>
     <string name="action_restore_deleted">Restore note</string>
     <string name="private_note_deleted_due_to_wrong_pass">Private note deleted due to security actions.</string>
+    <string name="there_are_no_notes">There are no notes :/</string>
 
 
 </resources>

@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
      * In all other cases is the id of the previous different item selected id.
      */
     public int mPreviousSelectedId = R.id.navigation_item_all_notes;
-    public boolean mFabMenuOpened;
+    public boolean mIsFabMenuOpened;
     public Menu mMenu;
     public DrawerOptionExecutor mDrawerOptionExecutor;
     public MainAdapter mMainAdapter;

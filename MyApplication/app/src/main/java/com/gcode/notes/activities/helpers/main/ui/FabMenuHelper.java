@@ -40,11 +40,11 @@ public class FabMenuHelper {
             }
         });
 
-        if (mainActivity.mFabMenuOpened) {
+        if (mainActivity.mIsFabMenuOpened) {
             //fab menu was open, open it
             fabMenu.open(false); //without animation cuz it should look like it was never closed
         }
-        fabMenu.setOnMenuToggleListener(new FabMenuOnMenuToggleListener(mainActivity)); //toggle mFabMenuOpened
+        fabMenu.setOnMenuToggleListener(new FabMenuOnMenuToggleListener(mainActivity)); //toggle mIsFabMenuOpened
     }
 
     public static void setRecyclerViewListenersDisabled(RecyclerView recyclerView, boolean disabled) {

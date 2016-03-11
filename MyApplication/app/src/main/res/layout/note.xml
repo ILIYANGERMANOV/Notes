@@ -1,6 +1,6 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/note_item_card_view"
-    style="@style/MyCardView"
+    style="@style/MyCardViewMain"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="7dp">
+        android:padding="@dimen/note_layout_content_padding">
 
         <include
             android:id="@+id/note_title_text_view"
@@ -17,25 +17,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <LinearLayout
-            android:id="@+id/note_item_images_container"
+        <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/note_image_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingEnd="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingStart="5dp"
-            android:paddingTop="5dp" />
+            android:layout_height="@dimen/note_image_view_height"
+            android:layout_marginTop="@dimen/note_small_padding"
+            android:contentDescription="@string/attached_image_desc"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/note_description_text_view"
+            style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:description="@string/placeholder_long"
-            android:maxLines="13"
+            android:layout_marginTop="@dimen/note_small_padding"
+            android:gravity="top"
             android:visibility="gone" />
 
         <ImageView
@@ -44,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:contentDescription="@string/more_image_view_content_desc"
-            android:src="@drawable/ic_more_horiz_black_24dp"
+            android:src="@drawable/ic_more_horiz_14dp"
             android:visibility="gone" />
 
         <include
@@ -52,7 +49,7 @@
             layout="@layout/note_attributes_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="@dimen/note_big_padding" />
 
     </LinearLayout>
 

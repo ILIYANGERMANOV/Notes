@@ -16,10 +16,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:freezesText="true"
-            android:hint="@string/compose_note_title_hint"
             android:gravity="start"
+            android:hint="@string/compose_note_title_hint"
             android:imeOptions="actionNext"
-            android:inputType="textImeMultiLine"
+            android:inputType="textCapSentences"
             android:scrollHorizontally="false"
             android:textSize="19sp"
             android:textStyle="bold" />

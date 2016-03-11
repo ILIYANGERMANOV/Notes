@@ -86,7 +86,7 @@ public class Constants {
 
 
     public static final int MAX_LIST_ITEMS_TO_DISPLAY = 5;
-    public static final int MAX_DESCRIPTION_LINES_TO_DISPLAY = 13;
+    public static final int MAX_DESCRIPTION_LINES_TO_DISPLAY = 7;
     public static final int MAX_LIST_INPUT_ITEM_LINES = 10;
     public static final int MAX_IMAGES_TO_DISPLAY = 2;
 

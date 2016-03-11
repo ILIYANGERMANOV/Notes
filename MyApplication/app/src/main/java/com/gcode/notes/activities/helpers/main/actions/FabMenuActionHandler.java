@@ -45,6 +45,9 @@ public class FabMenuActionHandler {
 
         //!NOTE: startActivityForResult() and startActivity() doesn't terminate current code execution
 
+        mainActivity.mIsFabMenuOpened = false; //set flag to false, cuz at this point menu should be close
+        //if not set by starting activity and fast screen rotation the menu will remain open
+
         //delay it, cuz if user click before animation has finished fab menu will not close
         new Handler().postDelayed(new Runnable() {
             @Override

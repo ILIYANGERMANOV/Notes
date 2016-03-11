@@ -3,9 +3,28 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="main_horizontal_key_line_1">10dp</dimen>
-    <dimen name="main_card_side_margin">6dp</dimen>
+    <!-- Main activity -->
+    <dimen name="main_container_horizontal_margin">10dp</dimen>
+    <dimen name="main_card_horizontal_margin">6dp</dimen>
 
-    <dimen name="fab_border_width">0dp</dimen>
+    <dimen name="main_container_bottom_padding">8dp</dimen>
+    <dimen name="main_card_top_margin">8dp</dimen>
+
+    <dimen name="main_fab_padding">12dp</dimen>
+
+    <!-- Note -->
+    <dimen name="note_layout_content_padding">8dp</dimen>
+    <dimen name="note_small_padding">3dp</dimen>
+    <dimen name="note_big_padding">5dp</dimen>
+    <dimen name="note_image_view_height">150dp</dimen>
+    <!-- Note -->
+
+    <!-- List -->
+
+    <!-- List -->
+
+    <!-- Main activity -->
+
+
     <dimen name="add_pic_dialog_padding">6dp</dimen>
 </resources>

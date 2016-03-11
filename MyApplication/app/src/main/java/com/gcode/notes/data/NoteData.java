@@ -1,14 +1,10 @@
 package com.gcode.notes.data;
 
-import android.content.Context;
 import android.os.Handler;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.gcode.notes.R;
 import com.gcode.notes.adapters.main.viewholders.NoteItemViewHolder;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.MyDebugger;
@@ -42,7 +38,7 @@ public class NoteData extends ContentBase {
     public NoteData(NoteData other) {
         super(other);
         description = other.description;
-        if(other.hasAttachedImage()) {
+        if (other.hasAttachedImage()) {
             attachedImagesPaths = new ArrayList<>(other.attachedImagesPaths);
         }
         attachedAudioPath = other.attachedAudioPath;
@@ -107,47 +103,66 @@ public class NoteData extends ContentBase {
         displayBase(holder.getTitleTextView(), holder.getReminderTextView()); //display title and reminder
         displayDescription(holder);
         if (hasAttachedImage()) {
-            displayAttachedImages(holder.getImagesContainer());
+            displayAttachedImages(holder.getNoteImageView());
+        } else {
+            //there is no attached image, hide note image
+            holder.getNoteImageView().setVisibility(View.GONE); //reset here for better performance
         }
         displayAudioRecord(holder.getVoiceImageView());
         displayDivider(holder.getAttributesDivider());
     }
 
+    /**
+     * Resets view holder's attributes divider and more image view.
+     * Its done here, because resetting attributes divider doesn't decrease performance
+     * and more image view should stay hidden while checking text view's lines count.
+     *
+     * @param holder view holder representing one note
+     */
     private void setHolderInDefaultState(NoteItemViewHolder holder) {
-        holder.getImagesContainer().removeAllViews(); //sets images container to default state
         holder.getAttributesDivider().setVisibility(View.GONE); //hides attribute divider cuz  by default should be hidden
         holder.getMoreImageView().setVisibility(View.GONE); //hide gone image view cuz by default should be hidden
     }
 
     private void displayDescription(final NoteItemViewHolder holder) {
         final TextView descriptionTextView = holder.getDescriptionTextView(); //get reference for easier access
-        descriptionTextView.setText(description); //set description always cuz its not done in setHolderDefaultState()
         if (hasDescription()) {
+            //note has description, display it and if needed show more image view
+            descriptionTextView.setText(description);
+            //note has description, determine description max lines and show more image if needed
+            final int maxDescriptionLinesToDisplay;
+            if (!hasAttachedImage()) {
+                maxDescriptionLinesToDisplay = Constants.MAX_DESCRIPTION_LINES_TO_DISPLAY;
+            } else {
+                //notes has attached image, make desc max lines to display lower
+                maxDescriptionLinesToDisplay = Constants.MAX_DESCRIPTION_LINES_TO_DISPLAY / 2;
+            }
+            descriptionTextView.setMaxLines(maxDescriptionLinesToDisplay); //always set it, cuz view can be reused
+
             descriptionTextView.setVisibility(View.VISIBLE);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     int linesCount = descriptionTextView.getLineCount();
                     if (linesCount != 0) {
-                        if (linesCount > Constants.MAX_DESCRIPTION_LINES_TO_DISPLAY) {
+                        if (linesCount > maxDescriptionLinesToDisplay) {
                             holder.getMoreImageView().setVisibility(View.VISIBLE);
                         }
                     } else {
                         MyDebugger.log("displayNoteOnMain linesCount not build.");
                     }
                 }
-            }, Constants.MEDIUM_DELAY);
+            }, Constants.SHORT_DELAY);
+        } else {
+            //note hasn't description, hide it
+            descriptionTextView.setVisibility(View.GONE); //reset here for better performance
         }
     }
 
-    private void displayAttachedImages(LinearLayout imagesContainer) {
-        Context context = imagesContainer.getContext();
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        for (int i = 0; i < attachedImagesPaths.size() && i < Constants.MAX_IMAGES_TO_DISPLAY; ++i) {
-            ImageView imageView = (ImageView) layoutInflater.inflate(R.layout.note_main_image_item, imagesContainer, false); //inflates image view from layout
-            imagesContainer.addView(imageView); //adds image view to container in order to display
-            PhotoUtils.loadPhoto(context, attachedImagesPaths.get(i), imageView); //makes load query with Picasso
-        }
+    private void displayAttachedImages(ImageView noteImageVIew) {
+        noteImageVIew.setVisibility(View.VISIBLE);
+        PhotoUtils.loadPhoto(noteImageVIew.getContext(),
+                attachedImagesPaths.get(0), noteImageVIew); //load 1st note attached image to display
     }
 
     private void displayDivider(View attributesDividerView) {

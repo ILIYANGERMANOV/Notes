@@ -30,11 +30,11 @@
             android:id="@+id/main_content_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="@dimen/main_horizontal_key_line_1"
-            android:layout_marginLeft="@dimen/main_horizontal_key_line_1"
-            android:layout_marginRight="@dimen/main_horizontal_key_line_1"
-            android:layout_marginStart="@dimen/main_horizontal_key_line_1"
+            android:layout_marginEnd="@dimen/main_container_horizontal_margin"
+            android:layout_marginLeft="@dimen/main_container_horizontal_margin"
+            android:layout_marginRight="@dimen/main_container_horizontal_margin"
+            android:layout_marginStart="@dimen/main_container_horizontal_margin"
+            android:paddingBottom="@dimen/main_container_bottom_padding"
             android:scrollbars="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
@@ -45,7 +45,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="There are no notes :/"
+            android:text="@string/there_are_no_notes"
             android:visibility="gone" />
 
         <com.github.clans.fab.FloatingActionMenu
@@ -53,19 +53,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom|end"
-            android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:paddingBottom="@dimen/main_fab_padding"
+            android:paddingEnd="@dimen/main_fab_padding"
+            android:paddingLeft="@dimen/main_fab_padding"
+            android:paddingRight="@dimen/main_fab_padding"
+            android:paddingStart="@dimen/main_fab_padding"
             app:menu_backgroundColor="@color/fab_menu_background"
             app:menu_colorNormal="@color/color_accent_pink"
             app:menu_colorPressed="@color/color_accent_pink_dark"
+            app:menu_fab_hide_animation="@anim/fab_hide"
+            app:menu_fab_show_animation="@anim/fab_show"
             app:menu_fab_size="normal"
             app:menu_labels_colorNormal="@color/fab_menu_labels_color_normal"
             app:menu_labels_colorPressed="@color/fab_menu_labels_color_pressed"
             app:menu_labels_ellipsize="end"
             app:menu_labels_position="left"
             app:menu_labels_singleLine="true"
-            app:menu_labels_textColor="#212121">
+            app:menu_labels_textColor="@color/fab_menu_labels_text_color">
 
             <com.github.clans.fab.FloatingActionButton
                 android:layout_width="wrap_content"

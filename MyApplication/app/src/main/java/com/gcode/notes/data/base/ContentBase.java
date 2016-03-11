@@ -128,13 +128,13 @@ public abstract class ContentBase {
         final String NEW_LINE = "\n";
 
         dateDetails += context.getString(R.string.display_last_modified_date,
-                DateUtils.formatDateTimeForDisplay(contentDetails.getLastModifiedDate())) + NEW_LINE;
+                DateUtils.formatSQLiteDateForDisplay(contentDetails.getLastModifiedDate())) + NEW_LINE;
 
         dateDetails += context.getString(R.string.display_creation_date,
-                DateUtils.formatDateTimeForDisplay(contentDetails.getCreationDate()));
+                DateUtils.formatSQLiteDateForDisplay(contentDetails.getCreationDate()));
         if (hasExpirationDate()) {
             dateDetails += NEW_LINE + context.getString(R.string.display_expiration_date,
-                    DateUtils.formatDateTimeForDisplay(contentDetails.getExpirationDate()));
+                    DateUtils.formatSQLiteDateForDisplay(contentDetails.getExpirationDate()));
         }
         return dateDetails;
     }
@@ -269,7 +269,7 @@ public abstract class ContentBase {
         if (hasReminder()) {
             //there is reminder, format it for display and show it
             reminderTextView.setVisibility(View.VISIBLE);
-            reminderTextView.setText(DateUtils.formatDateTimeForDisplay(reminder)); //reminder is in SQLite format
+            reminderTextView.setText(DateUtils.formatSQLiteDateForReminder(reminder)); //reminder is in SQLite format
         } else {
             //there is no reminder, hide reminderTextView
             reminderTextView.setVisibility(View.GONE);

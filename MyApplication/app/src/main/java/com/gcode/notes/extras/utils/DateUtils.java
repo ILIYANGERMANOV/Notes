@@ -15,10 +15,10 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 public class DateUtils {
-    private static final String SQL_LITE_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    private static final String DEFAULT_DISPLAY_FORMAT = "dd-MM-yyyy HH:mm";
-
     public static final int EXPIRATION_DAYS = 7;
+    //TODO: REFACTOR and Optimize memory (simple date format is created more times than needed) AND REDUNDANCY
+    private static final String SQL_LITE_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private static final String DEFAULT_DISPLAY_FORMAT = "dd-MM-yyyy, HH:mm";
 
     public static String getExpirationDate() {
         Calendar calendar = GregorianCalendar.getInstance();
@@ -27,7 +27,7 @@ public class DateUtils {
         return formatDateInSQLiteFormat(calendar.getTime());
     }
 
-    public static String formatDateTimeForDisplay(String sqliteDateString) {
+    public static String formatSQLiteDateForDisplay(String sqliteDateString) {
         String localePattern;
 
         final DateFormat localeDateFormat = android.text.format.DateFormat.getDateFormat(MyApplication.getAppContext());
@@ -44,18 +44,32 @@ public class DateUtils {
         }
 
         SimpleDateFormat sqliteSimpleDateFormat = new SimpleDateFormat(SQL_LITE_DATE_FORMAT, Locale.US);
-        Date date;
-        try {
-            //trying to parse date in database with SQL_LITE_DATE_FORMAT
-            date = sqliteSimpleDateFormat.parse(sqliteDateString);
-        } catch (ParseException e) {
-            //parsing has failed, create new dummy date
-            e.printStackTrace();
-            MyDebugger.log("formatDateTimeForDisplay", e.getMessage());
-            date = new Date();
-        }
+        Date date = getDateFromSQLiteString(sqliteSimpleDateFormat, sqliteDateString);
         sqliteSimpleDateFormat.applyPattern(localePattern);
         return sqliteSimpleDateFormat.format(date);
+    }
+
+    public static String formatSQLiteDateForReminder(String sqliteDateString) {
+        SimpleDateFormat sqliteSimpleDateFormat = new SimpleDateFormat(SQL_LITE_DATE_FORMAT, Locale.US);
+        Date date = getDateFromSQLiteString(sqliteSimpleDateFormat, sqliteDateString);
+
+        String dateFormat = "d MMMM";
+        Calendar calendar = Calendar.getInstance();
+        int currentYear = calendar.get(Calendar.YEAR);
+        calendar.setTime(date);
+        int remindersYear = calendar.get(Calendar.YEAR);
+        try {
+            //try to get current year, and if reminder is for next year show it the date format
+            if (remindersYear != currentYear) {
+                dateFormat += " y";
+            }
+        } catch (Exception ex) {
+            //not very crucial exception, log it and continue
+            MyDebugger.log("formatDate() exception while getting current year", ex.getMessage());
+        }
+        dateFormat += ", HH:mm";
+
+        return new SimpleDateFormat(dateFormat, Locale.getDefault()).format(date).toLowerCase(); //format date with specific pattern
     }
 
     @SuppressWarnings("deprecation")
@@ -135,6 +149,20 @@ public class DateUtils {
             //exception while parsing date, log it
             MyDebugger.log("ParseException in parseDateFromSQLiteFormat()", e.getMessage());
             e.printStackTrace();
+        }
+        return date;
+    }
+
+    private static Date getDateFromSQLiteString(SimpleDateFormat sqliteDateFormat, String sqliteDateString) {
+        Date date;
+        try {
+            //trying to parse date in database with SQL_LITE_DATE_FORMAT
+            date = sqliteDateFormat.parse(sqliteDateString);
+        } catch (ParseException e) {
+            //parsing has failed, create new dummy date
+            e.printStackTrace();
+            MyDebugger.log("formatSQLiteDateForDisplay", e.getMessage());
+            date = new Date();
         }
         return date;
     }
