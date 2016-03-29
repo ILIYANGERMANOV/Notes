@@ -66,14 +66,14 @@ public class DisplayBaseActivity extends AppCompatActivity {
     public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
         super.startActivityForResult(intent, requestCode, options);
         if (requestCode == Constants.COMPOSE_NOTE_REQUEST_CODE) {
-            overridePendingTransition(R.anim.slide_in_top, 0);
+            overridePendingTransition(R.anim.slide_in_right, 0);
         }
     }
 
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(0, R.anim.slide_out_bottom);
+        overridePendingTransition(0, R.anim.slide_out_right);
     }
 
     public void displayBase(final ContentBase contentBase) {

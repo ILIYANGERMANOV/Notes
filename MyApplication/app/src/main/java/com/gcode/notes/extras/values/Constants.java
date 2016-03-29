@@ -8,8 +8,8 @@ public class Constants {
     public static final int GRID_COLUMNS_COUNT = 2;
 
     public static final int COMPOSE_NOTE_REQUEST_CODE = 1;
-    public static final int LIST_FROM_DISPLAY_REQUEST_CODE = 2;
-    public static final int NOTE_FROM_DISPLAY_REQUEST_CODE = 3;
+    public static final int DISPLAY_LIST_REQUEST_CODE = 2;
+    public static final int DISPLAY_NOTE_REQUEST_CODE = 3;
     public static final int REQUEST_TAKE_PHOTO = 4;
     public static final int REQUEST_OPEN_GALLERY = 5;
     public static final int OPEN_PHOTO_IN_GALLERY_REQ_CODE = 6;

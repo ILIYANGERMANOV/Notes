@@ -10,11 +10,9 @@
     <!-- Application Theme -->
 
     <!-- FAB Menu -->
-    <color name="fab_menu_labels_text_color">#212121</color>
-    <color name="fab_menu_background">#ccffffff</color>
-    <!-- 200 -->
+    <color name="fab_menu_background">#CCFFFFFF</color>
+    <color name="fab_menu_labels_text_color">#000000</color>
     <color name="fab_menu_labels_color_normal">#EEEEEE</color>
-    <!-- 500 -->
     <color name="fab_menu_labels_color_pressed">#9E9E9E</color>
     <!-- FAB Menu -->
 

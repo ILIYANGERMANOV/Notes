@@ -24,9 +24,8 @@ public class NoteItemOnClickListener extends BaseItemListener {
 
     @Override
     public void onClick(View v) {
-        if (mDisabled || mIsAnimating)
+        if (mDisabled)
             return; //if disabled prevent further execution (stop click event)
-        super.onClick(v); //call base method to animate click
 
         Intent intent;
         switch (BaseController.getInstance().getControllerId()) {
@@ -46,6 +45,6 @@ public class NoteItemOnClickListener extends BaseItemListener {
         }
 
         intent.putExtra(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(mNoteData));
-        performAnimationAndStartActivity(v, intent, Constants.NOTE_FROM_DISPLAY_REQUEST_CODE);
+        mActivity.startActivityForResult(intent, Constants.DISPLAY_NOTE_REQUEST_CODE);
     }
 }

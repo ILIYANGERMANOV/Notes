@@ -76,12 +76,7 @@ public class ComposeBaseActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-        if (mIsOpenedInEditMode) {
-            overridePendingTransition(0, R.anim.slide_out_top);
-        } else {
-            overridePendingTransition(0, R.anim.slide_out_right);
-        }
-
+        overridePendingTransition(0, R.anim.slide_out_right);
     }
 
 

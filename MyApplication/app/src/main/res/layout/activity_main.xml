@@ -67,9 +67,11 @@
             app:menu_labels_colorNormal="@color/fab_menu_labels_color_normal"
             app:menu_labels_colorPressed="@color/fab_menu_labels_color_pressed"
             app:menu_labels_ellipsize="end"
+            app:menu_labels_margin="@dimen/main_fab_menu_labels_margin"
             app:menu_labels_position="left"
             app:menu_labels_singleLine="true"
-            app:menu_labels_textColor="@color/fab_menu_labels_text_color">
+            app:menu_labels_textColor="@color/fab_menu_labels_text_color"
+            app:menu_labels_textSize="@dimen/main_fab_menu_labels_text_size">
 
             <com.github.clans.fab.FloatingActionButton
                 android:layout_width="wrap_content"

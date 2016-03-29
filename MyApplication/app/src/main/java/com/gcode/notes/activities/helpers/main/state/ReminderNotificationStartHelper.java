@@ -83,7 +83,7 @@ public class ReminderNotificationStartHelper implements AuthenticationCallbacks,
         if (displayActivityIntent != null) {
             //IntentBuilder has successfully built intent, start it
             int requestCode = contentBase.getType() == Constants.TYPE_NOTE ? //set requestCode according contentBase type
-                    Constants.NOTE_FROM_DISPLAY_REQUEST_CODE : Constants.LIST_FROM_DISPLAY_REQUEST_CODE;
+                    Constants.DISPLAY_NOTE_REQUEST_CODE : Constants.DISPLAY_LIST_REQUEST_CODE;
 
             mMainActivity.startActivityForResult(displayActivityIntent, requestCode);
         }

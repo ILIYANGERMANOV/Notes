@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:visibility="visible">
+    android:orientation="vertical">
 
     <View
         android:id="@+id/attributes_divider"
@@ -13,7 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/note_small_padding"
+        android:layout_marginTop="@dimen/item_small_margin"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -30,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_reminder_main_12dp"
-            android:drawablePadding="@dimen/note_small_padding"
+            android:drawablePadding="@dimen/item_small_margin"
             android:drawableStart="@drawable/ic_reminder_main_12dp"
             android:gravity="center_vertical"
             android:visibility="gone" />

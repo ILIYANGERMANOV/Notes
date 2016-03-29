@@ -24,13 +24,13 @@ public class MainActivityResultHandler {
             if (data != null) {
                 //result from compose/display activity
                 switch (requestCode) {
-                    case Constants.LIST_FROM_DISPLAY_REQUEST_CODE:
+                    case Constants.DISPLAY_LIST_REQUEST_CODE:
                         handleListFromDisplay(data);
                         break;
                     case Constants.COMPOSE_NOTE_REQUEST_CODE:
                         handleComposeResult(data);
                         break;
-                    case Constants.NOTE_FROM_DISPLAY_REQUEST_CODE:
+                    case Constants.DISPLAY_NOTE_REQUEST_CODE:
                         handleNoteFromDisplay(data);
                         break;
                     case Constants.REQUEST_OPEN_GALLERY:

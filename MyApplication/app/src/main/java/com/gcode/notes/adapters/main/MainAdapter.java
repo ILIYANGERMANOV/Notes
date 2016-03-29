@@ -11,6 +11,7 @@ import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.adapters.main.viewholders.BaseItemViewHolder;
 import com.gcode.notes.adapters.main.viewholders.ListItemViewHolder;
 import com.gcode.notes.adapters.main.viewholders.NoteItemViewHolder;
+import com.gcode.notes.adapters.main.viewholders.listeners.BaseItemListener;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
@@ -284,6 +285,17 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
         mData.addAll(newData);
         notifyDataSetChanged();
         checkForEmptyState();
+    }
+
+    public void setListenersDisabled(boolean disabled) {
+        for (int i = 0; i < mRecyclerView.getChildCount(); ++i) {
+            View childView = mRecyclerView.getChildAt(i);
+            BaseItemListener baseItemListener =
+                    ((BaseItemViewHolder) mRecyclerView.getChildViewHolder(childView)).getItemBaseListener();
+            if (baseItemListener != null) {
+                baseItemListener.setDisabled(disabled);
+            }
+        }
     }
 
     private void checkForEmptyState() {

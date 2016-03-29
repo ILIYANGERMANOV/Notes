@@ -46,7 +46,7 @@
     <string name="compose_list_done_tasks_caption">Done</string>
     <string name="compose_list_todo_tasks_caption">Todo</string>
     <string name="star_button_content_description">Star button</string>
-    <string name="more_image_view_content_desc">There are more to show image view.</string>
+    <string name="more_image_view_content_desc">There is more to show image view.</string>
     <string name="restore_note_dialog_title">Restore note?</string>
     <string name="restore_note_dialog_content">Note will restore its previous state.</string>
     <string name="restore_note_dialog_agree">Restore</string>

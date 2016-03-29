@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="7dp">
+        android:padding="@dimen/main_item_content_padding">
 
         <include
             android:id="@+id/note_title_text_view"
@@ -22,25 +22,19 @@
             android:id="@+id/list_item_container_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/item_small_margin"
             android:orientation="vertical" />
 
-        <ImageView
+        <include
             android:id="@+id/note_more_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:contentDescription="@string/more_image_view_content_desc"
-            android:src="@drawable/ic_more_horiz_14dp"
-            android:visibility="gone" />
+            layout="@layout/item_more_image_view" />
 
         <include
             android:id="@+id/list_attributes_layout"
             layout="@layout/note_attributes_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="@dimen/item_big_margin" />
 
     </LinearLayout>
 

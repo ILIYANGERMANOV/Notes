@@ -10,9 +10,9 @@
     android:layout_marginRight="2dp"
     android:layout_marginStart="2dp"
     android:background="?attr/selectableItemBackground"
-    android:drawableLeft="@drawable/my_choice_indicator"
+    android:drawableLeft="@drawable/display_checkbox"
     android:drawablePadding="3dp"
-    android:drawableStart="@drawable/my_choice_indicator"
+    android:drawableStart="@drawable/display_checkbox"
     android:gravity="center_vertical"
     android:minHeight="30dp"
     android:text="@string/placeholder_medium" />

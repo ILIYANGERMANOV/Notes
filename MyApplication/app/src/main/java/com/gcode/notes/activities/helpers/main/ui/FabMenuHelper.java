@@ -1,13 +1,10 @@
 package com.gcode.notes.activities.helpers.main.ui;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.activities.helpers.main.ui.listeners.FabMenuOnMenuToggleListener;
 import com.gcode.notes.activities.helpers.main.ui.listeners.FabMenuOnTouchListener;
-import com.gcode.notes.adapters.main.viewholders.BaseItemViewHolder;
-import com.gcode.notes.adapters.main.viewholders.listeners.BaseItemListener;
 import com.github.clans.fab.FloatingActionMenu;
 
 public class FabMenuHelper {
@@ -30,7 +27,7 @@ public class FabMenuHelper {
                 if (!fabMenu.isOpened()) {
                     //menu is closed atm, so after toggle it will start opening, disable listeners
                     setTouchListenerFlagsUp();
-                    setRecyclerViewListenersDisabled(mainActivity.getRecyclerView(), true);
+                    mainActivity.mMainAdapter.setListenersDisabled(true);
                 } else {
                     //menu is opened atm, so after click will be closed,
                     // set touch listeners flags so it won't consume the event
@@ -45,17 +42,6 @@ public class FabMenuHelper {
             fabMenu.open(false); //without animation cuz it should look like it was never closed
         }
         fabMenu.setOnMenuToggleListener(new FabMenuOnMenuToggleListener(mainActivity)); //toggle mIsFabMenuOpened
-    }
-
-    public static void setRecyclerViewListenersDisabled(RecyclerView recyclerView, boolean disabled) {
-        for (int i = 0; i < recyclerView.getChildCount(); ++i) {
-            View childView = recyclerView.getChildAt(i);
-            BaseItemViewHolder baseItemViewHolder = (BaseItemViewHolder) recyclerView.getChildViewHolder(childView);
-            BaseItemListener baseItemListener = baseItemViewHolder.getItemBaseListener();
-            if (baseItemListener != null) {
-                baseItemListener.setDisabled(disabled);
-            }
-        }
     }
 
     /**

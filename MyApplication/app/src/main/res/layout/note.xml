@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="@dimen/note_layout_content_padding">
+        android:padding="@dimen/main_item_content_padding">
 
         <include
             android:id="@+id/note_title_text_view"
@@ -21,7 +21,7 @@
             android:id="@+id/note_image_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/note_image_view_height"
-            android:layout_marginTop="@dimen/note_small_padding"
+            android:layout_marginTop="@dimen/item_small_margin"
             android:contentDescription="@string/attached_image_desc"
             android:scaleType="centerCrop"
             android:visibility="gone" />
@@ -31,25 +31,20 @@
             style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/note_small_padding"
+            android:layout_marginTop="@dimen/item_small_margin"
             android:gravity="top"
             android:visibility="gone" />
 
-        <ImageView
+        <include
             android:id="@+id/note_more_image_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:contentDescription="@string/more_image_view_content_desc"
-            android:src="@drawable/ic_more_horiz_14dp"
-            android:visibility="gone" />
+            layout="@layout/item_more_image_view" />
 
         <include
             android:id="@+id/note_attributes_layout"
             layout="@layout/note_attributes_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/note_big_padding" />
+            android:layout_marginTop="@dimen/item_big_margin" />
 
     </LinearLayout>
 

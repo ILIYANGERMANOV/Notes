@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.adapters.main.viewholders.listeners.BaseItemListener;
 import com.gcode.notes.adapters.main.viewholders.listeners.NoteItemOnClickListener;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
@@ -23,24 +22,18 @@ import butterknife.ButterKnife;
 public class NoteItemViewHolder extends BaseItemViewHolder {
     @Bind(R.id.note_description_text_view)
     TextView mContentTextView;
-
     @Bind(R.id.note_image_view)
     ImageView mNoteImageView;
-
     @Bind(R.id.voice_image_view)
     ImageView mVoiceImageView;
-
-    Handler mHandler;
-
-    NoteItemOnClickListener mNoteItemOnClickListener;
     Runnable mSetOnClickListener = new Runnable() {
         @Override
         public void run() {
             int itemPosition = getAdapterPosition();
             if (itemPosition != RecyclerView.NO_POSITION) {
                 NoteData noteData = (NoteData) mData.get(itemPosition);
-                mNoteItemOnClickListener = new NoteItemOnClickListener(mActivity, noteData);
-                itemView.setOnClickListener(mNoteItemOnClickListener);
+                mBaseItemListener = new NoteItemOnClickListener(mActivity, noteData);
+                itemView.setOnClickListener(mBaseItemListener);
                 stopRepeatingTask();
                 return;
             }
@@ -53,11 +46,6 @@ public class NoteItemViewHolder extends BaseItemViewHolder {
         ButterKnife.bind(this, itemView);
         mHandler = new Handler();
         startRepeatingTask();
-    }
-
-    @Override
-    public BaseItemListener getItemBaseListener() {
-        return mNoteItemOnClickListener;
     }
 
     void startRepeatingTask() {
