@@ -1,8 +1,8 @@
 package com.gcode.notes.adapters.main.viewholders;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -63,12 +63,14 @@ public abstract class BaseItemViewHolder extends RecyclerView.ViewHolder impleme
 
     @Override
     public void onItemSelected() {
-        ((CardView) itemView).setCardBackgroundColor(Color.LTGRAY);
+        ((CardView) itemView).setCardBackgroundColor(
+                ContextCompat.getColor(mActivity, R.color.card_view_background_selected));
     }
 
     @Override
     public void onItemClear() {
-        ((CardView) itemView).setCardBackgroundColor(Color.WHITE);
+        ((CardView) itemView).setCardBackgroundColor(
+                ContextCompat.getColor(mActivity, R.color.card_view_background));
     }
 
     public abstract void setStartState();

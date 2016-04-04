@@ -15,7 +15,7 @@ public class DisplayBasePrivateOptionsHelper {
                 ActionExecutor.unlockNote(displayBaseActivity, contentBase);
                 return true;
             case R.id.action_delete_private_note:
-                ActionExecutor.deletePrivateNote(displayBaseActivity, contentBase);
+                ActionExecutor.deletePrivateNoteFromDisplay(displayBaseActivity, contentBase);
                 return true;
         }
         return false;

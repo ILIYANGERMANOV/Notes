@@ -31,6 +31,8 @@
     <!-- List -->
     <!-- Items -->
 
+    <dimen name="main_empty_view_drawable_padding">16dp</dimen>
+    <dimen name="main_empty_view_padding">32dp</dimen>
     <!-- Main activity -->
 
 

@@ -8,7 +8,6 @@ import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
-import com.gcode.notes.motions.MyAnimator;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.tasks.async.main.RemoveItemFromMainTask;
 
@@ -32,16 +31,9 @@ public class NoteDeletedSnackbarCallback extends Snackbar.Callback {
     }
 
     @Override
-    public void onShown(Snackbar snackbar) {
-        MyAnimator.translateFabButtonUp(mAdapter.getMainActivity().getFabMenu(), snackbar.getView().getHeight());
-    }
-
-    @Override
     public void onDismissed(Snackbar snackbar, int event) {
         if (!mOnDismissedCalled) {
             //onDismissed is called multiple times
-
-            MyAnimator.translateFabButtonDown(mAdapter.getMainActivity().getFabMenu());
 
             mOnDismissedCalled = true;
             if (!mNoteDeletedUndoOnClickListener.undoTriggered()) {

@@ -69,7 +69,6 @@
     <string name="open_image_progress_dialog_title">Opening image</string>
     <string name="open_image_progress_dialog_content">Opening image with default gallery app.</string>
 
-    <string name="main_to_display_transition_name">main_to_display</string>
 
     <string name="display_reminder_text_and_date">Reminder: %s</string>
     <string name="display_location_string">Location: %s</string>
@@ -127,7 +126,11 @@
     <string name="action_delete_forever">Delete note forever</string>
     <string name="action_restore_deleted">Restore note</string>
     <string name="private_note_deleted_due_to_wrong_pass">Private note deleted due to security actions.</string>
-    <string name="there_are_no_notes">There are no notes :/</string>
+
+    <string name="all_notes_empty_view_text">There are no notes, yet :/\nTap the floating button to fix it!</string>
+    <string name="starred_empty_view_text">There no notes with star, yet :/</string>
+    <string name="private_empty_view_text">There no private notes, yet :/</string>
+    <string name="bin_empty_view_text">Hurray! Bin is empty :)</string>
 
 
 </resources>

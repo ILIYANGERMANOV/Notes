@@ -9,12 +9,12 @@ import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.notes.MyApplication;
 
-public class DeletePrivateNoteCallback implements MaterialDialog.SingleButtonCallback {
+public class DeletePrivateNoteFromDisplayCallback implements MaterialDialog.SingleButtonCallback {
 
     DisplayBaseActivity mDisplayBaseActivity;
     ContentBase mContentBase;
 
-    public DeletePrivateNoteCallback(DisplayBaseActivity displayBaseActivity, ContentBase contentBase) {
+    public DeletePrivateNoteFromDisplayCallback(DisplayBaseActivity displayBaseActivity, ContentBase contentBase) {
         mDisplayBaseActivity = displayBaseActivity;
         mContentBase = contentBase;
     }

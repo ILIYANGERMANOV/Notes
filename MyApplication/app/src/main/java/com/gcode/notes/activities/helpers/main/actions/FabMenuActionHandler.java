@@ -15,7 +15,7 @@ import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.ui.helpers.DialogBuilder;
 
 public class FabMenuActionHandler {
-    //TODO: REFACTOR
+    //TODO: REFACTOR AND OPTIMIZE (replace tags with constants)
 
     public static void handleItemClick(final MainActivity mainActivity, View itemView) {
         if (itemView.getTag() == null) return; //secure that view has tag
@@ -52,7 +52,7 @@ public class FabMenuActionHandler {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mainActivity.getFabMenu().close(false); //click event consumed, close fab menu
+                mainActivity.getFabMenu().close(true); //click event consumed, close fab menu
                 FabMenuHelper.setTouchListenerFlagsDown(); //so click not consumed bug won't appear
             }
         }, Constants.DELAY_SO_USER_CAN_SEE);

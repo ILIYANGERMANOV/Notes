@@ -8,6 +8,7 @@ import com.gcode.notes.activities.display.list.DisplayListBaseActivity;
 import com.gcode.notes.activities.helpers.display.list.DisplayListBaseResultHandler;
 import com.gcode.notes.activities.helpers.display.list.editable.DisplayListEditableMenuOptionsHelper;
 import com.gcode.notes.activities.helpers.display.list.editable.DisplayListEditableResultHandler;
+import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.tasks.async.display.UpdateListAttributesTask;
 
 public class DisplayListEditableActivity extends DisplayListBaseActivity {
@@ -26,7 +27,7 @@ public class DisplayListEditableActivity extends DisplayListBaseActivity {
 
     @Override
     protected void onStop() {
-        if (mListData.getHasAttributesFlag() && !mPreventOnStopSave) {
+        if (mListData.getHasAttributesFlag() && !mPreventOnStopSave && mListData.getMode() != Constants.MODE_DELETED_FOREVER) {
             //list has attributes, save tasks changes (ticked/unticked) to database
             if (!mFinishCalled) {
                 mListData.setList(mListDataItems);

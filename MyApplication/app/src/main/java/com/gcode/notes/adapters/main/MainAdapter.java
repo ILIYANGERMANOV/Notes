@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
@@ -12,6 +13,7 @@ import com.gcode.notes.adapters.main.viewholders.BaseItemViewHolder;
 import com.gcode.notes.adapters.main.viewholders.ListItemViewHolder;
 import com.gcode.notes.adapters.main.viewholders.NoteItemViewHolder;
 import com.gcode.notes.adapters.main.viewholders.listeners.BaseItemListener;
+import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
@@ -33,7 +35,7 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
     private RecyclerView mRecyclerView;
     private LayoutInflater mInflater;
 
-    private View mEmptyView;
+    private TextView mEmptyView;
     private boolean mEmptyViewVisible;
     private int mLastAnimatedPosition = -1;
     private boolean mAnimate = true;
@@ -251,7 +253,7 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
 
     @Override
     public void onItemDismissUnrecoverable(int position) {
-        ActionExecutor.deleteNotePermanently(mMainActivity, this, mData.get(position), position);
+        ActionExecutor.deleteNotePermanently(mMainActivity, mData.get(position), position);
         removeItem(position);
     }
 
@@ -298,7 +300,7 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
         }
     }
 
-    private void checkForEmptyState() {
+    public void checkForEmptyState() {
         if (getItemCount() == 0) {
             showEmptyView();
         } else {
@@ -306,13 +308,19 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
         }
     }
 
-    private void showEmptyView() {
+    public void showEmptyView() {
+        //Don't check if already shown, cuz text can change but view visibility isn't necessary new value
         mEmptyView.setVisibility(View.VISIBLE);
+        BaseController.getInstance().setupEmptyView(mEmptyView);
+        MyAnimator.startAnimationOnView(mMainActivity, mEmptyView, R.anim.fade_in_empty_view);
         mEmptyViewVisible = true;
     }
 
-    private void hideEmptyView() {
-        mEmptyView.setVisibility(View.GONE);
-        mEmptyViewVisible = false;
+    public void hideEmptyView() {
+        if (mEmptyView.getVisibility() != View.GONE) {
+            mEmptyView.setVisibility(View.GONE);
+            MyAnimator.startAnimationOnView(mMainActivity, mEmptyView, R.anim.fade_out_empty_view);
+            mEmptyViewVisible = false;
+        }
     }
 }

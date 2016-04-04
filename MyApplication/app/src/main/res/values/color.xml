@@ -9,6 +9,12 @@
     <color name="color_accent_pink_dark">#C51162</color>
     <!-- Application Theme -->
 
+    <!-- Main activity -->
+
+    <!-- Toolbar Theme -->
+    <color name="toolbar_text_color_primary">#FFFFFF</color>
+    <!-- Toolbar Theme -->
+
     <!-- FAB Menu -->
     <color name="fab_menu_background">#CCFFFFFF</color>
     <color name="fab_menu_labels_text_color">#000000</color>
@@ -16,11 +22,13 @@
     <color name="fab_menu_labels_color_pressed">#9E9E9E</color>
     <!-- FAB Menu -->
 
-    <!-- Toolbar Theme -->
-    <color name="toolbar_text_color_primary">#FFFFFF</color>
-    <!-- Toolbar Theme -->
-
+    <!-- CardView -->
     <color name="card_view_background">#FFFFFF</color>
+    <color name="card_view_background_selected">#E0E0E0</color>
+    <!-- CardView -->
+
+    <!-- Main activity -->
+
     <color name="link_color">#05C5CF</color>
     <color name="image_placeholder_color">#F5F5F5</color>
     <color name="not_valid_red">#F44336</color>

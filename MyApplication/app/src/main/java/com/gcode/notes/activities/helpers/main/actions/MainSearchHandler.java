@@ -118,7 +118,7 @@ public class MainSearchHandler implements SearchView.OnQueryTextListener,
 
                 if (itemId == currentItem.getId()) {
                     //item already exists in that list no need to add it, return;
-                    MyDebugger.log("hurray");
+                    MyDebugger.log("MainSearchHandler: item already exists in list.");
                     return;
                 }
 

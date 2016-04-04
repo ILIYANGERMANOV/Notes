@@ -40,6 +40,7 @@ public class Constants {
     public static final int MODE_PRIVATE = 3;
     public static final int MODE_DELETED_NORMAL = 4;
     public static final int MODE_DELETED_IMPORTANT = 5;
+    public static final int MODE_DELETED_FOREVER = 6;
 
     public static final int CONTROLLER_ALL_NOTES = 1;
     public static final int CONTROLLER_IMPORTANT = 2;
@@ -91,7 +92,7 @@ public class Constants {
     public static final int MAX_IMAGES_TO_DISPLAY = 2;
 
     public static final String NOTES_FOLDER_NAME = "Notes";
-    public static final String RECORDS_FOLDER_NAME = "Voice records";
+    public static final String RECORDS_FOLDER_NAME = ".voice_records";
 
     public static final int MAX_TRIES_TO_RESOLVE = 3;
 
