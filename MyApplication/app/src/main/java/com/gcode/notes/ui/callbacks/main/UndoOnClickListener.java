@@ -9,14 +9,14 @@ import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.tasks.async.main.UndoNoteDeletionTask;
 
 
-public class NoteDeletedUndoOnClickListener implements View.OnClickListener {
+public class UndoOnClickListener implements View.OnClickListener {
     //TODO: REFACTOR AND OPTIMIZE
     boolean mUndo;
 
     int mPosition;
     ContentBase mNote;
 
-    public NoteDeletedUndoOnClickListener(int position, ContentBase note) {
+    public UndoOnClickListener(int position, ContentBase note) {
         mPosition = position;
         mNote = note;
     }

@@ -10,7 +10,6 @@ import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
 import com.gcode.notes.activities.display.DisplayBaseActivity;
 import com.gcode.notes.adapters.list.compose.BaseComposeContainerAdapter;
 import com.gcode.notes.adapters.list.compose.listeners.ListItemDeletedUndoOnClickListener;
-import com.gcode.notes.adapters.main.MainAdapter;
 import com.gcode.notes.adapters.note.compose.ComposeNoteImagesAdapter;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.ui.callbacks.bin.DeleteNoteFromDisplayBinCallback;
@@ -24,21 +23,21 @@ import com.gcode.notes.ui.callbacks.display.DeletePrivateNoteFromDisplayCallback
 import com.gcode.notes.ui.callbacks.display.LockNoteCallback;
 import com.gcode.notes.ui.callbacks.display.UnlockNoteCallback;
 import com.gcode.notes.ui.callbacks.main.NoteDeletedSnackbarCallback;
-import com.gcode.notes.ui.callbacks.main.NoteDeletedUndoOnClickListener;
+import com.gcode.notes.ui.callbacks.main.UndoOnClickListener;
 import com.gcode.notes.ui.helpers.DialogBuilder;
 import com.gcode.notes.ui.helpers.SnackbarHelper;
 
 public class ActionExecutor {
     //TODO: REFACTOR AND OPTIMIZE
 
-    public static void popNoteDeletedSnackbar(MainAdapter adapter, int position, ContentBase note) {
+    public static void popNoteDeletedSnackbar(MainActivity mainActivity, int position, ContentBase note) {
 
-        NoteDeletedUndoOnClickListener undoOnClickListener =
-                new NoteDeletedUndoOnClickListener(position, note);
+        UndoOnClickListener undoOnClickListener =
+                new UndoOnClickListener(position, note);
         Snackbar.Callback snackbarCallback =
-                new NoteDeletedSnackbarCallback(adapter, note, position, undoOnClickListener);
+                new NoteDeletedSnackbarCallback(mainActivity, note, position, undoOnClickListener);
 
-        Snackbar snackbar = SnackbarHelper.buildNoteDeletedSnackbar(adapter.getRootView(),
+        Snackbar snackbar = SnackbarHelper.buildNoteDeletedSnackbar(mainActivity.getCoordinatorLayout(),
                 undoOnClickListener, snackbarCallback);
         snackbar.show();
     }

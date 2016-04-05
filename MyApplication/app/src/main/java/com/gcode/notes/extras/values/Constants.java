@@ -102,5 +102,7 @@ public class Constants {
     public static final int LONG_DELAY = 250;
     public static final int DELAY_SO_USER_CAN_SEE = 300;
 
+    public static final float VIEWS_FADED_ALPHA = 0.4f;
+
     public static final long LOCATION_VALID_TIME = 900000;
 }

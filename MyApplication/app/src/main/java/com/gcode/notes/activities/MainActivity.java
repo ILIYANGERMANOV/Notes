@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -215,6 +216,16 @@ public class MainActivity extends AppCompatActivity {
     public void fabMenuItemClicked(View view) {
         if (mFabMenuClickEnabled)
             FabMenuActionHandler.handleItemClick(this, view);
+    }
+
+    public void setContentAlpha(float alpha, boolean animate) {
+        if (animate) {
+            ViewCompat.animate(mRecyclerView).alpha(alpha);
+            ViewCompat.animate(mToolbar).alpha(alpha);
+        } else {
+            mRecyclerView.setAlpha(alpha);
+            mToolbar.setAlpha(alpha);
+        }
     }
 
     private void setListenersForRequestDisabled(int requestCode, boolean disabled) {

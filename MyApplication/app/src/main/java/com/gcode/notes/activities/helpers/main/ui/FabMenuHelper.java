@@ -5,6 +5,7 @@ import android.view.View;
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.activities.helpers.main.ui.listeners.FabMenuOnMenuToggleListener;
 import com.gcode.notes.activities.helpers.main.ui.listeners.FabMenuOnTouchListener;
+import com.gcode.notes.extras.values.Constants;
 import com.github.clans.fab.FloatingActionMenu;
 
 public class FabMenuHelper {
@@ -18,7 +19,7 @@ public class FabMenuHelper {
     public static void setupFabMenu(final MainActivity mainActivity) {
         final FloatingActionMenu fabMenu = mainActivity.getFabMenu(); //reference for easier access
 
-        fabMenu.setOnTouchListener(new FabMenuOnTouchListener(fabMenu)); //closes fab menu on touch
+        fabMenu.setOnTouchListener(new FabMenuOnTouchListener(mainActivity)); //closes fab menu on touch
 
         fabMenu.setOnMenuButtonClickListener(new View.OnClickListener() {
             @Override
@@ -28,10 +29,12 @@ public class FabMenuHelper {
                     //menu is closed atm, so after toggle it will start opening, disable listeners
                     setTouchListenerFlagsUp();
                     mainActivity.mMainAdapter.setListenersDisabled(true);
+                    mainActivity.setContentAlpha(Constants.VIEWS_FADED_ALPHA, true);
                 } else {
                     //menu is opened atm, so after click will be closed,
                     // set touch listeners flags so it won't consume the event
                     setTouchListenerFlagsDown();
+                    mainActivity.setContentAlpha(1f, true);
                 }
                 fabMenu.toggle(true); //handle fab button click (toggle fab menu)
             }

@@ -1,9 +1,10 @@
 package com.gcode.notes.ui.callbacks.main;
 
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewCompat;
 
 import com.gcode.notes.R;
-import com.gcode.notes.adapters.main.MainAdapter;
+import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.MyDebugger;
@@ -12,31 +13,36 @@ import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.tasks.async.main.RemoveItemFromMainTask;
 
 public class NoteDeletedSnackbarCallback extends Snackbar.Callback {
-    //TODO: REFACTOR AND OPTIMIZE
-    MainAdapter mAdapter;
+    //TODO: REFACTOR AND OPTIMIZE (optimize FABBehaviour and translate to 0 animation used for security)
+
+    MainActivity mMainActivity;
     ContentBase mNote;
     int mPosition;
-    NoteDeletedUndoOnClickListener mNoteDeletedUndoOnClickListener;
+    UndoOnClickListener mUndoOnClickListener;
 
     boolean mOnDismissedCalled; //onDismissed is called multiple times (bug in snackbar),
     //this flag is used to prevent this
 
-    public NoteDeletedSnackbarCallback(MainAdapter adapter, ContentBase note,
-                                       int position, NoteDeletedUndoOnClickListener noteDeletedUndoOnClickListener) {
+    public NoteDeletedSnackbarCallback(MainActivity mainActivity, ContentBase note,
+                                       int position, UndoOnClickListener undoOnClickListener) {
 
-        mAdapter = adapter;
+        mMainActivity = mainActivity;
         mNote = note;
         mPosition = position;
-        mNoteDeletedUndoOnClickListener = noteDeletedUndoOnClickListener;
+        mUndoOnClickListener = undoOnClickListener;
     }
 
     @Override
     public void onDismissed(Snackbar snackbar, int event) {
         if (!mOnDismissedCalled) {
             //onDismissed is called multiple times
-
             mOnDismissedCalled = true;
-            if (!mNoteDeletedUndoOnClickListener.undoTriggered()) {
+
+            //!NOTE: here to secure bug with FABBehaviour where for some unknown reason fab wasn't translated to original pos
+            ViewCompat.animate(mMainActivity.getFabMenu()).
+                    translationY(0);
+
+            if (!mUndoOnClickListener.undoTriggered()) {
                 //undo not triggered ready to delete
                 if (MyApplication.getWritableDatabase().deleteNote(mNote)) {
                     //note deleted successfully
@@ -54,7 +60,7 @@ public class NoteDeletedSnackbarCallback extends Snackbar.Callback {
                 } else {
                     //failed to delete note, revert it back
                     MyDebugger.log("Failed to send note to recycler bin!");
-                    mAdapter.addItem(mPosition, mNote);
+                    mMainActivity.mMainAdapter.addItem(mPosition, mNote);
                 }
             }
         }

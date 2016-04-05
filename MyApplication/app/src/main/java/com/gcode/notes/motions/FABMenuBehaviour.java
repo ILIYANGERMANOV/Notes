@@ -24,9 +24,10 @@ import java.util.List;
  * xmlns:fab="http://schemas.android.com/apk/res-auto"
  */
 public class FABMenuBehaviour extends CoordinatorLayout.Behavior {
-    //TODO: REFACTOR AND OPTIMIZED (not mine and not very skilled implementation)
+    //TODO: REFACTOR AND OPTIMIZED (not mine and not very skilled implementation) FAB translateY animate should be optimized
     private float mTranslationY;
 
+    @SuppressWarnings("unused")
     public FABMenuBehaviour(Context context, AttributeSet attrs) {
     }
 
