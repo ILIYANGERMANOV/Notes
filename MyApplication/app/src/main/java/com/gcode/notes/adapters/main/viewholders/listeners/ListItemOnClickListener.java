@@ -24,7 +24,7 @@ public class ListItemOnClickListener extends BaseItemListener {
 
     @Override
     public void onClick(View v) {
-        if (mDisabled || mIsAnimating)
+        if (mDisabled)
             return; //if disabled prevent further execution (stop click event)
 
         Intent intent;
@@ -45,6 +45,6 @@ public class ListItemOnClickListener extends BaseItemListener {
         }
 
         intent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(mListData));
-        performAnimationAndStartActivity(v, intent, Constants.LIST_FROM_DISPLAY_REQUEST_CODE);
+        mActivity.startActivityForResult(intent, Constants.DISPLAY_LIST_REQUEST_CODE);
     }
 }

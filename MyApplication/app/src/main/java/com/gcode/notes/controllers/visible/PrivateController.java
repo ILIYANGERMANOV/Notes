@@ -3,6 +3,7 @@ package com.gcode.notes.controllers.visible;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
@@ -38,6 +39,7 @@ public class PrivateController extends VisibleController implements
         mRecyclerView.setVisibility(View.INVISIBLE);
         mToolbar.setTitle(R.string.authentication_label);
         mFabMenu.hideMenuButton(false);
+        mMainAdapter.hideEmptyView();
         AuthenticationUtils.getInstance(mMainActivity, this).authenticate();
     }
 
@@ -102,10 +104,17 @@ public class PrivateController extends VisibleController implements
         mMainActivity.mDrawerOptionExecutor.applySelectedOption(menuItem.getItemId(), true,
                 mMainActivity.mLoadNewContentPrivate);
         mRecyclerView.setVisibility(View.VISIBLE);
+        mMainAdapter.checkForEmptyState();
     }
 
     @Override
     public boolean shouldHandleMode(int mode) {
         return mode == Constants.MODE_PRIVATE;
+    }
+
+    @Override
+    public void setupEmptyView(TextView emptyView) {
+        emptyView.setText(mMainActivity.getString(R.string.private_empty_view_text));
+        emptyView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.note_empty_drawable, 0, 0);
     }
 }

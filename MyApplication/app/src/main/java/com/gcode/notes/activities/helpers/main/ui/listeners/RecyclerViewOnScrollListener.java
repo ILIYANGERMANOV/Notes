@@ -7,7 +7,6 @@ import com.gcode.notes.extras.values.Constants;
 import com.github.clans.fab.FloatingActionMenu;
 
 public class RecyclerViewOnScrollListener extends RecyclerView.OnScrollListener {
-    //TODO: REFACTOR AND OPTIMIZE (has serious performance issues)
     FloatingActionMenu mFabMenu;
 
     public RecyclerViewOnScrollListener(FloatingActionMenu fabMenu) {
@@ -17,12 +16,13 @@ public class RecyclerViewOnScrollListener extends RecyclerView.OnScrollListener 
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
+        //prevent fab from showing in bin
         if (BaseController.getInstance().getControllerId() == Constants.CONTROLLER_BIN) return;
 
-        if (dy > 0) {
+        if (dy > 0 && !mFabMenu.isMenuButtonHidden()) {
             //scrolling up and button is hidden, show fab menu button
             mFabMenu.hideMenuButton(true);
-        } else if (dy < 0) {
+        } else if (dy < 0 && mFabMenu.isMenuButtonHidden()) {
             //scrolling down and button isn't hidden, hide fab menu button
             mFabMenu.showMenuButton(true);
         }

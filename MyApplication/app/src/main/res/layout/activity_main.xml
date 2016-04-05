@@ -40,12 +40,13 @@
 
         <TextView
             android:id="@+id/main_notes_recycler_view_empty_text_view"
-            style="@style/Base.TextAppearance.AppCompat.Large"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:drawablePadding="@dimen/main_empty_view_drawable_padding"
             android:gravity="center"
-            android:text="@string/there_are_no_notes"
+            android:padding="@dimen/main_empty_view_padding"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:visibility="gone" />
 
         <com.github.clans.fab.FloatingActionMenu
@@ -58,6 +59,7 @@
             android:paddingLeft="@dimen/main_fab_padding"
             android:paddingRight="@dimen/main_fab_padding"
             android:paddingStart="@dimen/main_fab_padding"
+            app:layout_behavior="com.gcode.notes.motions.FABMenuBehaviour"
             app:menu_backgroundColor="@color/fab_menu_background"
             app:menu_colorNormal="@color/color_accent_pink"
             app:menu_colorPressed="@color/color_accent_pink_dark"
@@ -67,9 +69,11 @@
             app:menu_labels_colorNormal="@color/fab_menu_labels_color_normal"
             app:menu_labels_colorPressed="@color/fab_menu_labels_color_pressed"
             app:menu_labels_ellipsize="end"
+            app:menu_labels_margin="@dimen/main_fab_menu_labels_margin"
             app:menu_labels_position="left"
             app:menu_labels_singleLine="true"
-            app:menu_labels_textColor="@color/fab_menu_labels_text_color">
+            app:menu_labels_textColor="@color/fab_menu_labels_text_color"
+            app:menu_labels_textSize="@dimen/main_fab_menu_labels_text_size">
 
             <com.github.clans.fab.FloatingActionButton
                 android:layout_width="wrap_content"

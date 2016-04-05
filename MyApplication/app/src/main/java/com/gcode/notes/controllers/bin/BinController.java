@@ -1,6 +1,8 @@
 package com.gcode.notes.controllers.bin;
 
 
+import android.widget.TextView;
+
 import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.controllers.BaseController;
@@ -39,5 +41,11 @@ public class BinController extends BaseController {
     @Override
     public boolean shouldHandleMode(int mode) {
         return mode == Constants.MODE_DELETED_NORMAL || mode == Constants.MODE_DELETED_IMPORTANT;
+    }
+
+    @Override
+    public void setupEmptyView(TextView emptyView) {
+        emptyView.setText(mMainActivity.getString(R.string.bin_empty_view_text));
+        emptyView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.bin_empty_drawable, 0, 0);
     }
 }

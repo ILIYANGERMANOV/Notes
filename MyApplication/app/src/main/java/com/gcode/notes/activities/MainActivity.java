@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -78,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.main_notes_recycler_view_empty_text_view)
     TextView mRecyclerViewEmptyView;
     private ReminderNotificationStartHelper mReminderNotificationStartHelper;
+    private boolean mFabMenuClickEnabled;
 
     //getters for layout components------------------------------------------------------------------------------------------
     public AppBarLayout getAppBarLayout() {
@@ -142,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setup() {
+        mFabMenuClickEnabled = true; //enable here, so it will be activated after screen rotation
         mDrawerOptionExecutor = new DrawerOptionExecutor(this);
 
         new MainToolbarHelper(this).setupToolbar();
@@ -149,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
         new NavigationDrawerHelper(this, mDrawerOptionExecutor).setupNavigationDrawer();
         new MainRecyclerViewHelper(this).setupRecyclerView();
 
-        //TODO: handle BaseController fake instance (happens cuz its creation is delayed), make callback in main for recreating
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -162,15 +164,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
         super.startActivityForResult(intent, requestCode, options);
-        switch (requestCode) {
-            case Constants.NOTE_FROM_DISPLAY_REQUEST_CODE:
-            case Constants.LIST_FROM_DISPLAY_REQUEST_CODE:
-                overridePendingTransition(R.anim.slide_in_bottom, 0);
-                break;
-            case Constants.COMPOSE_NOTE_REQUEST_CODE:
-                overridePendingTransition(R.anim.slide_in_right, 0);
-                break;
-        }
+        overridePendingTransition(R.anim.slide_in_right, 0);
+        setListenersForRequestDisabled(requestCode, true);
     }
 
     @Override
@@ -215,9 +210,32 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         MainActivityResultHandler.handleResult(this, requestCode, resultCode, data);
+        setListenersForRequestDisabled(requestCode, false);
     }
 
     public void fabMenuItemClicked(View view) {
-        FabMenuActionHandler.handleItemClick(this, view);
+        if (mFabMenuClickEnabled)
+            FabMenuActionHandler.handleItemClick(this, view);
+    }
+
+    public void setContentAlpha(float alpha, boolean animate) {
+        if (animate) {
+            ViewCompat.animate(mRecyclerView).alpha(alpha);
+            ViewCompat.animate(mToolbar).alpha(alpha);
+        } else {
+            mRecyclerView.setAlpha(alpha);
+            mToolbar.setAlpha(alpha);
+        }
+    }
+
+    private void setListenersForRequestDisabled(int requestCode, boolean disabled) {
+        switch (requestCode) {
+            case Constants.DISPLAY_NOTE_REQUEST_CODE:
+            case Constants.DISPLAY_LIST_REQUEST_CODE:
+                mMainAdapter.setListenersDisabled(disabled);
+                break;
+            default:
+                mFabMenuClickEnabled = !disabled;
+        }
     }
 }

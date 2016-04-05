@@ -1,7 +1,8 @@
 package com.gcode.notes.adapters.main.viewholders;
 
 import android.app.Activity;
-import android.graphics.Color;
+import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -20,20 +21,18 @@ import butterknife.ButterKnife;
 
 
 public abstract class BaseItemViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
+    protected Activity mActivity;
+    protected ArrayList<ContentBase> mData;
+    protected Handler mHandler;
+    protected BaseItemListener mBaseItemListener;
     @Bind(R.id.note_title_text_view)
     TextView mTitleTextView;
-
     @Bind(R.id.note_more_image_view)
     ImageView mMoreImageView;
-
     @Bind(R.id.reminder_text_view)
     TextView mReminderTextView;
-
     @Bind(R.id.attributes_divider)
     View mAttributesDivider;
-
-    Activity mActivity;
-    ArrayList<ContentBase> mData;
 
     public BaseItemViewHolder(Activity activity, View itemView, ArrayList<ContentBase> data) {
         super(itemView);
@@ -64,15 +63,19 @@ public abstract class BaseItemViewHolder extends RecyclerView.ViewHolder impleme
 
     @Override
     public void onItemSelected() {
-        ((CardView) itemView).setCardBackgroundColor(Color.LTGRAY);
+        ((CardView) itemView).setCardBackgroundColor(
+                ContextCompat.getColor(mActivity, R.color.card_view_background_selected));
     }
 
     @Override
     public void onItemClear() {
-        ((CardView) itemView).setCardBackgroundColor(Color.WHITE);
+        ((CardView) itemView).setCardBackgroundColor(
+                ContextCompat.getColor(mActivity, R.color.card_view_background));
     }
 
     public abstract void setStartState();
 
-    public abstract BaseItemListener getItemBaseListener();
+    public BaseItemListener getItemBaseListener() {
+        return mBaseItemListener;
+    }
 }

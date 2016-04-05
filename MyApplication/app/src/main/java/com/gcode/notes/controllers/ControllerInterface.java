@@ -1,5 +1,7 @@
 package com.gcode.notes.controllers;
 
+import android.widget.TextView;
+
 import com.gcode.notes.data.base.ContentBase;
 
 public interface ControllerInterface {
@@ -38,4 +40,11 @@ public interface ControllerInterface {
      * @return whether the controller should handle the passed mode
      */
     boolean shouldHandleMode(int mode);
+
+    /**
+     * Should set empty view drawable and text
+     *
+     * @param emptyView text view that shows when recycler view has no content
+     */
+    void setupEmptyView(TextView emptyView);
 }

@@ -57,9 +57,8 @@ public abstract class BaseController implements ControllerInterface {
         MainAdapter mainAdapter = mMainAdapter;
         if (mainAdapter != null) {
             mainAdapter.updateContent(newContent);
-            //mRecyclerView.invalidate();
             if (scrollToTop) {
-                mRecyclerView.smoothScrollToPosition(0);
+                mRecyclerView.scrollToPosition(0); //not smooth scroll, cuz item appear animation, becomes ugly
             }
         }
     }
@@ -188,6 +187,8 @@ public abstract class BaseController implements ControllerInterface {
                 return mMainActivity.getString(R.string.note_moved_to_bin);
             case Constants.MODE_PRIVATE:
                 return mMainActivity.getString(R.string.note_moved_to_private);
+            case Constants.MODE_DELETED_FOREVER:
+                return mMainActivity.getString(R.string.note_deleted_permanently);
             default:
                 MyDebugger.log("BaseController getRemoveMessageForMode(): unknown mode!");
                 return "Note moved to unknown mode";

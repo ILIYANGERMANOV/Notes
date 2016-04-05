@@ -10,19 +10,29 @@
     <dimen name="main_container_bottom_padding">8dp</dimen>
     <dimen name="main_card_top_margin">8dp</dimen>
 
+    <!-- FAB MENU -->
     <dimen name="main_fab_padding">12dp</dimen>
+    <dimen name="main_fab_menu_labels_margin">8dp</dimen>
+    <dimen name="main_fab_menu_labels_text_size">14sp</dimen>
+    <!-- FAB MENU -->
+
+
+    <!-- Items -->
+    <dimen name="main_item_content_padding">8dp</dimen>
+    <dimen name="item_small_margin">3dp</dimen>
+    <dimen name="item_big_margin">5dp</dimen>
 
     <!-- Note -->
-    <dimen name="note_layout_content_padding">8dp</dimen>
-    <dimen name="note_small_padding">3dp</dimen>
-    <dimen name="note_big_padding">5dp</dimen>
     <dimen name="note_image_view_height">150dp</dimen>
     <!-- Note -->
 
     <!-- List -->
-
+    <dimen name="list_item_drawable_padding">2dp</dimen>
     <!-- List -->
+    <!-- Items -->
 
+    <dimen name="main_empty_view_drawable_padding">16dp</dimen>
+    <dimen name="main_empty_view_padding">32dp</dimen>
     <!-- Main activity -->
 
 

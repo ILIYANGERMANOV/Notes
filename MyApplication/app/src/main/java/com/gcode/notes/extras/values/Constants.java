@@ -8,8 +8,8 @@ public class Constants {
     public static final int GRID_COLUMNS_COUNT = 2;
 
     public static final int COMPOSE_NOTE_REQUEST_CODE = 1;
-    public static final int LIST_FROM_DISPLAY_REQUEST_CODE = 2;
-    public static final int NOTE_FROM_DISPLAY_REQUEST_CODE = 3;
+    public static final int DISPLAY_LIST_REQUEST_CODE = 2;
+    public static final int DISPLAY_NOTE_REQUEST_CODE = 3;
     public static final int REQUEST_TAKE_PHOTO = 4;
     public static final int REQUEST_OPEN_GALLERY = 5;
     public static final int OPEN_PHOTO_IN_GALLERY_REQ_CODE = 6;
@@ -40,6 +40,7 @@ public class Constants {
     public static final int MODE_PRIVATE = 3;
     public static final int MODE_DELETED_NORMAL = 4;
     public static final int MODE_DELETED_IMPORTANT = 5;
+    public static final int MODE_DELETED_FOREVER = 6;
 
     public static final int CONTROLLER_ALL_NOTES = 1;
     public static final int CONTROLLER_IMPORTANT = 2;
@@ -91,7 +92,7 @@ public class Constants {
     public static final int MAX_IMAGES_TO_DISPLAY = 2;
 
     public static final String NOTES_FOLDER_NAME = "Notes";
-    public static final String RECORDS_FOLDER_NAME = "Voice records";
+    public static final String RECORDS_FOLDER_NAME = ".voice_records";
 
     public static final int MAX_TRIES_TO_RESOLVE = 3;
 
@@ -100,6 +101,8 @@ public class Constants {
     public static final int MEDIUM_DELAY = 150;
     public static final int LONG_DELAY = 250;
     public static final int DELAY_SO_USER_CAN_SEE = 300;
+
+    public static final float VIEWS_FADED_ALPHA = 0.4f;
 
     public static final long LOCATION_VALID_TIME = 900000;
 }

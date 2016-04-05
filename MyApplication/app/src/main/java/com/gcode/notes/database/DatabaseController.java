@@ -174,6 +174,7 @@ public class DatabaseController {
     }
 
     public boolean deleteNotePermanently(ContentBase note) {
+        note.setMode(Constants.MODE_DELETED_FOREVER);
         return DeleteHelper.deleteNote(mDatabase, note) != 0;
     }
 

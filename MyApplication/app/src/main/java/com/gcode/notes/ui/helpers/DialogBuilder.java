@@ -128,7 +128,7 @@ public class DialogBuilder {
                 .show();
     }
 
-    public static void buildDeletePrivateNoteDialog(Activity activity, SingleButtonCallback buttonCallback) {
+    public static void buildDeletePrivateNoteFromDisplayDialog(Activity activity, SingleButtonCallback buttonCallback) {
         new MaterialDialog.Builder(activity)
                 .title(R.string.delete_private_note_dialog_title)
                 .content(R.string.delete_private_note_dialog_content)

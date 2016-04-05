@@ -4,17 +4,19 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.activities.helpers.main.ui.FabMenuHelper;
-import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.github.clans.fab.FloatingActionMenu;
 
 public class FabMenuOnTouchListener implements View.OnTouchListener {
+    MainActivity mMainActivity;
     FloatingActionMenu mFabMenu;
     //TODO: REFACTOR AND OPTIMIZE
 
-    public FabMenuOnTouchListener(FloatingActionMenu fabMenu) {
-        mFabMenu = fabMenu;
+    public FabMenuOnTouchListener(MainActivity mainActivity) {
+        mMainActivity = mainActivity;
+        mFabMenu = mainActivity.getFabMenu();
     }
 
     @Override
@@ -29,6 +31,7 @@ public class FabMenuOnTouchListener implements View.OnTouchListener {
             if (mFabMenu.isOpened()) {
                 //menu is already opened, you can close it safely w/o adding delay
                 mFabMenu.close(true);
+                mMainActivity.setContentAlpha(1f, true);
             } else {
                 //menu is opening atm, close after the open anim is over
                 //postDelayed, cuz must wait opening animation so fabMenu#close() can work
@@ -36,6 +39,7 @@ public class FabMenuOnTouchListener implements View.OnTouchListener {
                     @Override
                     public void run() {
                         mFabMenu.close(true); //closing fab menu with animation
+                        mMainActivity.setContentAlpha(1f, true);
                     }
                 }, Constants.DELAY_SO_USER_CAN_SEE);
             }

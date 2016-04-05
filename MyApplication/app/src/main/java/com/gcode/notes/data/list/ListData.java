@@ -89,15 +89,15 @@ public class ListData extends ContentBase {
         LinearLayout containerLayout = holder.getContainerLayout();
         ImageView moreImageView = holder.getMoreImageView();
 
-        setHolderInDefaultState(containerLayout, moreImageView); //removeAllViews from container and hides moreImageView
+        setHolderInDefaultState(holder); //removeAllViews from container and hides moreImageView
         displayBase(holder.getTitleTextView(), holder.getReminderTextView());
         displayListItems(activity, containerLayout, moreImageView);
         displayDivider(holder);
     }
 
-    private void setHolderInDefaultState(LinearLayout containerLayout, ImageView moreImageView) {
-        containerLayout.removeAllViews();
-        moreImageView.setVisibility(View.GONE);
+    private void setHolderInDefaultState(ListItemViewHolder holder) {
+        holder.getContainerLayout().removeAllViews();
+        holder.getMoreImageView().setVisibility(View.GONE);
     }
 
     private void displayListItems(Activity activity, LinearLayout containerLayout, ImageView moreImageView) {
@@ -119,7 +119,7 @@ public class ListData extends ContentBase {
 
     private View createViewForItem(ListDataItem item, LayoutInflater inflater, LinearLayout containerLayout) {
         //create view
-        View itemView = inflater.inflate(R.layout.list_main_list_item, containerLayout, false);
+        View itemView = inflater.inflate(R.layout.main_list_item, containerLayout, false);
 
         //bind view
         CheckedTextView checkedTextView = (CheckedTextView) itemView.findViewById(R.id.list_data_item_row_checked_text_view);
