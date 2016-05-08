@@ -23,7 +23,7 @@
     <!-- FAB Menu -->
 
     <!-- CardView -->
-    <color name="card_view_background">#FFFFFF</color>
+    <color name="card_background">#FFFFFF</color>
     <color name="card_view_background_selected">#E0E0E0</color>
     <!-- CardView -->
 

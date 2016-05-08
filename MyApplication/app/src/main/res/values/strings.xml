@@ -71,8 +71,7 @@
 
 
     <string name="display_reminder_text_and_date">Reminder: %s</string>
-    <string name="display_location_string">Location: %s</string>
-    <string name="location_button_decode_text">Location: decoding</string>
+    <string name="location_button_decode_text">decoding</string>
     <string name="display_map_intent_label">Note creation location</string>
     <string name="display_creation_date">Created on: %s</string>
     <string name="display_last_modified_date">Last modified: %s</string>
@@ -131,6 +130,10 @@
     <string name="starred_empty_view_text">There no notes with star, yet :/</string>
     <string name="private_empty_view_text">There no private notes, yet :/</string>
     <string name="bin_empty_view_text">Hurray! Bin is empty :)</string>
+
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="yesterday">Yesterday</string>
 
 
 </resources>

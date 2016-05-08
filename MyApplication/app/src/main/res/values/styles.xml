@@ -20,15 +20,20 @@
 
     <style name="MyCardViewBase" parent="CardView.Light">
         <item name="cardCornerRadius">2dp</item>
-        <item name="cardBackgroundColor">@color/card_view_background</item>
+        <item name="cardBackgroundColor">@color/card_background</item>
         <item name="cardElevation">4dp</item>
-        <item name="android:foreground">?android:attr/selectableItemBackground</item>
     </style>
 
     <style name="MyCardViewMain" parent="MyCardViewBase">
         <item name="android:layout_marginTop">@dimen/main_card_top_margin</item>
         <item name="android:layout_marginRight">@dimen/main_card_horizontal_margin</item>
         <item name="android:layout_marginLeft">@dimen/main_card_horizontal_margin</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="MyCardViewDisplay" parent="MyCardViewBase">
+        <item name="android:layout_margin">@dimen/display_card_margin</item>
+        <!-- android:padding isn't placed here, cuz CardView adjust padding in Runtime to create shadow -->
     </style>
 
     <style name="MyToolbarTheme" parent="AppThemeBase">

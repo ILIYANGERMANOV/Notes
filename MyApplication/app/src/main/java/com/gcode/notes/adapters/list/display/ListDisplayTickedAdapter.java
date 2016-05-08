@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.data.list.ListDataItem;
@@ -18,17 +17,17 @@ import java.util.ArrayList;
 public class ListDisplayTickedAdapter extends ListDisplayBaseAdapter {
     Button mDoneButton;
     ScrollView mRootScrollView;
-    TextView mDatesTextView;
+    View mLimitView;
     boolean mIsDoneHidden;
     LinearListView mLinearListView;
 
     public ListDisplayTickedAdapter(Context context, ArrayList<ListDataItem> data, boolean isDeactivated,
-                                    Button doneButton, ScrollView rootScrollView, TextView datesTextView,
+                                    Button doneButton, ScrollView rootScrollView, View limitView,
                                     LinearListView linearListView) {
         super(context, data, isDeactivated);
         mDoneButton = doneButton;
         mRootScrollView = rootScrollView;
-        mDatesTextView = datesTextView;
+        mLimitView = limitView;
         mLinearListView = linearListView;
     }
 
@@ -44,7 +43,7 @@ public class ListDisplayTickedAdapter extends ListDisplayBaseAdapter {
             //show done button if its gone
             mDoneButton.setVisibility(View.VISIBLE);
         }
-        if (!VisibilityHelper.isViewVisibleInScrollView(mDatesTextView, mRootScrollView) || mIsDoneHidden) {
+        if (!VisibilityHelper.isViewVisibleInScrollView(mLimitView, mRootScrollView) || mIsDoneHidden) {
             //dates text view is not visible show snackbar for item added
             SnackbarHelper.showShortSnackbar(mRootScrollView, R.string.item_added_to_done_snackbar_message);
             if (mIsDoneHidden) {

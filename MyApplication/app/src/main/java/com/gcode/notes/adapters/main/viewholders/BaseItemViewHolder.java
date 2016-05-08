@@ -70,7 +70,7 @@ public abstract class BaseItemViewHolder extends RecyclerView.ViewHolder impleme
     @Override
     public void onItemClear() {
         ((CardView) itemView).setCardBackgroundColor(
-                ContextCompat.getColor(mActivity, R.color.card_view_background));
+                ContextCompat.getColor(mActivity, R.color.card_background));
     }
 
     public abstract void setStartState();

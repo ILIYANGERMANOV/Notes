@@ -1,31 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    android:gravity="bottom"
+    android:layout_height="@dimen/header_layout_height"
+    android:layout_marginBottom="@dimen/header_layout_margin_bottom"
     android:orientation="horizontal">
 
     <TextView
         android:id="@+id/display_title_text_view"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|start"
+        android:layout_height="match_parent"
+        android:layout_gravity="start|center_vertical"
         android:layout_weight="1"
-        android:gravity="start"
-        android:paddingTop="5dp"
+        android:gravity="start|center_vertical"
         android:text="@string/placeholder_short"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
     <ImageButton
         android:id="@+id/display_action_image_button"
-        android:layout_width="36dp"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp"
+        style="@style/Widget.AppCompat.ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/display_action_button_margin_left"
+        android:layout_marginStart="@dimen/display_action_button_margin_left"
         android:background="?android:attr/selectableItemBackground"
         android:contentDescription="@string/star_button_content_description"
-        android:src="@drawable/ic_star_border_black_36dp" />
-
+        android:src="@drawable/ic_star" />
 </LinearLayout>

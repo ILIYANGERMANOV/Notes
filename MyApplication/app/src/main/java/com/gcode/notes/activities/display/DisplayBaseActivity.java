@@ -7,21 +7,20 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
 import com.gcode.notes.activities.helpers.display.DisplayToolbarHelper;
 import com.gcode.notes.data.base.ContentBase;
-import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.tasks.async.display.DecodeLocationTask;
 
 import butterknife.Bind;
 
 public class DisplayBaseActivity extends AppCompatActivity {
-    //TODO: optimize and lower memory consumption
+    //TODO: Refactor, optimize and lower memory consumption
     public boolean mIsStarred;
     public boolean mNoteModeChanged;
 
@@ -29,18 +28,24 @@ public class DisplayBaseActivity extends AppCompatActivity {
     Toolbar mToolbar;
     @Bind(R.id.display_title_text_view)
     TextView mTitleTextView;
-    @Bind(R.id.display_dates_text_view)
-    TextView mDatesTextView;
     @Bind(R.id.display_reminder_text_view)
     TextView mReminderTextView;
-    @Bind(R.id.display_location_button)
-    Button mLocationButton;
+    @Bind(R.id.display_last_modified_text_view)
+    TextView mLastModifiedTextView;
+    @Bind(R.id.display_created_on_text_view)
+    TextView mCreatedOnTextView;
+    @Bind(R.id.display_expires_on_text_view)
+    TextView mExpiresOnTextView;
+    @Bind(R.id.display_location_layout)
+    LinearLayout mLocationLayout;
+    @Bind(R.id.display_location_text_view)
+    TextView mLocationTextView;
     @Bind(R.id.display_action_image_button)
     ImageButton mActionImageButton;
 
     //getters for layout components----------------------------------------------------------------------------------------
-    public TextView getDatesTextView() {
-        return mDatesTextView;
+    public View getLimitView() {
+        return mLocationLayout;
     }
 
     public ImageButton getActionImageButton() {
@@ -50,12 +55,12 @@ public class DisplayBaseActivity extends AppCompatActivity {
 
     public void setStarredState() {
         mIsStarred = true;
-        mActionImageButton.setImageResource(R.drawable.ic_star_orange_36dp);
+        mActionImageButton.setImageResource(R.drawable.ic_star_shine);
     }
 
     public void setNotStarredState() {
         mIsStarred = false;
-        mActionImageButton.setImageResource(R.drawable.ic_star_border_black_36dp);
+        mActionImageButton.setImageResource(R.drawable.ic_star);
     }
 
     protected void setup() {
@@ -78,23 +83,14 @@ public class DisplayBaseActivity extends AppCompatActivity {
 
     public void displayBase(final ContentBase contentBase) {
         mTitleTextView.setText(contentBase.getTitle()); //display note's title
-        mDatesTextView.setText(contentBase.getDateDetails()); //display Creation, Last modified and if has Expiration dates
-        if (contentBase.hasReminder()) {
-            //there is reminder, display it
-            mReminderTextView.setVisibility(View.VISIBLE); //reminder text view is currently gone
-            mReminderTextView.setText(getString(R.string.display_reminder_text_and_date,
-                    DateUtils.formatSQLiteDateForDisplay(contentBase.getReminder())) //reminder is currently in SQLite format, format it for display
-            );
-        } else {
-            //note hasn't reminder, hide it (this case is when note with reminder is modified and it is removed)
-            mReminderTextView.setVisibility(View.GONE);
-        }
+        contentBase.displayDetails(mReminderTextView, mLastModifiedTextView,
+                mCreatedOnTextView, mExpiresOnTextView);
         if (contentBase.hasLocation()) {
             //there is location, display it
-            mLocationButton.setVisibility(View.VISIBLE); //by default is gone
-            new DecodeLocationTask(mLocationButton).execute(contentBase.getMyLocation());
+            mLocationLayout.setVisibility(View.VISIBLE); //by default is gone
+            new DecodeLocationTask(mLocationTextView).execute(contentBase.getMyLocation());
 
-            mLocationButton.setOnClickListener(new View.OnClickListener() {
+            mLocationLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     double latitude = contentBase.getLatitude();

@@ -2,30 +2,28 @@ package com.gcode.notes.tasks.async.display;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Button;
+import android.widget.TextView;
 
-import com.gcode.notes.R;
 import com.gcode.notes.data.base.MyLocation;
 import com.gcode.notes.extras.utils.LocationUtils;
 import com.gcode.notes.notes.MyApplication;
 
 public class DecodeLocationTask extends AsyncTask<MyLocation, Void, String> {
-    Button mLocationButton;
+    TextView mLocationTextView;
 
-    public DecodeLocationTask(Button locationButton) {
-        mLocationButton = locationButton;
+    public DecodeLocationTask(TextView locationTextView) {
+        mLocationTextView = locationTextView;
     }
 
     @Override
     protected String doInBackground(MyLocation... params) {
         MyLocation myLocation = params[0];
         Context context = MyApplication.getAppContext();
-        return context.getString(R.string.display_location_string,
-                LocationUtils.getAddressFromLocation(context, myLocation.getLatitude(), myLocation.getLongitude()));
+        return LocationUtils.getAddressFromLocation(context, myLocation.getLatitude(), myLocation.getLongitude());
     }
 
     @Override
     protected void onPostExecute(String decodedLocation) {
-        mLocationButton.setText(decodedLocation);
+        mLocationTextView.setText(decodedLocation);
     }
 }

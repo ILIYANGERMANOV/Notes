@@ -21,18 +21,17 @@
 
             <android.support.v7.widget.CardView
                 android:id="@+id/display_note_card_view"
-                style="@style/MyCardViewMain"
+                style="@style/MyCardViewDisplay"
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:layout_margin="16dp"
-                android:background="@color/card_view_background">
+                android:layout_height="match_parent"
+                android:background="@color/card_background">
 
                 <LinearLayout
                     android:id="@+id/display_note_content_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="@dimen/display_card_padding">
 
                     <include layout="@layout/display_header_layout" />
 
@@ -50,7 +49,7 @@
                         android:layout_height="0dp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
-                        android:textSize="14sp" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                     <include
                         android:id="@+id/display_note_audio_layout"

@@ -116,27 +116,46 @@ public abstract class ContentBase {
         contentDetails.setExpirationDate(expirationDate);
     }
 
-    public String getDateDetails() {
-        String dateDetails = "";
+    public void displayDetails(TextView reminderTextView, TextView lastModifiedTextView,
+                               TextView createdOnTextView, TextView expiresOnTextView) {
         if (contentDetails == null) {
             //contentDetails are null, create dummy details to display
             MyDebugger.log("contentDetails are null, dummy details are created!");
             contentDetails = new ContentDetails();
         }
-
         Context context = MyApplication.getAppContext();
-        final String NEW_LINE = "\n";
 
-        dateDetails += context.getString(R.string.display_last_modified_date,
-                DateUtils.formatSQLiteDateForDisplay(contentDetails.getLastModifiedDate())) + NEW_LINE;
-
-        dateDetails += context.getString(R.string.display_creation_date,
-                DateUtils.formatSQLiteDateForDisplay(contentDetails.getCreationDate()));
-        if (hasExpirationDate()) {
-            dateDetails += NEW_LINE + context.getString(R.string.display_expiration_date,
-                    DateUtils.formatSQLiteDateForDisplay(contentDetails.getExpirationDate()));
+        //display reminder
+        if (hasReminder()) {
+            reminderTextView.setVisibility(View.VISIBLE);
+            //reminder is currently in SQLite format, format it for display
+            reminderTextView.setText(context.getString(
+                    R.string.display_reminder_text_and_date,
+                    DateUtils.formatSQLiteDateForDisplay(reminder))
+            );
+        } else {
+            //note hasn't reminder, hide it (this case is when note with reminder is modified and it is removed)
+            reminderTextView.setVisibility(View.GONE);
         }
-        return dateDetails;
+
+        //display last modified date
+        lastModifiedTextView.setText(context.getString(R.string.display_last_modified_date,
+                DateUtils.formatSQLiteDateForDisplay(getLastModifiedDate()))
+        );
+
+        //display creation date
+        createdOnTextView.setText(context.getString(R.string.display_creation_date,
+                DateUtils.formatSQLiteDateForDisplay(getCreationDate()))
+        );
+
+        //display expiration date
+        if (hasExpirationDate()) {
+            expiresOnTextView.setVisibility(View.VISIBLE);
+            expiresOnTextView.setText(context.getString(
+                    R.string.display_expiration_date,
+                    DateUtils.formatSQLiteDateForDisplay(getExpirationDate()))
+            );
+        }
     }
 
     public boolean hasLocation() {
@@ -269,7 +288,7 @@ public abstract class ContentBase {
         if (hasReminder()) {
             //there is reminder, format it for display and show it
             reminderTextView.setVisibility(View.VISIBLE);
-            reminderTextView.setText(DateUtils.formatSQLiteDateForReminder(reminder)); //reminder is in SQLite format
+            reminderTextView.setText(DateUtils.formatSQLiteDateForDisplay(reminder)); //reminder is in SQLite format
         } else {
             //there is no reminder, hide reminderTextView
             reminderTextView.setVisibility(View.GONE);

@@ -99,7 +99,7 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
 
     private void runEnterAnimation(View itemView, int position) {
         if (position > mLastAnimatedPosition && mAnimate) {
-            MyAnimator.startAnimationOnView(mMainActivity, itemView, R.anim.recycler_view_item_appear);
+            MyAnimator.startAnimationOnView(itemView, R.anim.recycler_view_item_appear);
             mLastAnimatedPosition = position;
         }
     }
@@ -307,14 +307,14 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
         //Don't check if already shown, cuz text can change but view visibility isn't necessary new value
         mEmptyView.setVisibility(View.VISIBLE);
         BaseController.getInstance().setupEmptyView(mEmptyView);
-        MyAnimator.startAnimationOnView(mMainActivity, mEmptyView, R.anim.fade_in_empty_view);
+        MyAnimator.startAnimationOnView(mEmptyView, R.anim.fade_in_empty_view);
         mEmptyViewVisible = true;
     }
 
     public void hideEmptyView() {
         if (mEmptyView.getVisibility() != View.GONE) {
             mEmptyView.setVisibility(View.GONE);
-            MyAnimator.startAnimationOnView(mMainActivity, mEmptyView, R.anim.fade_out_empty_view);
+            MyAnimator.startAnimationOnView(mEmptyView, R.anim.fade_out_empty_view);
             mEmptyViewVisible = false;
         }
     }

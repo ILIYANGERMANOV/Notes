@@ -24,7 +24,7 @@ public class DisplayListBaseContainersHelper {
         displayListBaseActivity.mDisplayTickedAdapter = new ListDisplayTickedAdapter(displayListBaseActivity,
                 displayListBaseActivity.mTickedListDataItems, isDeactivated,
                 displayListBaseActivity.getDoneButton(), displayListBaseActivity.getRootScrollView(),
-                displayListBaseActivity.getDatesTextView(), displayListBaseActivity.getTickedLinearListView());
+                displayListBaseActivity.getLimitView(), displayListBaseActivity.getTickedLinearListView());
 
         displayListBaseActivity.getLinearListView().setAdapter(displayListBaseActivity.mDisplayAdapter); //chains adapters
         displayListBaseActivity.getTickedLinearListView().setAdapter(displayListBaseActivity.mDisplayTickedAdapter); //chains adapters

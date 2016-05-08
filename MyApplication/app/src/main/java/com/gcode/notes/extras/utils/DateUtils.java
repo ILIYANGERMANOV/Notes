@@ -3,10 +3,10 @@ package com.gcode.notes.extras.utils;
 
 import android.content.Context;
 
+import com.gcode.notes.R;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.notes.MyApplication;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -28,25 +28,20 @@ public class DateUtils {
     }
 
     public static String formatSQLiteDateForDisplay(String sqliteDateString) {
-        String localePattern;
-
-        final DateFormat localeDateFormat = android.text.format.DateFormat.getDateFormat(MyApplication.getAppContext());
-        final DateFormat localeTimeFormat = android.text.format.DateFormat.getTimeFormat(MyApplication.getAppContext());
-        if (localeDateFormat instanceof SimpleDateFormat && localeTimeFormat instanceof SimpleDateFormat) {
-            // getDateFormat() returns a SimpleDateFormat from which we can extract the pattern
-            localePattern = ((SimpleDateFormat) localeDateFormat).toLocalizedPattern();
-            localePattern += " " + ((SimpleDateFormat) localeTimeFormat).toLocalizedPattern();
-        } else {
-            //getting localeDateFormat failed, create default
-            MyDebugger.log("getting localeDateFormat failed, use DEFAULT_DISPLAY_FORMAT");
-            //Locale.US affects only machine readability
-            localePattern = new SimpleDateFormat(DEFAULT_DISPLAY_FORMAT, Locale.US).toLocalizedPattern();
-        }
-
         SimpleDateFormat sqliteSimpleDateFormat = new SimpleDateFormat(SQL_LITE_DATE_FORMAT, Locale.US);
         Date date = getDateFromSQLiteString(sqliteSimpleDateFormat, sqliteDateString);
-        sqliteSimpleDateFormat.applyPattern(localePattern);
-        return sqliteSimpleDateFormat.format(date);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        //format date
+        String formattedDate = formatDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH));
+
+        //format time
+        formattedDate += ", " + formatTime(MyApplication.getAppContext(), calendar);
+
+        return formattedDate;
     }
 
     public static String formatSQLiteDateForReminder(String sqliteDateString) {
@@ -72,13 +67,27 @@ public class DateUtils {
         return new SimpleDateFormat(dateFormat, Locale.getDefault()).format(date).toLowerCase(); //format date with specific pattern
     }
 
-    @SuppressWarnings("deprecation")
-    public static String formatTime(Context context, int hours, int minutes) {
+    /**
+     * @param context   app context used for getting preferred time format
+     * @param hourOfDay Calendar.HOUR_OF_DAY
+     * @param minutes   Calendar.MINUTE
+     * @return locale formatted time
+     */
+    public static String formatTime(Context context, int hourOfDay, int minutes) {
         Calendar calendar = Calendar.getInstance();
         calendar.clear();
-        calendar.set(Calendar.HOUR, hours);
+        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minutes);
+        return formatTime(context, calendar);
+    }
 
+    /**
+     * @param context  app context used for getting preferred time format
+     * @param calendar Calendar instance set to target time
+     * @return locale formatted time
+     */
+    @SuppressWarnings("deprecation")
+    public static String formatTime(Context context, Calendar calendar) {
         Date dateToFormat;
         try {
             //try to get date object from calendar
@@ -87,25 +96,47 @@ public class DateUtils {
             //getting date object from calendar has failed, use deprecated Date() constructor
             MyDebugger.log("formatTime() illegalArgument exception", e.getMessage());
             dateToFormat = new Date();
-            dateToFormat.setHours(hours); //deprecated
-            dateToFormat.setMinutes(minutes); //deprecated
+            dateToFormat.setHours(calendar.get(Calendar.HOUR_OF_DAY)); //deprecated
+            dateToFormat.setMinutes(calendar.get(Calendar.MINUTE)); //deprecated
         }
 
         return android.text.format.DateFormat.getTimeFormat(context).format(dateToFormat); //get locale time format and apply it
     }
 
+    /**
+     * @param year  Calendar.YEAR
+     * @param month Calendar.MONTH_OF_YEAR
+     * @param day   Calendar.DAY_OF_MONTH
+     * @return locale formatted date (handling yesterday, today and tomorrow)
+     */
     @SuppressWarnings("deprecation")
     public static String formatDate(int year, int month, int day) {
         String dateFormat = "d MMMM";
         Calendar calendar = Calendar.getInstance();
         try {
-            //try to get current year, and if reminder is for next year show it the date format
-            if (year != calendar.get(Calendar.YEAR)) {
+            int currentYear = calendar.get(Calendar.YEAR);
+            if (month == calendar.get(Calendar.MONTH) && year == currentYear) {
+                //the desired date is in the same month and year, check for yesterday, today or tommorrow
+                int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+                Context context = MyApplication.getAppContext();
+                if (currentDay == day) {
+                    //today
+                    return context.getString(R.string.today);
+                } else if (day == currentDay + 1) {
+                    //tomorrow
+                    return context.getString(R.string.tomorrow);
+                } else if (day == currentDay - 1) {
+                    //yesterday
+                    return context.getString(R.string.yesterday);
+                }
+            }
+            if (year != currentYear) {
+                //if reminder is not for current year, add year to the date format
                 dateFormat += ", y";
             }
         } catch (Exception ex) {
             //not very crucial exception, log it and continue
-            MyDebugger.log("formatDate() exception while getting current year", ex.getMessage());
+            MyDebugger.log("DateUtils#formatDate() exception while getting current date or year", ex.getMessage());
         }
         calendar.clear();
         calendar.set(year, month, day);
@@ -161,7 +192,7 @@ public class DateUtils {
         } catch (ParseException e) {
             //parsing has failed, create new dummy date
             e.printStackTrace();
-            MyDebugger.log("formatSQLiteDateForDisplay", e.getMessage());
+            MyDebugger.log("DUMMY CREATED: formatSQLiteDateForDisplay", e.getMessage());
             date = new Date();
         }
         return date;

@@ -3,37 +3,86 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="13dp"
-    android:gravity="bottom"
+    android:gravity="bottom|end"
     android:orientation="vertical">
     <!-- gravity bottom on LinearLayout, so date details can be on the bottom in DisplayList -->
+
+    <LinearLayout
+        android:id="@+id/display_location_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="bottom"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="7dp"
+            android:layout_marginRight="7dp"
+            android:src="@drawable/ic_display_location" />
+
+        <TextView
+            android:id="@+id/display_location_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom|end"
+            android:minHeight="36dp"
+            android:minWidth="48dp"
+            android:text="@string/location_button_decode_text"
+            android:textAllCaps="false"
+            android:textColor="@color/link_color"
+            android:textSize="14sp" />
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/display_reminder_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:textSize="15sp"
+        android:drawableLeft="@drawable/ic_reminder_main_12dp"
+        android:drawablePadding="7dp"
+        android:drawableStart="@drawable/ic_reminder_main_12dp"
+        android:text="Reminder: tomorrow, 23:00"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textSize="14sp"
         android:visibility="gone" />
 
     <TextView
-        android:id="@+id/display_dates_text_view"
+        android:id="@+id/display_last_modified_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
+        android:drawableLeft="@drawable/ic_last_modified"
+        android:drawablePadding="7dp"
+        android:drawableStart="@drawable/ic_last_modified"
         android:gravity="bottom|end"
-        android:textSize="15sp" />
+        android:text="Last modified: today, 14:05"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textSize="14sp" />
 
-    <Button
-        android:id="@+id/display_location_button"
+    <TextView
+        android:id="@+id/display_created_on_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:text="@string/location_button_decode_text"
-        android:textAllCaps="false"
-        android:textColor="@color/link_color"
-        android:textSize="15sp"
+        android:drawableLeft="@drawable/ic_created_on_12dp"
+        android:drawablePadding="7dp"
+        android:drawableStart="@drawable/ic_created_on_12dp"
+        android:gravity="bottom|end"
+        android:text="Created on: today, 14:05"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/display_expires_on_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_expires_on_12dp"
+        android:drawablePadding="7dp"
+        android:drawableStart="@drawable/ic_expires_on_12dp"
+        android:gravity="bottom|end"
+        android:text="Expires on: today, 14:05"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textSize="14sp"
         android:visibility="gone" />
 
 </LinearLayout>

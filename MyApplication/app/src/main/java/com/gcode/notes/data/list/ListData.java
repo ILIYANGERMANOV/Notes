@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import com.gcode.notes.R;
 import com.gcode.notes.adapters.main.viewholders.ListItemViewHolder;
 import com.gcode.notes.data.base.ContentBase;
+import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.ui.helpers.CheckedTextViewHelper;
 
@@ -87,17 +88,21 @@ public class ListData extends ContentBase {
 
     public void displayListOnMain(Activity activity, ListItemViewHolder holder) {
         LinearLayout containerLayout = holder.getContainerLayout();
-        ImageView moreImageView = holder.getMoreImageView();
 
         setHolderInDefaultState(holder); //removeAllViews from container and hides moreImageView
         displayBase(holder.getTitleTextView(), holder.getReminderTextView());
-        displayListItems(activity, containerLayout, moreImageView);
+        displayListItems(activity, containerLayout, holder.getMoreImageView());
         displayDivider(holder);
     }
 
     private void setHolderInDefaultState(ListItemViewHolder holder) {
         holder.getContainerLayout().removeAllViews();
-        holder.getMoreImageView().setVisibility(View.GONE);
+        ImageView moreImageView = holder.getMoreImageView();
+        if(moreImageView != null) {
+            moreImageView.setVisibility(View.GONE);
+        } else {
+            MyDebugger.log("ListData#setHolderInDefaultState() moreImageView is null!");
+        }
     }
 
     private void displayListItems(Activity activity, LinearLayout containerLayout, ImageView moreImageView) {

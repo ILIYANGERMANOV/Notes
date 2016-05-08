@@ -42,6 +42,60 @@ public class LocationUtils implements LocationListener {
         mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
     }
 
+    public static String getAddressFromLocation(Context context, double latitude, double longitude) {
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(context, Locale.getDefault());
+
+        try {
+            addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to be returned, by documents it recommended 1 to 5
+        } catch (IOException e) {
+            e.printStackTrace();
+            MyDebugger.log("getAddressFromLocation() IOException", e.getMessage());
+            return null;
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            MyDebugger.log("getAddressFromLocation() IllegalArgument exception", e.getMessage());
+            return null;
+        }
+
+        Address address = addresses.get(0); //reference for easier access
+
+        String addressLine = address.getAddressLine(0); // If any additional address line present than only,
+        //check with max available address lines by getMaxAddressLineIndex()
+        String city = address.getLocality();
+        String state = address.getAdminArea();
+        String country = address.getCountryName();
+        String postalCode = address.getPostalCode();
+        String knownName = address.getFeatureName(); // Only if available else return NULL
+//        MyDebugger.log("address", addressLine);
+//        MyDebugger.log("city", city);
+//        MyDebugger.log("state", state);
+//        MyDebugger.log("country", country);
+//        MyDebugger.log("postalCode", postalCode);
+//        MyDebugger.log("knownName", knownName);
+//        MyDebugger.log("admin area", address.getAdminArea());
+//        MyDebugger.log("featured name", address.getFeatureName());
+//        MyDebugger.log("subLocality", address.getSubLocality());
+//        MyDebugger.log("premises", address.getPremises());
+
+        //TODO: create smart location button text, not only from address (cuz when not in hometown is retarded)
+        String result = "";
+        if (addressLine != null) {
+            result += addressLine;
+        } else if (knownName != null && knownName.trim().length() > 0) {
+            result += knownName;
+        }
+        if (city != null && result.length() < 25) {
+            result += ", " + city;
+        }
+        if (result.length() < 25 && country != null) {
+            result += ", " + country;
+        }
+
+        return result.trim();
+    }
+
     public void getLocation() {
         if (mLocationManager == null) {
                 /* mLocationManager is null, log it and call onError */
@@ -131,55 +185,5 @@ public class LocationUtils implements LocationListener {
     @Override
     public void onProviderDisabled(String provider) {
         MyDebugger.log("provider disabled", provider);
-    }
-
-    public static String getAddressFromLocation(Context context, double latitude, double longitude) {
-        Geocoder geocoder;
-        List<Address> addresses;
-        geocoder = new Geocoder(context, Locale.getDefault());
-
-        try {
-            addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to be returned, by documents it recommended 1 to 5
-        } catch (IOException e) {
-            e.printStackTrace();
-            MyDebugger.log("getAddressFromLocation() IOException", e.getMessage());
-            return null;
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            MyDebugger.log("getAddressFromLocation() IllegalArgument exception", e.getMessage());
-            return null;
-        }
-
-        Address address = addresses.get(0); //reference for easier access
-
-        String addressLine = address.getAddressLine(0); // If any additional address line present than only,
-        //check with max available address lines by getMaxAddressLineIndex()
-        String city = address.getLocality();
-        String state = address.getAdminArea();
-        String country = address.getCountryName();
-        String postalCode = address.getPostalCode();
-        String knownName = address.getFeatureName(); // Only if available else return NULL
-//        MyDebugger.log("address", addressLine);
-//        MyDebugger.log("city", city);
-//        MyDebugger.log("state", state);
-//        MyDebugger.log("country", country);
-//        MyDebugger.log("postalCode", postalCode);
-//        MyDebugger.log("knownName", knownName);
-
-        //TODO: create smart location button text, not only from address (cuz when not in hometown is retarded)
-        String result = "";
-        if (knownName != null && knownName.trim().length() > 0) {
-            result += knownName;
-        } else if (addressLine != null) {
-            result += addressLine;
-        }
-        if (city != null && result.length() < 15) {
-            result += ", " + city;
-        }
-        if (result.length() < 15 && country != null) {
-            result += ", " + country;
-        }
-
-        return result.trim();
     }
 }

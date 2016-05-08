@@ -35,6 +35,16 @@
     <dimen name="main_empty_view_padding">32dp</dimen>
     <!-- Main activity -->
 
+    <!-- Display activities -->
+    <!-- header -->
+    <dimen name="header_layout_height">60dp</dimen>
+    <dimen name="header_layout_margin_bottom">10dp</dimen>
+    <dimen name="display_action_button_margin_left">12dp</dimen>
+    <!-- header -->
+    <dimen name="display_card_margin">12dp</dimen>
+    <dimen name="display_card_padding">14dp</dimen>
+    <!-- Display activities -->
+
 
     <dimen name="add_pic_dialog_padding">6dp</dimen>
 </resources>
