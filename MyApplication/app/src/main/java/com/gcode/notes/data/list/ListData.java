@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import com.gcode.notes.R;
 import com.gcode.notes.adapters.main.viewholders.ListItemViewHolder;
 import com.gcode.notes.data.base.ContentBase;
-import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.ui.helpers.CheckedTextViewHelper;
 
@@ -37,10 +36,10 @@ public class ListData extends ContentBase {
 
     public ListData(ListData other) {
         super(other);
-        if(other.hasAttachedList()) {
+        if (other.hasAttachedList()) {
             //needs deep copy
             list = new ArrayList<>();
-            for(ListDataItem otherListDataItem : other.list) {
+            for (ListDataItem otherListDataItem : other.list) {
                 list.add(new ListDataItem(otherListDataItem));
             }
         }
@@ -97,12 +96,7 @@ public class ListData extends ContentBase {
 
     private void setHolderInDefaultState(ListItemViewHolder holder) {
         holder.getContainerLayout().removeAllViews();
-        ImageView moreImageView = holder.getMoreImageView();
-        if(moreImageView != null) {
-            moreImageView.setVisibility(View.GONE);
-        } else {
-            MyDebugger.log("ListData#setHolderInDefaultState() moreImageView is null!");
-        }
+        holder.getMoreImageView().setVisibility(View.GONE);
     }
 
     private void displayListItems(Activity activity, LinearLayout containerLayout, ImageView moreImageView) {

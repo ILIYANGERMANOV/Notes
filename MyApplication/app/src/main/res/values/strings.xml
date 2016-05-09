@@ -134,6 +134,7 @@
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
     <string name="yesterday">Yesterday</string>
+    <string name="display_details_location_icon_desc">Location</string>
 
 
 </resources>

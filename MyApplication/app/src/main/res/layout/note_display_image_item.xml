@@ -2,7 +2,7 @@
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/note_display_item_image_view"
     android:layout_width="match_parent"
-    android:layout_height="350dp"
-    android:layout_marginBottom="7dp"
+    android:layout_height="@dimen/display_note_pic_height"
+    android:layout_marginBottom="@dimen/display_note_pics_margin_bottom"
     android:contentDescription="@string/attached_image_desc"
     android:scaleType="centerCrop" />

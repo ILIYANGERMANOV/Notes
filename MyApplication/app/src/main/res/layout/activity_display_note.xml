@@ -39,17 +39,22 @@
                         android:id="@+id/display_note_images_Linear_list_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/display_note_content_side_margin"
+                        android:layout_marginRight="@dimen/display_note_content_side_margin"
                         android:gravity="center"
                         android:orientation="vertical"
-                        android:padding="15dp" />
+                        android:paddingLeft="@dimen/display_note_pic_container_side_padding"
+                        android:paddingRight="@dimen/display_note_pic_container_side_padding" />
 
                     <TextView
                         android:id="@+id/display_note_description_text_view"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/display_note_content_side_margin"
+                        android:layout_marginRight="@dimen/display_note_content_side_margin"
+                        android:layout_marginTop="@dimen/display_consistent_margin_top"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textSize="@dimen/display_description_text_size" />
 
                     <include
                         android:id="@+id/display_note_audio_layout"

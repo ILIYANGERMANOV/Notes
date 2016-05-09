@@ -23,31 +23,26 @@ public class DisplayBaseActivity extends AppCompatActivity {
     //TODO: Refactor, optimize and lower memory consumption
     public boolean mIsStarred;
     public boolean mNoteModeChanged;
-
+    @Bind(R.id.display_last_modified_text_view)
+    protected TextView mLastModifiedTextView;
+    @Bind(R.id.display_location_layout)
+    protected LinearLayout mLocationLayout;
     @Bind(R.id.display_toolbar)
     Toolbar mToolbar;
     @Bind(R.id.display_title_text_view)
     TextView mTitleTextView;
     @Bind(R.id.display_reminder_text_view)
     TextView mReminderTextView;
-    @Bind(R.id.display_last_modified_text_view)
-    TextView mLastModifiedTextView;
     @Bind(R.id.display_created_on_text_view)
     TextView mCreatedOnTextView;
     @Bind(R.id.display_expires_on_text_view)
     TextView mExpiresOnTextView;
-    @Bind(R.id.display_location_layout)
-    LinearLayout mLocationLayout;
     @Bind(R.id.display_location_text_view)
     TextView mLocationTextView;
     @Bind(R.id.display_action_image_button)
     ImageButton mActionImageButton;
 
     //getters for layout components----------------------------------------------------------------------------------------
-    public View getLimitView() {
-        return mLocationLayout;
-    }
-
     public ImageButton getActionImageButton() {
         return mActionImageButton;
     }

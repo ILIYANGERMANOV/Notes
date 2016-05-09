@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="13dp"
+    android:layout_height="0dp"
+    android:layout_marginLeft="@dimen/display_details_layout_side_margin"
+    android:layout_marginRight="@dimen/display_details_layout_side_margin"
+    android:layout_marginTop="@dimen/display_consistent_margin_top"
+    android:layout_weight="1"
     android:gravity="bottom|end"
     android:orientation="vertical">
     <!-- gravity bottom on LinearLayout, so date details can be on the bottom in DisplayList -->
@@ -18,8 +21,9 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="7dp"
-            android:layout_marginRight="7dp"
+            android:layout_marginEnd="@dimen/display_details_drawable_padding"
+            android:layout_marginRight="@dimen/display_details_drawable_padding"
+            android:contentDescription="@string/display_details_location_icon_desc"
             android:src="@drawable/ic_display_location" />
 
         <TextView
@@ -32,7 +36,7 @@
             android:text="@string/location_button_decode_text"
             android:textAllCaps="false"
             android:textColor="@color/link_color"
-            android:textSize="14sp" />
+            android:textSize="@dimen/display_details_text_size" />
     </LinearLayout>
 
 
@@ -41,11 +45,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/ic_reminder_main_12dp"
-        android:drawablePadding="7dp"
+        android:drawablePadding="@dimen/display_details_drawable_padding"
         android:drawableStart="@drawable/ic_reminder_main_12dp"
-        android:text="Reminder: tomorrow, 23:00"
+        android:gravity="end"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textSize="14sp"
+        android:textSize="@dimen/display_details_text_size"
         android:visibility="gone" />
 
     <TextView
@@ -53,36 +57,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/ic_last_modified"
-        android:drawablePadding="7dp"
+        android:drawablePadding="@dimen/display_details_drawable_padding"
         android:drawableStart="@drawable/ic_last_modified"
-        android:gravity="bottom|end"
-        android:text="Last modified: today, 14:05"
+        android:gravity="end"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textSize="14sp" />
+        android:textSize="@dimen/display_details_text_size" />
 
     <TextView
         android:id="@+id/display_created_on_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/ic_created_on_12dp"
-        android:drawablePadding="7dp"
+        android:drawablePadding="@dimen/display_details_drawable_padding"
         android:drawableStart="@drawable/ic_created_on_12dp"
-        android:gravity="bottom|end"
-        android:text="Created on: today, 14:05"
+        android:gravity="end"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textSize="14sp" />
+        android:textSize="@dimen/display_details_text_size" />
 
     <TextView
         android:id="@+id/display_expires_on_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/ic_expires_on_12dp"
-        android:drawablePadding="7dp"
+        android:drawablePadding="@dimen/display_details_drawable_padding"
         android:drawableStart="@drawable/ic_expires_on_12dp"
-        android:gravity="bottom|end"
-        android:text="Expires on: today, 14:05"
+        android:gravity="end"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textSize="14sp"
+        android:textSize="@dimen/display_details_text_size"
         android:visibility="gone" />
 
 </LinearLayout>

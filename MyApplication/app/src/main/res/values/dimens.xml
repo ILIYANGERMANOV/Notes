@@ -6,7 +6,6 @@
     <!-- Main activity -->
     <dimen name="main_container_horizontal_margin">10dp</dimen>
     <dimen name="main_card_horizontal_margin">6dp</dimen>
-
     <dimen name="main_container_bottom_padding">8dp</dimen>
     <dimen name="main_card_top_margin">8dp</dimen>
 
@@ -15,7 +14,6 @@
     <dimen name="main_fab_menu_labels_margin">8dp</dimen>
     <dimen name="main_fab_menu_labels_text_size">14sp</dimen>
     <!-- FAB MENU -->
-
 
     <!-- Items -->
     <dimen name="main_item_content_padding">8dp</dimen>
@@ -30,19 +28,36 @@
     <dimen name="list_item_drawable_padding">2dp</dimen>
     <!-- List -->
     <!-- Items -->
-
     <dimen name="main_empty_view_drawable_padding">16dp</dimen>
     <dimen name="main_empty_view_padding">32dp</dimen>
     <!-- Main activity -->
 
+
     <!-- Display activities -->
-    <!-- header -->
-    <dimen name="header_layout_height">60dp</dimen>
-    <dimen name="header_layout_margin_bottom">10dp</dimen>
-    <dimen name="display_action_button_margin_left">12dp</dimen>
-    <!-- header -->
     <dimen name="display_card_margin">12dp</dimen>
     <dimen name="display_card_padding">14dp</dimen>
+    <dimen name="display_consistent_margin_top">10dp</dimen>
+
+    <!-- header -->
+    <dimen name="header_layout_height">60dp</dimen>
+    <dimen name="header_layout_margin_bottom">6dp</dimen>
+    <dimen name="display_action_button_margin_left">12dp</dimen>
+    <!-- header -->
+
+    <!-- details -->
+    <dimen name="display_details_layout_side_margin">7dp</dimen>
+    <dimen name="display_details_drawable_padding">7dp</dimen>
+    <dimen name="display_details_text_size">14sp</dimen>
+    <!-- details -->
+
+    <!-- note -->
+    <dimen name="display_note_content_side_margin">10dp</dimen>
+    <dimen name="display_note_pic_container_side_padding">5dp</dimen>
+    <dimen name="display_note_pic_height">325dp</dimen>
+    <dimen name="display_note_pics_margin_bottom">7dp</dimen>
+    <dimen name="display_description_text_size">15sp</dimen>
+    <dimen name="display_audio_consistent_margin">12dp</dimen>
+    <!-- note -->
     <!-- Display activities -->
 
 

@@ -14,23 +14,17 @@ public class DisplayNoteBaseDisplayHelper {
     public static void displayNoteData(final DisplayNoteBaseActivity displayNoteBaseActivity) {
         NoteData noteData = displayNoteBaseActivity.mNoteData; //create new reference for easier access
 
-        //!NOTE: by default description text view is visible, but when come back from compose activity
-        //it can be hid, so reset it
-        displayNoteBaseActivity.getDescriptionTextView().setVisibility(View.VISIBLE);
-        //!NOTE: always set notes description text view, cuz when come back from compose activity
-        //problems can occur
-        displayNoteBaseActivity.getDescriptionTextView().setText(noteData.getDescription());
-
+        if (noteData.hasDescription()) {
+            //note has description, show view and display it
+            displayNoteBaseActivity.getDescriptionTextView().setVisibility(View.VISIBLE);
+            displayNoteBaseActivity.getDescriptionTextView().setText(noteData.getDescription());
+        } else {
+            //note hasn't description, hide view
+            displayNoteBaseActivity.getDescriptionTextView().setVisibility(View.GONE);
+        }
 
         if (noteData.hasAttachedImage()) {
             //there is attached image, display it
-
-            if (!noteData.hasDescription()) {
-                //!NOTE: note has attached image and there is no description, hide desc text view
-                // so there are no white spaces
-                displayNoteBaseActivity.getDescriptionTextView().setVisibility(View.GONE);
-            }
-
             LinearListView imagesLinearListView = displayNoteBaseActivity.getImagesLinearListView(); //create new reference for easier access
             DisplayNoteImagesAdapter adapter = (DisplayNoteImagesAdapter) imagesLinearListView.getAdapter();
             if (adapter == null) {
