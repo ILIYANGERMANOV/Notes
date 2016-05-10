@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckedTextView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.gcode.notes.R;
@@ -86,12 +85,10 @@ public class ListData extends ContentBase {
     }
 
     public void displayListOnMain(Activity activity, ListItemViewHolder holder) {
-        LinearLayout containerLayout = holder.getContainerLayout();
-
         setHolderInDefaultState(holder); //removeAllViews from container and hides moreImageView
         displayBase(holder.getTitleTextView(), holder.getReminderTextView());
-        displayListItems(activity, containerLayout, holder.getMoreImageView());
-        displayDivider(holder);
+        displayListItems(activity, holder);
+        displayAttributesLayout(holder);
     }
 
     private void setHolderInDefaultState(ListItemViewHolder holder) {
@@ -99,9 +96,10 @@ public class ListData extends ContentBase {
         holder.getMoreImageView().setVisibility(View.GONE);
     }
 
-    private void displayListItems(Activity activity, LinearLayout containerLayout, ImageView moreImageView) {
+    private void displayListItems(Activity activity, ListItemViewHolder holder) {
         //add list items to container
         if (list == null) return; //abort and prevent null pointer exception
+        LinearLayout containerLayout = holder.getContainerLayout();
         LayoutInflater inflater = LayoutInflater.from(activity);
         //TODO: display list items based both on MAX_ITEMS_TO_DISPLAY and height
         for (int i = 0; i < list.size(); ++i) {
@@ -110,7 +108,7 @@ public class ListData extends ContentBase {
                 containerLayout.addView(createViewForItem(list.get(i), inflater, containerLayout));
             } else {
                 //max items to display is reached, show more image view
-                moreImageView.setVisibility(View.VISIBLE);
+                holder.getMoreImageView().setVisibility(View.VISIBLE);
                 break;
             }
         }
@@ -118,7 +116,7 @@ public class ListData extends ContentBase {
 
     private View createViewForItem(ListDataItem item, LayoutInflater inflater, LinearLayout containerLayout) {
         //create view
-        View itemView = inflater.inflate(R.layout.main_list_item, containerLayout, false);
+        View itemView = inflater.inflate(R.layout.list_main_item, containerLayout, false);
 
         //bind view
         CheckedTextView checkedTextView = (CheckedTextView) itemView.findViewById(R.id.list_data_item_row_checked_text_view);
@@ -131,13 +129,13 @@ public class ListData extends ContentBase {
         return itemView;
     }
 
-    private void displayDivider(ListItemViewHolder holder) {
+    private void displayAttributesLayout(ListItemViewHolder holder) {
         if (hasReminder()) {
-            //they are attributes, show divider
-            holder.getAttributesDivider().setVisibility(View.VISIBLE); //shows attributes divider
+            //they are attributes, show attributes layout
+            holder.getAttributesLayout().setVisibility(View.VISIBLE); //shows attributes layout
         } else {
             //there are no attributes, hide divider
-            holder.getAttributesDivider().setVisibility(View.GONE); //hides attributes divider
+            holder.getAttributesLayout().setVisibility(View.GONE); //hides attributes layout
         }
     }
 

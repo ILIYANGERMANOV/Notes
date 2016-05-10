@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_marginTop="@dimen/item_big_margin"
+    android:orientation="vertical"
+    android:visibility="gone">
 
     <View
         android:id="@+id/attributes_divider"
-        style="@style/Divider"
-        android:visibility="gone" />
+        style="@style/Divider" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,6 +21,7 @@
             android:id="@+id/voice_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/main_item_audio_icon_desc"
             android:src="@drawable/ic_play_main_attribute_12dp"
             android:visibility="gone" />
 

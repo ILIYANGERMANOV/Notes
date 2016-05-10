@@ -135,6 +135,7 @@
     <string name="tomorrow">Tomorrow</string>
     <string name="yesterday">Yesterday</string>
     <string name="display_details_location_icon_desc">Location</string>
+    <string name="main_item_audio_icon_desc">Note has audio icon</string>
 
 
 </resources>

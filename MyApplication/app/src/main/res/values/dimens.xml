@@ -6,8 +6,8 @@
     <!-- Main activity -->
     <dimen name="main_container_horizontal_margin">10dp</dimen>
     <dimen name="main_card_horizontal_margin">6dp</dimen>
-    <dimen name="main_container_bottom_padding">8dp</dimen>
     <dimen name="main_card_top_margin">8dp</dimen>
+    <dimen name="main_container_bottom_padding">8dp</dimen>
 
     <!-- FAB MENU -->
     <dimen name="main_fab_padding">12dp</dimen>
@@ -18,10 +18,10 @@
     <!-- Items -->
     <dimen name="main_item_content_padding">8dp</dimen>
     <dimen name="item_small_margin">3dp</dimen>
-    <dimen name="item_big_margin">5dp</dimen>
+    <dimen name="item_big_margin">7dp</dimen>
 
     <!-- Note -->
-    <dimen name="note_image_view_height">150dp</dimen>
+    <dimen name="main_note_image_height">150dp</dimen>
     <!-- Note -->
 
     <!-- List -->
@@ -58,8 +58,18 @@
     <dimen name="display_description_text_size">15sp</dimen>
     <dimen name="display_audio_consistent_margin">12dp</dimen>
     <!-- note -->
-    <!-- Display activities -->
 
+    <!-- list -->
+    <dimen name="display_list_container_side_margin">10dp</dimen>
+    <dimen name="display_list_done_button_side_margin">10dp</dimen>
+    <dimen name="display_list_done_button_side_padding">7dp</dimen>
+    <dimen name="display_list_done_button_drawable_padding">7dp</dimen>
+    <dimen name="display_list_done_button_text_size">16sp</dimen>
+    <dimen name="display_list_item_margin_top">5dp</dimen>
+    <dimen name="display_list_item_drawable_padding">3dp</dimen>
+    <dimen name="display_list_item_min_height">30dp</dimen>
+    <!-- list -->
+    <!-- Display activities -->
 
     <dimen name="add_pic_dialog_padding">6dp</dimen>
 </resources>

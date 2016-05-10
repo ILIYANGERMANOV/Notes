@@ -36,49 +36,44 @@
 
                     <include layout="@layout/display_header_layout" />
 
-
                     <com.linearlistview.LinearListView
                         android:id="@+id/display_list_linear_list_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="vertical"
-                        android:paddingEnd="21dp"
-                        android:paddingLeft="21dp"
-                        android:paddingRight="21dp"
-                        android:paddingStart="21dp" />
+                        android:layout_marginLeft="@dimen/display_list_container_side_margin"
+                        android:layout_marginRight="@dimen/display_list_container_side_margin"
+                        android:orientation="vertical" />
 
                     <Button
                         android:id="@+id/display_list_done_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/display_list_done_button_side_margin"
+                        android:layout_marginRight="@dimen/display_list_done_button_side_margin"
+                        android:layout_marginTop="@dimen/display_list_item_margin_top"
                         android:background="?android:attr/selectableItemBackground"
-                        android:drawableLeft="@drawable/ic_expand_more_black_24dp"
-                        android:drawablePadding="5dp"
-                        android:drawableStart="@drawable/ic_expand_more_black_24dp"
+                        android:drawableLeft="@drawable/ic_display_list_more"
+                        android:drawablePadding="@dimen/display_list_done_button_drawable_padding"
+                        android:drawableStart="@drawable/ic_display_list_more"
                         android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/display_list_done_button_side_padding"
+                        android:paddingRight="@dimen/display_list_done_button_side_padding"
                         android:text="@string/compose_list_done_tasks_caption"
                         android:textAllCaps="false"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textSize="17sp" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                        android:textSize="@dimen/display_list_done_button_text_size" />
 
                     <com.linearlistview.LinearListView
                         android:id="@+id/display_list_ticked_linear_list_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingEnd="21dp"
-                        android:paddingLeft="21dp"
-                        android:paddingRight="21dp"
-                        android:paddingStart="21dp" />
+                        android:layout_marginLeft="@dimen/display_list_container_side_margin"
+                        android:layout_marginRight="@dimen/display_list_container_side_margin"
+                        android:orientation="vertical" />
 
                     <include
                         android:id="@+id/display_list_details_and_reminder_layout"
-                        layout="@layout/display_details_and_reminder_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_weight="1" />
+                        layout="@layout/display_details_and_reminder_layout" />
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>

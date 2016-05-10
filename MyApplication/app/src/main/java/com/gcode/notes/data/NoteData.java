@@ -102,25 +102,18 @@ public class NoteData extends ContentBase {
         setHolderInDefaultState(holder); //sets view holder in default state
         displayBase(holder.getTitleTextView(), holder.getReminderTextView()); //display title and reminder
         displayDescription(holder);
-        if (hasAttachedImage()) {
-            displayAttachedImages(holder.getNoteImageView());
-        } else {
-            //there is no attached image, hide note image
-            holder.getNoteImageView().setVisibility(View.GONE); //reset here for better performance
-        }
+        displayAttachedImages(holder.getNoteImageView());
         displayAudioRecord(holder.getVoiceImageView());
-        displayDivider(holder.getAttributesDivider());
+        displayAttributesLayout(holder.getAttributesLayout());
     }
 
     /**
-     * Resets view holder's attributes divider and more image view.
-     * Its done here, because resetting attributes divider doesn't decrease performance
-     * and more image view should stay hidden while checking text view's lines count.
+     * Resets view holder's more image view.
+     * Its done here, because more image view should stay hidden while checking text view's lines count.
      *
      * @param holder view holder representing one note
      */
     private void setHolderInDefaultState(NoteItemViewHolder holder) {
-        holder.getAttributesDivider().setVisibility(View.GONE); //hides attribute divider cuz  by default should be hidden
         holder.getMoreImageView().setVisibility(View.GONE); //hide gone image view cuz by default should be hidden
     }
 
@@ -160,18 +153,13 @@ public class NoteData extends ContentBase {
     }
 
     private void displayAttachedImages(ImageView noteImageVIew) {
-        noteImageVIew.setVisibility(View.VISIBLE);
-        PhotoUtils.loadPhoto(noteImageVIew.getContext(),
-                attachedImagesPaths.get(0), noteImageVIew); //load 1st note attached image to display
-    }
-
-    private void displayDivider(View attributesDividerView) {
-        if (hasAttachedAudio() || hasReminder()) {
-            //there are attributes, show divider
-            attributesDividerView.setVisibility(View.VISIBLE); //shows divider
+        if (hasAttachedImage()) {
+            noteImageVIew.setVisibility(View.VISIBLE);
+            PhotoUtils.loadPhoto(noteImageVIew.getContext(),
+                    attachedImagesPaths.get(0), noteImageVIew); //load 1st note attached image to display
         } else {
-            //there are no attributes, hide divider
-            attributesDividerView.setVisibility(View.GONE); //hides divider
+            //there is no attached image, hide note image
+            noteImageVIew.setVisibility(View.GONE); //reset here for better performance (no need for double hide)
         }
     }
 
@@ -180,6 +168,16 @@ public class NoteData extends ContentBase {
             voiceImageView.setVisibility(View.VISIBLE);
         } else {
             voiceImageView.setVisibility(View.GONE);
+        }
+    }
+
+    private void displayAttributesLayout(View attributesLayout) {
+        if (hasAttachedAudio() || hasReminder()) {
+            //there are attributes, show attributes layout
+            attributesLayout.setVisibility(View.VISIBLE); //shows attributes layout
+        } else {
+            //there are no attributes, hide attributes layout
+            attributesLayout.setVisibility(View.GONE); //hides attributes layout
         }
     }
 

@@ -20,7 +20,7 @@
         <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/note_image_view"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/note_image_view_height"
+            android:layout_height="@dimen/main_note_image_height"
             android:layout_marginTop="@dimen/item_small_margin"
             android:contentDescription="@string/attached_image_desc"
             android:scaleType="centerCrop"
@@ -40,11 +40,8 @@
             layout="@layout/item_more_image_view" />
 
         <include
-            android:id="@+id/note_attributes_layout"
-            layout="@layout/note_attributes_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/item_big_margin" />
+            android:id="@+id/main_attributes_layout"
+            layout="@layout/main_attributes_layout" />
 
     </LinearLayout>
 

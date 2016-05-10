@@ -30,11 +30,8 @@
             layout="@layout/item_more_image_view" />
 
         <include
-            android:id="@+id/list_attributes_layout"
-            layout="@layout/note_attributes_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/item_big_margin" />
+            android:id="@+id/main_attributes_layout"
+            layout="@layout/main_attributes_layout" />
 
     </LinearLayout>
 

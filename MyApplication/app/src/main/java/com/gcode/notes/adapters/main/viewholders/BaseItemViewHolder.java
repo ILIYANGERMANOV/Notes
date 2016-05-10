@@ -7,6 +7,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
@@ -31,8 +32,8 @@ public abstract class BaseItemViewHolder extends RecyclerView.ViewHolder impleme
     ImageView mMoreImageView;
     @Bind(R.id.reminder_text_view)
     TextView mReminderTextView;
-    @Bind(R.id.attributes_divider)
-    View mAttributesDivider;
+    @Bind(R.id.main_attributes_layout)
+    LinearLayout mAttributesLayout;
 
     public BaseItemViewHolder(Activity activity, View itemView, ArrayList<ContentBase> data) {
         super(itemView);
@@ -53,8 +54,8 @@ public abstract class BaseItemViewHolder extends RecyclerView.ViewHolder impleme
         return mReminderTextView;
     }
 
-    public View getAttributesDivider() {
-        return mAttributesDivider;
+    public LinearLayout getAttributesLayout() {
+        return mAttributesLayout;
     }
 
     public ImageView getMoreImageView() {
