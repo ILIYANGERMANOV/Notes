@@ -1,14 +1,11 @@
 package com.gcode.notes.activities.helpers.main.actions;
 
 
-import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.view.MenuItem;
 
 import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
-import com.gcode.notes.activities.extra.ExploreActivity;
-import com.gcode.notes.activities.extra.SettingsActivity;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.controllers.bin.BinController;
 import com.gcode.notes.controllers.visible.AllNotesController;
@@ -64,10 +61,10 @@ public class DrawerOptionExecutor implements NavigationView.OnNavigationItemSele
                 BaseController.setInstance(new BinController(mMainActivity));
                 break;
             case R.id.navigation_item_explore:
-                mMainActivity.startActivity(new Intent(mMainActivity, ExploreActivity.class));
+                //mMainActivity.startActivity(new Intent(mMainActivity, ExploreActivity.class));
                 return;
             case R.id.navigation_item_settings:
-                mMainActivity.startActivity(new Intent(mMainActivity, SettingsActivity.class));
+                //mMainActivity.startActivity(new Intent(mMainActivity, SettingsActivity.class));
                 return;
             default:
                 return;

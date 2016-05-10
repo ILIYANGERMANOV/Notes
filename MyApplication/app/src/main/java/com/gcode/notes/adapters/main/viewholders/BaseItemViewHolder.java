@@ -42,10 +42,6 @@ public abstract class BaseItemViewHolder extends RecyclerView.ViewHolder impleme
         mData = data;
     }
 
-    public void clearAnimation() {
-        itemView.clearAnimation();
-    }
-
     public TextView getTitleTextView() {
         return mTitleTextView;
     }
@@ -74,6 +70,9 @@ public abstract class BaseItemViewHolder extends RecyclerView.ViewHolder impleme
                 ContextCompat.getColor(mActivity, R.color.card_background));
     }
 
+    /**
+     * Should set item onClickListeners.
+     */
     public abstract void setStartState();
 
     public BaseItemListener getItemBaseListener() {

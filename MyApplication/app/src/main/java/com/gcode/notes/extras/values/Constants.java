@@ -5,7 +5,6 @@ import android.view.Menu;
 
 public class Constants {
     public static final String PREFERENCES_FILE = "notes_settings";
-    public static final int GRID_COLUMNS_COUNT = 2;
 
     public static final int COMPOSE_NOTE_REQUEST_CODE = 1;
     public static final int DISPLAY_LIST_REQUEST_CODE = 2;

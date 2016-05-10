@@ -1,16 +1,15 @@
 package com.gcode.notes.activities.helpers.main.ui;
 
 
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
+import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.activities.helpers.main.ui.listeners.RecyclerViewOnScrollListener;
 import com.gcode.notes.adapters.main.MainAdapter;
 import com.gcode.notes.data.base.ContentBase;
-import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
 
 import java.util.ArrayList;
@@ -30,11 +29,11 @@ public class MainRecyclerViewHelper {
         MainAdapter adapter = new MainAdapter(mMainActivity, notesList);
         mMainActivity.mMainAdapter = adapter;
 
-        final GridLayoutManager gridLayoutManager = new GridLayoutManager(mMainActivity, Constants.GRID_COLUMNS_COUNT);
-        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        int columnCount = mMainActivity.getResources().getInteger(R.integer.main_grid_column_count);
+        final StaggeredGridLayoutManager layoutManager =
+                new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
 
-        recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setItemAnimator(itemAnimator);
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
         //shows / hides fab menu button on scrolling

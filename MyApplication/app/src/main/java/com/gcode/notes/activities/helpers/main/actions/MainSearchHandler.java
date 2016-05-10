@@ -41,7 +41,7 @@ public class MainSearchHandler implements SearchView.OnQueryTextListener,
     public boolean onQueryTextChange(String query) {
         mLastQuery = query;
         final ArrayList<ContentBase> filteredNotesList = filter(mNotesListCopy, query);
-        mMainAdapter.animateTo(filteredNotesList);
+        mMainAdapter.updateContent(filteredNotesList);
         mRecyclerView.scrollToPosition(0);
         return true;
     }

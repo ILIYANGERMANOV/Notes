@@ -36,8 +36,6 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
 
     private TextView mEmptyView;
     private boolean mEmptyViewVisible;
-    private int mLastAnimatedPosition = -1;
-    private boolean mAnimate = true;
 
     public MainAdapter(MainActivity mainActivity, ArrayList<ContentBase> data) {
         mMainActivity = mainActivity;
@@ -47,11 +45,6 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
 
         mInflater = LayoutInflater.from(mainActivity);
         mEmptyViewVisible = false;
-    }
-
-    @SuppressWarnings("unused")
-    public void setAnimate(boolean animate) {
-        this.mAnimate = animate;
     }
 
     //getters----------------------------------------------------------------------------------------
@@ -94,21 +87,6 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
                 ((ListData) currentItem).displayListOnMain(mMainActivity, (ListItemViewHolder) holder);
             }
         }
-        runEnterAnimation(holder.itemView, position);
-    }
-
-    private void runEnterAnimation(View itemView, int position) {
-        if (position > mLastAnimatedPosition && mAnimate) {
-            MyAnimator.startAnimationOnView(itemView, R.anim.recycler_view_item_appear);
-            mLastAnimatedPosition = position;
-        }
-    }
-
-    @Override
-    public void onViewDetachedFromWindow(BaseItemViewHolder holder) {
-        //clear animation, because they are problems on fast scrolling
-        //with animating view while adapter is trying to reuse it
-        holder.clearAnimation();
     }
 
     @Override
@@ -202,6 +180,7 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
         return removedItem;
     }
 
+    @SuppressWarnings("unused")
     public void moveItem(int fromPosition, int toPosition) {
         ContentBase model = mData.remove(fromPosition);
         try {
@@ -212,6 +191,7 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
         }
     }
 
+    /*
     public void animateTo(ArrayList<ContentBase> filteredList) {
         applyAndAnimateRemovals(filteredList);
         applyAndAnimateAdditions(filteredList);
@@ -245,6 +225,7 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
             }
         }
     }
+    */
 
     @Override
     public void onItemDismissUnrecoverable(int position) {
@@ -277,7 +258,6 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
 
 
     public void updateContent(ArrayList<ContentBase> newData) {
-        mLastAnimatedPosition = -1; //reset animated position to run animation again
         mData.clear();
         mData.addAll(newData);
         notifyDataSetChanged();
