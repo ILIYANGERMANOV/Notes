@@ -34,7 +34,11 @@ public class ComposeBaseStartStateHelper {
         composeBaseActivity.mIsOpenedInEditMode = true;
         composeBaseActivity.getTitleEditText().setText(contentBase.getTitle());
         if (contentBase.isImportant()) {
+            //note is important, set activity to starred state
             composeBaseActivity.setStarredState();
+        } else if (contentBase.getMode() == Constants.MODE_PRIVATE) {
+            //note is private mode, rise mInPrivateMode flag and hide star button
+            composeBaseActivity.setInPrivateMode();
         }
         if (contentBase.hasReminder()) {
             ComposeReminderFragment composeReminderFragment = composeBaseActivity.getComposeReminderFragment();
@@ -53,12 +57,8 @@ public class ComposeBaseStartStateHelper {
                 composeReminderFragment.mHour = Integer.parseInt(time[0]); //hour
                 composeReminderFragment.mMinute = Integer.parseInt(time[1]); //minute
 
-                composeReminderFragment.updateButtonsText(); //update buttons' text to above setted values
+                composeReminderFragment.updateButtonsText(); //update buttons' text to above set values
             }
-        }
-        if (contentBase.getMode() == Constants.MODE_PRIVATE) {
-            //note is private mode, rise mInPrivateMode flag
-            composeBaseActivity.setInPrivateMode();
         }
     }
 

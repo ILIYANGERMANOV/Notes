@@ -1,7 +1,9 @@
 package com.gcode.notes.adapters.main;
 
 
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -258,9 +260,20 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
 
 
     public void updateContent(ArrayList<ContentBase> newData) {
+        boolean wasEmpty = getItemCount() == 0;
         mData.clear();
         mData.addAll(newData);
         notifyDataSetChanged();
+        if (wasEmpty) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //when adding items to empty data set items were pushed bottom (like invisible their copies where placed above)
+                    //TODO: HIGH PRIORITY remove workaround when Google .i. finally fix there fu(cking)nny layout managers, read comment above
+                    ((StaggeredGridLayoutManager) mRecyclerView.getLayoutManager()).invalidateSpanAssignments();
+                }
+            }, Constants.SHORT_DELAY);
+        }
         checkForEmptyState();
     }
 

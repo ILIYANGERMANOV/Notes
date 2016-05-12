@@ -58,7 +58,7 @@ public abstract class BaseController implements ControllerInterface {
         if (mainAdapter != null) {
             mainAdapter.updateContent(newContent);
             if (scrollToTop) {
-                mRecyclerView.scrollToPosition(0); //not smooth scroll, cuz item appear animation, becomes ugly
+                mRecyclerView.scrollToPosition(0); //not smooth scroll, cuz there is bad UX
             }
         }
     }
