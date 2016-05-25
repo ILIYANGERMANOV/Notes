@@ -1,9 +1,11 @@
 package com.gcode.notes.extras.utils;
 
+import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.services.ReminderService;
@@ -17,7 +19,24 @@ public class AlarmUtils {
                 intent, PendingIntent.FLAG_CANCEL_CURRENT); //FLAG_CANCEL_CURRENT, cuz when updating reminders' date it must cancel previous intent
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, when, pendingIntent); //RTC_WAKEUP so ReminderService will be executed even when the phone is locked
+        if (MyUtils.isPreApi19()) {
+            //its pre19 and AlarmManager#set() is interpreted as exact time
+            setAlarmPre19(alarmManager, when, pendingIntent);
+        } else {
+            //its API 19 or greater and AlarmManager#set() is NOT interpreted as exact time, use #setExact()
+            setAlarm19(alarmManager, when, pendingIntent);
+        }
+    }
+
+    private static void setAlarmPre19(AlarmManager alarmManager, long when, PendingIntent pendingIntent) {
+        alarmManager.set(AlarmManager.RTC_WAKEUP, when, pendingIntent); //RTC_WAKEUP so ReminderService will be executed even when the phone fell asleep
+        //using RTC, cuz it measures elapsed time using clock, not like ELAPSED_REAL_TIME which measures the time after the device has booted
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    private static void setAlarm19(AlarmManager alarmManager, long when, PendingIntent pendingIntent) {
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, when, pendingIntent); //RTC_WAKEUP so ReminderService will be executed even when the phone fell asleep
+        //using RTC, cuz it measures elapsed time using clock, not like ELAPSED_REAL_TIME which measures the time after the device has booted
     }
 
     public static void cancelAlarm(Context context, int noteId) {

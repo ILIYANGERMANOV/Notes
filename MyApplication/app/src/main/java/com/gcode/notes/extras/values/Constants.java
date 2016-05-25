@@ -100,6 +100,7 @@ public class Constants {
     public static final int MEDIUM_DELAY = 150;
     public static final int LONG_DELAY = 250;
     public static final int DELAY_SO_USER_CAN_SEE = 300;
+    public static final int VERY_LONG_DELAY = 350;
 
     public static final float VIEWS_FADED_ALPHA = 0.4f;
 

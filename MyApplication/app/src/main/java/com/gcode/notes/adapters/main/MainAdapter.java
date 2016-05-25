@@ -259,7 +259,7 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
     }
 
 
-    public void updateContent(ArrayList<ContentBase> newData) {
+    public void updateContent(ArrayList<ContentBase> newData, final boolean scrollToTop) {
         boolean wasEmpty = getItemCount() == 0;
         mData.clear();
         mData.addAll(newData);
@@ -269,10 +269,10 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
                 @Override
                 public void run() {
                     //when adding items to empty data set items were pushed bottom (like invisible their copies where placed above)
-                    //TODO: HIGH PRIORITY remove workaround when Google .i. finally fix there fu(cking)nny layout managers, read comment above
-                    ((StaggeredGridLayoutManager) mRecyclerView.getLayoutManager()).invalidateSpanAssignments();
+                    //TODO: TOP PRIORITY find acceptable workaround when Google .i. finally fix there fu(cking)nny layout managers, read comment above
+                    mRecyclerView.invalidateItemDecorations();
                 }
-            }, Constants.SHORT_DELAY);
+            }, Constants.VERY_LONG_DELAY);
         }
         checkForEmptyState();
     }

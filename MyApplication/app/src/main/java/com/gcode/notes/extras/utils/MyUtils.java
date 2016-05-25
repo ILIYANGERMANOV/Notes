@@ -3,30 +3,17 @@ package com.gcode.notes.extras.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
 import android.os.Build;
-import android.util.DisplayMetrics;
 import android.view.inputmethod.InputMethodManager;
 
-import com.gcode.notes.R;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 
 import java.util.Locale;
 
 public class MyUtils {
-    public static int convertDpInPixels(int dp) {
-        DisplayMetrics displayMetrics = MyApplication.getAppContext().getResources().getDisplayMetrics();
-        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-    }
-
-    public static int getToolbarHeight(Context context) {
-        final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
-                new int[]{R.attr.actionBarSize});
-        int toolbarHeight = (int) styledAttributes.getDimension(0, 0);
-        styledAttributes.recycle();
-
-        return toolbarHeight;
+    public static boolean isPreApi19() {
+        return android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT;
     }
 
     public static void saveToPreferences(String preferenceName, String value) {

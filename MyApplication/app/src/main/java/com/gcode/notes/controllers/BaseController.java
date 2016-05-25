@@ -56,7 +56,7 @@ public abstract class BaseController implements ControllerInterface {
     public void setNewContent(ArrayList<ContentBase> newContent, boolean scrollToTop) {
         MainAdapter mainAdapter = mMainAdapter;
         if (mainAdapter != null) {
-            mainAdapter.updateContent(newContent);
+            mainAdapter.updateContent(newContent, scrollToTop);
             if (scrollToTop) {
                 mRecyclerView.scrollToPosition(0); //not smooth scroll, cuz there is bad UX
             }
