@@ -1,6 +1,7 @@
 package com.gcode.notes.activities.helpers.main.ui;
 
 
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -30,8 +31,8 @@ public class MainRecyclerViewHelper {
         mMainActivity.mMainAdapter = adapter;
 
         int columnCount = mMainActivity.getResources().getInteger(R.integer.main_grid_column_count);
-        final StaggeredGridLayoutManager layoutManager =
-                new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
+        final GridLayoutManager layoutManager =
+                new GridLayoutManager(mMainActivity, columnCount);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);

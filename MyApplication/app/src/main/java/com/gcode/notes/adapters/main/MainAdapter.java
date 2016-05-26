@@ -3,7 +3,6 @@ package com.gcode.notes.adapters.main;
 
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -142,7 +141,6 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
         try {
             mData.add(position, item);
             notifyItemInserted(position);
-
             return true;
         } catch (IndexOutOfBoundsException exception) {
             MyDebugger.log("MainAdapter(): indexOutOfBoundsException caught.");
@@ -265,14 +263,13 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
         mData.addAll(newData);
         notifyDataSetChanged();
         if (wasEmpty) {
+            //TODO: workaround for staggered grid layout manager bug
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    //when adding items to empty data set items were pushed bottom (like invisible their copies where placed above)
-                    //TODO: TOP PRIORITY find acceptable workaround when Google .i. finally fix there fu(cking)nny layout managers, read comment above
-                    mRecyclerView.invalidateItemDecorations();
+
                 }
-            }, Constants.VERY_LONG_DELAY);
+            }, Constants.LONG_DELAY);
         }
         checkForEmptyState();
     }
