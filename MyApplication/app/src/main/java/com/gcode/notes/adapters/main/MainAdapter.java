@@ -20,9 +20,9 @@ import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
-import com.gcode.notes.helper.ItemTouchHelperAdapter;
 import com.gcode.notes.motions.MyAnimator;
 import com.gcode.notes.notes.MyApplication;
+import com.gcode.notes.touch.ItemTouchHelperAdapter;
 import com.gcode.notes.ui.ActionExecutor;
 
 import java.util.ArrayList;

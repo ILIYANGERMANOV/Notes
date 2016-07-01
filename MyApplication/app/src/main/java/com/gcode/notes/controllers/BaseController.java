@@ -14,9 +14,9 @@ import com.gcode.notes.controllers.visible.PrivateController;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
-import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
 import com.gcode.notes.tasks.async.main.AddItemFromDbToMainTask;
 import com.gcode.notes.tasks.async.main.RemoveItemFromMainTask;
+import com.gcode.notes.touch.SimpleItemTouchHelperCallback;
 import com.gcode.notes.ui.helpers.SearchViewHelper;
 import com.github.clans.fab.FloatingActionMenu;
 

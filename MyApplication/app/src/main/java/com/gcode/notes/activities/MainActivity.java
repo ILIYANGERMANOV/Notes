@@ -34,7 +34,7 @@ import com.gcode.notes.activities.helpers.main.ui.MainToolbarHelper;
 import com.gcode.notes.activities.helpers.main.ui.NavigationDrawerHelper;
 import com.gcode.notes.adapters.main.MainAdapter;
 import com.gcode.notes.extras.values.Constants;
-import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
+import com.gcode.notes.touch.SimpleItemTouchHelperCallback;
 import com.github.clans.fab.FloatingActionMenu;
 
 import butterknife.Bind;

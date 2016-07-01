@@ -36,8 +36,11 @@ public class TickedListComposeContainerAdapter extends BaseComposeContainerAdapt
                 mEditText.requestFocus();
             }
         } else {
-            //there are no previous items
-            mOtherContainerAdapter.setFocusOnChild(mOtherContainerAdapter.getItemCount() - 1);
+            //there are no previous items, request focus on last child
+            BaseComposeContainerAdapter otherContainerAdapter = mOtherContainerReference.get();
+            if (otherContainerAdapter != null) {
+                otherContainerAdapter.setFocusOnChild(otherContainerAdapter.getItemCount() - 1);
+            }
         }
     }
 
@@ -45,7 +48,10 @@ public class TickedListComposeContainerAdapter extends BaseComposeContainerAdapt
     protected void onUnchecked(View parent) {
         removeInputItem(parent, false);
         EditText mEditText = getEditTextFromView(parent);
-        mOtherContainerAdapter.addInputItem(mEditText.getText().toString(), true);
+        BaseComposeContainerAdapter otherContainerAdapter = mOtherContainerReference.get();
+        if (otherContainerAdapter != null) {
+            otherContainerAdapter.addInputItem(mEditText.getText().toString(), true);
+        }
     }
 
     @Override

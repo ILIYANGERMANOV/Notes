@@ -3,7 +3,6 @@ package com.gcode.notes.activities.helpers.main.ui;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.gcode.notes.R;
@@ -11,7 +10,7 @@ import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.activities.helpers.main.ui.listeners.RecyclerViewOnScrollListener;
 import com.gcode.notes.adapters.main.MainAdapter;
 import com.gcode.notes.data.base.ContentBase;
-import com.gcode.notes.helper.SimpleItemTouchHelperCallback;
+import com.gcode.notes.touch.SimpleItemTouchHelperCallback;
 
 import java.util.ArrayList;
 

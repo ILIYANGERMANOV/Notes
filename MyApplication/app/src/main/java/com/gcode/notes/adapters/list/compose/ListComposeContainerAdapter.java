@@ -51,7 +51,9 @@ public class ListComposeContainerAdapter extends BaseComposeContainerAdapter
     protected void onChecked(View parent) {
         removeInputItem(parent, true);
         EditText mEditText = getEditTextFromView(parent);
-        mOtherContainerAdapter.addInputItem(mEditText.getText().toString(), false);
+        BaseComposeContainerAdapter otherContainerAdapter = mOtherContainerReference.get();
+        if (otherContainerAdapter == null) return; //reference has been cleared, abort adding
+        otherContainerAdapter.addInputItem(mEditText.getText().toString(), false);
         if (!VisibilityHelper.isViewVisibleInScrollView(mLastDividerView, mScrollView)) {
             //show snackbar for item added to ticked
             SnackbarHelper.showShortSnackbar(mScrollView, R.string.item_added_to_done_snackbar_message);

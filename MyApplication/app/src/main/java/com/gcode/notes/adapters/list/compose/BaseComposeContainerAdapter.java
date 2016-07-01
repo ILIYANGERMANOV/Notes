@@ -20,14 +20,15 @@ import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
 import com.jmedeisis.draglinearlayout.DragLinearLayout;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 public abstract class BaseComposeContainerAdapter {
-    //TODO: REFACTOR AND OPTIMIZE (make base container to use LinearLayout and only not ticked to use DragLinearLayout)
+    //TODO: REFACTOR AND OPTIMIZE (make base container to use LinearLayout and only not ticked container to use DragLinearLayout)
     DragLinearLayout mContainer;
     ScrollView mScrollView;
     LayoutInflater mInflater;
-    BaseComposeContainerAdapter mOtherContainerAdapter;
+    WeakReference<BaseComposeContainerAdapter> mOtherContainerReference;
 
     int mLastFocused;
 
@@ -40,7 +41,7 @@ public abstract class BaseComposeContainerAdapter {
     }
 
     public void setOtherContainerAdapter(BaseComposeContainerAdapter otherContainerAdapter) {
-        mOtherContainerAdapter = otherContainerAdapter;
+        mOtherContainerReference = new WeakReference<>(otherContainerAdapter);
     }
 
     public ScrollView getRootScrollView() {
@@ -59,7 +60,10 @@ public abstract class BaseComposeContainerAdapter {
         int lastFocused = getViewId(v);
         if (lastFocused != Constants.ERROR) {
             mLastFocused = lastFocused;
-            mOtherContainerAdapter.setLastFocused(Constants.NO_FOCUS);
+            BaseComposeContainerAdapter otherContainerAdapter = mOtherContainerReference.get();
+            if (otherContainerAdapter != null) {
+                otherContainerAdapter.setLastFocused(Constants.NO_FOCUS);
+            }
         }
     }
 
@@ -164,6 +168,7 @@ public abstract class BaseComposeContainerAdapter {
         }, 20);
     }
 
+    @SuppressWarnings("unused")
     public int getItemCount() {
         return mContainer.getChildCount();
     }
