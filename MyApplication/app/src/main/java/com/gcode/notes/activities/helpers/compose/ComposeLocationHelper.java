@@ -29,7 +29,7 @@ public class ComposeLocationHelper {
 
             @Override
             public void onPermissionMissing() {
-                MyDebugger.log("Permission missing");
+                MyDebugger.log("Location permission missing");
                 composeBaseActivity.mLocationObtained = false;
             }
         }).getLocation();

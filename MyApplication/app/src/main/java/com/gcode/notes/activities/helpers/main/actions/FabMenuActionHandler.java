@@ -14,6 +14,8 @@ import com.gcode.notes.extras.utils.VoiceUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.ui.helpers.DialogBuilder;
 
+import pl.tajchert.nammu.PermissionCallback;
+
 public class FabMenuActionHandler {
     //TODO: REFACTOR AND OPTIMIZE (replace tags with constants)
 
@@ -33,10 +35,47 @@ public class FabMenuActionHandler {
             mainActivity.startActivityForResult(intent, Constants.COMPOSE_NOTE_REQUEST_CODE);
         } else if (tag.equals(mainActivity.getString(R.string.fab_label_voice))) {
             //voice note clicked, prompt Text-to-Speech
-            VoiceUtils.promptSpeechInput(mainActivity);
+            if (mainActivity.mPermissionsUtils.hasRecordAudioPermissions()) {
+                //user has granted record audio permission, prompt speech input
+                VoiceUtils.promptSpeechInput(mainActivity);
+            } else {
+                //user has NOT granted record audio permission, ask for it
+                mainActivity.mPermissionsUtils.askForRecordAudioPermission(new PermissionCallback() {
+                    @Override
+                    public void permissionGranted() {
+                        //user has granted audio permission, prompt speech input
+                        VoiceUtils.promptSpeechInput(mainActivity);
+                    }
+
+                    @Override
+                    public void permissionRefused() {
+                        //user has NOT granted record audio permission, do nothing
+                        MyDebugger.log("record audio permission refused");
+                    }
+                });
+            }
         } else if (tag.equals(mainActivity.getString(R.string.fab_label_camera))) {
             //camera clicked, build dialog for attaching image
-            DialogBuilder.buildAddPictureDialog(mainActivity);
+            if (mainActivity.mPermissionsUtils.hasStoragePermission()) {
+                //user has granted write external storage permission, can proceed forward
+                DialogBuilder.buildAddPictureDialog(mainActivity);
+            } else {
+                //user has NOT granted external storage permission, ask for it
+                mainActivity.mPermissionsUtils.askForStoragePermission(new PermissionCallback() {
+                    @Override
+                    public void permissionGranted() {
+                        //storage permission granted, show add picture dialog
+                        MyDebugger.log("storage permission granted");
+                        DialogBuilder.buildAddPictureDialog(mainActivity);
+                    }
+
+                    @Override
+                    public void permissionRefused() {
+                        //permission refused, do nothing
+                        MyDebugger.log("storage permission refused");
+                    }
+                });
+            }
         } else {
             //unknown tag, log it and prevent further execution
             MyDebugger.log("FabMenuActionHelper handleItemClick() unknown tag!");

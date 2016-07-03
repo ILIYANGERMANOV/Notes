@@ -10,6 +10,7 @@
         layout="@layout/compose_app_bar_layout" />
 
     <ScrollView
+        android:id="@+id/compose_note_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

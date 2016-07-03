@@ -10,7 +10,7 @@
         layout="@layout/display_app_bar_layout" />
 
     <ScrollView
-        android:id="@+id/scrollView"
+        android:id="@+id/display_note_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">

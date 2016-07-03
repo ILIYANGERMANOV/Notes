@@ -136,6 +136,9 @@
     <string name="yesterday">Yesterday</string>
     <string name="display_details_location_icon_desc">Location</string>
     <string name="main_item_audio_icon_desc">Note has audio icon</string>
+    <string name="ok">OK</string>
+    <string name="write_external_permission_rationale">Notes needs access to picture\'s folder to show images.</string>
+    <string name="record_audio_permission_rationale">Notes needs permission to record audio for Text-to-Speech feature.</string>
 
 
 </resources>

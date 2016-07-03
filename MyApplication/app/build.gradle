@@ -34,6 +34,7 @@ dependencies {
     compile 'com.github.frankiesardo:linearlistview:1.0.1@aar'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.scottyab:aescrypt:0.0.1'
+    compile 'com.github.tajchert:nammu:1.1.1' //Runtime permissions helper
 
     //included local
     compile project(':libs:draglinearlayout-1.10')

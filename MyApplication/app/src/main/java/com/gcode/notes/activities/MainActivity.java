@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
@@ -33,6 +34,7 @@ import com.gcode.notes.activities.helpers.main.ui.MainRecyclerViewHelper;
 import com.gcode.notes.activities.helpers.main.ui.MainToolbarHelper;
 import com.gcode.notes.activities.helpers.main.ui.NavigationDrawerHelper;
 import com.gcode.notes.adapters.main.MainAdapter;
+import com.gcode.notes.extras.utils.PermissionsUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.touch.SimpleItemTouchHelperCallback;
 import com.github.clans.fab.FloatingActionMenu;
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     public MainAdapter mMainAdapter;
     public SearchView mSearchView;
     public MainSearchHandler mSearchHandler;
+    public PermissionsUtils mPermissionsUtils;
     /**
      * Flag indicating whether the controller should load new content.
      * Used to prevent loading new content when exiting from private label.
@@ -134,6 +137,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mPermissionsUtils.verifyPermissionsChanges();
+    }
+
+    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (mReminderNotificationStartHelper == null) {
@@ -146,6 +155,13 @@ public class MainActivity extends AppCompatActivity {
     private void setup() {
         mFabMenuClickEnabled = true; //enable here, so it will be activated after screen rotation
         mDrawerOptionExecutor = new DrawerOptionExecutor(this);
+
+        mPermissionsUtils = new PermissionsUtils(this) {
+            @Override
+            protected View getRootView() {
+                return mCoordinatorLayout;
+            }
+        };
 
         new MainToolbarHelper(this).setupToolbar();
         FabMenuHelper.setupFabMenu(this);
@@ -204,6 +220,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item) ||
                 MainActivityMenuOptionsHelper.optionsItemSelected(this, item);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        mPermissionsUtils.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
