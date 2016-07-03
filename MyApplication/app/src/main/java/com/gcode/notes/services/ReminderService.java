@@ -9,7 +9,7 @@ import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.database.DatabaseController;
 import com.gcode.notes.extras.MyDebugger;
 import com.gcode.notes.extras.values.Constants;
-import com.gcode.notes.serialization.Serializer;
+import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.ui.helpers.NotificationHelper;
 
 public class ReminderService extends IntentService {
@@ -26,17 +26,26 @@ public class ReminderService extends IntentService {
             MyDebugger.log(SERVICE_NAME + "noteId has no value.");
             return;
         }
-        ContentBase contentBase = new DatabaseController(this).getNoteFromId(noteId);
+        //try to obtain db controller instance
+        DatabaseController databaseController;
+        try {
+            databaseController = MyApplication.getWritableDatabase();
+        } catch (RuntimeException ex) {
+            //there is no scenario where service is alive and application is killed (if they run in the same process, by default all components of the app run is same process)
+            //this is added for extra security for future versions of android
+            MyDebugger.log("Application is dead in " + SERVICE_NAME + ":", ex.getLocalizedMessage());
+            //try to reinitialize db and update reminder
+            databaseController = new DatabaseController(this);
+        }
+        ContentBase contentBase = databaseController.getNoteFromId(noteId);
         switch (contentBase.getType()) {
             case Constants.TYPE_NOTE:
                 //make notification with note data
-                NotificationHelper.makeNoteDataReminderNotification(getApplicationContext(),
-                        Serializer.serializeNoteData(((NoteData) contentBase)));
+                NotificationHelper.makeNoteDataReminderNotification(getApplicationContext(), ((NoteData) contentBase));
                 break;
             case Constants.TYPE_LIST:
                 //make notification with list data
-                NotificationHelper.makeListDataReminderNotification(getApplicationContext(),
-                        Serializer.serializeListData(((ListData) contentBase)));
+                NotificationHelper.makeListDataReminderNotification(getApplicationContext(), ((ListData) contentBase));
                 break;
             default:
                 //invalid type, log it

@@ -32,6 +32,7 @@ public class ReminderNotificationStartHelper implements AuthenticationCallbacks,
     }
 
     public void handleIfStartedFromReminderNotification(Intent intent) {
+        //TODO: fix note update issue when notification is fired and the user updates the note and then click the notification (note is not up-to-date)
         if (intent != null && intent.getBooleanExtra(Constants.EXTRA_FROM_REMINDER_NOTIFICATION, false)) {
             //!NOTE contentBase's reminder, so it wont duplicate
             //activity was started from reminder notification, start display activity according it extra data
@@ -41,7 +42,7 @@ public class ReminderNotificationStartHelper implements AuthenticationCallbacks,
                     NoteData noteData = Serializer.parseNoteData(intent.getStringExtra(Constants.EXTRA_NOTE_DATA));
                     if (noteData != null) {
                         //noteData has been parsed successfully, proceed forward
-                        unsetReminderAndStartDisplayActivity(noteData);
+                        prepareDisplayActivity(noteData);
                     } else {
                         //failed to parse noteData, log it
                         MyDebugger.log("ReminderNotificationStartHelper", "failed to parse noteData");
@@ -52,7 +53,7 @@ public class ReminderNotificationStartHelper implements AuthenticationCallbacks,
                     ListData listData = Serializer.parseListData(intent.getStringExtra(Constants.EXTRA_LIST_DATA));
                     if (listData != null) {
                         //listData has been parsed successfully, proceed forward
-                        unsetReminderAndStartDisplayActivity(listData);
+                        prepareDisplayActivity(listData);
                     } else {
                         //failed to parse listData, log it
                         MyDebugger.log("ReminderNotificationStartHelper", "failed to parse listData");
@@ -65,10 +66,7 @@ public class ReminderNotificationStartHelper implements AuthenticationCallbacks,
         }
     }
 
-    private void unsetReminderAndStartDisplayActivity(ContentBase contentBase) {
-        contentBase.setReminder(null); //unset contentBase's reminder
-        MyApplication.getWritableDatabase().updateNoteReminder(contentBase); //apply reminder update to db
-
+    private void prepareDisplayActivity(ContentBase contentBase) {
         if (contentBase.getMode() == Constants.MODE_PRIVATE) {
             //its private note, authenticate access
             mContentBase = contentBase;
