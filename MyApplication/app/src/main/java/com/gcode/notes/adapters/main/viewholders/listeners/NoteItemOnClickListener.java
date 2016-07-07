@@ -10,7 +10,7 @@ import com.gcode.notes.activities.display.note.editable.DisplayNoteNormalActivit
 import com.gcode.notes.activities.display.note.editable.DisplayNotePrivateActivity;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.NoteData;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 
@@ -40,7 +40,7 @@ public class NoteItemOnClickListener extends BaseItemListener {
                 intent = new Intent(mActivity, DisplayNoteBinActivity.class);
                 break;
             default:
-                MyDebugger.log("NoteItemOnClickListener", "invalid controller id");
+                MyLogger.log("NoteItemOnClickListener", "invalid controller id");
                 return;
         }
 

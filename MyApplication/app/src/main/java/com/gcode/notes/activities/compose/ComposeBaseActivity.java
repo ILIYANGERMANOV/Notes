@@ -11,7 +11,7 @@ import android.widget.ImageButton;
 
 import com.gcode.notes.R;
 import com.gcode.notes.activities.helpers.compose.ComposeBaseToolbarHelper;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.fragments.ComposeReminderFragment;
 
 import butterknife.Bind;
@@ -51,7 +51,7 @@ public class ComposeBaseActivity extends AppCompatActivity {
             return ((ComposeReminderFragment) fragment);
         } else {
             //fragment is null or cannot be cast, log and return null
-            MyDebugger.log("getComposeReminderFragment(): fragment null or cannot be cast to ComposeReminderFragment.");
+            MyLogger.log("getComposeReminderFragment(): fragment null or cannot be cast to ComposeReminderFragment.");
             return null;
         }
     }

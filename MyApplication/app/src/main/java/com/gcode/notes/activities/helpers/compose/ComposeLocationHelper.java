@@ -1,7 +1,7 @@
 package com.gcode.notes.activities.helpers.compose;
 
 import com.gcode.notes.activities.compose.ComposeBaseActivity;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.utils.LocationUtils;
 import com.gcode.notes.extras.utils.callbacks.LocationUtilsCallbacks;
 
@@ -10,13 +10,13 @@ public class ComposeLocationHelper {
         new LocationUtils(composeBaseActivity, new LocationUtilsCallbacks() {
             @Override
             public void onError() {
-                MyDebugger.log("Location utils error!");
+                MyLogger.log("Location utils error!");
                 composeBaseActivity.mLocationObtained = false;
             }
 
             @Override
             public void onProviderDisabled() {
-                //MyDebugger.log("No provider enabled");
+                //MyLogger.log("No provider enabled");
                 composeBaseActivity.mLocationObtained = false;
             }
 
@@ -29,7 +29,7 @@ public class ComposeLocationHelper {
 
             @Override
             public void onPermissionMissing() {
-                MyDebugger.log("Location permission missing");
+                MyLogger.log("Location permission missing");
                 composeBaseActivity.mLocationObtained = false;
             }
         }).getLocation();

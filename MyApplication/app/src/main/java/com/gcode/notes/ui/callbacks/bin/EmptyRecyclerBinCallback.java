@@ -6,7 +6,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.controllers.bin.BinController;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 
@@ -20,7 +20,7 @@ public class EmptyRecyclerBinCallback implements MaterialDialog.SingleButtonCall
                 binController.setContent(false, true);
             }
         } else {
-            MyDebugger.log("Failed to empty recycler bin");
+            MyLogger.log("Failed to empty recycler bin");
         }
     }
 }

@@ -9,7 +9,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.utils.callbacks.LocationUtilsCallbacks;
 import com.gcode.notes.extras.values.Constants;
 
@@ -51,11 +51,11 @@ public class LocationUtils implements LocationListener {
             addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to be returned, by documents it recommended 1 to 5
         } catch (IOException e) {
             e.printStackTrace();
-            MyDebugger.log("getAddressFromLocation() IOException", e.getMessage());
+            MyLogger.log("getAddressFromLocation() IOException", e.getMessage());
             return null;
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
-            MyDebugger.log("getAddressFromLocation() IllegalArgument exception", e.getMessage());
+            MyLogger.log("getAddressFromLocation() IllegalArgument exception", e.getMessage());
             return null;
         }
 
@@ -68,16 +68,16 @@ public class LocationUtils implements LocationListener {
         String country = address.getCountryName();
         String postalCode = address.getPostalCode();
         String knownName = address.getFeatureName(); // Only if available else return NULL
-//        MyDebugger.log("address", addressLine);
-//        MyDebugger.log("city", city);
-//        MyDebugger.log("state", state);
-//        MyDebugger.log("country", country);
-//        MyDebugger.log("postalCode", postalCode);
-//        MyDebugger.log("knownName", knownName);
-//        MyDebugger.log("admin area", address.getAdminArea());
-//        MyDebugger.log("featured name", address.getFeatureName());
-//        MyDebugger.log("subLocality", address.getSubLocality());
-//        MyDebugger.log("premises", address.getPremises());
+//        MyLogger.log("address", addressLine);
+//        MyLogger.log("city", city);
+//        MyLogger.log("state", state);
+//        MyLogger.log("country", country);
+//        MyLogger.log("postalCode", postalCode);
+//        MyLogger.log("knownName", knownName);
+//        MyLogger.log("admin area", address.getAdminArea());
+//        MyLogger.log("featured name", address.getFeatureName());
+//        MyLogger.log("subLocality", address.getSubLocality());
+//        MyLogger.log("premises", address.getPremises());
 
         //TODO: create smart location button text, not only from address (cuz when not in hometown is retarded)
         String result = "";
@@ -99,7 +99,7 @@ public class LocationUtils implements LocationListener {
     public void getLocation() {
         if (mLocationManager == null) {
                 /* mLocationManager is null, log it and call onError */
-            MyDebugger.log("mLocationManger is null");
+            MyLogger.log("mLocationManger is null");
             mLocationUtilsCallbacks.onError();
             return;
         }
@@ -112,7 +112,7 @@ public class LocationUtils implements LocationListener {
             isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         } catch (IllegalArgumentException e) {
             /* internet or gps provider is null, log exception and return */
-            MyDebugger.log("getLocation() provider is null exception", e.getMessage());
+            MyLogger.log("getLocation() provider is null exception", e.getMessage());
             mLocationUtilsCallbacks.onError();
             return;
         }
@@ -135,7 +135,7 @@ public class LocationUtils implements LocationListener {
                     DateUtils.getCurrentTimeAsMillis() - Constants.LOCATION_VALID_TIME) {
                 //!NOTE: mLocationManager#getLastKnownLocation() is most cases returns null (documentation is wrong)
                 //last known location is valid, use it
-                MyDebugger.log("hurray using last known location");
+                MyLogger.log("hurray using last known location");
                 mLocationUtilsCallbacks.onLocationObtained(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
                 return;
             }
@@ -145,7 +145,7 @@ public class LocationUtils implements LocationListener {
             /* there is no suitable permission */
             mLocationUtilsCallbacks.onPermissionMissing();
         } catch (IllegalArgumentException e) {
-            MyDebugger.log("getLocation() IllegalArgumentException", e.getMessage());
+            MyLogger.log("getLocation() IllegalArgumentException", e.getMessage());
             mLocationUtilsCallbacks.onError();
         }
     }
@@ -179,11 +179,11 @@ public class LocationUtils implements LocationListener {
 
     @Override
     public void onProviderEnabled(String provider) {
-        MyDebugger.log("provider enabled", provider);
+        MyLogger.log("provider enabled", provider);
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-        MyDebugger.log("provider disabled", provider);
+        MyLogger.log("provider disabled", provider);
     }
 }

@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.base.ContentBase;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 
@@ -33,7 +33,7 @@ public class LoadContentTask extends AsyncTask<Void, Void, ArrayList<ContentBase
             case Constants.CONTROLLER_BIN:
                 return MyApplication.getWritableDatabase().getAllDeletedNotes();
             default:
-                MyDebugger.log("LoadContentTask invalid controller id");
+                MyLogger.log("LoadContentTask invalid controller id");
                 return null;
         }
     }

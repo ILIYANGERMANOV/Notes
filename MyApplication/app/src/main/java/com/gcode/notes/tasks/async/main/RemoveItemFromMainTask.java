@@ -7,7 +7,7 @@ import android.widget.Toast;
 import com.gcode.notes.adapters.main.MainAdapter;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.base.ContentBase;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 
@@ -32,7 +32,7 @@ public class RemoveItemFromMainTask extends AsyncTask<ContentBase, Void, Boolean
                 return true;
             }
         } else {
-            MyDebugger.log("RemoveItemFromMainTask", "MainAdapter is null!");
+            MyLogger.log("RemoveItemFromMainTask", "MainAdapter is null!");
             return false;
         }
 

@@ -13,7 +13,7 @@ import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.data.list.ListDataItem;
 import com.gcode.notes.database.DatabaseController;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.builders.IntentBuilder;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
@@ -57,7 +57,7 @@ public class NotificationHelper {
         } catch (RuntimeException ex) {
             //there is no scenario where service is alive and application is killed (if they run in the same process, by default all components of the app run is same process)
             //this is added for extra security for future versions of android
-            MyDebugger.log("Application is dead when firing reminder:", ex.getLocalizedMessage());
+            MyLogger.log("Application is dead when firing reminder:", ex.getLocalizedMessage());
             //try to reinitialize db and update reminder
             databaseController = new DatabaseController(context);
         }

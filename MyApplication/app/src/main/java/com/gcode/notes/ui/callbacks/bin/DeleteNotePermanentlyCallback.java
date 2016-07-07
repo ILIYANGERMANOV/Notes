@@ -7,7 +7,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.adapters.main.MainAdapter;
 import com.gcode.notes.data.base.ContentBase;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.ui.helpers.SearchViewHelper;
 
@@ -38,7 +38,7 @@ public class DeleteNotePermanentlyCallback implements MaterialDialog.SingleButto
                 //failed to delete note from db
                 mAdapter.addItem(mPosition, mNote);
                 mAdapter.getRecyclerView().smoothScrollToPosition(mPosition);
-                MyDebugger.log("Failed to delete note permanently!");
+                MyLogger.log("Failed to delete note permanently!");
             }
         } else if (which == DialogAction.NEGATIVE) {
             //negative option selected, bring note back

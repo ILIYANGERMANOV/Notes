@@ -6,7 +6,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.activities.display.DisplayBaseActivity;
 import com.gcode.notes.data.base.ContentBase;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.notes.MyApplication;
 
 public class DeletePrivateNoteFromDisplayCallback implements MaterialDialog.SingleButtonCallback {
@@ -26,7 +26,7 @@ public class DeletePrivateNoteFromDisplayCallback implements MaterialDialog.Sing
         //updates note mode both on contentBase and in db
         if (!MyApplication.getWritableDatabase().deleteNotePermanently(mContentBase)) {
             //failed to send note to bin, log and prevent further execution
-            MyDebugger.log("DeletePrivateNoteCallback failed to delete permanently note.");
+            MyLogger.log("DeletePrivateNoteCallback failed to delete permanently note.");
             return;
         }
         mDisplayBaseActivity.mNoteModeChanged = true; //main activity onItemModeChanged() should be called

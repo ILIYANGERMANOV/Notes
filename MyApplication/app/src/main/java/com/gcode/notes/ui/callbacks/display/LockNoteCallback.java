@@ -7,7 +7,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.activities.display.DisplayBaseActivity;
 import com.gcode.notes.activities.display.list.editable.DisplayListNormalActivity;
 import com.gcode.notes.data.base.ContentBase;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.tasks.async.encryption.EncryptNoteTask;
@@ -36,7 +36,7 @@ public class LockNoteCallback implements MaterialDialog.SingleButtonCallback, En
         //!NOTE: Must be used with update creation date flag, so will work
         if (!MyApplication.getWritableDatabase().updateNote(mContentBase, true)) {
             //failed to save to db decrypted note, log it and prevent further execution
-            MyDebugger.log("LockNoteCallback failed to update note.");
+            MyLogger.log("LockNoteCallback failed to update note.");
             return;
         }
         if (mDisplayBaseActivity instanceof DisplayListNormalActivity) {

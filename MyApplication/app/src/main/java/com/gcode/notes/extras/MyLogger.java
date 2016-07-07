@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-public class MyDebugger {
+public class MyLogger {
     public static final String DEBUG_TAG = "ddq";
 
     private static final String COLON_DIVIDER = ": ";

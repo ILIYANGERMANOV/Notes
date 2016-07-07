@@ -11,7 +11,7 @@ import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.data.list.ListDataItem;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 
 import java.util.ArrayList;
 
@@ -118,7 +118,7 @@ public class MainSearchHandler implements SearchView.OnQueryTextListener,
 
                 if (itemId == currentItem.getId()) {
                     //item already exists in that list no need to add it, return;
-                    MyDebugger.log("MainSearchHandler: item already exists in list.");
+                    MyLogger.log("MainSearchHandler: item already exists in list.");
                     return;
                 }
 
@@ -145,7 +145,7 @@ public class MainSearchHandler implements SearchView.OnQueryTextListener,
                 return;
             }
         }
-        MyDebugger.log("MainSearchHandler onItemChanged(): item not found");
+        MyLogger.log("MainSearchHandler onItemChanged(): item not found");
     }
 
     @Override
@@ -159,7 +159,7 @@ public class MainSearchHandler implements SearchView.OnQueryTextListener,
                 return;
             }
         }
-        MyDebugger.log("MainSearchHandler onItemRemoved(): item not found");
+        MyLogger.log("MainSearchHandler onItemRemoved(): item not found");
     }
 
     private void makeSearchQuery() {

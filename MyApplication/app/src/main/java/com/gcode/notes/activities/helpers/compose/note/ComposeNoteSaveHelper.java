@@ -7,7 +7,7 @@ import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
 import com.gcode.notes.activities.helpers.compose.ComposeBaseSaveHelper;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
@@ -51,7 +51,7 @@ public class ComposeNoteSaveHelper implements EncryptTaskCallbacks {
 
             saveToDbAndSetResult(noteData);
         } else {
-            MyDebugger.toast(mComposeNoteActivity, "Cannot save empty notes.");
+            MyLogger.toast(mComposeNoteActivity, "Cannot save empty notes.");
         }
     }
 
@@ -65,7 +65,7 @@ public class ComposeNoteSaveHelper implements EncryptTaskCallbacks {
                 resultIntent.putExtra(Constants.NOTE_ADDED_SUCCESSFULLY, true);
                 resultIntent.putExtra(Constants.COMPOSE_NOTE_MODE, noteData.getMode());
             } else {
-                MyDebugger.log("Failed to save note.");
+                MyLogger.log("Failed to save note.");
                 return;
             }
         } else {
@@ -77,7 +77,7 @@ public class ComposeNoteSaveHelper implements EncryptTaskCallbacks {
                 resultIntent.putExtra(Constants.EXTRA_NOTE_DATA, Serializer.serializeNoteData(resultNoteData));
                 resultIntent.putExtra(Constants.EXTRA_NOTE_MODE_CHANGED, mComposeNoteActivity.mNoteModeChanged);
             } else {
-                MyDebugger.log("Failed to update note.");
+                MyLogger.log("Failed to update note.");
                 return;
             }
         }

@@ -9,7 +9,7 @@ import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.builders.IntentBuilder;
 import com.gcode.notes.extras.utils.FileUtils;
 import com.gcode.notes.extras.utils.PhotoUtils;
@@ -59,7 +59,7 @@ public class MainActivityResultHandler {
             Intent intent = IntentBuilder.buildStartComposeFromAudioIntent(activity, data, audioFilePath);
             activity.startActivityForResult(intent, Constants.COMPOSE_NOTE_REQUEST_CODE);
         } else {
-            MyDebugger.log("handleSpeechInputOption()", "audioFilePath is null");
+            MyLogger.log("handleSpeechInputOption()", "audioFilePath is null");
         }
     }
 
@@ -84,7 +84,7 @@ public class MainActivityResultHandler {
             Intent intent = IntentBuilder.buildStartComposeFromPhotoIntent(activity, PhotoUtils.pathToPhoto);
             activity.startActivityForResult(intent, Constants.COMPOSE_NOTE_REQUEST_CODE);
         } else {
-            MyDebugger.log("handleTakePhotoResult", "PhotoUtils.photoUri is null");
+            MyLogger.log("handleTakePhotoResult", "PhotoUtils.photoUri is null");
         }
     }
 
@@ -94,7 +94,7 @@ public class MainActivityResultHandler {
             if (mode != Constants.ERROR) {
                 BaseController.getInstance().onNewNoteAdded(mode);
             } else {
-                MyDebugger.log("MainResultHandler handleComposeResult() mode ERROR!");
+                MyLogger.log("MainResultHandler handleComposeResult() mode ERROR!");
             }
         }
     }
@@ -104,7 +104,7 @@ public class MainActivityResultHandler {
         if (noteData != null) {
             notifyControllerForChanges(data, noteData);
         } else {
-            MyDebugger.log("NOTE_FROM_DISPLAY noteData is null!");
+            MyLogger.log("NOTE_FROM_DISPLAY noteData is null!");
         }
     }
 
@@ -113,7 +113,7 @@ public class MainActivityResultHandler {
         if (listData != null) {
             notifyControllerForChanges(data, listData);
         } else {
-            MyDebugger.log("LIST_FROM_DISPLAY listData is null!");
+            MyLogger.log("LIST_FROM_DISPLAY listData is null!");
         }
     }
 

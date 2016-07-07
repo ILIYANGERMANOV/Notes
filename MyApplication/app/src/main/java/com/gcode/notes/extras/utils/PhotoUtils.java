@@ -9,7 +9,7 @@ import android.provider.MediaStore;
 import android.widget.ImageView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.utils.callbacks.PhotoSelectedCallback;
 import com.gcode.notes.extras.values.Constants;
 import com.squareup.picasso.Picasso;
@@ -30,7 +30,7 @@ public class PhotoUtils {
                 photoFile = FileUtils.createImageFile();
             } catch (IOException ex) {
                 // Error occurred while creating the File
-                MyDebugger.log("Creating imageFile IOException", ex.getMessage());
+                MyLogger.log("Creating imageFile IOException", ex.getMessage());
             }
 
             // Continue only if the photoFile was successfully created
@@ -39,7 +39,7 @@ public class PhotoUtils {
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
                 activity.startActivityForResult(takePictureIntent, Constants.REQUEST_TAKE_PHOTO);
             } else {
-                MyDebugger.log("Could not create file for the photo!");
+                MyLogger.log("Could not create file for the photo!");
             }
         }
     }
@@ -77,7 +77,7 @@ public class PhotoUtils {
         String[] filePath = {MediaStore.Images.Media.DATA};
         Cursor c = activity.getContentResolver().query(selectedImage, filePath, null, null, null);
         if (c == null) {
-            MyDebugger.log("handleSelectedPhotoFromGallery", "cursor is null, abort operation");
+            MyLogger.log("handleSelectedPhotoFromGallery", "cursor is null, abort operation");
             return;
         }
         Uri photoUri = null;
@@ -85,14 +85,14 @@ public class PhotoUtils {
             int columnIndex = c.getColumnIndex(filePath[0]);
             photoUri = Uri.fromFile(new File(c.getString(columnIndex)));
         } else {
-            MyDebugger.log("handleSelectedPhotoFromGallery", "Cursor is empty!");
+            MyLogger.log("handleSelectedPhotoFromGallery", "Cursor is empty!");
         }
         c.close();
         if (photoUri != null) {
             //selected photoUri obtained successfully
             callback.onPhotoSelected(photoUri.toString());
         } else {
-            MyDebugger.log("handleSelectedPhotoFromGallery", "photoUri is null");
+            MyLogger.log("handleSelectedPhotoFromGallery", "photoUri is null");
         }
     }
 }

@@ -8,7 +8,7 @@ import com.gcode.notes.activities.display.DisplayBaseActivity;
 import com.gcode.notes.adapters.main.MainAdapter;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.base.ContentBase;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.notes.MyApplication;
 
 
@@ -34,7 +34,7 @@ public class DeleteNoteFromDisplayBinCallback implements MaterialDialog.SingleBu
                 }
             }
         } else {
-            MyDebugger.log("Failed to delete note");
+            MyLogger.log("Failed to delete note");
         }
     }
 }

@@ -6,7 +6,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.activities.display.DisplayBaseActivity;
 import com.gcode.notes.data.base.ContentBase;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.notes.MyApplication;
 
 public class RestoreNoteFromDisplayCallback implements MaterialDialog.SingleButtonCallback {
@@ -27,7 +27,7 @@ public class RestoreNoteFromDisplayCallback implements MaterialDialog.SingleButt
             mDisplayBaseActivity.finish();
         } else {
             //failed to restore note
-            MyDebugger.log("RestoreNoteFromDisplayCallback", "failed to restore note");
+            MyLogger.log("RestoreNoteFromDisplayCallback", "failed to restore note");
         }
     }
 }

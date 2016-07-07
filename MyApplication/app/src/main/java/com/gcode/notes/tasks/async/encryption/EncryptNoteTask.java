@@ -7,7 +7,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.utils.AuthenticationUtils;
 import com.gcode.notes.extras.utils.EncryptionUtils;
 import com.gcode.notes.tasks.async.encryption.callbacks.EncryptTaskCallbacks;
@@ -41,12 +41,12 @@ public class EncryptNoteTask extends AsyncTask<ContentBase, Void, ContentBase> {
                 //its list
                 encryptionUtils.encryptListData(((ListData) contentBase));
             } else {
-                MyDebugger.log("EncryptNoteTask unknown TYPE.");
+                MyLogger.log("EncryptNoteTask unknown TYPE.");
                 return null;
             }
         } catch (Exception e) {
             //TODO: handle exception and refactor
-            MyDebugger.log("EncryptNoteTask exception", e.getMessage());
+            MyLogger.log("EncryptNoteTask exception", e.getMessage());
             return null;
         }
         return contentBase;

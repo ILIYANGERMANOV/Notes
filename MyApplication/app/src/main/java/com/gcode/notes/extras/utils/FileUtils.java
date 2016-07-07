@@ -3,7 +3,7 @@ package com.gcode.notes.extras.utils;
 import android.net.Uri;
 import android.os.Environment;
 
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 
@@ -33,11 +33,11 @@ public class FileUtils {
             //file exists, try to delete it
             if (!fileToDelete.delete()) {
                 //deletion has failed
-                MyDebugger.log("deleteFile()", "failed to delete file");
+                MyLogger.log("deleteFile()", "failed to delete file");
                 return false;
             }
         } else {
-            MyDebugger.log("deleteFile()", "file doesn't exists");
+            MyLogger.log("deleteFile()", "file doesn't exists");
             return false;
         }
         return true;
@@ -54,7 +54,7 @@ public class FileUtils {
             //storageDir does not exists, create it
             if (!storageDir.mkdirs()) {
                 //failed to create storageDir return null
-                MyDebugger.log("Failed to create imageFile storage dir.");
+                MyLogger.log("Failed to create imageFile storage dir.");
                 return null;
             }
         }
@@ -76,7 +76,7 @@ public class FileUtils {
             //recordsDir does not exists, create it
             if (!recordsDir.mkdirs()) {
                 //failed to create recordsDir return null
-                MyDebugger.log("Failed to create recordsDir");
+                MyLogger.log("Failed to create recordsDir");
                 return null;
             }
         }
@@ -87,7 +87,7 @@ public class FileUtils {
             //storageDir does not exists, create it
             if (!storageDir.mkdirs()) {
                 //failed to create storageDir return null
-                MyDebugger.log("Failed to create VoiceRecord storageDir");
+                MyLogger.log("Failed to create VoiceRecord storageDir");
                 return null;
             }
         }
@@ -101,7 +101,7 @@ public class FileUtils {
             );
         } catch (IOException e) {
             //failed to create audioFile, return null
-            MyDebugger.log("IOException creating audioFile", e.getMessage());
+            MyLogger.log("IOException creating audioFile", e.getMessage());
             return null;
         }
 
@@ -125,13 +125,13 @@ public class FileUtils {
             in = MyApplication.getAppContext().getContentResolver().openInputStream(src);
             out = new FileOutputStream(dst);
         } catch (FileNotFoundException e) {
-            MyDebugger.log("FileNotFoundException", e.getMessage());
+            MyLogger.log("FileNotFoundException", e.getMessage());
             return false;
         }
 
         if (in == null) {
             //InputStream is null, abort copy
-            MyDebugger.log("copy()", "InputStream is null");
+            MyLogger.log("copy()", "InputStream is null");
             return false;
         }
 
@@ -143,14 +143,14 @@ public class FileUtils {
                 out.write(buf, 0, len);
             }
         } catch (IOException e) {
-            MyDebugger.log("IOException while copying file", e.getMessage());
+            MyLogger.log("IOException while copying file", e.getMessage());
             return false;
         } finally {
             try {
                 in.close();
                 out.close();
             } catch (IOException e) {
-                MyDebugger.log("Failed to close stream", e.getMessage());
+                MyLogger.log("Failed to close stream", e.getMessage());
             }
         }
         return true;

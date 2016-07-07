@@ -8,7 +8,7 @@ import com.gcode.notes.controllers.visible.callbacks.AuthenticationCallbacks;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.builders.IntentBuilder;
 import com.gcode.notes.extras.utils.AuthenticationUtils;
 import com.gcode.notes.extras.utils.MyUtils;
@@ -45,7 +45,7 @@ public class ReminderNotificationStartHelper implements AuthenticationCallbacks,
                         prepareDisplayActivity(noteData);
                     } else {
                         //failed to parse noteData, log it
-                        MyDebugger.log("ReminderNotificationStartHelper", "failed to parse noteData");
+                        MyLogger.log("ReminderNotificationStartHelper", "failed to parse noteData");
                     }
                     break;
                 case Constants.TYPE_LIST:
@@ -56,12 +56,12 @@ public class ReminderNotificationStartHelper implements AuthenticationCallbacks,
                         prepareDisplayActivity(listData);
                     } else {
                         //failed to parse listData, log it
-                        MyDebugger.log("ReminderNotificationStartHelper", "failed to parse listData");
+                        MyLogger.log("ReminderNotificationStartHelper", "failed to parse listData");
                     }
                     break;
                 default:
                     //there is no note type set, log it and prevent further execution
-                    MyDebugger.log("ReminderNotificationStartHelper unknown content base type");
+                    MyLogger.log("ReminderNotificationStartHelper unknown content base type");
             }
         }
     }
@@ -97,7 +97,7 @@ public class ReminderNotificationStartHelper implements AuthenticationCallbacks,
         //delete private note and reset password tries
         if (!MyApplication.getWritableDatabase().deleteNotePermanently(mContentBase)) {
             //failed to delete note, log it
-            MyDebugger.log("ReminderNotificationStartHelper onPasswordTriesEnded() failed to delete note");
+            MyLogger.log("ReminderNotificationStartHelper onPasswordTriesEnded() failed to delete note");
         }
         new RemoveItemFromMainTask(mMainActivity.getString(
                 R.string.private_note_deleted_due_to_wrong_pass)).execute(mContentBase);

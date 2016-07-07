@@ -6,7 +6,7 @@ import android.os.Handler;
 import com.gcode.notes.activities.compose.list.ComposeListActivity;
 import com.gcode.notes.activities.helpers.compose.ComposeBaseRotationHandler;
 import com.gcode.notes.data.list.ListData;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 
@@ -63,7 +63,7 @@ public class ComposeListRotationHandler {
                 }
             }, Constants.MINIMUM_DELAY);
         } else {
-            MyDebugger.log("handleScreenRotation", "listData is null");
+            MyLogger.log("handleScreenRotation", "listData is null");
         }
     }
 }

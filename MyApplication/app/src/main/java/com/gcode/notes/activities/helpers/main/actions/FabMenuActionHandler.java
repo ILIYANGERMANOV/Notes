@@ -9,7 +9,7 @@ import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.activities.compose.list.ComposeListActivity;
 import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
 import com.gcode.notes.activities.helpers.main.ui.FabMenuHelper;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.utils.VoiceUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.ui.helpers.DialogBuilder;
@@ -50,7 +50,7 @@ public class FabMenuActionHandler {
                     @Override
                     public void permissionRefused() {
                         //user has NOT granted record audio permission, do nothing
-                        MyDebugger.log("record audio permission refused");
+                        MyLogger.log("record audio permission refused");
                     }
                 });
             }
@@ -65,20 +65,20 @@ public class FabMenuActionHandler {
                     @Override
                     public void permissionGranted() {
                         //storage permission granted, show add picture dialog
-                        MyDebugger.log("storage permission granted");
+                        MyLogger.log("storage permission granted");
                         DialogBuilder.buildAddPictureDialog(mainActivity);
                     }
 
                     @Override
                     public void permissionRefused() {
                         //permission refused, do nothing
-                        MyDebugger.log("storage permission refused");
+                        MyLogger.log("storage permission refused");
                     }
                 });
             }
         } else {
             //unknown tag, log it and prevent further execution
-            MyDebugger.log("FabMenuActionHelper handleItemClick() unknown tag!");
+            MyLogger.log("FabMenuActionHelper handleItemClick() unknown tag!");
             return;
         }
 

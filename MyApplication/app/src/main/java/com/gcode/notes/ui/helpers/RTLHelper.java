@@ -2,7 +2,7 @@ package com.gcode.notes.ui.helpers;
 
 import android.widget.TextView;
 
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.utils.MyUtils;
 
 public class RTLHelper {
@@ -12,7 +12,7 @@ public class RTLHelper {
             view.setCompoundDrawablesWithIntrinsicBounds(resourceId, 0, 0, 0);
         } else {
             //RTL directionality, set drawable right
-            MyDebugger.log("shnur");
+            MyLogger.log("shnur");
             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, resourceId, 0);
         }
     }

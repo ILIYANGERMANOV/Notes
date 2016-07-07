@@ -17,7 +17,7 @@ import com.gcode.notes.activities.display.note.editable.DisplayNotePrivateActivi
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 
@@ -57,7 +57,7 @@ public class IntentBuilder {
                 break;
             default:
                 //unknown type, log it
-                MyDebugger.log("buildStartMainActivityFromReminder() unknown type", type);
+                MyLogger.log("buildStartMainActivityFromReminder() unknown type", type);
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP); //makes intent start/backtrace to
         //MainActivity and if already created onNewIntent() is called
@@ -105,7 +105,7 @@ public class IntentBuilder {
                 break;
             default:
                 //unknown note mode, log it
-                MyDebugger.log("buildStartDisplayActivityIntent() unknown mode", mode);
+                MyLogger.log("buildStartDisplayActivityIntent() unknown mode", mode);
         }
 
         if (intent != null) {

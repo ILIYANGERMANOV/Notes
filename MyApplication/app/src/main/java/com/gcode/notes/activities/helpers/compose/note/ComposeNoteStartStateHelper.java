@@ -6,7 +6,7 @@ import android.os.Bundle;
 import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
 import com.gcode.notes.activities.helpers.compose.ComposeBaseStartStateHelper;
 import com.gcode.notes.data.NoteData;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 
@@ -41,7 +41,7 @@ public class ComposeNoteStartStateHelper extends ComposeBaseStartStateHelper {
                 setupFromAudio(intent);
                 break;
             default:
-                MyDebugger.log("EXTRA_SETUP_FROM not passed!");
+                MyLogger.log("EXTRA_SETUP_FROM not passed!");
                 break;
         }
     }
@@ -80,7 +80,7 @@ public class ComposeNoteStartStateHelper extends ComposeBaseStartStateHelper {
             }
             mComposeNoteActivity.getDescriptionEditText().setText(noteData.getDescription());
         } else {
-            MyDebugger.log("EditMode launched with null note, finish activity in order to prevent errors");
+            MyLogger.log("EditMode launched with null note, finish activity in order to prevent errors");
             mComposeNoteActivity.finish();
         }
     }

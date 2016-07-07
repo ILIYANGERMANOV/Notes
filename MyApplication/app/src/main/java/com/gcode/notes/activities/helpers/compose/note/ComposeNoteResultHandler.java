@@ -3,7 +3,7 @@ package com.gcode.notes.activities.helpers.compose.note;
 import android.content.Intent;
 
 import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.utils.FileUtils;
 import com.gcode.notes.extras.utils.PhotoUtils;
 import com.gcode.notes.extras.utils.callbacks.PhotoSelectedCallback;
@@ -57,7 +57,7 @@ public class ComposeNoteResultHandler {
             PhotoUtils.addPhotoToGallery(MyApplication.getAppContext(), PhotoUtils.pathToPhoto);
             ComposeNotePhotoHelper.addPhoto(composeNoteActivity, PhotoUtils.pathToPhoto.toString());
         } else {
-            MyDebugger.log("handleTakePhotoResult", "PhotoUtils.photoUri is null");
+            MyLogger.log("handleTakePhotoResult", "PhotoUtils.photoUri is null");
         }
     }
 }

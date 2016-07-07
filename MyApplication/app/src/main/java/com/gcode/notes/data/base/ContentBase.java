@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
@@ -120,7 +120,7 @@ public abstract class ContentBase {
                                TextView createdOnTextView, TextView expiresOnTextView) {
         if (contentDetails == null) {
             //contentDetails are null, create dummy details to display
-            MyDebugger.log("contentDetails are null, dummy details are created!");
+            MyLogger.log("contentDetails are null, dummy details are created!");
             contentDetails = new ContentDetails();
         }
         Context context = MyApplication.getAppContext();

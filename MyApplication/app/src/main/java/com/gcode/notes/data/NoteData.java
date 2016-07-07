@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.gcode.notes.adapters.main.viewholders.NoteItemViewHolder;
 import com.gcode.notes.data.base.ContentBase;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.utils.PhotoUtils;
 import com.gcode.notes.extras.values.Constants;
 
@@ -142,7 +142,7 @@ public class NoteData extends ContentBase {
                             holder.getMoreImageView().setVisibility(View.VISIBLE);
                         }
                     } else {
-                        MyDebugger.log("displayNoteOnMain linesCount not build.");
+                        MyLogger.log("displayNoteOnMain linesCount not build.");
                     }
                 }
             }, Constants.SHORT_DELAY);

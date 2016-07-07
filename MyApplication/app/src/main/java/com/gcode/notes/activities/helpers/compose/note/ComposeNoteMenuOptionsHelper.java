@@ -4,7 +4,7 @@ import android.view.MenuItem;
 
 import com.gcode.notes.R;
 import com.gcode.notes.activities.compose.note.ComposeNoteActivity;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.ui.ActionExecutor;
 
 import pl.tajchert.nammu.PermissionCallback;
@@ -33,7 +33,7 @@ public class ComposeNoteMenuOptionsHelper {
                         @Override
                         public void permissionRefused() {
                             //storage permission refused, do nothing
-                            MyDebugger.log("Compose note activity: storage permission refused.");
+                            MyLogger.log("Compose note activity: storage permission refused.");
                         }
                     });
                 }

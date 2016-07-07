@@ -3,7 +3,7 @@ package com.gcode.notes.extras.utils;
 import android.app.Activity;
 
 import com.gcode.notes.controllers.visible.callbacks.AuthenticationCallbacks;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.utils.callbacks.PasswordCallbacks;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.extras.values.Keys;
@@ -97,11 +97,11 @@ public class AuthenticationUtils implements PasswordCallbacks {
     public void onConfirmPassword(String confirmedPassword) {
         if (mPassword.equals(confirmedPassword)) {
             //password set successfully
-            MyDebugger.log("password set correctly", confirmedPassword);
+            MyLogger.log("password set correctly", confirmedPassword);
             try {
                 mPassword = EncryptionUtils.SHA1(confirmedPassword);
             } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-                MyDebugger.log("onConfirmPassword() SHA1 Exception", e.getMessage());
+                MyLogger.log("onConfirmPassword() SHA1 Exception", e.getMessage());
                 DialogBuilder.buildCreatePasswordDialog(this);
                 return;
             }
@@ -118,7 +118,7 @@ public class AuthenticationUtils implements PasswordCallbacks {
         try {
             password = EncryptionUtils.SHA1(password);
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-            MyDebugger.log("onEnterPassword() SHA1 Exception", e.getMessage());
+            MyLogger.log("onEnterPassword() SHA1 Exception", e.getMessage());
             enterPassword();
             return;
         }

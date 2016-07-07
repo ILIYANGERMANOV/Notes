@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.speech.RecognizerIntent;
 
 import com.gcode.notes.R;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 
 import java.util.Locale;
@@ -24,7 +24,7 @@ public class VoiceUtils {
         try {
             activity.startActivityForResult(intent, Constants.SPEECH_INPUT_REQ_CODE);
         } catch (ActivityNotFoundException a) {
-            MyDebugger.toast(activity, activity.getString(R.string.speech_not_supported));
+            MyLogger.toast(activity, activity.getString(R.string.speech_not_supported));
         }
     }
 }

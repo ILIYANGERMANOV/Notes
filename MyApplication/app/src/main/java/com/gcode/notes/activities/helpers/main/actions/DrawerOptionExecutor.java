@@ -11,7 +11,7 @@ import com.gcode.notes.controllers.bin.BinController;
 import com.gcode.notes.controllers.visible.AllNotesController;
 import com.gcode.notes.controllers.visible.ImportantController;
 import com.gcode.notes.controllers.visible.PrivateController;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.ui.helpers.NavDrawerHelper;
 
 public class DrawerOptionExecutor implements NavigationView.OnNavigationItemSelectedListener {
@@ -63,11 +63,11 @@ public class DrawerOptionExecutor implements NavigationView.OnNavigationItemSele
                 break;
             case R.id.navigation_item_explore:
                 //mMainActivity.startActivity(new Intent(mMainActivity, ExploreActivity.class));
-                MyDebugger.toast(mMainActivity, "Explore not implemented, yet!");
+                MyLogger.toast(mMainActivity, "Explore not implemented, yet!");
                 return;
             case R.id.navigation_item_settings:
                 //mMainActivity.startActivity(new Intent(mMainActivity, SettingsActivity.class));
-                MyDebugger.toast(mMainActivity, "Settings not implemented, yet!");
+                MyLogger.toast(mMainActivity, "Settings not implemented, yet!");
                 return;
             default:
                 return;

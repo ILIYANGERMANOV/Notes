@@ -4,7 +4,7 @@ package com.gcode.notes.extras.utils;
 import android.content.Context;
 
 import com.gcode.notes.R;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.notes.MyApplication;
 
 import java.text.ParseException;
@@ -60,7 +60,7 @@ public class DateUtils {
             }
         } catch (Exception ex) {
             //not very crucial exception, log it and continue
-            MyDebugger.log("formatDate() exception while getting current year", ex.getMessage());
+            MyLogger.log("formatDate() exception while getting current year", ex.getMessage());
         }
         dateFormat += ", HH:mm";
 
@@ -94,7 +94,7 @@ public class DateUtils {
             dateToFormat = calendar.getTime();
         } catch (IllegalArgumentException e) {
             //getting date object from calendar has failed, use deprecated Date() constructor
-            MyDebugger.log("formatTime() illegalArgument exception", e.getMessage());
+            MyLogger.log("formatTime() illegalArgument exception", e.getMessage());
             dateToFormat = new Date();
             dateToFormat.setHours(calendar.get(Calendar.HOUR_OF_DAY)); //deprecated
             dateToFormat.setMinutes(calendar.get(Calendar.MINUTE)); //deprecated
@@ -136,7 +136,7 @@ public class DateUtils {
             }
         } catch (Exception ex) {
             //not very crucial exception, log it and continue
-            MyDebugger.log("DateUtils#formatDate() exception while getting current date or year", ex.getMessage());
+            MyLogger.log("DateUtils#formatDate() exception while getting current date or year", ex.getMessage());
         }
         calendar.clear();
         calendar.set(year, month, day);
@@ -147,7 +147,7 @@ public class DateUtils {
             date = calendar.getTime();
         } catch (IllegalArgumentException e) {
             //getting date object from calendar has failed, use deprecated Date() constructor
-            MyDebugger.log("formatDate() illegalArgument exception", e.getMessage());
+            MyLogger.log("formatDate() illegalArgument exception", e.getMessage());
             date = new Date();
             date.setYear(year);
             date.setMonth(month);
@@ -178,7 +178,7 @@ public class DateUtils {
             date = simpleDateFormat.parse(dateString);
         } catch (ParseException e) {
             //exception while parsing date, log it
-            MyDebugger.log("ParseException in parseDateFromSQLiteFormat()", e.getMessage());
+            MyLogger.log("ParseException in parseDateFromSQLiteFormat()", e.getMessage());
             e.printStackTrace();
         }
         return date;
@@ -192,7 +192,7 @@ public class DateUtils {
         } catch (ParseException e) {
             //parsing has failed, create new dummy date
             e.printStackTrace();
-            MyDebugger.log("DUMMY CREATED: formatSQLiteDateForDisplay", e.getMessage());
+            MyLogger.log("DUMMY CREATED: formatSQLiteDateForDisplay", e.getMessage());
             date = new Date();
         }
         return date;
@@ -203,7 +203,7 @@ public class DateUtils {
         try {
             date = Calendar.getInstance().getTime();
         } catch (IllegalArgumentException ex) {
-            MyDebugger.log("getCurrentTimeSQLiteFormatted()", ex.getMessage());
+            MyLogger.log("getCurrentTimeSQLiteFormatted()", ex.getMessage());
             date = new Date();
         }
         return date;

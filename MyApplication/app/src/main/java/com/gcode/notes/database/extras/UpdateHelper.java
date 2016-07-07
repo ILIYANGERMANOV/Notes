@@ -11,7 +11,7 @@ import com.gcode.notes.database.NotesContract.ContentEntry;
 import com.gcode.notes.database.NotesContract.ListEntry;
 import com.gcode.notes.database.NotesContract.NoteEntry;
 import com.gcode.notes.database.extras.queries.SelectQueries;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.utils.DateUtils;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
@@ -67,8 +67,8 @@ public class UpdateHelper {
         affectedRows += updateBaseContent(database, contentBase, updateCreationDate); //returns <= 0 on fail
         if (affectedRows <= 0) {
             //unrecoverable error happened while updating base content, log it, inform the user and cancel update
-            MyDebugger.log("updatingBaseContent failed.");
-            MyDebugger.toast(context, "Fatal error while updating note.");
+            MyLogger.log("updatingBaseContent failed.");
+            MyLogger.toast(context, "Fatal error while updating note.");
             return Constants.DATABASE_ERROR;
         }
 
@@ -141,7 +141,7 @@ public class UpdateHelper {
                     contentValues.put(ContentEntry.COLUMN_NAME_TARGET_ID, contentBase.getTargetId());
                 } else {
                     //unrecoverable error, log it and prevent further procedure
-                    MyDebugger.log("updateBaseContent() failed to insert attributes!");
+                    MyLogger.log("updateBaseContent() failed to insert attributes!");
                     return Constants.DATABASE_ERROR;
                 }
             }

@@ -7,7 +7,7 @@ import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.base.ContentBase;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.tasks.async.main.RemoveItemFromMainTask;
@@ -59,7 +59,7 @@ public class NoteDeletedSnackbarCallback extends Snackbar.Callback {
                     }
                 } else {
                     //failed to delete note, revert it back
-                    MyDebugger.log("Failed to send note to recycler bin!");
+                    MyLogger.log("Failed to send note to recycler bin!");
                     mMainActivity.mMainAdapter.addItem(mPosition, mNote);
                 }
             }

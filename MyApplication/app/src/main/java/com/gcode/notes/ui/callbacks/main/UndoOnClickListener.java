@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.base.ContentBase;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.tasks.async.main.UndoNoteDeletionTask;
 
@@ -49,7 +49,7 @@ public class UndoOnClickListener implements View.OnClickListener {
             case Constants.CONTROLLER_BIN:
                 return;
             default:
-                MyDebugger.log("UndoOnClickListener", "Unknown controller id.");
+                MyLogger.log("UndoOnClickListener", "Unknown controller id.");
                 return;
         }
 

@@ -3,7 +3,7 @@ package com.gcode.notes.adapters.list.compose.listeners;
 import android.view.View;
 
 import com.gcode.notes.adapters.list.compose.BaseComposeContainerAdapter;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 
 public class ListItemDeletedUndoOnClickListener implements View.OnClickListener {
@@ -28,7 +28,7 @@ public class ListItemDeletedUndoOnClickListener implements View.OnClickListener 
                     mContainerAdapter.addInputItemAfterView(previousItem, mRemovedItem, false);
                 } else {
                     //previousItem is null, add removed item as last and focus it
-                    MyDebugger.log("Previous item is null.");
+                    MyLogger.log("Previous item is null.");
                     mContainerAdapter.addInputItem(mRemovedItem, true);
                 }
             } else {
@@ -37,7 +37,7 @@ public class ListItemDeletedUndoOnClickListener implements View.OnClickListener 
             }
         } else {
             //cannot find removed item id, add it as last and focus it
-            MyDebugger.log("ERROR: Cannot retrieve removedItemId");
+            MyLogger.log("ERROR: Cannot retrieve removedItemId");
             mContainerAdapter.addInputItem(mRemovedItem, true);
         }
     }

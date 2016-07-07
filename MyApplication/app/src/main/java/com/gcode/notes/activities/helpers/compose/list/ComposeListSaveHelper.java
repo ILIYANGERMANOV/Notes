@@ -7,7 +7,7 @@ import com.gcode.notes.activities.compose.list.ComposeListActivity;
 import com.gcode.notes.activities.helpers.compose.ComposeBaseSaveHelper;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.serialization.Serializer;
@@ -50,7 +50,7 @@ public class ComposeListSaveHelper implements EncryptTaskCallbacks {
 
             saveToDbAndSetResult(listData);
         } else {
-            MyDebugger.toast(mComposeListActivity, "Cannot save empty list.");
+            MyLogger.toast(mComposeListActivity, "Cannot save empty list.");
         }
     }
 
@@ -63,7 +63,7 @@ public class ComposeListSaveHelper implements EncryptTaskCallbacks {
                 resultIntent.putExtra(Constants.NOTE_ADDED_SUCCESSFULLY, true);
                 resultIntent.putExtra(Constants.COMPOSE_NOTE_MODE, listData.getMode());
             } else {
-                MyDebugger.log("Failed to save list.");
+                MyLogger.log("Failed to save list.");
                 return;
             }
         } else {
@@ -89,7 +89,7 @@ public class ComposeListSaveHelper implements EncryptTaskCallbacks {
                 resultIntent.putExtra(Constants.EXTRA_LIST_DATA, Serializer.serializeListData(resultListData));
                 resultIntent.putExtra(Constants.EXTRA_NOTE_MODE_CHANGED, mComposeListActivity.mNoteModeChanged);
             } else {
-                MyDebugger.log("Failed to update list.");
+                MyLogger.log("Failed to update list.");
                 return;
             }
         }

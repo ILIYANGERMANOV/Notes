@@ -1,6 +1,6 @@
 package com.gcode.notes.tasks.other;
 
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.utils.AudioUtils;
 
 import java.util.TimerTask;
@@ -30,7 +30,7 @@ public class UpdateAudioProgressTask extends TimerTask {
                 }
             } catch (IllegalStateException e) {
                 //illegal state exception caught, cancel task
-                MyDebugger.log("UpdateAudioProgressTask IllegalStateException", e.getMessage());
+                MyLogger.log("UpdateAudioProgressTask IllegalStateException", e.getMessage());
                 cancel();
                 return;
             }

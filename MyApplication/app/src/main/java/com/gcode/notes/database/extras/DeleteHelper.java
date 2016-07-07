@@ -8,7 +8,7 @@ import com.gcode.notes.database.NotesContract.ContentEntry;
 import com.gcode.notes.database.NotesContract.ListEntry;
 import com.gcode.notes.database.NotesContract.NoteEntry;
 import com.gcode.notes.database.extras.queries.SelectQueries;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.utils.AlarmUtils;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.tasks.async.delete.DeleteFileTask;
@@ -28,7 +28,7 @@ public class DeleteHelper {
     public static int deleteNote(SQLiteDatabase database, ContentBase contentBase) {
         if (contentBase.getHasAttributesFlag()) {
             if (deleteAttributes(database, contentBase) == 0) {
-                MyDebugger.log("Failed to delete attributes!");
+                MyLogger.log("Failed to delete attributes!");
             }
         }
 

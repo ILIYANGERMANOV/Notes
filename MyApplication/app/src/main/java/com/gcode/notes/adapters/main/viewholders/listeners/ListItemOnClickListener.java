@@ -10,7 +10,7 @@ import com.gcode.notes.activities.display.list.editable.DisplayListNormalActivit
 import com.gcode.notes.activities.display.list.editable.DisplayListPrivateActivity;
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.list.ListData;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 
@@ -40,7 +40,7 @@ public class ListItemOnClickListener extends BaseItemListener {
                 intent = new Intent(mActivity, DisplayListBinActivity.class);
                 break;
             default:
-                MyDebugger.log("ListItemOnClickListener", "invalid controller id");
+                MyLogger.log("ListItemOnClickListener", "invalid controller id");
                 return;
         }
 

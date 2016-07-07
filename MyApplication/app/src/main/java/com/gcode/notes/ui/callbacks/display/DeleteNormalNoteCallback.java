@@ -6,7 +6,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.activities.display.DisplayBaseActivity;
 import com.gcode.notes.data.base.ContentBase;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.notes.MyApplication;
 
 public class DeleteNormalNoteCallback implements MaterialDialog.SingleButtonCallback {
@@ -26,7 +26,7 @@ public class DeleteNormalNoteCallback implements MaterialDialog.SingleButtonCall
         //updates note mode both on contentBase and in db
         if (!MyApplication.getWritableDatabase().deleteNote(mContentBase)) {
             //failed to send note to bin, log and prevent further execution
-            MyDebugger.log("DeleteNormalNoteCallback failed to send note to bin");
+            MyLogger.log("DeleteNormalNoteCallback failed to send note to bin");
             return;
         }
         mDisplayBaseActivity.mNoteModeChanged = true; //main activity onItemModeChanged() should be called

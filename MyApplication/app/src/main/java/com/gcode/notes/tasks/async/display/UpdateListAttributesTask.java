@@ -4,7 +4,7 @@ package com.gcode.notes.tasks.async.display;
 import android.os.AsyncTask;
 
 import com.gcode.notes.data.list.ListData;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.utils.AuthenticationUtils;
 import com.gcode.notes.extras.utils.EncryptionUtils;
 import com.gcode.notes.extras.values.Constants;
@@ -22,15 +22,15 @@ public class UpdateListAttributesTask extends AsyncTask<ListData, Void, Void> {
                 String password = AuthenticationUtils.getInstance(null, null).getPassword();
                 EncryptionUtils.getInstance(password).encryptListDataAttributes(listData);
             } catch (Exception e) {
-                MyDebugger.log("UpdateListAttributesTask encryption exception", e.getMessage());
+                MyLogger.log("UpdateListAttributesTask encryption exception", e.getMessage());
                 return null;
             }
         }
 
         //save changes to db
         if (!MyApplication.getWritableDatabase().updateListAttributes(listData)) {
-            MyDebugger.log("Failed to update list attributes.");
-            MyDebugger.log("targetId", listData.getTargetId());
+            MyLogger.log("Failed to update list attributes.");
+            MyLogger.log("targetId", listData.getTargetId());
         }
         return null;
     }

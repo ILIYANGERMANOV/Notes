@@ -18,7 +18,7 @@ import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.motions.MyAnimator;
 import com.gcode.notes.notes.MyApplication;
@@ -143,7 +143,7 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
             notifyItemInserted(position);
             return true;
         } catch (IndexOutOfBoundsException exception) {
-            MyDebugger.log("MainAdapter(): indexOutOfBoundsException caught.");
+            MyLogger.log("MainAdapter(): indexOutOfBoundsException caught.");
             mData.add(item);
             notifyItemInserted(getItemCount() - 1);
             return false;
@@ -187,7 +187,7 @@ public class MainAdapter extends RecyclerView.Adapter<BaseItemViewHolder> implem
             mData.add(toPosition, model);
             notifyItemMoved(fromPosition, toPosition);
         } catch (IndexOutOfBoundsException e) {
-            MyDebugger.log("MainAdapter moveItem(): IndexOutOfBoundsException", e.getMessage());
+            MyLogger.log("MainAdapter moveItem(): IndexOutOfBoundsException", e.getMessage());
         }
     }
 

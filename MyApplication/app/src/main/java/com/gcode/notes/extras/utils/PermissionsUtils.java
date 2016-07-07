@@ -8,7 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.gcode.notes.R;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 
 import pl.tajchert.nammu.Nammu;
 import pl.tajchert.nammu.PermissionCallback;
@@ -40,7 +40,7 @@ public abstract class PermissionsUtils {
 
             @Override
             public void permissionsRemoved(String permissionRemoved) {
-                MyDebugger.log("Permission removed", permissionRemoved);
+                MyLogger.log("Permission removed", permissionRemoved);
                 switch (permissionRemoved) {
                     case Manifest.permission.WRITE_EXTERNAL_STORAGE:
                         //write external storage permission removed, ask user to grant it again, cuz its critical for UX

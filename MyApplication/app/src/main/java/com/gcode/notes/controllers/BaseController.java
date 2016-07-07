@@ -12,7 +12,7 @@ import com.gcode.notes.controllers.visible.AllNotesController;
 import com.gcode.notes.controllers.visible.ImportantController;
 import com.gcode.notes.controllers.visible.PrivateController;
 import com.gcode.notes.data.base.ContentBase;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.tasks.async.main.AddItemFromDbToMainTask;
 import com.gcode.notes.tasks.async.main.RemoveItemFromMainTask;
@@ -89,7 +89,7 @@ public abstract class BaseController implements ControllerInterface {
                 onAddNote(item);
             }
         } else {
-            MyDebugger.log("Failed to update item, mainAdapter is null.");
+            MyLogger.log("Failed to update item, mainAdapter is null.");
         }
     }
 
@@ -190,7 +190,7 @@ public abstract class BaseController implements ControllerInterface {
             case Constants.MODE_DELETED_FOREVER:
                 return mMainActivity.getString(R.string.note_deleted_permanently);
             default:
-                MyDebugger.log("BaseController getRemoveMessageForMode(): unknown mode!");
+                MyLogger.log("BaseController getRemoveMessageForMode(): unknown mode!");
                 return "Note moved to unknown mode";
         }
     }

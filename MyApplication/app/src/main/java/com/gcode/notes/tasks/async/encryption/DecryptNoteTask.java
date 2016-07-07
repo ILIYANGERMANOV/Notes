@@ -7,7 +7,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.utils.AuthenticationUtils;
 import com.gcode.notes.extras.utils.EncryptionUtils;
 import com.gcode.notes.tasks.async.encryption.callbacks.DecryptTaskCallbacks;
@@ -41,12 +41,12 @@ public class DecryptNoteTask extends AsyncTask<ContentBase, Void, ContentBase> {
                 //its list
                 encryptionUtils.decryptListData(((ListData) contentBase));
             } else {
-                MyDebugger.log("DecryptNoteTask unknown TYPE.");
+                MyLogger.log("DecryptNoteTask unknown TYPE.");
                 return null;
             }
         } catch (Exception e) {
             //TODO: fix decrypt note exception (happening when comeback with screen rotation from display private)
-            MyDebugger.log("DecryptNoteTask exception", e.getMessage());
+            MyLogger.log("DecryptNoteTask exception", e.getMessage());
             return null;
         }
         return contentBase;

@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.gcode.notes.activities.compose.list.ComposeListActivity;
 import com.gcode.notes.activities.helpers.compose.ComposeBaseStartStateHelper;
 import com.gcode.notes.data.list.ListData;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 
@@ -51,7 +51,7 @@ public class ComposeListStartStateHelper extends ComposeBaseStartStateHelper {
                 ComposeListContainerHelper.addListDataItems(mComposeListActivity, listData.getList());
             }
         } else {
-            MyDebugger.log("EditMode launched with null list, finish activity in order to prevent errors");
+            MyLogger.log("EditMode launched with null list, finish activity in order to prevent errors");
             mComposeListActivity.finish();
         }
     }

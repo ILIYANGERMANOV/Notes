@@ -6,7 +6,7 @@ import android.os.Handler;
 
 import com.gcode.notes.controllers.BaseController;
 import com.gcode.notes.data.base.ContentBase;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 
@@ -38,7 +38,7 @@ public class AddItemFromDbToMainTask extends AsyncTask<Integer, Void, ContentBas
                 item = MyApplication.getWritableDatabase().getLastDeletedNote();
                 break;
             default:
-                MyDebugger.log("AddItemTask invalid controller id.");
+                MyLogger.log("AddItemTask invalid controller id.");
                 return null;
         }
         return item;
@@ -56,7 +56,7 @@ public class AddItemFromDbToMainTask extends AsyncTask<Integer, Void, ContentBas
                 }
             }, Constants.DELAY_SO_USER_CAN_SEE);
         } else {
-            MyDebugger.log("AddItemTask: item to add is null.");
+            MyLogger.log("AddItemTask: item to add is null.");
         }
     }
 }

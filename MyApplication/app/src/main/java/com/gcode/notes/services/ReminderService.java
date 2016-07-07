@@ -7,7 +7,7 @@ import com.gcode.notes.data.NoteData;
 import com.gcode.notes.data.base.ContentBase;
 import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.database.DatabaseController;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.notes.MyApplication;
 import com.gcode.notes.ui.helpers.NotificationHelper;
@@ -23,7 +23,7 @@ public class ReminderService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         int noteId = intent.getIntExtra(Constants.EXTRA_NOTE_ID, Constants.NO_VALUE);
         if (noteId == Constants.NO_VALUE) {
-            MyDebugger.log(SERVICE_NAME + "noteId has no value.");
+            MyLogger.log(SERVICE_NAME + "noteId has no value.");
             return;
         }
         //try to obtain db controller instance
@@ -33,7 +33,7 @@ public class ReminderService extends IntentService {
         } catch (RuntimeException ex) {
             //there is no scenario where service is alive and application is killed (if they run in the same process, by default all components of the app run is same process)
             //this is added for extra security for future versions of android
-            MyDebugger.log("Application is dead in " + SERVICE_NAME + ":", ex.getLocalizedMessage());
+            MyLogger.log("Application is dead in " + SERVICE_NAME + ":", ex.getLocalizedMessage());
             //try to reinitialize db and update reminder
             databaseController = new DatabaseController(this);
         }
@@ -49,7 +49,7 @@ public class ReminderService extends IntentService {
                 break;
             default:
                 //invalid type, log it
-                MyDebugger.log(SERVICE_NAME + " onHandleIntent() invalid type", contentBase.getType());
+                MyLogger.log(SERVICE_NAME + " onHandleIntent() invalid type", contentBase.getType());
         }
     }
 }

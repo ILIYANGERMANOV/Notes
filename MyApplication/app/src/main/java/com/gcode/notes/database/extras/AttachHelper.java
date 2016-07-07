@@ -9,7 +9,7 @@ import com.gcode.notes.database.NotesContract.ContentEntry;
 import com.gcode.notes.database.NotesContract.ListEntry;
 import com.gcode.notes.database.NotesContract.NoteEntry;
 import com.gcode.notes.database.extras.queries.SelectQueries;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.serialization.Serializer;
 
 public class AttachHelper {
@@ -32,7 +32,7 @@ public class AttachHelper {
             noteData.setAttachedAudioPath(columnValueHolder);
 
         } else {
-            MyDebugger.log("notesCursor.moveToFirst() with title", noteData.getTitle());
+            MyLogger.log("notesCursor.moveToFirst() with title", noteData.getTitle());
         }
         notesCursor.close();
     }
@@ -51,7 +51,7 @@ public class AttachHelper {
                 listData.setList(Serializer.parseListDataItems(tasksSerializedString));
             }
         } else {
-            MyDebugger.log("listCursor.moveToFirst() with title", listData.getTitle());
+            MyLogger.log("listCursor.moveToFirst() with title", listData.getTitle());
         }
 
         listCursor.close();

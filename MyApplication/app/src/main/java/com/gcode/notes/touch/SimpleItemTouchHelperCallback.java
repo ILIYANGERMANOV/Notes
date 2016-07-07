@@ -23,7 +23,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.gcode.notes.adapters.main.MainAdapter;
 import com.gcode.notes.controllers.BaseController;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 
 /**
@@ -109,7 +109,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
                 mAdapter.onItemDismissUnrecoverable(itemPosition);
                 break;
             default:
-                MyDebugger.log("onSwiped() invalid controller id");
+                MyLogger.log("onSwiped() invalid controller id");
                 break;
         }
     }

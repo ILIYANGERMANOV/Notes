@@ -9,7 +9,7 @@ import com.gcode.notes.data.list.ListData;
 import com.gcode.notes.database.NotesContract.ContentEntry;
 import com.gcode.notes.database.NotesContract.ListEntry;
 import com.gcode.notes.database.NotesContract.NoteEntry;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 import com.gcode.notes.serialization.Serializer;
 
@@ -85,7 +85,7 @@ public class InsertHelper {
                 NoteEntry.COLUMN_NAME_PHOTOS_PATHS, contentValues) == Constants.DATABASE_ERROR) {
             //inserting note attributes failed, handle error
             contentBase.setHasAttributesFlag(false);
-            MyDebugger.log("ERROR INSERTING NOTE ATTRIBUTES!");
+            MyLogger.log("ERROR INSERTING NOTE ATTRIBUTES!");
         }
     }
 
@@ -98,7 +98,7 @@ public class InsertHelper {
 
         if (database.insert(ListEntry.TABLE_NAME, ListEntry.COLUMN_NAME_TASKS_SERIALIZED, contentValues) == Constants.DATABASE_ERROR) {
             contentBase.setHasAttributesFlag(false);
-            MyDebugger.log("ERROR INSERTING LIST ATTRIBUTES!");
+            MyLogger.log("ERROR INSERTING LIST ATTRIBUTES!");
         }
     }
 }

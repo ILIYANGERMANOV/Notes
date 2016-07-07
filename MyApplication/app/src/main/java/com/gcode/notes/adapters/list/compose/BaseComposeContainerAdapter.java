@@ -16,7 +16,7 @@ import com.gcode.notes.adapters.list.compose.listeners.ListInputOnEditorActionLi
 import com.gcode.notes.adapters.list.compose.listeners.MyFocusListener;
 import com.gcode.notes.adapters.list.compose.listeners.RemoveListInputOnClickListener;
 import com.gcode.notes.data.list.ListDataItem;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.values.Constants;
 import com.jmedeisis.draglinearlayout.DragLinearLayout;
 
@@ -73,7 +73,7 @@ public abstract class BaseComposeContainerAdapter {
             smoothScrollToView(child);
             child.requestFocus();
         } else {
-            MyDebugger.log("Child to focus is null");
+            MyLogger.log("Child to focus is null");
         }
     }
 
@@ -148,7 +148,7 @@ public abstract class BaseComposeContainerAdapter {
         if (idObject != null) {
             return (int) idObject;
         } else {
-            MyDebugger.log("viewId not found error");
+            MyLogger.log("viewId not found error");
             return Constants.ERROR;
         }
     }

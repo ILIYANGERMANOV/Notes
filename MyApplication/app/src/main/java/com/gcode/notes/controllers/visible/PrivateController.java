@@ -9,7 +9,7 @@ import com.gcode.notes.R;
 import com.gcode.notes.activities.MainActivity;
 import com.gcode.notes.controllers.visible.callbacks.AuthenticationCallbacks;
 import com.gcode.notes.data.base.ContentBase;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.utils.AuthenticationUtils;
 import com.gcode.notes.extras.utils.MyUtils;
 import com.gcode.notes.extras.values.Constants;
@@ -85,7 +85,7 @@ public class PrivateController extends VisibleController implements
 
     @Override
     public void onPasswordTriesEnded() {
-        MyDebugger.log("onPasswordTriesEnded()");
+        MyLogger.log("onPasswordTriesEnded()");
 
         //delete all private notes
         new DeletePrivateNotesTask().execute();

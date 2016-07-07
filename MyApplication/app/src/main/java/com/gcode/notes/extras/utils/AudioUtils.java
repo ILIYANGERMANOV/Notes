@@ -11,7 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.gcode.notes.R;
-import com.gcode.notes.extras.MyDebugger;
+import com.gcode.notes.extras.MyLogger;
 import com.gcode.notes.extras.utils.listeners.MediaPlayerCompletionListener;
 import com.gcode.notes.extras.utils.listeners.MediaPlayerPreparedListener;
 import com.gcode.notes.extras.values.Constants;
@@ -76,7 +76,7 @@ public class AudioUtils {
                 }
             } catch (IllegalStateException e) {
                 //this exception is almost impossible to be thrown, just to secure from app crash
-                MyDebugger.log("pauseAudio() IllegalStateException caught", e.getMessage());
+                MyLogger.log("pauseAudio() IllegalStateException caught", e.getMessage());
             }
         } else {
             //player not ready or null, try to rebuild it
@@ -94,7 +94,7 @@ public class AudioUtils {
                 }
             } catch (IllegalStateException e) {
                 //this exception is almost impossible to be thrown, just to secure from app crash
-                MyDebugger.log("pauseAudio() IllegalStateException caught", e.getMessage());
+                MyLogger.log("pauseAudio() IllegalStateException caught", e.getMessage());
             }
         } else {
             //player not ready or null, try to rebuild it
@@ -113,11 +113,11 @@ public class AudioUtils {
                 }
             } catch (IllegalStateException e) {
                 //this exception is almost impossible to be thrown, just to secure from app crash
-                MyDebugger.log("pauseAudio() IllegalStateException caught", e.getMessage());
+                MyLogger.log("pauseAudio() IllegalStateException caught", e.getMessage());
             }
         } else {
             //player not ready or null, it won't be used more so no need to rebuild
-            MyDebugger.log("stopAudio() player is not ready or null");
+            MyLogger.log("stopAudio() player is not ready or null");
         }
     }
 
@@ -176,7 +176,7 @@ public class AudioUtils {
     }
 
     private void scheduleRebuild() {
-        MyDebugger.log("Player is not ready or null, try to rebuild it");
+        MyLogger.log("Player is not ready or null, try to rebuild it");
         mTriesToResolve++;
         mTimer.schedule(new TimerTask() {
             @Override
@@ -198,7 +198,7 @@ public class AudioUtils {
                 try {
                     mMediaPlayer.reset();
                 } catch (IllegalStateException e) {
-                    MyDebugger.log("buildPlayer() player.reset() IllegalStateException", e.getMessage());
+                    MyLogger.log("buildPlayer() player.reset() IllegalStateException", e.getMessage());
                     scheduleRebuild();
                     return;
                 }
@@ -206,7 +206,7 @@ public class AudioUtils {
             preparePlayer();
         } else {
             //audio file doesn't exists or max tries to resolve reached, hide audio layout
-            MyDebugger.log("Audio file doesn't exists or max tries to resolve reached", mTriesToResolve);
+            MyLogger.log("Audio file doesn't exists or max tries to resolve reached", mTriesToResolve);
             hideAudioLayout();
             //TODO: Set error layout instead of hiding audio layout
         }
@@ -220,14 +220,14 @@ public class AudioUtils {
             } catch (IOException e) {
                 //audioUtils can't be ready here, so don't set mIsReady to false
                 //try to rebuild player
-                MyDebugger.log("IOException setDataSource()", e.getMessage());
+                MyLogger.log("IOException setDataSource()", e.getMessage());
                 hideAudioLayout();
                 scheduleRebuild();
                 return;
             }
             mMediaPlayer.prepareAsync();
         } catch (IllegalStateException e) {
-            MyDebugger.log("Illegal state exception while preparing player", e.getMessage());
+            MyLogger.log("Illegal state exception while preparing player", e.getMessage());
             mIsReady = false;
             //try to buildPlayer again
             scheduleRebuild();
